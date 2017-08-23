@@ -1,0 +1,2786 @@
+[
+    {
+        "outputFile": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 23,
+                    "endColumn": 19,
+                    "endOffset": 588
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 24,
+                    "startColumn": 4,
+                    "startOffset": 593,
+                    "endLine": 65,
+                    "endColumn": 19,
+                    "endOffset": 1579
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 66,
+                    "startColumn": 4,
+                    "startOffset": 1584,
+                    "endLine": 107,
+                    "endColumn": 20,
+                    "endOffset": 2568
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 108,
+                    "startColumn": 4,
+                    "startOffset": 2573,
+                    "endLine": 114,
+                    "endColumn": 19,
+                    "endOffset": 2745
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 115,
+                    "startColumn": 4,
+                    "startOffset": 2750,
+                    "endLine": 120,
+                    "endColumn": 19,
+                    "endOffset": 2901
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 121,
+                    "startColumn": 4,
+                    "startOffset": 2906,
+                    "endLine": 132,
+                    "endColumn": 19,
+                    "endOffset": 3195
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 133,
+                    "startColumn": 4,
+                    "startOffset": 3200,
+                    "endLine": 144,
+                    "endColumn": 19,
+                    "endOffset": 3485
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 145,
+                    "startColumn": 4,
+                    "startOffset": 3490,
+                    "endLine": 152,
+                    "endColumn": 19,
+                    "endOffset": 3688
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 153,
+                    "startColumn": 4,
+                    "startOffset": 3693,
+                    "endLine": 159,
+                    "endColumn": 19,
+                    "endOffset": 3869
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 160,
+                    "startColumn": 4,
+                    "startOffset": 3874,
+                    "endLine": 169,
+                    "endColumn": 19,
+                    "endOffset": 4121
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 170,
+                    "startColumn": 4,
+                    "startOffset": 4126,
+                    "endLine": 181,
+                    "endColumn": 19,
+                    "endOffset": 4416
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 182,
+                    "startColumn": 4,
+                    "startOffset": 4421,
+                    "endLine": 188,
+                    "endColumn": 19,
+                    "endOffset": 4593
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 189,
+                    "startColumn": 4,
+                    "startOffset": 4598,
+                    "endLine": 194,
+                    "endColumn": 19,
+                    "endOffset": 4752
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 195,
+                    "startColumn": 4,
+                    "startOffset": 4757,
+                    "endLine": 206,
+                    "endColumn": 19,
+                    "endOffset": 5046
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 207,
+                    "startColumn": 4,
+                    "startOffset": 5051,
+                    "endColumn": 39,
+                    "endOffset": 5086
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 208,
+                    "startColumn": 4,
+                    "startOffset": 5091,
+                    "endColumn": 44,
+                    "endOffset": 5131
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 209,
+                    "startColumn": 4,
+                    "startOffset": 5136,
+                    "endColumn": 44,
+                    "endOffset": 5176
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 210,
+                    "startColumn": 4,
+                    "startOffset": 5181,
+                    "endColumn": 46,
+                    "endOffset": 5223
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 211,
+                    "startColumn": 4,
+                    "startOffset": 5228,
+                    "endColumn": 57,
+                    "endOffset": 5281
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 212,
+                    "startColumn": 4,
+                    "startOffset": 5286,
+                    "endColumn": 45,
+                    "endOffset": 5327
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 213,
+                    "startColumn": 4,
+                    "startOffset": 5332,
+                    "endColumn": 45,
+                    "endOffset": 5373
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 214,
+                    "startColumn": 4,
+                    "startOffset": 5378,
+                    "endColumn": 46,
+                    "endOffset": 5420
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 215,
+                    "startColumn": 4,
+                    "startOffset": 5425,
+                    "endColumn": 50,
+                    "endOffset": 5471
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 216,
+                    "startColumn": 4,
+                    "startOffset": 5476,
+                    "endColumn": 46,
+                    "endOffset": 5518
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 217,
+                    "startColumn": 4,
+                    "startOffset": 5523,
+                    "endColumn": 46,
+                    "endOffset": 5565
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 218,
+                    "startColumn": 4,
+                    "startOffset": 5570,
+                    "endColumn": 46,
+                    "endOffset": 5612
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 219,
+                    "startColumn": 4,
+                    "startOffset": 5617,
+                    "endColumn": 50,
+                    "endOffset": 5663
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 220,
+                    "startColumn": 4,
+                    "startOffset": 5668,
+                    "endColumn": 46,
+                    "endOffset": 5710
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 221,
+                    "startColumn": 4,
+                    "startOffset": 5715,
+                    "endColumn": 45,
+                    "endOffset": 5756
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 222,
+                    "startColumn": 4,
+                    "startOffset": 5761,
+                    "endColumn": 46,
+                    "endOffset": 5803
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 223,
+                    "startColumn": 4,
+                    "startOffset": 5808,
+                    "endColumn": 46,
+                    "endOffset": 5850
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 224,
+                    "startColumn": 4,
+                    "startOffset": 5855,
+                    "endColumn": 46,
+                    "endOffset": 5897
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 225,
+                    "startColumn": 4,
+                    "startOffset": 5902,
+                    "endColumn": 47,
+                    "endOffset": 5945
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 226,
+                    "startColumn": 4,
+                    "startOffset": 5950,
+                    "endColumn": 46,
+                    "endOffset": 5992
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 227,
+                    "startColumn": 4,
+                    "startOffset": 5997,
+                    "endColumn": 73,
+                    "endOffset": 6066
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 228,
+                    "startColumn": 4,
+                    "startOffset": 6071,
+                    "endColumn": 44,
+                    "endOffset": 6111
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 229,
+                    "startColumn": 4,
+                    "startOffset": 6116,
+                    "endColumn": 53,
+                    "endOffset": 6165
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 230,
+                    "startColumn": 4,
+                    "startOffset": 6170,
+                    "endColumn": 49,
+                    "endOffset": 6215
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 231,
+                    "startColumn": 4,
+                    "startOffset": 6220,
+                    "endColumn": 52,
+                    "endOffset": 6268
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 232,
+                    "startColumn": 4,
+                    "startOffset": 6273,
+                    "endColumn": 51,
+                    "endOffset": 6320
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 233,
+                    "startColumn": 4,
+                    "startOffset": 6325,
+                    "endColumn": 45,
+                    "endOffset": 6366
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 234,
+                    "startColumn": 4,
+                    "startOffset": 6371,
+                    "endColumn": 45,
+                    "endOffset": 6412
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 235,
+                    "startColumn": 4,
+                    "startOffset": 6417,
+                    "endColumn": 45,
+                    "endOffset": 6458
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 236,
+                    "startColumn": 4,
+                    "startOffset": 6463,
+                    "endColumn": 45,
+                    "endOffset": 6504
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 237,
+                    "startColumn": 4,
+                    "startOffset": 6509,
+                    "endColumn": 45,
+                    "endOffset": 6550
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 238,
+                    "startColumn": 4,
+                    "startOffset": 6555,
+                    "endColumn": 56,
+                    "endOffset": 6607
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 239,
+                    "startColumn": 4,
+                    "startOffset": 6612,
+                    "endColumn": 43,
+                    "endOffset": 6651
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 240,
+                    "startColumn": 4,
+                    "startOffset": 6656,
+                    "endColumn": 38,
+                    "endOffset": 6690
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 241,
+                    "startColumn": 4,
+                    "startOffset": 6695,
+                    "endColumn": 39,
+                    "endOffset": 6730
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 242,
+                    "startColumn": 4,
+                    "startOffset": 6735,
+                    "endColumn": 50,
+                    "endOffset": 6781
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 243,
+                    "startColumn": 4,
+                    "startOffset": 6786,
+                    "endColumn": 45,
+                    "endOffset": 6827
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 244,
+                    "startColumn": 4,
+                    "startOffset": 6832,
+                    "endColumn": 47,
+                    "endOffset": 6875
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 245,
+                    "startColumn": 4,
+                    "startOffset": 6880,
+                    "endColumn": 52,
+                    "endOffset": 6928
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 246,
+                    "startColumn": 4,
+                    "startOffset": 6933,
+                    "endColumn": 40,
+                    "endOffset": 6969
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 247,
+                    "startColumn": 4,
+                    "startOffset": 6974,
+                    "endColumn": 49,
+                    "endOffset": 7019
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 248,
+                    "startColumn": 4,
+                    "startOffset": 7024,
+                    "endColumn": 62,
+                    "endOffset": 7082
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 249,
+                    "startColumn": 4,
+                    "startOffset": 7087,
+                    "endColumn": 62,
+                    "endOffset": 7145
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 250,
+                    "startColumn": 4,
+                    "startOffset": 7150,
+                    "endColumn": 61,
+                    "endOffset": 7207
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 251,
+                    "startColumn": 4,
+                    "startOffset": 7212,
+                    "endColumn": 43,
+                    "endOffset": 7251
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 252,
+                    "startColumn": 4,
+                    "startOffset": 7256,
+                    "endColumn": 37,
+                    "endOffset": 7289
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 253,
+                    "startColumn": 4,
+                    "startOffset": 7294,
+                    "endColumn": 44,
+                    "endOffset": 7334
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 254,
+                    "startColumn": 4,
+                    "startOffset": 7339,
+                    "endColumn": 41,
+                    "endOffset": 7376
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 255,
+                    "startColumn": 4,
+                    "startOffset": 7381,
+                    "endColumn": 44,
+                    "endOffset": 7421
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 256,
+                    "startColumn": 4,
+                    "startOffset": 7426,
+                    "endColumn": 55,
+                    "endOffset": 7477
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 257,
+                    "startColumn": 4,
+                    "startOffset": 7482,
+                    "endColumn": 45,
+                    "endOffset": 7523
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 258,
+                    "startColumn": 4,
+                    "startOffset": 7528,
+                    "endColumn": 47,
+                    "endOffset": 7571
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 259,
+                    "startColumn": 4,
+                    "startOffset": 7576,
+                    "endColumn": 45,
+                    "endOffset": 7617
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 260,
+                    "startColumn": 4,
+                    "startOffset": 7622,
+                    "endColumn": 48,
+                    "endOffset": 7666
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 261,
+                    "startColumn": 4,
+                    "startOffset": 7671,
+                    "endColumn": 39,
+                    "endOffset": 7706
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 262,
+                    "startColumn": 4,
+                    "startOffset": 7711,
+                    "endColumn": 57,
+                    "endOffset": 7764
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 263,
+                    "startColumn": 4,
+                    "startOffset": 7769,
+                    "endColumn": 55,
+                    "endOffset": 7820
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 264,
+                    "startColumn": 4,
+                    "startOffset": 7825,
+                    "endColumn": 48,
+                    "endOffset": 7869
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 265,
+                    "startColumn": 4,
+                    "startOffset": 7874,
+                    "endColumn": 48,
+                    "endOffset": 7918
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 266,
+                    "startColumn": 4,
+                    "startOffset": 7923,
+                    "endColumn": 41,
+                    "endOffset": 7960
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 267,
+                    "startColumn": 4,
+                    "startOffset": 7965,
+                    "endColumn": 58,
+                    "endOffset": 8019
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 268,
+                    "startColumn": 4,
+                    "startOffset": 8024,
+                    "endColumn": 58,
+                    "endOffset": 8078
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 269,
+                    "startColumn": 4,
+                    "startOffset": 8083,
+                    "endColumn": 40,
+                    "endOffset": 8119
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 270,
+                    "startColumn": 4,
+                    "startOffset": 8124,
+                    "endColumn": 42,
+                    "endOffset": 8162
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 271,
+                    "startColumn": 4,
+                    "startOffset": 8167,
+                    "endColumn": 40,
+                    "endOffset": 8203
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 272,
+                    "startColumn": 4,
+                    "startOffset": 8208,
+                    "endColumn": 40,
+                    "endOffset": 8244
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 273,
+                    "startColumn": 4,
+                    "startOffset": 8249,
+                    "endColumn": 40,
+                    "endOffset": 8285
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 274,
+                    "startColumn": 4,
+                    "startOffset": 8290,
+                    "endColumn": 40,
+                    "endOffset": 8326
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 275,
+                    "startColumn": 4,
+                    "startOffset": 8331,
+                    "endColumn": 40,
+                    "endOffset": 8367
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 276,
+                    "startColumn": 4,
+                    "startOffset": 8372,
+                    "endColumn": 42,
+                    "endOffset": 8410
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 277,
+                    "startColumn": 4,
+                    "startOffset": 8415,
+                    "endColumn": 40,
+                    "endOffset": 8451
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 278,
+                    "startColumn": 4,
+                    "startOffset": 8456,
+                    "endColumn": 38,
+                    "endOffset": 8490
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 279,
+                    "startColumn": 4,
+                    "startOffset": 8495,
+                    "endColumn": 40,
+                    "endOffset": 8531
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 280,
+                    "startColumn": 4,
+                    "startOffset": 8536,
+                    "endColumn": 40,
+                    "endOffset": 8572
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 281,
+                    "startColumn": 4,
+                    "startOffset": 8577,
+                    "endColumn": 40,
+                    "endOffset": 8613
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 282,
+                    "startColumn": 4,
+                    "startOffset": 8618,
+                    "endColumn": 40,
+                    "endOffset": 8654
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 283,
+                    "startColumn": 4,
+                    "startOffset": 8659,
+                    "endColumn": 40,
+                    "endOffset": 8695
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 284,
+                    "startColumn": 4,
+                    "startOffset": 8700,
+                    "endColumn": 40,
+                    "endOffset": 8736
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 285,
+                    "startColumn": 4,
+                    "startOffset": 8741,
+                    "endColumn": 40,
+                    "endOffset": 8777
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 286,
+                    "startColumn": 4,
+                    "startOffset": 8782,
+                    "endColumn": 40,
+                    "endOffset": 8818
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 287,
+                    "startColumn": 4,
+                    "startOffset": 8823,
+                    "endColumn": 40,
+                    "endOffset": 8859
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 288,
+                    "startColumn": 4,
+                    "startOffset": 8864,
+                    "endColumn": 40,
+                    "endOffset": 8900
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 289,
+                    "startColumn": 4,
+                    "startOffset": 8905,
+                    "endColumn": 38,
+                    "endOffset": 8939
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 290,
+                    "startColumn": 4,
+                    "startOffset": 8944,
+                    "endColumn": 39,
+                    "endOffset": 8979
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 291,
+                    "startColumn": 4,
+                    "startOffset": 8984,
+                    "endColumn": 39,
+                    "endOffset": 9019
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 292,
+                    "startColumn": 4,
+                    "startOffset": 9024,
+                    "endColumn": 41,
+                    "endOffset": 9061
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 293,
+                    "startColumn": 4,
+                    "startOffset": 9066,
+                    "endColumn": 43,
+                    "endOffset": 9105
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 294,
+                    "startColumn": 4,
+                    "startOffset": 9110,
+                    "endColumn": 43,
+                    "endOffset": 9149
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 295,
+                    "startColumn": 4,
+                    "startOffset": 9154,
+                    "endColumn": 43,
+                    "endOffset": 9193
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 296,
+                    "startColumn": 4,
+                    "startOffset": 9198,
+                    "endColumn": 41,
+                    "endOffset": 9235
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 297,
+                    "startColumn": 4,
+                    "startOffset": 9240,
+                    "endColumn": 43,
+                    "endOffset": 9279
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 298,
+                    "startColumn": 4,
+                    "startOffset": 9284,
+                    "endColumn": 43,
+                    "endOffset": 9323
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 299,
+                    "startColumn": 4,
+                    "startOffset": 9328,
+                    "endColumn": 43,
+                    "endOffset": 9367
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 300,
+                    "startColumn": 4,
+                    "startOffset": 9372,
+                    "endColumn": 43,
+                    "endOffset": 9411
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 301,
+                    "startColumn": 4,
+                    "startOffset": 9416,
+                    "endColumn": 41,
+                    "endOffset": 9453
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 302,
+                    "startColumn": 4,
+                    "startOffset": 9458,
+                    "endColumn": 43,
+                    "endOffset": 9497
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 303,
+                    "startColumn": 4,
+                    "startOffset": 9502,
+                    "endColumn": 43,
+                    "endOffset": 9541
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 304,
+                    "startColumn": 4,
+                    "startOffset": 9546,
+                    "endColumn": 43,
+                    "endOffset": 9585
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 305,
+                    "startColumn": 4,
+                    "startOffset": 9590,
+                    "endColumn": 43,
+                    "endOffset": 9629
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 306,
+                    "startColumn": 4,
+                    "startOffset": 9634,
+                    "endColumn": 43,
+                    "endOffset": 9673
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 307,
+                    "startColumn": 4,
+                    "startOffset": 9678,
+                    "endColumn": 41,
+                    "endOffset": 9715
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 308,
+                    "startColumn": 4,
+                    "startOffset": 9720,
+                    "endColumn": 43,
+                    "endOffset": 9759
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 309,
+                    "startColumn": 4,
+                    "startOffset": 9764,
+                    "endColumn": 43,
+                    "endOffset": 9803
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 310,
+                    "startColumn": 4,
+                    "startOffset": 9808,
+                    "endColumn": 41,
+                    "endOffset": 9845
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 311,
+                    "startColumn": 4,
+                    "startOffset": 9850,
+                    "endColumn": 43,
+                    "endOffset": 9889
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 312,
+                    "startColumn": 4,
+                    "startOffset": 9894,
+                    "endColumn": 39,
+                    "endOffset": 9929
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 313,
+                    "startColumn": 4,
+                    "startOffset": 9934,
+                    "endColumn": 41,
+                    "endOffset": 9971
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 314,
+                    "startColumn": 4,
+                    "startOffset": 9976,
+                    "endColumn": 43,
+                    "endOffset": 10015
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 315,
+                    "startColumn": 4,
+                    "startOffset": 10020,
+                    "endColumn": 43,
+                    "endOffset": 10059
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 316,
+                    "startColumn": 4,
+                    "startOffset": 10064,
+                    "endColumn": 41,
+                    "endOffset": 10101
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 317,
+                    "startColumn": 4,
+                    "startOffset": 10106,
+                    "endColumn": 43,
+                    "endOffset": 10145
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 318,
+                    "startColumn": 4,
+                    "startOffset": 10150,
+                    "endColumn": 43,
+                    "endOffset": 10189
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 319,
+                    "startColumn": 4,
+                    "startOffset": 10194,
+                    "endColumn": 41,
+                    "endOffset": 10231
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 320,
+                    "startColumn": 4,
+                    "startOffset": 10236,
+                    "endColumn": 43,
+                    "endOffset": 10275
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 321,
+                    "startColumn": 4,
+                    "startOffset": 10280,
+                    "endColumn": 43,
+                    "endOffset": 10319
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 322,
+                    "startColumn": 4,
+                    "startOffset": 10324,
+                    "endColumn": 43,
+                    "endOffset": 10363
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 323,
+                    "startColumn": 4,
+                    "startOffset": 10368,
+                    "endColumn": 39,
+                    "endOffset": 10403
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 324,
+                    "startColumn": 4,
+                    "startOffset": 10408,
+                    "endColumn": 41,
+                    "endOffset": 10445
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 325,
+                    "startColumn": 4,
+                    "startOffset": 10450,
+                    "endColumn": 43,
+                    "endOffset": 10489
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 326,
+                    "startColumn": 4,
+                    "startOffset": 10494,
+                    "endColumn": 43,
+                    "endOffset": 10533
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 327,
+                    "startColumn": 4,
+                    "startOffset": 10538,
+                    "endColumn": 41,
+                    "endOffset": 10575
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 328,
+                    "startColumn": 4,
+                    "startOffset": 10580,
+                    "endColumn": 41,
+                    "endOffset": 10617
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 329,
+                    "startColumn": 4,
+                    "startOffset": 10622,
+                    "endColumn": 43,
+                    "endOffset": 10661
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 330,
+                    "startColumn": 4,
+                    "startOffset": 10666,
+                    "endColumn": 39,
+                    "endOffset": 10701
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 331,
+                    "startColumn": 4,
+                    "startOffset": 10706,
+                    "endColumn": 39,
+                    "endOffset": 10741
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 332,
+                    "startColumn": 4,
+                    "startOffset": 10746,
+                    "endColumn": 41,
+                    "endOffset": 10783
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 333,
+                    "startColumn": 4,
+                    "startOffset": 10788,
+                    "endColumn": 43,
+                    "endOffset": 10827
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 334,
+                    "startColumn": 4,
+                    "startOffset": 10832,
+                    "endColumn": 43,
+                    "endOffset": 10871
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 335,
+                    "startColumn": 4,
+                    "startOffset": 10876,
+                    "endColumn": 41,
+                    "endOffset": 10913
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 336,
+                    "startColumn": 4,
+                    "startOffset": 10918,
+                    "endColumn": 43,
+                    "endOffset": 10957
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 337,
+                    "startColumn": 4,
+                    "startOffset": 10962,
+                    "endColumn": 49,
+                    "endOffset": 11007
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\exploded-aar\\com.efrobot.library.mvp\\mvplibrary\\0.0.12\\res\\values\\values.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 338,
+                    "startColumn": 4,
+                    "startOffset": 11012,
+                    "endColumn": 48,
+                    "endOffset": 11056
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\exploded-aar\\com.efrobot.library.mvp\\mvplibrary\\0.0.12\\res\\values\\values.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 339,
+                    "startColumn": 4,
+                    "startOffset": 11061,
+                    "endColumn": 60,
+                    "endOffset": 11117
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 340,
+                    "startColumn": 4,
+                    "startOffset": 11122,
+                    "endColumn": 54,
+                    "endOffset": 11172
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 341,
+                    "startColumn": 4,
+                    "startOffset": 11177,
+                    "endColumn": 38,
+                    "endOffset": 11211
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 342,
+                    "startColumn": 4,
+                    "startOffset": 11216,
+                    "endColumn": 42,
+                    "endOffset": 11254
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 343,
+                    "startColumn": 4,
+                    "startOffset": 11259,
+                    "endColumn": 40,
+                    "endOffset": 11295
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 344,
+                    "startColumn": 4,
+                    "startOffset": 11300,
+                    "endColumn": 42,
+                    "endOffset": 11338
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 345,
+                    "startColumn": 4,
+                    "startOffset": 11343,
+                    "endColumn": 40,
+                    "endOffset": 11379
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 346,
+                    "startColumn": 4,
+                    "startOffset": 11384,
+                    "endColumn": 42,
+                    "endOffset": 11422
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 347,
+                    "startColumn": 4,
+                    "startOffset": 11427,
+                    "endColumn": 42,
+                    "endOffset": 11465
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 348,
+                    "startColumn": 4,
+                    "startOffset": 11470,
+                    "endColumn": 40,
+                    "endOffset": 11506
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 349,
+                    "startColumn": 4,
+                    "startOffset": 11511,
+                    "endColumn": 38,
+                    "endOffset": 11545
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 350,
+                    "startColumn": 4,
+                    "startOffset": 11550,
+                    "endColumn": 42,
+                    "endOffset": 11588
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 351,
+                    "startColumn": 4,
+                    "startOffset": 11593,
+                    "endColumn": 40,
+                    "endOffset": 11629
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 352,
+                    "startColumn": 4,
+                    "startOffset": 11634,
+                    "endColumn": 42,
+                    "endOffset": 11672
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 353,
+                    "startColumn": 4,
+                    "startOffset": 11677,
+                    "endColumn": 42,
+                    "endOffset": 11715
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 354,
+                    "startColumn": 4,
+                    "startOffset": 11720,
+                    "endColumn": 40,
+                    "endOffset": 11756
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 355,
+                    "startColumn": 4,
+                    "startOffset": 11761,
+                    "endColumn": 40,
+                    "endOffset": 11797
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 356,
+                    "startColumn": 4,
+                    "startOffset": 11802,
+                    "endColumn": 42,
+                    "endOffset": 11840
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 357,
+                    "startColumn": 4,
+                    "startOffset": 11845,
+                    "endColumn": 40,
+                    "endOffset": 11881
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 358,
+                    "startColumn": 4,
+                    "startOffset": 11886,
+                    "endColumn": 38,
+                    "endOffset": 11920
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 359,
+                    "startColumn": 4,
+                    "startOffset": 11925,
+                    "endColumn": 40,
+                    "endOffset": 11961
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 360,
+                    "startColumn": 4,
+                    "startOffset": 11966,
+                    "endColumn": 42,
+                    "endOffset": 12004
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 361,
+                    "startColumn": 4,
+                    "startOffset": 12009,
+                    "endColumn": 40,
+                    "endOffset": 12045
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 362,
+                    "startColumn": 4,
+                    "startOffset": 12050,
+                    "endColumn": 43,
+                    "endOffset": 12089
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 363,
+                    "startColumn": 4,
+                    "startOffset": 12094,
+                    "endColumn": 43,
+                    "endOffset": 12133
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 364,
+                    "startColumn": 4,
+                    "startOffset": 12138,
+                    "endColumn": 43,
+                    "endOffset": 12177
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 365,
+                    "startColumn": 4,
+                    "startOffset": 12182,
+                    "endColumn": 43,
+                    "endOffset": 12221
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 366,
+                    "startColumn": 4,
+                    "startOffset": 12226,
+                    "endColumn": 42,
+                    "endOffset": 12264
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 367,
+                    "startColumn": 4,
+                    "startOffset": 12269,
+                    "endColumn": 42,
+                    "endOffset": 12307
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 368,
+                    "startColumn": 4,
+                    "startOffset": 12312,
+                    "endColumn": 42,
+                    "endOffset": 12350
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 369,
+                    "startColumn": 4,
+                    "startOffset": 12355,
+                    "endColumn": 42,
+                    "endOffset": 12393
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 370,
+                    "startColumn": 4,
+                    "startOffset": 12398,
+                    "endColumn": 42,
+                    "endOffset": 12436
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 371,
+                    "startColumn": 4,
+                    "startOffset": 12441,
+                    "endColumn": 42,
+                    "endOffset": 12479
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 372,
+                    "startColumn": 4,
+                    "startOffset": 12484,
+                    "endColumn": 42,
+                    "endOffset": 12522
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 373,
+                    "startColumn": 4,
+                    "startOffset": 12527,
+                    "endColumn": 42,
+                    "endOffset": 12565
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 374,
+                    "startColumn": 4,
+                    "startOffset": 12570,
+                    "endColumn": 42,
+                    "endOffset": 12608
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 375,
+                    "startColumn": 4,
+                    "startOffset": 12613,
+                    "endColumn": 42,
+                    "endOffset": 12651
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 376,
+                    "startColumn": 4,
+                    "startOffset": 12656,
+                    "endColumn": 42,
+                    "endOffset": 12694
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 377,
+                    "startColumn": 4,
+                    "startOffset": 12699,
+                    "endColumn": 42,
+                    "endOffset": 12737
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 378,
+                    "startColumn": 4,
+                    "startOffset": 12742,
+                    "endColumn": 42,
+                    "endOffset": 12780
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 379,
+                    "startColumn": 4,
+                    "startOffset": 12785,
+                    "endColumn": 42,
+                    "endOffset": 12823
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 380,
+                    "startColumn": 4,
+                    "startOffset": 12828,
+                    "endColumn": 46,
+                    "endOffset": 12870
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 381,
+                    "startColumn": 4,
+                    "startOffset": 12875,
+                    "endColumn": 41,
+                    "endOffset": 12912
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 382,
+                    "startColumn": 4,
+                    "startOffset": 12917,
+                    "endColumn": 46,
+                    "endOffset": 12959
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 383,
+                    "startColumn": 4,
+                    "startOffset": 12964,
+                    "endColumn": 52,
+                    "endOffset": 13012
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 384,
+                    "startColumn": 4,
+                    "startOffset": 13017,
+                    "endColumn": 52,
+                    "endOffset": 13065
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 385,
+                    "startColumn": 4,
+                    "startOffset": 13070,
+                    "endColumn": 52,
+                    "endOffset": 13118
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 386,
+                    "startColumn": 4,
+                    "startOffset": 13123,
+                    "endColumn": 59,
+                    "endOffset": 13178
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 387,
+                    "startColumn": 4,
+                    "startOffset": 13183,
+                    "endColumn": 43,
+                    "endOffset": 13222
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 388,
+                    "startColumn": 4,
+                    "startOffset": 13227,
+                    "endColumn": 43,
+                    "endOffset": 13266
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 389,
+                    "startColumn": 4,
+                    "startOffset": 13271,
+                    "endColumn": 105,
+                    "endOffset": 13372
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 390,
+                    "startColumn": 4,
+                    "startOffset": 13377,
+                    "endColumn": 84,
+                    "endOffset": 13457
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 391,
+                    "startColumn": 4,
+                    "startOffset": 13462,
+                    "endColumn": 90,
+                    "endOffset": 13548
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 392,
+                    "startColumn": 4,
+                    "startOffset": 13553,
+                    "endColumn": 57,
+                    "endOffset": 13606
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 393,
+                    "startColumn": 4,
+                    "startOffset": 13611,
+                    "endColumn": 37,
+                    "endOffset": 13644
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 394,
+                    "startColumn": 4,
+                    "startOffset": 13649,
+                    "endColumn": 39,
+                    "endOffset": 13684
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 395,
+                    "startColumn": 4,
+                    "startOffset": 13689,
+                    "endColumn": 37,
+                    "endOffset": 13722
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 396,
+                    "startColumn": 4,
+                    "startOffset": 13727,
+                    "endColumn": 38,
+                    "endOffset": 13761
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 397,
+                    "startColumn": 4,
+                    "startOffset": 13766,
+                    "endColumn": 45,
+                    "endOffset": 13807
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 398,
+                    "startColumn": 4,
+                    "startOffset": 13812,
+                    "endColumn": 44,
+                    "endOffset": 13852
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 399,
+                    "startColumn": 4,
+                    "startOffset": 13857,
+                    "endColumn": 73,
+                    "endOffset": 13926
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 400,
+                    "startColumn": 4,
+                    "startOffset": 13931,
+                    "endColumn": 40,
+                    "endOffset": 13967
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 401,
+                    "startColumn": 4,
+                    "startOffset": 13972,
+                    "endLine": 402,
+                    "endColumn": 9,
+                    "endOffset": 14125
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 403,
+                    "startColumn": 4,
+                    "startOffset": 14130,
+                    "endLine": 405,
+                    "endColumn": 9,
+                    "endOffset": 14345
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 406,
+                    "startColumn": 4,
+                    "startOffset": 14350,
+                    "endColumn": 83,
+                    "endOffset": 14429
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 407,
+                    "startColumn": 4,
+                    "startOffset": 14434,
+                    "endColumn": 124,
+                    "endOffset": 14554
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 408,
+                    "startColumn": 4,
+                    "startOffset": 14559,
+                    "endColumn": 102,
+                    "endOffset": 14657
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 409,
+                    "startColumn": 4,
+                    "startOffset": 14662,
+                    "endColumn": 71,
+                    "endOffset": 14729
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 410,
+                    "startColumn": 4,
+                    "startOffset": 14734,
+                    "endColumn": 68,
+                    "endOffset": 14798
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 411,
+                    "startColumn": 4,
+                    "startOffset": 14803,
+                    "endColumn": 48,
+                    "endOffset": 14847
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 412,
+                    "startColumn": 4,
+                    "startOffset": 14852,
+                    "endColumn": 48,
+                    "endOffset": 14896
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 413,
+                    "startColumn": 4,
+                    "startOffset": 14901,
+                    "endColumn": 46,
+                    "endOffset": 14943
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 414,
+                    "startColumn": 4,
+                    "startOffset": 14948,
+                    "endColumn": 51,
+                    "endOffset": 14995
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 415,
+                    "startColumn": 4,
+                    "startOffset": 15000,
+                    "endColumn": 41,
+                    "endOffset": 15037
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 416,
+                    "startColumn": 4,
+                    "startOffset": 15042,
+                    "endColumn": 87,
+                    "endOffset": 15125
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 417,
+                    "startColumn": 4,
+                    "startOffset": 15130,
+                    "endColumn": 44,
+                    "endOffset": 15170
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 418,
+                    "startColumn": 4,
+                    "startOffset": 15175,
+                    "endLine": 426,
+                    "endColumn": 12,
+                    "endOffset": 15688
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\styles.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 427,
+                    "startColumn": 4,
+                    "startOffset": 15693,
+                    "endLine": 434,
+                    "endColumn": 12,
+                    "endOffset": 16138
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\styles.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 435,
+                    "startColumn": 4,
+                    "startOffset": 16143,
+                    "endLine": 437,
+                    "endColumn": 12,
+                    "endOffset": 16313
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\styles.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 438,
+                    "startColumn": 4,
+                    "startOffset": 16318,
+                    "endLine": 443,
+                    "endColumn": 12,
+                    "endOffset": 16614
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\styles.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 444,
+                    "startColumn": 4,
+                    "startOffset": 16619,
+                    "endLine": 456,
+                    "endColumn": 12,
+                    "endOffset": 17274
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\styles.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 457,
+                    "startColumn": 4,
+                    "startOffset": 17279,
+                    "endLine": 461,
+                    "endColumn": 12,
+                    "endOffset": 17497
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 857,
+                        "endLine": 24,
+                        "endColumn": 12,
+                        "endOffset": 1079
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 462,
+                    "startColumn": 4,
+                    "startOffset": 17502,
+                    "endLine": 466,
+                    "endColumn": 12,
+                    "endOffset": 17738
+                },
+                "from": {
+                    "file": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\values\\styles.xml"
+                }
+            }
+        ]
+    }
+]

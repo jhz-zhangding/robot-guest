@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="1.0.37$Generated" generated="true"><source path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\com.efrobot.library\framework\1.0.37\res"/></dataSet><dataSet config="0.0.3$Generated" generated="true"><source path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\cn.edu.zafu\coreprogress\0.0.3\res"/></dataSet><dataSet config="23.1.1$Generated" generated="true"><source path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\res"/></dataSet><dataSet config="0.0.12$Generated" generated="true"><source path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\com.efrobot.library.mvp\mvplibrary\0.0.12\res"/></dataSet><dataSet config="0.0.38$Generated" generated="true"><source path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\com.efrobot.library.net\mvpnetlibrary\0.0.38\res"/></dataSet><dataSet config="main$Generated" generated="true"><source path="G:\AndroidProject\robot-guests\src\main\res"/><source path="G:\AndroidProject\robot-guests\build\generated\res\rs\release"/><source path="G:\AndroidProject\robot-guests\build\generated\res\resValues\release"/></dataSet><dataSet config="release$Generated" generated="true"><source path="G:\AndroidProject\robot-guests\src\release\res"/></dataSet><dataSet config="1.0.37" from-dependency="true" generated-set="1.0.37$Generated"><source path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\com.efrobot.library\framework\1.0.37\res"><file path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\com.efrobot.library\framework\1.0.37\res\values\values.xml" qualifiers=""><string name="app_name">EfRobot</string></file></source></dataSet><dataSet config="0.0.3" from-dependency="true" generated-set="0.0.3$Generated"><source path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\cn.edu.zafu\coreprogress\0.0.3\res"/></dataSet><dataSet config="23.1.1" from-dependency="true" generated-set="23.1.1$Generated"><source path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\res"/></dataSet><dataSet config="0.0.12" from-dependency="true" generated-set="0.0.12$Generated"><source path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\com.efrobot.library.mvp\mvplibrary\0.0.12\res"><file name="toast_business_layout" path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\com.efrobot.library.mvp\mvplibrary\0.0.12\res\layout\toast_business_layout.xml" qualifiers="" type="layout"/><file name="toast_layout" path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\com.efrobot.library.mvp\mvplibrary\0.0.12\res\layout\toast_layout.xml" qualifiers="" type="layout"/><file name="toast_background" path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\com.efrobot.library.mvp\mvplibrary\0.0.12\res\mipmap\toast_background.9.png" qualifiers="" type="mipmap"/><file path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\com.efrobot.library.mvp\mvplibrary\0.0.12\res\values\values.xml" qualifiers=""><dimen name="padding_top_bottom">5dp</dimen><dimen name="padding_left_right">10dp</dimen><color name="white">#ffffff</color></file></source></dataSet><dataSet config="0.0.38" from-dependency="true" generated-set="0.0.38$Generated"><source path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\com.efrobot.library.net\mvpnetlibrary\0.0.38\res"><file path="G:\AndroidProject\robot-guests\build\intermediates\exploded-aar\com.efrobot.library.net\mvpnetlibrary\0.0.38\res\values\values.xml" qualifiers=""><string name="app_name">NetLibrary</string></file></source></dataSet><dataSet config="main" generated-set="main$Generated"><source path="G:\AndroidProject\robot-guests\src\main\res"><file name="hint_diakog_cancle_textcoklor" path="G:\AndroidProject\robot-guests\src\main\res\color\hint_diakog_cancle_textcoklor.xml" qualifiers="" type="color"/><file name="hint_diakog_ok_textcoklor" path="G:\AndroidProject\robot-guests\src\main\res\color\hint_diakog_ok_textcoklor.xml" qualifiers="" type="color"/><file name="hint_textcoklor" path="G:\AndroidProject\robot-guests\src\main\res\color\hint_textcoklor.xml" qualifiers="" type="color"/><file name="text_color_change" path="G:\AndroidProject\robot-guests\src\main\res\color\text_color_change.xml" qualifiers="" type="color"/><file name="botton_click_bg" path="G:\AndroidProject\robot-guests\src\main\res\drawable\botton_click_bg.xml" qualifiers="" type="drawable"/><file name="botton_rec_bg" path="G:\AndroidProject\robot-guests\src\main\res\drawable\botton_rec_bg.xml" qualifiers="" type="drawable"/><file name="botton_white_bg" path="G:\AndroidProject\robot-guests\src\main\res\drawable\botton_white_bg.xml" qualifiers="" type="drawable"/><file name="btn_custom_edit" path="G:\AndroidProject\robot-guests\src\main\res\drawable\btn_custom_edit.xml" qualifiers="" type="drawable"/><file name="button_ba_bg" path="G:\AndroidProject\robot-guests\src\main\res\drawable\button_ba_bg.xml" qualifiers="" type="drawable"/><file name="button_bg" path="G:\AndroidProject\robot-guests\src\main\res\drawable\button_bg.xml" qualifiers="" type="drawable"/><file name="button_gray_bg" path="G:\AndroidProject\robot-guests\src\main\res\drawable\button_gray_bg.xml" qualifiers="" type="drawable"/><file name="checkbox_style" path="G:\AndroidProject\robot-guests\src\main\res\drawable\checkbox_style.xml" qualifiers="" type="drawable"/><file name="custom_item_bg" path="G:\AndroidProject\robot-guests\src\main\res\drawable\custom_item_bg.xml" qualifiers="" type="drawable"/><file name="custom_radio" path="G:\AndroidProject\robot-guests\src\main\res\drawable\custom_radio.xml" qualifiers="" type="drawable"/><file name="footer_btn" path="G:\AndroidProject\robot-guests\src\main\res\drawable\footer_btn.xml" qualifiers="" type="drawable"/><file name="play_bg" path="G:\AndroidProject\robot-guests\src\main\res\drawable\play_bg.xml" qualifiers="" type="drawable"/><file name="rdiobutton_bg" path="G:\AndroidProject\robot-guests\src\main\res\drawable\rdiobutton_bg.xml" qualifiers="" type="drawable"/><file name="shape_media_unenable" path="G:\AndroidProject\robot-guests\src\main\res\drawable\shape_media_unenable.xml" qualifiers="" type="drawable"/><file name="activity_action" path="G:\AndroidProject\robot-guests\src\main\res\layout\activity_action.xml" qualifiers="" type="layout"/><file name="activity_custom" path="G:\AndroidProject\robot-guests\src\main\res\layout\activity_custom.xml" qualifiers="" type="layout"/><file name="activity_explain" path="G:\AndroidProject\robot-guests\src\main\res\layout\activity_explain.xml" qualifiers="" type="layout"/><file name="activity_face" path="G:\AndroidProject\robot-guests\src\main\res\layout\activity_face.xml" qualifiers="" type="layout"/><file name="activity_main" path="G:\AndroidProject\robot-guests\src\main\res\layout\activity_main.xml" qualifiers="" type="layout"/><file name="activity_media_play" path="G:\AndroidProject\robot-guests\src\main\res\layout\activity_media_play.xml" qualifiers="" type="layout"/><file name="activity_setting" path="G:\AndroidProject\robot-guests\src\main\res\layout\activity_setting.xml" qualifiers="" type="layout"/><file name="activity_usher" path="G:\AndroidProject\robot-guests\src\main\res\layout\activity_usher.xml" qualifiers="" type="layout"/><file name="add_face_layout" path="G:\AndroidProject\robot-guests\src\main\res\layout\add_face_layout.xml" qualifiers="" type="layout"/><file name="create_light" path="G:\AndroidProject\robot-guests\src\main\res\layout\create_light.xml" qualifiers="" type="layout"/><file name="custom_action" path="G:\AndroidProject\robot-guests\src\main\res\layout\custom_action.xml" qualifiers="" type="layout"/><file name="custom_head_footer" path="G:\AndroidProject\robot-guests\src\main\res\layout\custom_head_footer.xml" qualifiers="" type="layout"/><file name="custom_wheel_footer" path="G:\AndroidProject\robot-guests\src\main\res\layout\custom_wheel_footer.xml" qualifiers="" type="layout"/><file name="custom_wing_footer" path="G:\AndroidProject\robot-guests\src\main\res\layout\custom_wing_footer.xml" qualifiers="" type="layout"/><file name="face_action_item" path="G:\AndroidProject\robot-guests\src\main\res\layout\face_action_item.xml" qualifiers="" type="layout"/><file name="face_action_view" path="G:\AndroidProject\robot-guests\src\main\res\layout\face_action_view.xml" qualifiers="" type="layout"/><file name="head_listitem" path="G:\AndroidProject\robot-guests\src\main\res\layout\head_listitem.xml" qualifiers="" type="layout"/><file name="layout_dir_dis" path="G:\AndroidProject\robot-guests\src\main\res\layout\layout_dir_dis.xml" qualifiers="" type="layout"/><file name="layout_timer_task" path="G:\AndroidProject\robot-guests\src\main\res\layout\layout_timer_task.xml" qualifiers="" type="layout"/><file name="layout_ultrasonic_test_dis" path="G:\AndroidProject\robot-guests\src\main\res\layout\layout_ultrasonic_test_dis.xml" qualifiers="" type="layout"/><file name="message_dialog" path="G:\AndroidProject\robot-guests\src\main\res\layout\message_dialog.xml" qualifiers="" type="layout"/><file name="service_dialog" path="G:\AndroidProject\robot-guests\src\main\res\layout\service_dialog.xml" qualifiers="" type="layout"/><file name="timer_choose_day_item" path="G:\AndroidProject\robot-guests\src\main\res\layout\timer_choose_day_item.xml" qualifiers="" type="layout"/><file name="timer_choose_day_list" path="G:\AndroidProject\robot-guests\src\main\res\layout\timer_choose_day_list.xml" qualifiers="" type="layout"/><file name="timer_hh_mm_pick" path="G:\AndroidProject\robot-guests\src\main\res\layout\timer_hh_mm_pick.xml" qualifiers="" type="layout"/><file name="timer_place_dialog" path="G:\AndroidProject\robot-guests\src\main\res\layout\timer_place_dialog.xml" qualifiers="" type="layout"/><file name="timer_place_item" path="G:\AndroidProject\robot-guests\src\main\res\layout\timer_place_item.xml" qualifiers="" type="layout"/><file name="wheel_listitem" path="G:\AndroidProject\robot-guests\src\main\res\layout\wheel_listitem.xml" qualifiers="" type="layout"/><file name="wing_listitem" path="G:\AndroidProject\robot-guests\src\main\res\layout\wing_listitem.xml" qualifiers="" type="layout"/><file name="ic_launcher" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-hdpi\ic_launcher.png" qualifiers="hdpi-v4" type="mipmap"/><file name="add_click" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-mdpi\add_click.png" qualifiers="mdpi-v4" type="mipmap"/><file name="add_unclick" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-mdpi\add_unclick.png" qualifiers="mdpi-v4" type="mipmap"/><file name="btn_bg_normal" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-mdpi\btn_bg_normal.9.png" qualifiers="mdpi-v4" type="mipmap"/><file name="btn_bg_press" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-mdpi\btn_bg_press.9.png" qualifiers="mdpi-v4" type="mipmap"/><file name="btn_kaiqi" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-mdpi\btn_kaiqi.png" qualifiers="mdpi-v4" type="mipmap"/><file name="btn_kaiqi_01" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-mdpi\btn_kaiqi_01.png" qualifiers="mdpi-v4" type="mipmap"/><file name="ic_launcher" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-mdpi\ic_launcher.png" qualifiers="mdpi-v4" type="mipmap"/><file name="logo" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-mdpi\logo.png" qualifiers="mdpi-v4" type="mipmap"/><file name="popu_bg" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-mdpi\popu_bg.png" qualifiers="mdpi-v4" type="mipmap"/><file name="sel_check" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-mdpi\sel_check.png" qualifiers="mdpi-v4" type="mipmap"/><file name="sel_nor" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-mdpi\sel_nor.png" qualifiers="mdpi-v4" type="mipmap"/><file name="delect_media" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-xhdpi\delect_media.png" qualifiers="xhdpi-v4" type="mipmap"/><file name="delete_face" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-xhdpi\delete_face.png" qualifiers="xhdpi-v4" type="mipmap"/><file name="ic_launcher" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-xhdpi\ic_launcher.png" qualifiers="xhdpi-v4" type="mipmap"/><file name="del" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-xxhdpi\del.png" qualifiers="xxhdpi-v4" type="mipmap"/><file name="gray_bg" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-xxhdpi\gray_bg.jpg" qualifiers="xxhdpi-v4" type="mipmap"/><file name="green_bg" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-xxhdpi\green_bg.jpg" qualifiers="xxhdpi-v4" type="mipmap"/><file name="ic_launcher" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-xxhdpi\ic_launcher.png" qualifiers="xxhdpi-v4" type="mipmap"/><file name="ic_launcher" path="G:\AndroidProject\robot-guests\src\main\res\mipmap-xxxhdpi\ic_launcher.png" qualifiers="xxxhdpi-v4" type="mipmap"/><file path="G:\AndroidProject\robot-guests\src\main\res\values\colors.xml" qualifiers=""><drawable name="color_414141">#414141</drawable><color name="red">#ff0000</color><drawable name="color_838383">#838383</drawable><color name="colorPrimaryDark">#303F9F</color><color name="color_414141">#414141</color><color name="black">#000000</color><color name="color_bababa">#BABABA</color><color name="main_left_bg_color">#2f323b</color><color name="color_black">#70000000</color><color name="color_text">#A0D469</color><color name="green">#33FF00</color><color name="text_color">#6c8f47</color><color name="black_50">#40000000</color><color name="color_transparent">#00000000</color><color name="text_bg">#cbe5af</color><color name="colorPrimary">#3F51B5</color><color name="color_838383">#838383</color><color name="black_40">#40000000</color><color name="colorAccent">#FF4081</color><color name="white">#ffffff</color></file><file path="G:\AndroidProject\robot-guests\src\main\res\values\dimens.xml" qualifiers=""><dimen name="padding_20">20dp</dimen><dimen name="text_size_36">36sp</dimen><dimen name="padding_25">25dp</dimen><dimen name="textsize_34">34sp</dimen><dimen name="textsize_35">35sp</dimen><dimen name="margin_60">60dp</dimen><dimen name="textsize_36">36sp</dimen><dimen name="textsize_30">30sp</dimen><dimen name="padding_60">60dp</dimen><dimen name="padding_160">160dp</dimen><dimen name="text_size_30">30sp</dimen><dimen name="padding_20dp">20dp</dimen><dimen name="title_size">40sp</dimen><dimen name="padding_350">350dp</dimen><dimen name="margin_100">100dp</dimen><dimen name="padding_150">150dp</dimen><dimen name="padding_110">110dp</dimen><dimen name="text_size_20">20sp</dimen><dimen name="activity_vertical_margin">16dp</dimen><dimen name="padding_30">30dp</dimen><dimen name="padding_35">35dp</dimen><dimen name="padding">10dp</dimen><dimen name="textsize_24">24sp</dimen><dimen name="textsize_25">25sp</dimen><dimen name="textsize_26">26sp</dimen><dimen name="textsize_20">20sp</dimen><dimen name="padding_170">170dp</dimen><dimen name="padding_10dp">10dp</dimen><dimen name="padding_290">290dp</dimen><dimen name="textsize_22">22sp</dimen><dimen name="padding_120">120dp</dimen><dimen name="padding_360">360dp</dimen><dimen name="padding_200">200dp</dimen><dimen name="padding_5">5dp</dimen><dimen name="margin_30">30dp</dimen><dimen name="padding_3">3dp</dimen><dimen name="padding_600">600dp</dimen><dimen name="padding_1">1dp</dimen><dimen name="padding_0">0dp</dimen><dimen name="padding_400">400dp</dimen><dimen name="title_size_30">30sp</dimen><dimen name="padding_800">800dp</dimen><dimen name="padding_40">40dp</dimen><dimen name="textsize_18">18sp</dimen><dimen name="textsize_19">19sp</dimen><dimen name="fab_margin">16dp</dimen><dimen name="textsize_15">16sp</dimen><dimen name="margin_80">80dp</dimen><dimen name="padding_80">80dp</dimen><dimen name="padding_180">180dp</dimen><dimen name="padding_450">450dp</dimen><dimen name="padding_130">130dp</dimen><dimen name="padding_850">850dp</dimen><dimen name="padding_135">135dp</dimen><dimen name="padding_410">410dp</dimen><dimen name="margin_360">360dp</dimen><dimen name="setting_page_view_height">10dp</dimen><dimen name="padding_15dp">15dp</dimen><dimen name="padding_55">55dp</dimen><dimen name="padding_90">83dp</dimen><dimen name="padding_50">50dp</dimen><dimen name="text_size_40">40sp</dimen><dimen name="padding_340">340dp</dimen><dimen name="padding_140">140dp</dimen><dimen name="textsize_40">40sp</dimen><dimen name="padding_300">300dp</dimen><dimen name="padding_100">100dp</dimen><dimen name="padding_540">540dp</dimen><dimen name="activity_horizontal_margin">36dp</dimen><dimen name="padding_15">15dp</dimen><dimen name="padding_500">500dp</dimen><dimen name="padding_900">900dp</dimen></file><file path="G:\AndroidProject\robot-guests\src\main\res\values\strings.xml" qualifiers=""><string-array name="wing_angle">
+        <item>无</item>
+        <item>40</item>
+        <item>60</item>
+        <item>90</item>
+        <item>100</item>
+    </string-array><string name="error_use__hint">检测到DIY中已使用超声波，如需继续请关闭DIY中的超声波</string><string name="tts_text">欢迎语：</string><string name="init_ultrasonic_hint">超声波标定要保证周围1米没有障碍物,标定开始</string><string-array name="head_direction">
+        <item>无</item>
+        <item>左转</item>
+        <item>右转</item>
+        <item>归位</item>
+    </string-array><string name="confirm">确定</string><string name="setting_value">进入迎宾</string><string name="affirm">确认</string><string name="start_guests_value">开始测试</string><string-array name="head_time">
+        <item>无</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>300</item>
+    </string-array><string name="guest_explain_text3">用户可以自行设置欢迎语、表情、动作、灯带、当感应到人接近后，机器人会执行一次，然后进入到“交流状态”。（建议将灯带设置成常亮，方便区分是否进入迎宾状态）</string><string-array name="wing_direction">
+        <item>无</item>
+        <item>左翅膀</item>
+        <item>右翅膀</item>
+        <item>双翅膀</item>
+    </string-array><string name="guest_explain_text2">可以勾选使用机器人的一个或者多个超声波来进行检测，并对应填写检测距离。</string><string name="guest_explain_text4">用户可以自行设置欢迎语、表情、动作、灯带，当检测到人离开10秒后，机器人会执行一次，然后进入到“等待状态”。</string><string-array name="wheel_time">
+        <item>无</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>300</item>
+    </string-array><string name="distance_unit">cm</string><string name="setting_title">等待状态设置</string><string name="addmedia">1.自定义上传图片后，广告播放时图片文件会替换当前子项目包含的表情包。（建议图片大小为1280*800）。\n图片仅支持：JPG和PNG</string><string name="guest_explain_text1">该区域内，可以显示现阶段各个超声波的状态，在正常运行迎宾功能之前，需先检查传感器的状态是否正常，方法：逐个挡住传感器，观察传感器的数值，是否与实际距离一致。如果发现数据不正常，可点击右侧的“校正”按钮，对数据进行校正。校正时，需要保证机器人周围1米内没有障碍物。
+“自动校正超声波”：勾选后，每次定时启动，机器人会先自动校正一次超声波数据。
+</string><string-array name="wheel_direction">
+        <item>无</item>
+        <item>前进</item>
+        <item>后退</item>
+        <item>左转</item>
+        <item>右转</item>
+    </string-array><string name="guest_explain_text0">迎宾功能通过机器人正面的6个超声波传感器感应是否有人接近机器人，可以通过勾选启用某一个或者某几个超声波并填写探测距离。当超声波检测到该距离内有人时，则会触发迎宾语。当检测人离开10秒后，则触发结束语，将回到等待状态。
+</string><string name="remark_text">备注：机器人说完欢迎语后，会进入语音交流模式，直到人离开</string><string name="action_text">去设置</string><string-array name="wheel_angle">
+        <item>无</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+        <item>180</item>
+    </string-array><string name="app_name">迎宾</string><string name="addmedia3">3.上传视频后，无法上传图片与音频，同样的，上传图片或音频后无法上传视频。\n音频仅支持：MP3和WAV</string><string name="cancel">取消</string><string name="addmedia4">4.上传音频文件后，音频会覆盖广告语。</string><string name="addmedia2">2.自定义上传视频后，广告播放时视频文件会覆盖广告语声音和机器人表情。\n视频仅支持：MP4</string><string name="distance_text">距离：</string><string-array name="wheel_speed">
+        <item>无</item>
+        <item>20</item>
+        <item>40</item>
+        <item>60</item>
+        <item>80</item>
+        <item>100</item>
+        <item>150</item>
+        <item>200</item>
+    </string-array><string-array name="light">
+        <item>无</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>300</item>
+    </string-array><string name="ultrasonic_setting_hint">注:启动前请查看超声波数据是否正常，如不正常，请点击右侧"初始化"按钮</string><string name="setting_status">传感器状态</string><string name="welcome_tts">欢迎光临</string><string-array name="wing_time">
+        <item>无</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>300</item>
+    </string-array><string-array name="head_angle">
+        <item>无</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+    </string-array></file><file path="G:\AndroidProject\robot-guests\src\main\res\values\styles.xml" qualifiers=""><style name="Dialog_Fullscreen">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style><style name="text_face_author">
+        <item name="android:textSize">@dimen/textsize_26</item>
+        <item name="android:textColor">@color/hint_diakog_cancle_textcoklor</item>
+        <item name="android:gravity">center</item>
+    </style><style name="AppTheme" parent="android:Theme.Holo.Light.NoActionBar.Fullscreen">
+
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style><style name="text_nomal">
+        <item name="android:textSize">@dimen/textsize_20</item>
+        <item name="android:textColor">@color/hint_diakog_cancle_textcoklor</item>
+        <item name="android:gravity">center</item>
+    </style><style name="NewSettingDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@mipmap/popu_bg</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 是否是黑色背景 -->
+        <!-- 模糊 -->
+    </style><style name="CustomCheckBoxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_style</item>
+    </style></file></source><source path="G:\AndroidProject\robot-guests\build\generated\res\rs\release"/><source path="G:\AndroidProject\robot-guests\build\generated\res\resValues\release"/></dataSet><dataSet config="release" generated-set="release$Generated"><source path="G:\AndroidProject\robot-guests\src\release\res"/></dataSet><mergedItems/></merger>

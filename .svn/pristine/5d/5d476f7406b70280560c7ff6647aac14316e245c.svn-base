@@ -1,0 +1,33 @@
+package com.efrobot.guests.utils;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+/**
+ * Created by zhaodekui on 2017/3/10.
+ */
+public class SSharedPreferences  {
+
+    private Context context;
+    private SharedPreferences settings;
+
+    public SSharedPreferences(Context context) {
+        settings = context.getSharedPreferences("setting", 0);
+        this.context = context;
+    }
+
+    public void setNumSharedPre(String key, int value) {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt(key, value);
+        editor.commit();
+    }
+
+    public int getNumSharedPre(String key, int defaultValue) {
+        int value = 0;
+        if(settings != null) {
+            value = settings.getInt(key, defaultValue);
+        }
+        return value;
+    }
+
+}

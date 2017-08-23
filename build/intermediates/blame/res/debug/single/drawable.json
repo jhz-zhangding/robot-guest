@@ -1,0 +1,82 @@
+[
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\rdiobutton_bg.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\rdiobutton_bg.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\button_ba_bg.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\button_ba_bg.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_press.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\btn_press.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_normal.9.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\btn_normal.9.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\botton_click_bg.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\botton_click_bg.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\checkbox_style.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\checkbox_style.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\custom_item_bg.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\custom_item_bg.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\bottom_split_line.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\bottom_split_line.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_pressed.9.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\btn_pressed.9.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\button_bg.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\button_bg.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\custom_radio.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\custom_radio.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\play_bg.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\play_bg.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_custom_edit.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\btn_custom_edit.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\botton_rec_bg.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\botton_rec_bg.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\text_type_bg.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\text_type_bg.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\botton_white_bg.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\botton_white_bg.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\item_selector_bg.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\item_selector_bg.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\footer_btn.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\footer_btn.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\button_gray_bg.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\button_gray_bg.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\drawable\\shape_media_unenable.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\drawable\\shape_media_unenable.xml"
+    }
+]

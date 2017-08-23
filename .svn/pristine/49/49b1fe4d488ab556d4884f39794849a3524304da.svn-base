@@ -1,0 +1,204 @@
+package com.efrobot.guests.usher;
+
+import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.VideoView;
+
+
+import com.efrobot.guests.R;
+import com.efrobot.library.mvp.utils.L;
+
+import org.json.JSONObject;
+
+import java.io.File;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+
+
+/**
+ * 表情Dialog
+ */
+
+public class FaceDialog extends Dialog {
+    private String value;
+    private View currentView;
+
+    /**
+     * 构建方法
+     *
+     * @param context 上下文
+     */
+    public FaceDialog(final Context context) {
+
+        super(context, R.style.Dialog_Fullscreen);
+        this.value = "";
+        fullScreen();
+    }
+
+    private BaseHandler mHandler;
+
+
+    /**
+     * onCreate
+     *
+     * @param savedInstanceState 状态
+     */
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fullScreen();
+        currentView = LayoutInflater.from(getContext()).inflate(R.layout.activity_face, null);
+        setContentView(currentView);
+        setCancelable(false);
+        setCanceledOnTouchOutside(false);
+        videoView = (VideoView) currentView.findViewById(R.id.vv);
+
+
+        mHandler = new BaseHandler(this);
+        final IntentFilter mFi = new IntentFilter();
+        mFi.addAction(ACTION_WAKE);
+        mFi.addAction(ACTION_USB_MIC_STATUS_CHANGE);
+        mFi.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+
+
+
+        try {
+
+            setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(final DialogInterface dialog) {
+
+                }
+            });
+
+
+            setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(final DialogInterface dialog) {
+                    L.e("HomeActivity", "faceDialog  消失");
+                    videoView.stopPlayback();
+                }
+            });
+            videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+
+
+                    return true;
+                }
+            });
+
+
+            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(final MediaPlayer mp) {
+                    videoView.start();
+
+                }
+            });
+            videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    /**
+     * 设置全屏模式
+     */
+    public void fullScreen() {
+        int uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                | View.SYSTEM_UI_FLAG_FULLSCREEN; // hide status bar
+
+        if (android.os.Build.VERSION.SDK_INT >= 19) {
+            uiFlags |= 0x00001000;    //SYSTEM_UI_FLAG_IMMERSIVE_STICKY: hide navigation bars - compatibility: building API level is lower thatn 19, use magic number directly for higher API target level
+        } else {
+            uiFlags |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        }
+
+        getWindow().getDecorView().setSystemUiVisibility(uiFlags);
+    }
+
+    /**
+     * 窗口变化监听
+     *
+     * @param hasFocus 是否是强制变化
+     */
+    @Override
+    public void onWindowFocusChanged(final boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        Log.d("TEST_OPEN", "onWindowFocusChanged: ..........");
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    protected class BaseHandler extends Handler {
+        private final WeakReference<FaceDialog> mObjects;
+
+        public BaseHandler(FaceDialog mPresenter) {
+            this.mObjects = new WeakReference(mPresenter);
+        }
+
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            }
+        }
+    }
+
+
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+    }
+
+
+    VideoView videoView;
+
+    public static String ACTION_WAKE = "com.ren001.speech.home.WAKE";
+    /**
+     * 处理mic变化时的界面变化
+     */
+    public static final String ACTION_USB_MIC_STATUS_CHANGE = "android.intent.action.MIC_CHANGE";//MIC插入拔出状态
+
+
+    @Override
+    public void show() {
+        fullScreen();
+        super.show();
+    }
+
+}

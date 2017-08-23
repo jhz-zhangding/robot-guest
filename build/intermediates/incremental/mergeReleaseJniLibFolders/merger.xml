@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="G:\AndroidProject\robot-guests\libs"><file name="android-support-v7-recyclerview.jar" path="G:\AndroidProject\robot-guests\libs\android-support-v7-recyclerview.jar"/><file name="speech-sdk.jar" path="G:\AndroidProject\robot-guests\libs\speech-sdk.jar"/></source></dataSet><dataSet config="release"><source path="G:\AndroidProject\robot-guests\src\release\jniLibs"/></dataSet></merger>

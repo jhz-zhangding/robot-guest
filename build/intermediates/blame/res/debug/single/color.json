@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\color\\hint_textcoklor.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\color\\hint_textcoklor.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\color\\text_color_change.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\color\\text_color_change.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\color\\hint_diakog_cancle_textcoklor.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\color\\hint_diakog_cancle_textcoklor.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\color\\hint_diakog_ok_textcoklor.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\color\\hint_diakog_ok_textcoklor.xml"
+    }
+]

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <dimen name="padding_left_right">10dp</dimen>
+    <dimen name="padding_top_bottom">5dp</dimen>
+</resources>

@@ -1,0 +1,7 @@
+int color white 0x7f040000
+int dimen padding_left_right 0x7f050000
+int dimen padding_top_bottom 0x7f050001
+int id toast_title 0x7f060000
+int layout toast_business_layout 0x7f030000
+int layout toast_layout 0x7f030001
+int mipmap toast_background 0x7f020000

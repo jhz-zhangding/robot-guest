@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:layout_width="600dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/wheel_text_listitem"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:background="@color/black"
+        android:textColor="@color/white"
+        android:layout_width="40dp"
+        android:layout_height="match_parent" />
+
+    <Spinner
+        android:layout_marginLeft="@dimen/padding_15"
+        android:entries="@array/wheel_direction"
+        android:id="@+id/wheel_direction_spin"
+        android:layout_width="@dimen/padding_110"
+        android:layout_height="wrap_content"/>
+    <Spinner
+        android:layout_marginLeft="15dp"
+        android:entries="@array/wheel_angle"
+        android:id="@+id/wheel_angle_spin"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"/>
+    <Spinner
+        android:layout_marginLeft="@dimen/padding_15"
+        android:entries="@array/wheel_speed"
+        android:id="@+id/wheel_speed_spin"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"/>
+    <Spinner
+        android:layout_marginLeft="@dimen/padding_15"
+        android:entries="@array/wheel_time"
+        android:id="@+id/wheel_time_spin"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/wheel_del"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:background="@mipmap/del"
+        android:visibility="gone"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+
+</LinearLayout>

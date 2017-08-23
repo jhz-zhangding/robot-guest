@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\add_pressed.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-hdpi\\add_pressed.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\shuffle_play_pressed.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-hdpi\\shuffle_play_pressed.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\ic_launcher.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\order_play_pressed.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-hdpi\\order_play_pressed.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\del_list.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-hdpi\\del_list.png"
+    }
+]

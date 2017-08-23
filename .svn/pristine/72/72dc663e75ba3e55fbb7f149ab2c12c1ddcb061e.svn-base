@@ -1,0 +1,65 @@
+package com.efrobot.guests.setting;
+
+import android.widget.CheckBox;
+
+import com.efrobot.library.mvp.view.UiView;
+
+/**
+ * Created by Administrator on 2017/3/2.
+ */
+public interface ISettingView extends UiView {
+    String getDistanceValue();
+    String getTtsValue();
+    String getTtsEndValue();
+//    String getNumValue();
+//    String getFarNumValue();
+
+
+    int getIsOpenValue(int number);
+    String getOpenDistanceValue(int number);
+
+
+    void setDistance(String distance);
+    void setTts(String tts);
+    void setTtsEnd(String ttsEnd);
+//    void setNum(String num);
+//    void setFarNumValue(String num);
+    void setIsOpenValue(int number, int isOpenValue);
+    void setOpenDistanceValue(int number, String openDistanceValue);
+
+    //开始
+    void setWelFace(String faceText);
+    void setWelAction(String actionText);
+    void setWelLight(String lightText);
+    //结束
+    void setEndWelFace(String faceText);
+    void setEndWelAction(String actionText);
+    void setEndWelLight(String lightText);
+
+    void setExchangeMode(int mode);
+
+    int getExchangeMode();
+
+    void setVoiceTime(String time);
+    String getVoiceTime();
+
+    void setTestUltrasonic(int number, int valueNG);
+    void setDistance0(String distance);
+    void setDistance1(String distance);
+    void setDistance7(String distance);
+    void setDistance8(String distance);
+    void setDistance9(String distance);
+    void setDistance10(String distance);
+
+    CheckBox getIsAutoOpen();
+    void setAutoOpen(boolean isAuto);
+
+    void setStartTime(String startTime);
+    void setEndTime(String endTime);
+    void setTimerPlace(String guestPlace);
+
+    String getStartTime();
+    String getEndTime();
+    String getTimerPlace();
+
+}

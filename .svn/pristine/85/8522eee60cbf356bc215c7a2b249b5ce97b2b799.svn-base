@@ -1,0 +1,142 @@
+<resources>
+    <string name="app_name">迎宾</string>
+    <string name="start_guests_value">开始测试</string>
+    <string name="setting_value">进入迎宾</string>
+    <string name="setting_status">传感器状态</string>
+    <string name="setting_title">等待状态设置</string>
+    <string name="distance_text">距离：</string>
+    <string name="distance_unit">cm</string>
+    <string name="tts_text">欢迎语：</string>
+    <string name="remark_text">备注：机器人说完欢迎语后，会进入语音交流模式，直到人离开</string>
+    <string name="cancel">取消</string>
+    <string name="affirm">确认</string>
+    <string name="confirm">确定</string>
+    <string name="action_text">去设置</string>
+    <string name="welcome_tts">欢迎光临</string>
+    <string name="ultrasonic_setting_hint">注:启动前请查看超声波数据是否正常，如不正常，请点击右侧"初始化"按钮</string>
+
+    <!-- ===================== -->
+    <string-array name="head_direction">
+        <item>无</item>
+        <item>左转</item>
+        <item>右转</item>
+        <item>归位</item>
+    </string-array>
+
+    <string-array name="head_angle">
+        <item>无</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+    </string-array>
+
+    <string-array name="head_time">
+        <item>无</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>300</item>
+    </string-array>
+
+    <string-array name="wheel_direction">
+        <item>无</item>
+        <item>前进</item>
+        <item>后退</item>
+        <item>左转</item>
+        <item>右转</item>
+    </string-array>
+
+
+    <string-array name="wheel_angle">
+        <item>无</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+        <item>180</item>
+    </string-array>
+
+    <string-array name="wheel_speed">
+        <item>无</item>
+        <item>20</item>
+        <item>40</item>
+        <item>60</item>
+        <item>80</item>
+        <item>100</item>
+        <item>150</item>
+        <item>200</item>
+    </string-array>
+
+    <string-array name="wheel_time">
+        <item>无</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>300</item>
+    </string-array>
+
+
+    <string-array name="wing_direction">
+        <item>无</item>
+        <item>左翅膀</item>
+        <item>右翅膀</item>
+        <item>双翅膀</item>
+    </string-array>
+
+
+    <string-array name="wing_angle">
+        <item>无</item>
+        <item>40</item>
+        <item>60</item>
+        <item>90</item>
+        <item>100</item>
+    </string-array>
+
+
+    <string-array name="wing_time">
+        <item>无</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>300</item>
+    </string-array>
+
+    <string-array name="light">
+        <item>无</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>300</item>
+    </string-array>
+
+
+
+    <string name="addmedia">1.自定义上传图片后，广告播放时图片文件会替换当前子项目包含的表情包。（建议图片大小为1280*800）。\n图片仅支持：JPG和PNG</string>
+    <string name="addmedia2">2.自定义上传视频后，广告播放时视频文件会覆盖广告语声音和机器人表情。\n视频仅支持：MP4</string>
+    <string name="addmedia3">3.上传视频后，无法上传图片与音频，同样的，上传图片或音频后无法上传视频。\n音频仅支持：MP3和WAV</string>
+    <string name="addmedia4">4.上传音频文件后，音频会覆盖广告语。</string>
+
+    <string name="init_ultrasonic_hint">超声波标定要保证周围1米没有障碍物,标定开始</string>
+
+</resources>

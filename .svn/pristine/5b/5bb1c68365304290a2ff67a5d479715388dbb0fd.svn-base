@@ -1,0 +1,33 @@
+package com.efrobot.guests.speech;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+
+import com.efrobot.guests.utils.PreferencesUtils;
+import com.efrobot.library.mvp.utils.L;
+
+/**
+ * Created by hp on 2017/4/12.
+ */
+public class BootBroadcastReceiver extends BroadcastReceiver {
+
+    public static String TAG = BootBroadcastReceiver.class.getSimpleName();
+
+    /**
+     * 可以实现开机自动打开软件并运行。
+     */
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        //是否开启了定时任务
+        boolean isAlreadyStart = PreferencesUtils.getBoolean(context.getApplicationContext(), "isAlreadyStart", false);
+        System.out.println("自启动程序即将执行" + "--是否开启isAlreadyStart=" + isAlreadyStart);
+
+        if (isAlreadyStart) {
+            //启动定时任务
+            Intent mBootIntent = new Intent(context, AlarmUlService.class);
+//        mBootIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startService(mBootIntent);
+        }
+    }
+}

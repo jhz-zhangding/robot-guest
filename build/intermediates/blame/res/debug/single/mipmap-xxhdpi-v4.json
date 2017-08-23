@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\del.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-xxhdpi\\del.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\ic_launcher.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\gray_bg.jpg",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-xxhdpi\\gray_bg.jpg"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\green_bg.jpg",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-xxhdpi\\green_bg.jpg"
+    }
+]

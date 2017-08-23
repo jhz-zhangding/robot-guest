@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginRight="@dimen/padding_40"
+    android:layout_marginTop="5dp"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:gravity="center"
+        android:minWidth="150dp"
+        android:text="定时任务设置"
+        android:textSize="@dimen/title_size_30" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_60"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/timer_start_ck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="启动时间："
+                android:textSize="@dimen/textsize_26" />
+
+            <EditText
+                android:id="@+id/timer_start_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="请选择..."
+                android:textSize="@dimen/textsize_26" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分"
+                android:textSize="@dimen/textsize_26" />
+
+            <TextView
+                android:id="@+id/timer_start_select_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="周一 周二 周三 周四 周五"
+                android:textSize="@dimen/textsize_26" />
+
+            <Button
+                android:id="@+id/timer_start_choose_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="设置" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/timer_end_ck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="返回时间："
+                android:textSize="@dimen/textsize_26" />
+
+            <EditText
+                android:id="@+id/timer_end_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="请选择..."
+                android:textSize="@dimen/textsize_26" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分"
+                android:textSize="@dimen/textsize_26" />
+
+            <TextView
+                android:id="@+id/timer_end_select_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="周一 周二 周三 周四 周五"
+                android:textSize="@dimen/textsize_26" />
+
+            <Button
+                android:id="@+id/timer_end_choose_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="设置" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/timer_guest_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="迎宾地点："
+                android:textSize="@dimen/textsize_26" />
+
+            <EditText
+                android:id="@+id/timer_choose_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="请选择..."
+                android:textSize="@dimen/textsize_26" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="注:需要事先建立地图"
+                android:textSize="@dimen/textsize_26" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/timer_save_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_gravity="center_vertical"
+        android:text="开启定时"
+        />
+
+
+</LinearLayout>

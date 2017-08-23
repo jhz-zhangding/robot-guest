@@ -1,0 +1,46 @@
+[
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi-v4\\popu_bg.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-mdpi\\popu_bg.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi-v4\\btn_kaiqi_01.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-mdpi\\btn_kaiqi_01.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi-v4\\sel_nor.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-mdpi\\sel_nor.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi-v4\\btn_kaiqi.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-mdpi\\btn_kaiqi.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi-v4\\btn_bg_press.9.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-mdpi\\btn_bg_press.9.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi-v4\\ic_launcher.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi-v4\\btn_bg_normal.9.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-mdpi\\btn_bg_normal.9.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi-v4\\add_click.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-mdpi\\add_click.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi-v4\\add_unclick.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-mdpi\\add_unclick.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi-v4\\logo.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-mdpi\\logo.png"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\mipmap-mdpi-v4\\sel_check.png",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\mipmap-mdpi\\sel_check.png"
+    }
+]

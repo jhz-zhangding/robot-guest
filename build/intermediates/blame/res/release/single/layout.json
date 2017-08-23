@@ -1,0 +1,126 @@
+[
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\face_action_view.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\face_action_view.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\custom_wheel_footer.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\custom_wheel_footer.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\timer_place_dialog.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\timer_place_dialog.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\face_action_item.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\face_action_item.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\timer_hh_mm_pick.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\timer_hh_mm_pick.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\timer_choose_day_item.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\timer_choose_day_item.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\toast_business_layout.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\exploded-aar\\com.efrobot.library.mvp\\mvplibrary\\0.0.12\\res\\layout\\toast_business_layout.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\activity_usher.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\activity_usher.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\layout_ultrasonic_test_dis.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\layout_ultrasonic_test_dis.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\activity_explain.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\activity_explain.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\activity_action.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\activity_action.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\layout_dir_dis.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\layout_dir_dis.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\head_listitem.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\head_listitem.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\timer_place_item.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\timer_place_item.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\activity_face.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\activity_face.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\create_light.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\create_light.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\activity_custom.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\activity_custom.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\activity_main.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\message_dialog.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\message_dialog.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\activity_media_play.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\activity_media_play.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\layout_timer_task.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\layout_timer_task.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\timer_choose_day_list.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\timer_choose_day_list.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\custom_head_footer.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\custom_head_footer.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\wheel_listitem.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\wheel_listitem.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\add_face_layout.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\add_face_layout.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\custom_wing_footer.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\custom_wing_footer.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\toast_layout.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\exploded-aar\\com.efrobot.library.mvp\\mvplibrary\\0.0.12\\res\\layout\\toast_layout.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\custom_action.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\custom_action.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\service_dialog.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\service_dialog.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\wing_listitem.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\wing_listitem.xml"
+    },
+    {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\release\\layout\\activity_setting.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\activity_setting.xml"
+    }
+]

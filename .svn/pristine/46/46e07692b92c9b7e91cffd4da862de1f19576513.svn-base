@@ -1,0 +1,31 @@
+package com.efrobot.guests.bean;
+
+import android.database.Cursor;
+
+/**
+ * 表情和动作Bean
+ * Created by Administrator on 2016/2/18.
+ */
+public class FaceAndActionEntity {
+    public String index;
+    public String content;
+    public String time;
+
+    public FaceAndActionEntity(String index, String content) {
+        this.index = index;
+        this.content = content;
+    }
+
+    public FaceAndActionEntity(String index, String content, String time) {
+        this.index = index;
+        this.content = content;
+        this.time = time;
+    }
+
+    public FaceAndActionEntity(Cursor c) {
+        this.index = c.getString(c.getColumnIndexOrThrow("actionNum"));
+        this.content = c.getString(c.getColumnIndexOrThrow("actionName"));
+        this.time = c.getString(c.getColumnIndexOrThrow("actionTime"));
+    }
+
+}

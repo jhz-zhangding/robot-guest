@@ -1,0 +1,24 @@
+package com.efrobot.guests.speech;
+
+import android.net.Uri;
+import android.provider.BaseColumns;
+
+/**
+ * Created by Administrator on 2016/2/22.
+ */
+public class BodyProvider {
+
+    public static final String AUTHORITY = "com.efrobot.bodyshow.fa";
+
+    /**
+     * 动作表表常量
+     */
+    public static final class RobotActionColumns implements BaseColumns {
+        public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/bodyaction");
+        public static final String TABLE_NAME = "action";
+        public static final String ACRIONNUM = "actionNum";
+        public static final String ACRIONNAME = "actionName";
+        public static final String ACRIONTIME = "actionTime";
+    }
+
+}

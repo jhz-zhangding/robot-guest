@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5dp"
+    android:layout_marginRight="@dimen/padding_40"
+    android:layout_marginTop="@dimen/padding_15dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:minWidth="220dp"
+        android:minHeight="45dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/setting_status"
+        android:background="@drawable/button_bg"
+        android:textColor="@color/guest_text_color"
+        android:textSize="@dimen/type_title_size" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:text="上左："
+                android:textSize="@dimen/textsize_26" />
+
+            <TextView
+                android:id="@+id/ul_place_test_edit2"
+                android:layout_width="@dimen/margin_100"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:gravity="center"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:text="@string/distance_unit"
+                android:textSize="@dimen/textsize_26" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/setting_page_view_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:text="下左："
+                android:textSize="@dimen/textsize_26" />
+
+            <TextView
+                android:id="@+id/ul_place_test_edit6"
+                android:layout_width="@dimen/margin_100"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/guest_text_color"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:text="@string/distance_unit"
+                android:textSize="@dimen/textsize_26" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:text="上中："
+                android:textSize="@dimen/textsize_26" />
+
+            <TextView
+                android:id="@+id/ul_place_test_edit1"
+                android:layout_width="@dimen/margin_100"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:gravity="center"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:text="@string/distance_unit"
+                android:textSize="@dimen/textsize_26" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/setting_page_view_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下中："
+                android:textColor="@color/guest_text_color"
+                android:textSize="@dimen/textsize_26" />
+
+            <TextView
+                android:id="@+id/ul_place_test_edit5"
+                android:layout_width="@dimen/margin_100"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/guest_text_color"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:text="@string/distance_unit"
+                android:textSize="@dimen/textsize_26" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:text="上右："
+                android:textSize="@dimen/textsize_26" />
+
+            <TextView
+                android:id="@+id/ul_place_test_edit3"
+                android:layout_width="@dimen/margin_100"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:gravity="center"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:text="@string/distance_unit"
+                android:textSize="@dimen/textsize_26" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/setting_page_view_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:text="下右："
+                android:textSize="@dimen/textsize_26" />
+
+            <TextView
+                android:id="@+id/ul_place_test_edit4"
+                android:layout_width="@dimen/margin_100"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:gravity="center"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/guest_text_color"
+                android:text="@string/distance_unit"
+                android:textSize="@dimen/textsize_26" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/padding_60"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/ultrasonic_init_btn"
+            android:layout_width="@dimen/padding_120"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_bg"
+            android:gravity="center"
+            android:padding="@dimen/padding"
+            android:text="初始化"
+            android:textColor="@color/guest_text_color"
+            android:textSize="@dimen/textsize_26" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/setting_is_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="自动校正超声波"
+                android:textColor="@color/guest_text_color"
+                android:textSize="@dimen/textsize_26" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
