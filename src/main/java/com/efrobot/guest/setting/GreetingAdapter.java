@@ -23,7 +23,7 @@ import java.util.List;
  * Created by zd on 2017/8/17.
  * 欢迎语设置
  */
-public class GreetingAdapter extends BaseAdapter implements View.OnClickListener {
+public class GreetingAdapter extends BaseAdapter {
 
     private Context mContext;
 
@@ -63,7 +63,7 @@ public class GreetingAdapter extends BaseAdapter implements View.OnClickListener
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             mHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.welcome_list_item, parent, false);
@@ -83,25 +83,23 @@ public class GreetingAdapter extends BaseAdapter implements View.OnClickListener
             mHolder.delItemBtn.setVisibility(View.GONE);
         }
 
-        mHolder.welcomeTts.setOnClickListener(this);
-        mHolder.delItemBtn.setOnClickListener(this);
+        mHolder.welcomeTts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, AddBodyShowView.class);
+                intent.putExtra("content", lists.get(position));
+                ((Activity) mContext).startActivityForResult(intent, 1);
+            }
+        });
+        mHolder.delItemBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataManager.deleteContentById(lists.get(position).getId());
+                lists.remove(position);
+                notifyDataSetChanged();
+            }
+        });
         return convertView;
-    }
-
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        int position = ((Integer) v.getTag());
-        if (id == R.id.welcome_item_tts_tv) {
-            Intent intent = new Intent(mContext, AddBodyShowView.class);
-            intent.putExtra("content", lists.get(position));
-            ((Activity) mContext).startActivityForResult(intent, 1);
-        } else if (id == R.id.welcome_item_del_img) {
-            dataManager.deleteContentById(lists.get(position).getId());
-
-            lists.remove(position);
-            notifyDataSetChanged();
-        }
     }
 
     private ViewHolder mHolder;

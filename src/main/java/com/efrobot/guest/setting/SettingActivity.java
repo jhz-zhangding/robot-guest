@@ -20,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -73,6 +74,8 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     private ImageView addGreetBtn, addEndBtn;
     private ImageView delGreetBtn, delEndBtn;
     private ImageView startPlayMode, endPlayMode;
+    private LinearLayout greetingShowListBtnLL, endShowListBtnLL;
+    private ImageView greetingShowListBtn, endShowListBtn;
 
     //保存设置
     private TextView mCancle, mAffirm, mTestUlBtn;
@@ -140,8 +143,8 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
         initViewId();
 
-        greetingListView.setAdapter(((SettingPresenter) mPresenter).getGreetingAdapter());
-//        endListView.setAdapter(((SettingPresenter)mPresenter).getEndGreetingAdapter());
+        greetingListView.setAdapter(((SettingPresenter) mPresenter).getGreetingAdapter(true));
+        endListView.setAdapter(((SettingPresenter)mPresenter).getEndGreetingAdapter(true));
 
         updatePlayMode(false);
         updateStopMode(false);
@@ -209,11 +212,15 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         addGreetBtn = (ImageView) findViewById(R.id.greeting_add_im);
         delGreetBtn = (ImageView) findViewById(R.id.start_delete_img);
         startPlayMode = (ImageView) findViewById(R.id.greeting_play_mode);
+        greetingShowListBtn = (ImageView) findViewById(R.id.greeting_show_list_img);
+        greetingShowListBtnLL = (LinearLayout) findViewById(R.id.greeting_show_list_img_ll);
 
         endListView = (ListView) findViewById(R.id.end_set_lv);
         addEndBtn = (ImageView) findViewById(R.id.end_add_im);
         delEndBtn = (ImageView) findViewById(R.id.end_delete_img);
         endPlayMode = (ImageView) findViewById(R.id.end_play_mode);
+        endShowListBtn = (ImageView) findViewById(R.id.end_show_list_img);
+        endShowListBtnLL = (LinearLayout) findViewById(R.id.end_show_list_img_ll);
 
         //模式
         modeSettingRg = (RadioGroup) findViewById(R.id.mode_setting);
@@ -324,6 +331,8 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         delEndBtn.setOnClickListener(this);
         startPlayMode.setOnClickListener(this);
         endPlayMode.setOnClickListener(this);
+        greetingShowListBtnLL.setOnClickListener(this);
+        endShowListBtnLL.setOnClickListener(this);
 
         //定时任务
         chooseStartDayBtn.setOnClickListener(this);
@@ -377,10 +386,12 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 startActivityForResult(intentEnd, END_REQUEST);
                 break;
             case R.id.start_delete_img:
-                ((SettingPresenter) mPresenter).getGreetingAdapter().setDelVisible();
+                ((SettingPresenter) mPresenter).getGreetingAdapter(false).notifyDataSetChanged();
+                ((SettingPresenter) mPresenter).getGreetingAdapter(false).setDelVisible();
                 break;
             case R.id.end_delete_img:
-                ((SettingPresenter) mPresenter).getEndGreetingAdapter().setDelVisible();
+                ((SettingPresenter) mPresenter).getEndGreetingAdapter(false).notifyDataSetChanged();
+                ((SettingPresenter) mPresenter).getEndGreetingAdapter(false).setDelVisible();
                 break;
             case R.id.greeting_play_mode:
                 updatePlayMode(true);
@@ -388,23 +399,29 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             case R.id.end_play_mode:
                 updateStopMode(true);
                 break;
+            case R.id.greeting_show_list_img_ll:
+                showListView(view);
+                break;
+            case R.id.end_show_list_img_ll:
+                showListView(view);
+                break;
         }
     }
 
     private void updatePlayMode(boolean isClick) {
-        int mode = PreferencesUtils.getInt(this, SP_START_PLAY_MODE, 1);
-        if (mode == 1) {
+        int mode = PreferencesUtils.getInt(this, SP_START_PLAY_MODE, 0);
+        if (mode == 0) {
             if (isClick) {
                 startPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shuffle_play_pressed));
-                PreferencesUtils.putInt(this, SP_START_PLAY_MODE, 2);
+                PreferencesUtils.putInt(this, SP_START_PLAY_MODE, 1);
                 showToast("随机播放");
             } else {
                 startPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.order_play_pressed));
             }
-        } else if (mode == 2) {
+        } else if (mode == 1) {
             if (isClick) {
                 startPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.order_play_pressed));
-                PreferencesUtils.putInt(this, SP_START_PLAY_MODE, 1);
+                PreferencesUtils.putInt(this, SP_START_PLAY_MODE, 0);
                 showToast("列表循环");
             } else {
                 startPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shuffle_play_pressed));
@@ -415,22 +432,46 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     }
 
     private void updateStopMode(boolean isClick) {
-        int stopMode = PreferencesUtils.getInt(this, SP_STOP_PLAY_MODE, 1);
-        if (stopMode == 1) {
+        int stopMode = PreferencesUtils.getInt(this, SP_STOP_PLAY_MODE, 0);
+        if (stopMode == 0) {
             if (isClick) {
                 endPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shuffle_play_pressed));
-                PreferencesUtils.putInt(this, SP_STOP_PLAY_MODE, 2);
+                PreferencesUtils.putInt(this, SP_STOP_PLAY_MODE, 1);
                 showToast("随机播放");
             } else {
                 endPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.order_play_pressed));
             }
-        } else if (stopMode == 2) {
+        } else if (stopMode == 1) {
             if (isClick) {
                 endPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.order_play_pressed));
-                PreferencesUtils.putInt(this, SP_STOP_PLAY_MODE, 1);
+                PreferencesUtils.putInt(this, SP_STOP_PLAY_MODE, 0);
                 showToast("列表循环");
             } else {
                 endPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shuffle_play_pressed));
+            }
+        }
+    }
+
+    private boolean isShowGreeting = false;
+    private boolean isShowEnd = false;
+    private void showListView(View imageView) {
+        if(imageView.equals(greetingShowListBtnLL)) {
+            isShowGreeting = !isShowGreeting;
+            if(isShowGreeting) {
+                greetingShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
+                ((SettingPresenter)mPresenter).getGreetingAdapter(false).notifyDataSetChanged();
+            } else {
+                greetingShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.open));
+                ((SettingPresenter)mPresenter).getGreetingAdapter(true).notifyDataSetChanged();
+            }
+        } else if(imageView.equals(endShowListBtnLL)) {
+            isShowEnd = !isShowEnd;
+            if(isShowEnd) {
+                endShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
+                ((SettingPresenter)mPresenter).getEndGreetingAdapter(false).notifyDataSetChanged();
+            } else {
+                endShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.open));
+                ((SettingPresenter)mPresenter).getEndGreetingAdapter(true).notifyDataSetChanged();
             }
         }
     }
@@ -626,7 +667,14 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 1) { //从设置回来刷新
-
+            if(isShowGreeting) {
+                greetingShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
+            }
+            if(isShowEnd) {
+                endShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
+            }
+            ((SettingPresenter)mPresenter).getGreetingAdapter(false).notifyDataSetChanged();
+            ((SettingPresenter)mPresenter).getEndGreetingAdapter(false).notifyDataSetChanged();
         }
     }
 

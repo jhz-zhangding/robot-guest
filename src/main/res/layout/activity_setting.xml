@@ -175,18 +175,18 @@
                     android:layout_marginRight="10dp"
                     android:background="@mipmap/order_play_pressed" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/greeting_list_rl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:background="@drawable/item_selector_bg"
-                        android:gravity="center_vertical"
+                        android:layout_centerVertical="true"
                         android:orientation="horizontal">
 
                         <com.efrobot.guest.utils.NotScrollListView
@@ -198,14 +198,27 @@
                             android:dividerHeight="5dp" />
                     </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/greeting_show_list_img"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/greeting_show_list_img_ll"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@mipmap/open" />
+                        android:layout_below="@+id/greeting_list_rl"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:minHeight="50dp">
 
-                </LinearLayout>
+                        <ImageView
+                            android:id="@+id/greeting_show_list_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@mipmap/open" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
 
                 <ImageView
                     android:id="@+id/greeting_add_im"
@@ -308,7 +321,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:minHeight="100dp"
                 android:orientation="horizontal">
@@ -341,17 +353,16 @@
                     android:layout_marginRight="10dp"
                     android:background="@mipmap/order_play_pressed" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/end_set_lv_rl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:background="@drawable/item_selector_bg"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
@@ -361,20 +372,29 @@
                             android:layout_width="650dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="20dp"
-                            android:background="@drawable/item_selector_bg"
                             android:divider="#004c91d1"
                             android:dividerHeight="5dp" />
 
                     </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/end_show_list_img"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/end_show_list_img_ll"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@mipmap/open" />
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/end_set_lv_rl"
+                        android:gravity="center"
+                        android:minHeight="50dp">
 
-                </LinearLayout>
+                        <ImageView
+                            android:id="@+id/end_show_list_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@mipmap/open" />
+                    </LinearLayout>
+                </RelativeLayout>
 
                 <ImageView
                     android:id="@+id/end_add_im"

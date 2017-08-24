@@ -179,7 +179,7 @@ public class AddBodyShowPresenter extends GuestsBasePresenter<IAddBodyShowView> 
         syActionContentLight = res.getStringArray(R.array.action_light);
 
         if (mFaceList != null) {
-            L.e("-===>>", mFaceList.toString());
+//            L.e("-===>>", mFaceList.toString());
         }
 
 

@@ -167,22 +167,32 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     }
 
     private GreetingAdapter greetingAdapter;
-    public GreetingAdapter getGreetingAdapter() {
+    public GreetingAdapter getGreetingAdapter(boolean isOnlyShowFirst) {
         if(greetingAdapter == null) {
             greetingAdapter = new GreetingAdapter(getContext());
-            List<ItemsContentBean> list = DataManager.getInstance(getContext()).queryItem(1);
-            greetingAdapter.setSourceData(list);
         }
+        List<ItemsContentBean> list = DataManager.getInstance(getContext()).queryItem(1);
+        if(isOnlyShowFirst) {
+            if(list != null && list.size() > 1) {
+                list = list.subList(0, 1);
+            }
+        }
+        greetingAdapter.setSourceData(list);
         return greetingAdapter;
     }
 
     private GreetingAdapter endGreetingAdapter;
-    public GreetingAdapter getEndGreetingAdapter() {
+    public GreetingAdapter getEndGreetingAdapter(boolean isOnlyShowFirst) {
         if(endGreetingAdapter == null) {
             endGreetingAdapter = new GreetingAdapter(getContext());
-            List<ItemsContentBean> list = DataManager.getInstance(getContext()).queryItem(2);
-            endGreetingAdapter.setSourceData(list);
         }
+        List<ItemsContentBean> list = DataManager.getInstance(getContext()).queryItem(2);
+        if(isOnlyShowFirst) {
+            if(list != null && list.size() > 1) {
+                list = list.subList(0, 1);
+            }
+        }
+        endGreetingAdapter.setSourceData(list);
         return endGreetingAdapter;
     }
 
