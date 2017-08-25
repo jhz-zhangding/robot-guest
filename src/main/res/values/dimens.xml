@@ -134,6 +134,6 @@
     <dimen name="textsize_normal">18sp</dimen>
 
 
-
+    <dimen name="ultrasonic_margin_left">60dp</dimen>
 
 </resources>

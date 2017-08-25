@@ -52,11 +52,16 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/3/2.
  */
-public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implements ISettingView, View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implements ISettingView, View.OnClickListener {
 
     public static int MyUlNum = 6;
-    private TextView ulDistanceText1, ulDistanceText2, ulDistanceText3,
-            ulDistanceText4, ulDistanceText5, ulDistanceText6;
+    private TextView ulDistanceText1, ulDistanceText2, ulDistanceText3, ulDistanceText7, ulDistanceText8;
+    private TextView ulDistanceText9, ulDistanceText10, ulDistanceText11, ulDistanceText12, ulDistanceText13;
+
+    //用户设置距离
+    private EditText ulDistanceEdit1, ulDistanceEdit2, ulDistanceEdit3,
+                ulDistanceEdit7, ulDistanceEdit8, ulDistanceEdit9,
+            ulDistanceEdit10, ulDistanceEdit11, ulDistanceEdit12, ulDistanceEdit13;
 
     //是否自动开始标定
     private CheckBox settingIsOpen;
@@ -66,10 +71,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     private Button chooseStartDayBtn, chooseEndDayBtn, saveStartBtn;
     private TextView chooseStartTxt, chooseEndTxt;
 
-    //用户设置距离
-    private CheckBox checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6;
-    private EditText ulDistanceEdit1, ulDistanceEdit2, ulDistanceEdit3,
-            ulDistanceEdit4, ulDistanceEdit5, ulDistanceEdit6;
+
     //迎宾语 结束语
     private ListView greetingListView;
     private ListView endListView;
@@ -95,11 +97,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
     public static String SP_START_PLAY_MODE = "sp_start_play_mode";
     public static String SP_STOP_PLAY_MODE = "sp_stop_play_mode";
-
-    //超声波测试数据
-    private CheckBox[] myCheck = new CheckBox[]{checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6};
-    private EditText[] myEdit = new EditText[]{ulDistanceEdit1, ulDistanceEdit2, ulDistanceEdit3, ulDistanceEdit4,
-            ulDistanceEdit5, ulDistanceEdit6};
 
     private Handler mHanlder = new Handler() {
         @Override
@@ -178,25 +175,28 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         ulDistanceText1 = (TextView) findViewById(R.id.ul_place_test_edit1);
         ulDistanceText2 = (TextView) findViewById(R.id.ul_place_test_edit2);
         ulDistanceText3 = (TextView) findViewById(R.id.ul_place_test_edit3);
-        ulDistanceText4 = (TextView) findViewById(R.id.ul_place_test_edit4);
-        ulDistanceText5 = (TextView) findViewById(R.id.ul_place_test_edit5);
-        ulDistanceText6 = (TextView) findViewById(R.id.ul_place_test_edit6);
+        ulDistanceText7 = (TextView) findViewById(R.id.ul_place_test_edit7);
+        ulDistanceText8 = (TextView) findViewById(R.id.ul_place_test_edit8);
+
+        ulDistanceText9 = (TextView) findViewById(R.id.ul_place_test_edit9);
+        ulDistanceText10 = (TextView) findViewById(R.id.ul_place_test_edit10);
+        ulDistanceText11 = (TextView) findViewById(R.id.ul_place_test_edit11);
+        ulDistanceText12 = (TextView) findViewById(R.id.ul_place_test_edit12);
+        ulDistanceText13 = (TextView) findViewById(R.id.ul_place_test_edit13);
 
         settingIsOpen = (CheckBox) findViewById(R.id.setting_is_open);
 
         //设置数据
-        myCheck[0] = (CheckBox) findViewById(R.id.ul_place_ck1);
-        myCheck[1] = (CheckBox) findViewById(R.id.ul_place_ck2);
-        myCheck[2] = (CheckBox) findViewById(R.id.ul_place_ck3);
-        myCheck[3] = (CheckBox) findViewById(R.id.ul_place_ck4);
-        myCheck[4] = (CheckBox) findViewById(R.id.ul_place_ck5);
-        myCheck[5] = (CheckBox) findViewById(R.id.ul_place_ck6);
-        myEdit[0] = (EditText) findViewById(R.id.ul_place_edit1);
-        myEdit[1] = (EditText) findViewById(R.id.ul_place_edit2);
-        myEdit[2] = (EditText) findViewById(R.id.ul_place_edit3);
-        myEdit[3] = (EditText) findViewById(R.id.ul_place_edit4);
-        myEdit[4] = (EditText) findViewById(R.id.ul_place_edit5);
-        myEdit[5] = (EditText) findViewById(R.id.ul_place_edit6);
+//        ulDistanceEdit1 = (EditText) findViewById(R.id.ul_place_edit1);
+//        ulDistanceEdit2 = (EditText) findViewById(R.id.ul_place_edit2);
+//        ulDistanceEdit3 = (EditText) findViewById(R.id.ul_place_edit3);
+//        ulDistanceEdit7 = (EditText) findViewById(R.id.ul_place_edit7);
+//        ulDistanceEdit8 = (EditText) findViewById(R.id.ul_place_edit8);
+//        ulDistanceEdit9 = (EditText) findViewById(R.id.ul_place_edit9);
+//        ulDistanceEdit10 = (EditText) findViewById(R.id.ul_place_edit10);
+//        ulDistanceEdit11 = (EditText) findViewById(R.id.ul_place_edit11);
+//        ulDistanceEdit12 = (EditText) findViewById(R.id.ul_place_edit12);
+//        ulDistanceEdit13 = (EditText) findViewById(R.id.ul_place_edit13);
 
         //定时任务
         timerStartEdit = (EditText) findViewById(R.id.timer_start_edit);
@@ -312,18 +312,9 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     @Override
     protected void setOnListener() {
         super.setOnListener();
-        for (int i = 0; i < myEdit.length; i++) {
-            if (TextUtils.isEmpty(myEdit[i].getText())) {
-                myEdit[i].setFocusableInTouchMode(false);
-            } else {
-                myEdit[i].setFocusableInTouchMode(true);
-            }
-            myCheck[i].setOnCheckedChangeListener(this);
-        }
         mCancle.setOnClickListener(this);
         mAffirm.setOnClickListener(this);
         mStartBtn.setOnClickListener(this);
-//        mTestUlBtn.setOnClickListener(this);
 
         findViewById(R.id.explain).setOnClickListener(this);
         findViewById(R.id.ultrasonic_init_btn).setOnClickListener(this);
@@ -393,7 +384,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 ((SettingPresenter) mPresenter).getGreetingAdapter(false).setDelVisible(new GreetingAdapter.OnDeleteItemListener() {
                     @Override
                     public void existLessTwo(boolean isExistLessTwo) {
-                        if(isExistLessTwo) {
+                        if (isExistLessTwo) {
                             greetingShowListBtn.setVisibility(View.GONE);
                         }
                     }
@@ -404,7 +395,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 ((SettingPresenter) mPresenter).getEndGreetingAdapter(false).setDelVisible(new GreetingAdapter.OnDeleteItemListener() {
                     @Override
                     public void existLessTwo(boolean isExistLessTwo) {
-                        if(isExistLessTwo) {
+                        if (isExistLessTwo) {
                             endShowListBtn.setVisibility(View.GONE);
                         }
                     }
@@ -586,29 +577,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         return startWeekLists;
     }
 
-    @Override
-    public int getIsOpenValue(int number) {
-        return (myCheck[number].isChecked() ? 1 : 0);
-    }
-
-    @Override
-    public String getOpenDistanceValue(int number) {
-        if (myEdit[number].getText().toString().isEmpty()) {
-            return "";
-        }
-        return myEdit[number].getText().toString();
-    }
-
-    @Override
-    public void setIsOpenValue(int number, int isOpenValue) {
-        myCheck[number].setChecked(isOpenValue == 1 ? true : false);
-    }
-
-    @Override
-    public void setOpenDistanceValue(int number, String openDistanceValue) {
-        myEdit[number].setEnabled(true);
-        myEdit[number].setText(openDistanceValue);
-    }
 
     @Override
     public int getExchangeMode() {
@@ -626,33 +594,53 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     }
 
     @Override
-    public void setDistance0(String distance) {
+    public void setDistance1(String distance) {
         ulDistanceText1.setText(distance);
     }
 
     @Override
-    public void setDistance1(String distance) {
+    public void setDistance2(String distance) {
         ulDistanceText2.setText(distance);
     }
 
     @Override
-    public void setDistance7(String distance) {
+    public void setDistance3(String distance) {
         ulDistanceText3.setText(distance);
     }
 
     @Override
+    public void setDistance7(String distance) {
+        ulDistanceText7.setText(distance);
+    }
+
+    @Override
     public void setDistance8(String distance) {
-        ulDistanceText4.setText(distance);
+        ulDistanceText8.setText(distance);
     }
 
     @Override
     public void setDistance9(String distance) {
-        ulDistanceText5.setText(distance);
+        ulDistanceText9.setText(distance);
     }
 
     @Override
     public void setDistance10(String distance) {
-        ulDistanceText6.setText(distance);
+        ulDistanceText10.setText(distance);
+    }
+
+    @Override
+    public void setDistance11(String distance) {
+        ulDistanceText11.setText(distance);
+    }
+
+    @Override
+    public void setDistance12(String distance) {
+        ulDistanceText12.setText(distance);
+    }
+
+    @Override
+    public void setDistance13(String distance) {
+        ulDistanceText13.setText(distance);
     }
 
     @Override
@@ -678,41 +666,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     @Override
     public void setTimerPlace(String guestPlace) {
         timerPlace.setText(guestPlace);
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        switch (compoundButton.getId()) {
-            case R.id.ul_place_ck1:
-                setCheckChange(compoundButton, 0);
-                break;
-            case R.id.ul_place_ck2:
-                setCheckChange(compoundButton, 1);
-                break;
-            case R.id.ul_place_ck3:
-                setCheckChange(compoundButton, 2);
-                break;
-            case R.id.ul_place_ck4:
-                setCheckChange(compoundButton, 3);
-                break;
-            case R.id.ul_place_ck5:
-                setCheckChange(compoundButton, 4);
-                break;
-            case R.id.ul_place_ck6:
-                setCheckChange(compoundButton, 5);
-                break;
-        }
-    }
-
-    private void setCheckChange(CompoundButton compoundButton, int position) {
-        if (compoundButton.isChecked()) {
-            myEdit[position].setFocusableInTouchMode(true);
-            myEdit[position].setFocusable(true);
-            myEdit[position].requestFocus();
-        } else {
-            myEdit[position].setFocusableInTouchMode(false);
-            myEdit[position].setFocusable(false);
-        }
     }
 
     @Override

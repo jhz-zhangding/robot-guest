@@ -2,222 +2,247 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="5dp"
-    android:layout_marginRight="@dimen/padding_40"
-    android:layout_marginTop="@dimen/padding_15dp"
+    android:layout_marginBottom="20dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="20dp"
+    android:background="@drawable/background"
     android:orientation="horizontal">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:gravity="center"
-        android:minWidth="220dp"
-        android:minHeight="45dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text="@string/setting_status"
         android:background="@drawable/button_bg"
+        android:gravity="center"
+        android:minHeight="45dp"
+        android:minWidth="220dp"
+        android:text="@string/setting_status"
         android:textColor="@color/guest_text_color"
         android:textSize="@dimen/type_title_size" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
         android:orientation="vertical"
         android:visibility="visible">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
+            <com.efrobot.guest.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/guest_text_color"
-                android:text="上左："
-                android:textSize="@dimen/textsize_26" />
-
-            <TextView
-                android:id="@+id/ul_place_test_edit2"
-                android:layout_width="@dimen/margin_100"
-                android:layout_height="wrap_content"
-                android:textColor="@color/guest_text_color"
+                android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:textSize="30sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:text="左1"
                 android:textColor="@color/guest_text_color"
-                android:text="@string/distance_unit"
-                android:textSize="@dimen/textsize_26" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/setting_page_view_height"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/guest_text_color"
-                android:text="下左："
-                android:textSize="@dimen/textsize_26" />
-
-            <TextView
-                android:id="@+id/ul_place_test_edit6"
-                android:layout_width="@dimen/margin_100"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/guest_text_color"
-                android:textSize="30sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/guest_text_color"
-                android:text="@string/distance_unit"
-                android:textSize="@dimen/textsize_26" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/guest_text_color"
-                android:text="上中："
-                android:textSize="@dimen/textsize_26" />
-
-            <TextView
-                android:id="@+id/ul_place_test_edit1"
-                android:layout_width="@dimen/margin_100"
-                android:layout_height="wrap_content"
-                android:textColor="@color/guest_text_color"
-                android:gravity="center"
-                android:textSize="30sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/guest_text_color"
-                android:text="@string/distance_unit"
-                android:textSize="@dimen/textsize_26" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/setting_page_view_height"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="下中："
-                android:textColor="@color/guest_text_color"
-                android:textSize="@dimen/textsize_26" />
-
-            <TextView
-                android:id="@+id/ul_place_test_edit5"
-                android:layout_width="@dimen/margin_100"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/guest_text_color"
-                android:textSize="30sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/guest_text_color"
-                android:text="@string/distance_unit"
-                android:textSize="@dimen/textsize_26" />
-        </LinearLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/guest_text_color"
-                android:text="上右："
-                android:textSize="@dimen/textsize_26" />
+                android:textSize="@dimen/textsize_20" />
 
             <TextView
                 android:id="@+id/ul_place_test_edit3"
-                android:layout_width="@dimen/margin_100"
-                android:layout_height="wrap_content"
-                android:textColor="@color/guest_text_color"
-                android:gravity="center"
-                android:textSize="30sp" />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="895"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <com.efrobot.guest.utils.ui.CircleView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
+                android:gravity="center"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:text="左3"
                 android:textColor="@color/guest_text_color"
-                android:text="@string/distance_unit"
-                android:textSize="@dimen/textsize_26" />
+                android:textSize="@dimen/textsize_20" />
+
+            <TextView
+                android:id="@+id/ul_place_test_edit2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="895"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <com.efrobot.guest.utils.ui.CircleView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
+                android:gravity="center"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:text="中1"
+                android:textColor="@color/guest_text_color"
+                android:textSize="@dimen/textsize_20" />
+
+            <TextView
+                android:id="@+id/ul_place_test_edit1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="895"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <com.efrobot.guest.utils.ui.CircleView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
+                android:gravity="center"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:text="右3"
+                android:textColor="@color/guest_text_color"
+                android:textSize="@dimen/textsize_20" />
+
+            <TextView
+                android:id="@+id/ul_place_test_edit8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="895"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <com.efrobot.guest.utils.ui.CircleView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
+                android:gravity="center"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:text="右1"
+                android:textColor="@color/guest_text_color"
+                android:textSize="@dimen/textsize_20" />
+
+            <TextView
+                android:id="@+id/ul_place_test_edit7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="895"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/setting_page_view_height"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-            <TextView
+            <com.efrobot.guest.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/guest_text_color"
-                android:text="下右："
-                android:textSize="@dimen/textsize_26" />
-
-            <TextView
-                android:id="@+id/ul_place_test_edit4"
-                android:layout_width="@dimen/margin_100"
-                android:layout_height="wrap_content"
-                android:textColor="@color/guest_text_color"
+                android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:textSize="30sp" />
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:text="左2"
+                android:textColor="@color/guest_text_color"
+                android:textSize="@dimen/textsize_20" />
 
             <TextView
+                android:id="@+id/ul_place_test_edit11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="895"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <com.efrobot.guest.utils.ui.CircleView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
+                android:gravity="center"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:text="左4"
                 android:textColor="@color/guest_text_color"
-                android:text="@string/distance_unit"
-                android:textSize="@dimen/textsize_26" />
+                android:textSize="@dimen/textsize_20" />
+
+            <TextView
+                android:id="@+id/ul_place_test_edit10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="895"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <com.efrobot.guest.utils.ui.CircleView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
+                android:gravity="center"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:text="中2"
+                android:textColor="@color/guest_text_color"
+                android:textSize="@dimen/textsize_20" />
+
+            <TextView
+                android:id="@+id/ul_place_test_edit9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="895"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <com.efrobot.guest.utils.ui.CircleView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
+                android:gravity="center"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:text="右4"
+                android:textColor="@color/guest_text_color"
+                android:textSize="@dimen/textsize_20" />
+
+            <TextView
+                android:id="@+id/ul_place_test_edit13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="895"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <com.efrobot.guest.utils.ui.CircleView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
+                android:gravity="center"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:text="右2"
+                android:textColor="@color/guest_text_color"
+                android:textSize="@dimen/textsize_20" />
+
+            <TextView
+                android:id="@+id/ul_place_test_edit12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="895"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
     </LinearLayout>

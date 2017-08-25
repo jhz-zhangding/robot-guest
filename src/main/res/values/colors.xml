@@ -69,4 +69,6 @@
     <drawable name="drawable_gap">#00ffff</drawable>
     <color name="transcribe_text_color">#FF9000</color>
     <color name="gray">#e3e3e3</color>
+    <color name="rounded_image_color">#269ED6</color>
+    <color name="ultrasonic_setting_color">#096ACC</color>
 </resources>
