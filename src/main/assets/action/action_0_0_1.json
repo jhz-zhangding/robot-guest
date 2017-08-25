@@ -1,0 +1,36 @@
+{
+  "actions": [
+    {   "message": "1、头右转到右10度，2、灯带最亮，3、头左转到左10度，4、头部归位灯带灭",
+      "next_action_time": 900,
+      "head": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 130
+      },
+      "light_belt": {
+        "brightness": 240
+      }
+    },
+    {
+
+      "next_action_time": 1800,
+      "head": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 110
+      }
+    },
+    {
+      "next_action_time": 900,
+      "message": "归位",
+      "head": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 120
+      },
+      "light_belt": {
+        "brightness": 0
+      }
+    }
+  ]
+}

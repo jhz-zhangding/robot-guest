@@ -1,0 +1,141 @@
+{
+    "actions": [
+        {
+            "message": "身体右转30度，头左转30°，灯带亮度240，双翅膀110度。",
+            "next_action_time": 750,
+            "wheel": {
+                "direction": "right_angle",
+                "speed": 400,
+                "angle": 30
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 90
+            },
+            "light_belt": {
+                "brightness": 240
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        { "message": "身体向左30度，头右转30度，双翅膀20度",
+            "next_action_time": 750,
+            "wheel": {
+                "direction": "left_angle",
+                "speed": 400,
+                "angle": 30
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 150
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            }
+        },
+        { "message": "双翅膀抬110度",
+            "next_action_time": 600,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        { "message": "身体右转30度，头部左转30度，双翅膀抬20度",
+            "next_action_time": 750,
+            "wheel": {
+                "direction": "right_angle", 
+                "speed": 400,
+                "angle": 30
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 90
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            }
+        },
+        { "message": "双翅膀抬110度",
+            "next_action_time": 600,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        { "message": "身体左转30度，头右转30度，双翅膀抬20度",
+            "next_action_time": 750,
+            "wheel": {
+                "direction": "left_angle",
+                "speed": 400,
+                "angle": 30
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 150
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            }
+        },
+        { "message": "双翅膀抬起110度",
+            "next_action_time": 600,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        { "message": "身体右转30度，头归位，双翅膀20度。",
+            "next_action_time": 750,
+            "wheel": {
+                "direction": "right_angle",
+                "speed": 400,
+                "angle": 30
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 120
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            }
+        },
+        { "message": "轮子停止，头归位，灯带0度，双翅膀归位",
+         "next_action_time": 750,
+            "wheel": {
+                "direction": "stop"
+            },
+            "head": {
+                "direction": "move",
+                "speed": 80,
+                "angle": 120
+            },
+            "light_belt": {
+                "brightness": 0
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            }
+        }
+    ]
+}

@@ -1,0 +1,108 @@
+{
+    "actions": [
+        {
+            "message": "头部右转50°，左轮不动，右轮向后3s→头部左转，50+50°右轮不动，左轮向后3s→原地头部归位。灯带闪动至动作结束--
+			右轮后退，头部右转50度，灯带最亮240",
+            "next_action_time": 500,
+            "right_wheel": {
+                "direction": "back",
+                "speed": 200
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 170
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0",
+            "next_action_time": 500,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240",
+            "next_action_time": 500,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0",
+            "next_action_time": 500,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240",
+            "next_action_time": 500,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "右轮停止，灯带亮度0",
+            "next_action_time": 500,
+            "right_wheel": {
+                            "direction": "stop"
+                        },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "左轮后退，头部停止，灯带亮度240",
+            "next_action_time": 500,
+
+            "left_wheel": {
+                "direction": "back",
+                "speed": 200
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 120
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0",
+            "next_action_time": 500,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240",
+            "next_action_time": 500,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0",
+            "next_action_time": 500,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240",
+            "next_action_time": 500,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "左轮停止，头部归位，灯带亮度0",
+            "next_action_time": 500,
+            "left_wheel": {
+                "direction": "stop"
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 120
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

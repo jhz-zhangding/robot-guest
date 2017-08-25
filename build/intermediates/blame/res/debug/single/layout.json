@@ -100,6 +100,10 @@
         "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\face_action_item.xml"
     },
     {
+        "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\layout\\ul_picture_dialog.xml",
+        "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\ul_picture_dialog.xml"
+    },
+    {
         "merged": "G:\\AndroidProject\\robot-guests\\build\\intermediates\\res\\merged\\debug\\layout\\activity_explain.xml",
         "source": "G:\\AndroidProject\\robot-guests\\src\\main\\res\\layout\\activity_explain.xml"
     },

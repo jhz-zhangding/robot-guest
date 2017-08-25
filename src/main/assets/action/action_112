@@ -1,0 +1,33 @@
+{
+ 
+  "actions": [
+ 
+    {
+      "next_action_time": 800,
+      "message": "头右转10度，右翅膀抬110度",
+      "head": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 130
+      },
+      "right_wing": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 110
+      }
+    },
+    {"message": "归位",
+    "next_action_time": 200,
+      "head": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 120
+      },
+      "right_wing": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 0
+      }
+    }
+  ]
+}

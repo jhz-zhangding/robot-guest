@@ -1,0 +1,64 @@
+{
+    "actions": [
+        {
+            "light_belt": {
+                "brightness": 100
+            },
+            "next_action_time": 500
+        },
+        {
+            "light_belt": {
+                "brightness": 0
+            },
+            "next_action_time": 500
+        },
+        {
+            "light_belt": {
+                "brightness": 100
+            },
+            "next_action_time": 500
+        },
+        {
+            "light_belt": {
+                "brightness": 0
+            },
+            "next_action_time": 500
+        },
+        {
+            "light_belt": {
+                "brightness": 100
+            },
+            "next_action_time": 500
+        },
+        {
+            "light_belt": {
+                "brightness": 0
+            },
+            "next_action_time": 500
+        },
+        {
+            "light_belt": {
+                "brightness": 100
+            },
+            "next_action_time": 500
+        },
+        {
+            "light_belt": {
+                "brightness": 0
+            },
+            "next_action_time": 500
+        },
+        {
+            "light_belt": {
+                "brightness": 100
+            },
+            "next_action_time": 500
+        },
+        {
+            "light_belt": {
+                "brightness": 0
+            },
+            "next_action_time": 500
+        }
+    ]
+}

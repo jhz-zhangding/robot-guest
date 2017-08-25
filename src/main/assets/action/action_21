@@ -1,0 +1,122 @@
+{
+    "actions": [
+        {
+            "message": "右轮后退，头部右转50度，灯带最亮240，双翅膀抬到45度",
+            "next_action_time": 500,
+            "right_wheel": {
+                "direction": "back",
+                "speed": 200
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 170
+            },
+            "light_belt": {
+                "brightness": 240
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 45
+            }
+        },
+        {"message": "右轮前进，灯带亮度0",
+            "next_action_time": 750,
+            "right_wheel": {
+                "direction": "front",
+                "speed": 200
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "右轮后退，灯带亮度240",
+            "next_action_time": 750,
+            "right_wheel": {
+                "direction": "back",
+                "speed": 200
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "右轮前进，灯带亮度0",
+            "next_action_time": 750,
+            "right_wheel": {
+                "direction": "front",
+                "speed": 200
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "右轮停止",
+            "right_wheel": {
+                "direction": "stop"
+            }
+        },
+        {"message": "左轮后退，头部左转50度，灯带亮度240",
+            "next_action_time": 750,
+            "left_wheel": {
+                "direction": "back",
+                "speed": 200
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 70
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "左轮前进，灯带亮度0",
+            "next_action_time": 750,
+            "left_wheel": {
+                "direction": "front",
+                "speed": 200
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "左轮后退，灯带亮度240",
+            "next_action_time": 750,
+            "left_wheel": {
+                "direction": "back",
+                "speed": 200
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "左轮前进，灯带亮度0",
+            "next_action_time": 750,
+            "left_wheel": {
+                "direction": "front",
+                "speed": 200
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "左轮停止，头部归位，双翅膀归位",
+            "next_action_time": 250,
+            "left_wheel": {
+                "direction": "stop",
+                "speed": 200
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 120
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            }
+        }
+    ]
+}

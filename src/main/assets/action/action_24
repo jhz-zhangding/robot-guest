@@ -1,0 +1,76 @@
+{
+    "actions": [
+        {"message": "右轮前进，头部右转60度，双翅膀-左翅膀抬到55度，右翅膀抬到90度",
+            "next_action_time": 1500,
+            "right_wheel": {
+                "direction": "front",
+                "speed": 300
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 180
+            },
+            "wing": {
+                "direction": "move",
+                "left_speed": 100,
+                "left_angle": 55,
+                "right_speed": 100,
+                "right_angle": 90
+            }
+        },
+        {"message": "右轮停止，双翅膀停止",
+		 "next_action_time": 300,
+            "right_wheel": {
+                "direction": "stop"
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            }
+        },
+        {
+            "message": "左轮前进，头部左转60度，双翅膀-左翅膀抬到90度，右翅膀抬到55度，灯带最亮240度",
+            "next_action_time": 1000,
+            "left_wheel": {
+                "direction": "front",
+                "speed": 300
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 60
+            },
+            "wing": {
+                "direction": "move",
+                "left_speed": 100,
+                "left_angle": 90,
+                "right_speed": 100,
+                "right_angle": 55
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "左轮停止，头部归位，双翅膀停止，灯带灭掉0度",
+            "next_action_time": 200,
+            "left_wheel": {
+                "direction": "stop"
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 120
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

@@ -1,0 +1,116 @@
+{
+    "actions": [
+      
+        {
+            "message": "调皮坏笑呲牙憨笑,全抬翅膀，快扇翅膀X5，灯带闪烁",
+            "next_action_time": 600,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 200,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {
+            "next_action_time": 600,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 200,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {
+            "next_action_time": 600,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 200,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {
+            "next_action_time": 600,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 200,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle":20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {
+            "next_action_time": 600,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 200,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

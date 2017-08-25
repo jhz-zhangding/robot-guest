@@ -16,6 +16,7 @@ import com.efrobot.guest.dao.SettingDao;
 import com.efrobot.guest.dao.UltrasonicDao;
 import com.efrobot.guest.db.DbHelper;
 import com.efrobot.guest.main.MainActivity;
+import com.efrobot.guest.service.UltrasonicService;
 import com.efrobot.guest.setting.SettingPresenter;
 import com.efrobot.guest.utils.GuestDes3Util;
 import com.efrobot.guest.utils.PreferencesUtils;
@@ -43,6 +44,8 @@ public class GuestsApplication extends Application {
     private String mRogotSnNumber;
 
     private boolean isPrintCrashLog = true;
+
+    public UltrasonicService ultrasonicService;
 
     @Override
     public void onCreate() {
@@ -139,6 +142,10 @@ public class GuestsApplication extends Application {
         if (context != null)
             return (GuestsApplication) context.getApplicationContext();
         else return null;
+    }
+
+    public void setUltrasonicService(UltrasonicService ultrasonicService) {
+        this.ultrasonicService = ultrasonicService;
     }
 
     /**

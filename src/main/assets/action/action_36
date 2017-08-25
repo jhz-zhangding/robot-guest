@@ -1,0 +1,69 @@
+{
+    "actions": [
+        {
+            "next_action_time": 550,
+            "message": "扇动翅膀X4:翅膀抬到110度，20度，来回煽动",
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {
+            "next_action_time": 200,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            }
+        },
+        {
+            "next_action_time": 550,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {
+            "next_action_time": 200,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            }
+        },
+        {
+            "next_action_time": 550,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {
+            "next_action_time": 200,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            }
+        },
+        {
+            "next_action_time": 550,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {  "message": "归位",
+            "next_action_time": 200,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            }
+        }
+    ]
+}

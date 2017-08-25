@@ -1,0 +1,33 @@
+{
+  "actions": [
+    {
+      "next_action_time": 1000,
+      "message": "身体左转45度，灯带最亮240",
+      "wheel": {
+        "direction": "left_angle",
+        "speed": 250,
+        "angle": 45
+      },
+      "light_belt": {
+        "brightness": 240
+      }
+    },
+    {
+    "next_action_time": 1000,
+      "message": "身体右转45度，灯带灭",
+      "wheel": {
+        "direction": "right_angle",
+        "speed": 250,
+        "angle": 45
+      },
+      "light_belt": {
+        "brightness": 0
+      }
+    }，
+	 { "message": "双轮停止",
+                    "wheel": {
+                        "direction": "stop"
+                    }
+                }
+  ]
+}

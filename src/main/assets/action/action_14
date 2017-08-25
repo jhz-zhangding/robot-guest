@@ -1,0 +1,289 @@
+{
+    "actions": [
+        {
+            "message": "撒娇:翅膀：全抬起，左转360°→拍打翅膀X2灯带闪动至动作结束，身体左转360度，
+			双翅膀抬起110度，灯带最亮240",
+            "next_action_time": 850,
+            "wheel": {
+                "direction": "left_angle",
+                "speed": 300,
+                "angle": 360
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        { "message": "双翅膀抬起20度，灯带0度。",
+            "next_action_time": 250,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "双翅膀抬起110度，灯带240度。",
+            "next_action_time": 850,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "双翅膀抬起20度，灯带0度。",
+            "next_action_time": 250,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "双翅膀抬起110度，灯带240度。",
+            "next_action_time": 850,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "双翅膀抬起20度，灯带0度。",
+            "next_action_time": 250,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "双翅膀抬起110度，灯带240度。",
+            "next_action_time": 850,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "双翅膀抬起20度，灯带0度。",
+            "next_action_time": 250,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "双翅膀抬起110度，灯带240度。",
+            "next_action_time": 850,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "双翅膀抬起20度，灯带0度。",
+            "next_action_time": 250,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "双翅膀抬起110度，灯带240度。",
+            "next_action_time": 850,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "双翅膀抬起20度，灯带0度。",
+            "next_action_time": 250,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "双翅膀抬起110度，灯带240度。",
+            "next_action_time": 850,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "双翅膀抬起20度，灯带0度。",
+            "next_action_time": 250,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "双翅膀抬起110度，灯带240度。",
+            "next_action_time": 850,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "双翅膀抬起20度，灯带0度。",
+            "next_action_time": 250,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "双翅膀抬起110度，灯带240度。",
+            "next_action_time": 850,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "双翅膀抬起20度，灯带0度。",
+            "next_action_time": 250,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "双翅膀抬起110度，灯带240度。",
+            "next_action_time": 850,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "双翅膀抬起20度，灯带0度。",
+            "next_action_time": 250,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "双翅膀抬起110度，灯带240度。",
+            "next_action_time": 850,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "双翅膀抬起20度，灯带0度。",
+            "next_action_time": 250,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "双翅膀抬起110度，灯带240度。",
+            "next_action_time": 850,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "双翅膀抬起20度，灯带0度。",
+            "next_action_time": 250,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "归位。轮子停止，翅膀归位，灯带归位",
+        "next_action_time": 300,
+            "wheel": {
+                "direction": "stop"
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

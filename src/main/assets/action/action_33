@@ -1,0 +1,21 @@
+{
+    "actions": [
+        {"message": "举左手:左手抬起110",
+            "next_action_time": 1500,
+            "left_wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {
+            "next_action_time": 1500,
+            "message": "左翅膀归位",
+            "left_wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            }
+        }
+    ]
+}

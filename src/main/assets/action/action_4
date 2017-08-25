@@ -1,0 +1,58 @@
+{
+    "actions": [
+        {
+            "message": "翅膀抬起110度",
+            "next_action_time": 400,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {
+            "message": "翅膀抬起20度",
+            "next_action_time": 400,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            }
+        },
+        {
+            "message": "翅膀抬起110度",
+            "next_action_time": 400,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {
+            "message": "翅膀抬起20度",
+            "next_action_time": 400,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            }
+        },
+        {
+            "message": "翅膀抬起110度",
+            "next_action_time": 400,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {
+            "message": "翅膀归位",
+            "next_action_time": 400,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            }
+        }
+    ]
+}

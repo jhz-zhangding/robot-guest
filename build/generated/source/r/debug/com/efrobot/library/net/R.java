@@ -15,7 +15,7 @@ public final class R {
 		public static final int padding_top_bottom = 0x7f07004c;
 	}
 	public static final class id {
-		public static final int toast_title = 0x7f0a009b;
+		public static final int toast_title = 0x7f0a00a1;
 	}
 	public static final class layout {
 		public static final int toast_business_layout = 0x7f04001e;

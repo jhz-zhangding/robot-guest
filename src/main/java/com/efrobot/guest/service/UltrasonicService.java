@@ -1,10 +1,12 @@
 package com.efrobot.guest.service;
 
+import android.app.Dialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.IBinder;
@@ -12,10 +14,13 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.efrobot.guest.GuestsApplication;
 import com.efrobot.guest.R;
-import com.efrobot.guest.bean.Action_Wheel;
 import com.efrobot.guest.bean.ItemsContentBean;
 import com.efrobot.guest.bean.UlPlaceBean;
 import com.efrobot.guest.dao.DataManager;
@@ -23,6 +28,9 @@ import com.efrobot.guest.dao.UltrasonicDao;
 import com.efrobot.guest.setting.SettingActivity;
 import com.efrobot.guest.setting.SettingPresenter;
 import com.efrobot.guest.utils.ActivityManager;
+import com.efrobot.guest.utils.BitmapUtils;
+import com.efrobot.guest.utils.FileUtils;
+import com.efrobot.guest.utils.MusicPlayer;
 import com.efrobot.guest.utils.PreferencesUtils;
 import com.efrobot.guest.utils.TtsUtils;
 import com.efrobot.library.RobotManager;
@@ -33,10 +41,7 @@ import com.efrobot.library.task.NavigationManager;
 import com.efrobot.library.task.SpeechGroupManager;
 import com.efrobot.speechsdk.SpeechManager;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,6 +50,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 迎宾执行功能
@@ -92,6 +99,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     private List<ItemsContentBean> itemsStartContents;
     private List<ItemsContentBean> itemsEndContents;
+    private String light;
+    private Dialog dialog;
+
+    private MusicPlayer mediaPlayer;
 
     @Override
     public void onCreate() {
@@ -105,6 +116,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         IsRunning = true;
         groupManager = RobotManager.getInstance(this.getApplicationContext()).getGroupInstance();
         mGroupTask = SpeechGroupManager.getInstance(RobotManager.getInstance(getApplicationContext()));
+        GuestsApplication.from(this).setUltrasonicService(this);
         //注册盖子
         registerLiboard();
         //导航监听轮子变化
@@ -114,6 +126,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         // 1:开始迎宾 2:结束迎宾
         itemsStartContents = DataManager.getInstance(UltrasonicService.this).queryItem(1);
         itemsEndContents = DataManager.getInstance(UltrasonicService.this).queryItem(2);
+
+        mediaPlayer = new MusicPlayer(null);
 
         if (itemsStartContents == null || itemsStartContents.size() == 0) {
             showToast("请设置欢迎语");
@@ -126,8 +140,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     public void initGuestData() {
         //播放模式
-        startPlayMode = PreferencesUtils.getInt(this, SettingActivity.SP_START_PLAY_MODE, 1);
-        stopPlayMode = PreferencesUtils.getInt(this, SettingActivity.SP_STOP_PLAY_MODE, 1);
+        startPlayMode = PreferencesUtils.getInt(this, SettingActivity.SP_START_PLAY_MODE, 0);
+        stopPlayMode = PreferencesUtils.getInt(this, SettingActivity.SP_STOP_PLAY_MODE, 0);
         //交流时间
         String voiceTime = PreferencesUtils.getString(this.getApplicationContext(), SettingPresenter.SP_VOICE_TIME);
         if (voiceTime != null && !voiceTime.isEmpty()) {
@@ -183,16 +197,29 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         @Override
         public void onStart() {
             //开始执行脚本动作
-
+            currentCount++;
         }
 
         @Override
         public void onStop() {
-            //脚本动作结束
+            showTip("执行动作结束");
+            if (actionList.size() > 0) {
+                if (currentCount > actionList.size() - 1) {
+                    isActionFinish = true;
+                    openSpeechDiscern();
+                } else {
+                    L.i("执行动作", "currentCount = " + currentCount);
+                    mHandle.sendEmptyMessage(PLAY_MORE_ACTION);
+                }
+            }
 
         }
     };
 
+    private final int PLAY_MORE_ACTION = 100;
+    private final int LIGHT_END = 101;
+    private final int LIGHT_OPEN = 102;
+    private final int LIGHT_CLOSE = 103;
 
     private boolean isReceiveData = false;
 
@@ -235,7 +262,34 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     RobotManager.getInstance(getApplicationContext()).registerOnGetUltrasonicCallBack(UltrasonicService.this);
                     //超声波初始化
                     sendTestUltrasonic(false);
-
+                    break;
+                case PLAY_MORE_ACTION:
+                    checkAction(actionList.get(currentCount));
+                    break;
+                case LIGHT_OPEN:
+                    //开 灯带
+                    L.e("LIGHT_TAG", "灯带开---------------");
+                    RobotManager.getInstance(UltrasonicService.this).getControlInstance().setLightBeltBrightness(240);
+                    if (light.equals("2")) {
+                        sendEmptyMessageDelayed(LIGHT_CLOSE, 250);
+                    }
+                    break;
+                case LIGHT_END:
+                    showTip("执行灯带结束");
+                    light = "-1";
+                    removeMessages(LIGHT_OPEN);
+                    removeMessages(LIGHT_CLOSE);
+                    RobotManager.getInstance(UltrasonicService.this).getControlInstance().setLightBeltBrightness(0);
+                    isLightFinish = true;
+                    openSpeechDiscern();
+                    break;
+                case LIGHT_CLOSE:
+                    //关 灯带
+                    L.e("LIGHT_TAG", "灯带关---------------");
+                    RobotManager.getInstance(UltrasonicService.this).getControlInstance().setLightBeltBrightness(0);
+                    if (light.equals("2")) {
+                        sendEmptyMessageDelayed(LIGHT_OPEN, 250);
+                    }
                     break;
             }
         }
@@ -314,7 +368,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                             mIsExecute = true;
                             //执行动作等
                             isWelcomeTTsStart = true;
-                            SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
                             startPlay(START_GUEST_STRING);
                             L.i(TAG, "-------openSpeechDiscern");
                         }
@@ -331,14 +384,18 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
 
                     farDistanceNum++;
-                    L.i(TAG, "开始计时 farDistanceNum:" + farDistanceNum + "---isAllFaraway() = " + isAllFaraway() + "---isTimer = " + isTimer + "---mIsExecute = " + mIsExecute + "---isWelcomeTTsStart=" + isWelcomeTTsStart);
+                    L.i(TAG, "开始计时 farDistanceNum:" + farDistanceNum + "---isAllFaraway() = " + isAllFaraway() + "---isTimer = " +
+                            isTimer + "---mIsExecute = " + mIsExecute + "---isWelcomeTTsStart=" + isWelcomeTTsStart);
                     //全部检测
                     if (farDistanceNum >= NUM_FARVALUE * customNumber) {
-                        //全部检测无人, 开始计时
+                        //全部检测无人, 所有执行完毕, 开始计时
                         if (!isTimer && mIsExecute && !isWelcomeTTsStart) {
-                            isTimer = true;
-                            L.i(TAG, "mIsExecute=" + mIsExecute);
-                            han.sendEmptyMessageDelayed(START_TIMER_GUEST, 1000);
+                            if (isTtsFinish == true && isFaceFinish == true && isLightFinish == true && isMusicFinish == true &&
+                                    isPictureFinish == true && isActionFinish == true && isMediaFinish == true) {
+                                isTimer = true;
+                                L.i(TAG, "mIsExecute=" + mIsExecute);
+                                han.sendEmptyMessageDelayed(START_TIMER_GUEST, 1000);
+                            }
                         }
 
                         //离开n秒 检测机制
@@ -371,6 +428,16 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         return false;
     }
 
+    private boolean isAllPlayFinish() {
+        boolean allFinish = false;
+        L.e("isAllPlayFinish", "isTtsFinish = " + isTtsFinish + "--isFaceFinish = " + isFaceFinish + "--isLightFinish = " + isLightFinish + "--isMusicFinish = " + isMusicFinish + "--isPictureFinish = " + isPictureFinish +
+                "--isActionFinish = " + isActionFinish + "--isMediaFinish = " + isMediaFinish);
+        if (isTtsFinish == true && isFaceFinish == true && isLightFinish == true && isMusicFinish == true &&
+                isPictureFinish == true && isActionFinish == true && isMediaFinish == true) {
+            allFinish = true;
+        }
+        return allFinish;
+    }
 
     private String START_GUEST_STRING = "开始迎宾";
     private String STOP_GUEST_STRING = "结束迎宾";
@@ -381,50 +448,291 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private int mStartCurrentIndex = -1;
     private int mEndCurrentIndex = -1;
 
+    public boolean isPlayPicture = false;
+
+    private boolean isFaceFinish, isTtsFinish, isLightFinish, isActionFinish, isMediaFinish, isMusicFinish, isPictureFinish;
+
     /**
      * type 0：开始迎宾 1：结束迎宾
      */
     private void startPlay(String typeStr) {
-        ItemsContentBean itemsContentBean = null;
+
+        isTtsFinish = false;
+        isFaceFinish = false;
+        isLightFinish = false;
+        isActionFinish = false;
+        isMediaFinish = false;
+        isMusicFinish = false;
+        isPictureFinish = false;
+
+        ItemsContentBean currentBean = null;
         if (START_GUEST_STRING.equals(typeStr)) {
-            if (startPlayMode == ORDER_PLAY) {
-                mStartCurrentIndex++;
-                if (mStartCurrentIndex > (itemsStartContents.size() - 1)) {
-                    mStartCurrentIndex = 0;
+            if(itemsStartContents != null && itemsStartContents.size() > 0) {
+                if (startPlayMode == ORDER_PLAY) {
+                    mStartCurrentIndex++;
+                    if (mStartCurrentIndex > (itemsStartContents.size() - 1)) {
+                        mStartCurrentIndex = 0;
+                    }
+                } else if (startPlayMode == RANDOM_PLAY) {
+                    mStartCurrentIndex = (int) (Math.random() * ((itemsStartContents.size() - 1)));
                 }
-            } else if (startPlayMode == RANDOM_PLAY) {
-                mStartCurrentIndex = (int) (Math.random() * ((itemsStartContents.size() - 1)));
+                currentBean = itemsStartContents.get(mStartCurrentIndex);
             }
-            itemsContentBean = itemsStartContents.get(mStartCurrentIndex);
         } else if (STOP_GUEST_STRING.equals(typeStr)) {
-            if (stopPlayMode == ORDER_PLAY) {
-                mEndCurrentIndex++;
-                if (mEndCurrentIndex > (itemsEndContents.size() - 1)) {
-                    mEndCurrentIndex = 0;
+            if(itemsEndContents != null && itemsEndContents.size() > 0) {
+                if (stopPlayMode == ORDER_PLAY) {
+                    mEndCurrentIndex++;
+                    if (mEndCurrentIndex > (itemsEndContents.size() - 1)) {
+                        mEndCurrentIndex = 0;
+                    }
+                } else if (stopPlayMode == RANDOM_PLAY) {
+                    mEndCurrentIndex = (int) (Math.random() * ((itemsEndContents.size() - 1)));
                 }
-            } else if (stopPlayMode == RANDOM_PLAY) {
-                mEndCurrentIndex = (int) (Math.random() * ((itemsEndContents.size() - 1)));
+                currentBean = itemsEndContents.get(mEndCurrentIndex);
             }
-            itemsContentBean = itemsEndContents.get(mEndCurrentIndex);
         }
 
+        if(currentBean != null) {
+            L.e("startPlay", "itemsStartContents = " + itemsStartContents.get(0).toString());
+            L.e("startPlay", "currentBean = " + currentBean.toString());
+            //广告语和表情
+            if (!TextUtils.isEmpty(currentBean.getOther())) {
+                closeTTs();
+                if (!TextUtils.isEmpty(currentBean.getFace())) {
+                    TtsUtils.sendTts(getApplicationContext(), currentBean.getOther() + "@#;" + currentBean.getFace());
+                } else
+                    TtsUtils.sendTts(getApplicationContext(), currentBean.getOther());
+            } else {
+                isTtsFinish = true;
+                isFaceFinish = true;
+            }
 
-        if (!TextUtils.isEmpty(itemsContentBean.getOther())) {
-            closeTTs();
-            TtsUtils.sendTts(getApplicationContext(), itemsContentBean.getOther());
+            //多动作播放
+            executeAction(currentBean);
+
+            //灯带
+            executeLight(currentBean);
+
+            if (!TextUtils.isEmpty(currentBean.getMedia())) {
+
+                if (currentBean.getMedia().toLowerCase().endsWith(".mp4")) {
+                    //播放视频
+                    playAudio(currentBean.getMedia());
+                    isPictureFinish = true;
+                } else {
+                    //播放图片
+                    //正在播放图片
+                    isPlayPicture = true;
+                    if (!TextUtils.isEmpty(currentBean.getMedia())) {
+                        File mFile = new File(currentBean.getMedia());
+                        if (mFile.exists()) {
+                            dialog = new Dialog(this, R.style.Dialog_Fullscreen);
+                            View currentView = LayoutInflater.from(UltrasonicService.this).inflate(R.layout.ul_picture_dialog, null);
+                            ImageView adPlayerPic = (ImageView) currentView.findViewById(R.id.ul_picture_img);
+                            playAdPicture(adPlayerPic, mFile);
+                            dialog.setContentView(currentView);
+                            dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+                            dialog.show();
+                        }
+                    }
+                    isMediaFinish = true;
+                }
+            } else {
+                isPictureFinish = true;
+                isMediaFinish = true;
+            }
+
+            //播放音乐
+            if (!TextUtils.isEmpty(currentBean.getMusic())) {
+                playMusic(currentBean.getMusic());
+            } else isMusicFinish = true;
+        }
+    }
+
+    /**
+     * 执行动作
+     *
+     * @param currentBean 当前Bean
+     */
+    private List<Integer> actionList;
+    private int currentCount;
+
+    private void executeAction(ItemsContentBean currentBean) {
+        actionList = new ArrayList<Integer>();
+        String actionStr = currentBean.getAction();
+        //自带动作
+        if (!TextUtils.isEmpty(actionStr)) {
+            if (actionStr.contains("、")) {
+
+                String[] faceArr = actionStr.split("、");
+                int faceCount = faceArr.length;
+                for (int i = 0; i < faceCount; i++) {
+                    if (!TextUtils.isEmpty(faceArr[i].trim())) {
+                        actionList.add(Integer.parseInt(faceArr[i]));
+                        showTip("faceStr--faceArr->" + faceCount + "     " + faceArr[i]);
+                    }
+                }
+            } else {
+                actionList.add(Integer.parseInt(actionStr));
+            }
         }
 
-        if (!TextUtils.isEmpty(itemsContentBean.getLight())) {
+        if (actionList != null && actionList.size() > 0) {
+            currentCount = 0;
+            checkAction(actionList.get(currentCount));
+        } else
+            isActionFinish = true;
+    }
 
+    /**
+     * 检测动作
+     *
+     * @param action
+     * @return
+     */
+    private void checkAction(int action) {
+        L.i("执行动作", "action = " + action);
+        if (action != -1) {
+            //执行脚本
+            String sport = FileUtils.getActionFile(this, "action/action_" + action);
+            groupManager.execute(sport, groupTaskListener);
+            L.i("执行动作", "actionJson = " + sport);
         }
 
-        if (!TextUtils.isEmpty(itemsContentBean.getFace())) {
+    }
 
+    /**
+     * 播放图片
+     *
+     * @param view, mFile
+     * @return
+     */
+    public void playAdPicture(ImageView view, File mFile) {
+        try {
+            if (mFile != null && mFile.exists()) {
+                Bitmap bitmap = view.getDrawingCache();
+                if (bitmap != null)
+                    bitmap.recycle();
+                Log.d("TAG", "playAdPicture: ...................");
+                Bitmap mp = BitmapUtils.getimage(mFile.getPath());
+                view.setImageBitmap(mp);
+                view.setVisibility(View.VISIBLE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void stopPlayPicture(long time) {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                showTip("图片结束");
+                if (dialog != null) {
+                    isPictureFinish = true;
+                    dialog.dismiss();
+                    openSpeechDiscern();
+                }
+            }
+        }, time);
+    }
+
+    public void ttsEnd() {
+        showTip("说话结束");
+        isTtsFinish = true;
+        isFaceFinish = true;
+        openSpeechDiscern();
+    }
+
+    private void openSpeechDiscern() {
+        if (isAllPlayFinish()) {
+            showTip("开启语音识别");
+            SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
+            TtsUtils.sendTts(getApplicationContext(), "大家来聊聊天吧");
+        }
+    }
+
+    /**
+     * 播放音乐
+     *
+     * @param music 音乐路径
+     */
+    private void playMusic(String music) {
+        //判断文件是否存在
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+        assert mediaPlayer != null;
+        mediaPlayer.playUrl(music, new MusicPlayer.OnMusicCompletionListener() {
+            @Override
+            public void onCompletion(boolean isPlaySuccess) {
+                showTip("执行播放音乐结束");
+                isMusicFinish = true;
+                openSpeechDiscern();
+            }
+
+            @Override
+            public void onPrepare(int Duration) {
+
+            }
+        });
+
+    }
+
+    /**
+     * 执行灯带
+     *
+     * @param currentBean
+     * @return null
+     */
+    private void executeLight(ItemsContentBean currentBean) {
+        light = currentBean.getLight();
+        if (TextUtils.isEmpty(light)) {
+            light = "1";
         }
 
-        if (!TextUtils.isEmpty(itemsContentBean.getAction())) {
+        if (!light.equals("1")) {
+            /***
+             * 0开  或者  2闪烁
+             */
+            String time = "0";
 
+            isLightFinish = false;
+
+            if (light.equals("0")) {
+                time = currentBean.getOpenLightTime();
+            } else if (light.equals("2")) {
+                time = currentBean.getFlickerLightTime();
+            }
+
+            if (mHandle != null) {
+                if (TextUtils.isEmpty(time)) {
+                    isLightFinish = true;
+                    /***
+                     * 关
+                     */
+                    if (mHandle != null)
+                        mHandle.sendEmptyMessage(LIGHT_END);
+                } else {
+                    mHandle.sendEmptyMessage(LIGHT_OPEN);
+                    /***
+                     * 关闭
+                     */
+                    mHandle.sendEmptyMessageDelayed(LIGHT_END, (long) (Float.parseFloat(time) * 1000));
+                }
+
+            }
+        } else {
+            /***
+             * 关
+             */
+            if (mHandle != null)
+                mHandle.sendEmptyMessage(LIGHT_END);
         }
+    }
+
+    private void showTip(String s) {
+        L.e("迎宾", s);
     }
 
     private final int START_TIMER_GUEST = 0;
@@ -599,8 +907,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     //关闭
     private void closeRepeatLight() {
-        IsOpenRepeatLight = false;
-        mHandle.removeMessages(1);
         RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(0);
     }
 
@@ -717,8 +1023,11 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mediaPlayer) {
-                    player.start();
-                    player.setLooping(true);
+//                    player.start();
+//                    player.setLooping(true);
+                    showTip("播放视频结束");
+                    isMediaFinish = true;
+                    openSpeechDiscern();
                 }
             });
             player.prepare();
@@ -744,67 +1053,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         }
     }
 
-    /**
-     * 创建wheel的json
-     */
-    private String wheelJson = "";
-
-    private boolean cerateWheelJson(List<Action_Wheel> list_Wheel) {
-        Log.e("zhang", "size==" + list_Wheel.size());
-        if (list_Wheel.isEmpty())
-            return true;
-        JSONArray jsonArray = new JSONArray();
-        JSONObject jsonObject2 = new JSONObject();
-        JSONObject jsonObject = null;
-        JSONObject tmpObj = null;
-        int count = list_Wheel.size();
-        try {
-            for (int i = 0; i < count; i++) {
-                tmpObj = new JSONObject();
-                jsonObject = new JSONObject();
-
-
-                if (list_Wheel.get(i).getDirection().equals("无")) {
-                    tmpObj.put("direction", "stop");
-                } else if (list_Wheel.get(i).getDirection().equals("前进")) {
-                    tmpObj.put("direction", "front");
-                } else if (list_Wheel.get(i).getDirection().equals("后退")) {
-                    tmpObj.put("direction", "back");
-                } else if (list_Wheel.get(i).getDirection().equals("左转")) {
-                    tmpObj.put("direction", "left");
-                } else if (list_Wheel.get(i).getDirection().equals("右转")) {
-                    tmpObj.put("direction", "right");
-                }
-
-
-                tmpObj.put("directionspinner", list_Wheel.get(i).getDirection());
-
-                if (!list_Wheel.get(i).getAngle().equals("无")) {
-                    tmpObj.put("angle", list_Wheel.get(i).getAngle());
-                }
-                if (!list_Wheel.get(i).getSpeed().equals("无")) {
-                    tmpObj.put("speed", list_Wheel.get(i).getSpeed());
-                }
-                jsonObject.put("wheel", tmpObj);
-                if (!list_Wheel.get(i).getNext_action_time().equals("无")) {
-                    jsonObject.put("next_action_time", list_Wheel.get(i).getNext_action_time());
-                } else {
-                    wheelJson = "";
-                    showToast("轮子动作时间不能为空");
-                    return false;
-                }
-                jsonArray.put(jsonObject);
-            }
-            if (jsonArray.length() > 0) {
-                jsonObject2.put("actions", jsonArray);
-                wheelJson = jsonObject2.toString();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
 
     //退出播放自定义
     private void stopCustomMode() {
@@ -888,7 +1136,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 boolean isOpen = intent.getBooleanExtra(KEYCODE_MASK_OPEN, false);
                 boolean isOpening = intent.getBooleanExtra(KEYCODE_MASK_ONPROGRESS, false);
                 if (isOpen || isOpening) {
-                    closeAllCallBack();
+                    closeEveryOne();
                     stopSelf();
                     unregisterReceiver(lidBoardReceive);
                 }
@@ -1000,10 +1248,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     @Override
     public void onDestroy() {
         super.onDestroy();
-        closeAllCallBack();
+        closeEveryOne();
     }
 
-    private void closeAllCallBack() {
+    private void closeEveryOne() {
         IsRunning = false;
         L.i(TAG, "onDestroy");
 //        closeUltrasonic(this);// 关闭超声波，暂不关
@@ -1013,7 +1261,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 //        RobotManager.getInstance(this).unRegisterOnGetInfraredCallBack();
         RobotManager.getInstance(this).getNavigationInstance().unRegisterOnNavigationStateChangeListener(this);
         RobotManager.getInstance(this).unRegisterOnWheelStateChangeListener();
-        closeRepeatLight();
+
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
 
         if (han != null) {
             han.removeMessages(START_TIMER_GUEST);
@@ -1026,7 +1276,12 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             mHandle.removeMessages(6);
             mHandle.removeMessages(7);
             mHandle.removeMessages(8);
+            mHandle.removeMessages(LIGHT_CLOSE);
+            mHandle.removeMessages(LIGHT_END);
+            mHandle.removeMessages(LIGHT_OPEN);
         }
+        closeRepeatLight();
+        mHandle = null;
     }
 
 }

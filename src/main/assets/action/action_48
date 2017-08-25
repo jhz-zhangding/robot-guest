@@ -1,0 +1,86 @@
+{
+    "actions": [
+        {
+            "message": "疑问,灯带长亮3秒。头左转25度，翅膀扇动X2。→归位
+			头左转25度，灯带最亮240，双翅膀110度",
+            "next_action_time": 750,
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 95
+            },
+            "light_belt": {
+                "brightness": 240
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        { "message": "头左转25度，灯带最亮240，双翅膀20度",
+            "next_action_time": 750,
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 95
+            },
+            "light_belt": {
+                "brightness": 240
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            }
+        },
+        {"message": "头归位，灯带最亮240，双翅膀110度",
+            "next_action_time": 600,
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 120
+            },
+            "light_belt": {
+                "brightness": 240
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {"message": "头归位，灯带最亮240，双翅膀20度",
+            "next_action_time": 750,
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 120
+            },
+            "light_belt": {
+                "brightness": 240
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            }
+        },
+        {"message": "头归位，灯带亮度0，双翅膀归位",
+            "next_action_time": 750,
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 120
+            },
+            "light_belt": {
+                "brightness": 0
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            }
+        }
+    ]
+}

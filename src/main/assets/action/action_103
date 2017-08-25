@@ -1,0 +1,27 @@
+{
+    "actions": [
+        {
+            "next_action_time": 1500,
+            "message": "身体左转60°",
+            "wheel": {
+                "direction": "left_angle",
+                "speed": 250,
+                "angle": 60
+            }
+        },
+        {
+            "next_action_time": 1500,
+            "message": "身体右转60°",
+            "wheel": {
+                "direction": "right_angle",
+                "speed": 250,
+                "angle": 60
+            }
+        },
+        { "message": "身体停止",
+            "wheel": {
+                "direction": "stop"
+            }
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "actions": [
+        {
+            "next_action_time": 800,
+            "message": "左翅膀抬起110度,头左转25度，灯带240度",
+            "left_wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 95
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 200,
+            "message": "归位",
+            "left_wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 120
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

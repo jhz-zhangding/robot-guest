@@ -1,0 +1,162 @@
+{
+    "actions": [
+        {
+            "message": "呼吸灯效果一次循环，从0度开始到240度，间隔20进行变换",
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 20
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 40
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 60
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 80
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 100
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 120
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 140
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 160
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 180
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 200
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 220
+            }
+        },
+        {
+            "next_action_time": 1750,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 220
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 200
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 180
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 160
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 140
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 120
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 100
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 80
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 60
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 40
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 20
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {
+            "next_action_time": 50,
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

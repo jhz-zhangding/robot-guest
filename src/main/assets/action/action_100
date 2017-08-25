@@ -1,0 +1,77 @@
+{
+    "actions": [
+        {
+            "message": "灯带闪烁：240度和0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

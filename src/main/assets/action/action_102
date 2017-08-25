@@ -1,0 +1,111 @@
+{
+    "actions": [
+        {
+            "message": "灯带闪烁（0度和240度），双翅膀拍打（20度和110度）：灯带0度，双翅膀0度",
+            "light_belt": {
+                "brightness": 0
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            }
+        },
+        {
+            "message": "灯带240度，双翅膀110度",
+            "next_action_time": 600,
+            "light_belt": {
+                "brightness": 240
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {
+           "message": "灯带0度，双翅膀20度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            }
+        },
+        {
+            "message": "灯带240度，双翅膀110度",
+            "next_action_time": 600,
+            "light_belt": {
+                "brightness": 240
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {
+             "message": "灯带0度，双翅膀20度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            }
+        },
+        {
+            "message": "灯带240度，双翅膀110度",
+            "next_action_time": 600,
+            "light_belt": {
+                "brightness": 240
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {
+            "message": "灯带0度，双翅膀20度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 20
+            }
+        },
+        {
+          "message": "灯带240度，双翅膀110度",
+            "next_action_time": 600,
+            "light_belt": {
+                "brightness": 240
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {
+           "message": "归位",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            }
+        }
+    ]
+}

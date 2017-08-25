@@ -1,0 +1,22 @@
+{
+  "actions": [
+    {
+      "next_action_time": 600,
+      "message": "双翅膀抬到110度",
+      "wing": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 110
+      }
+    },
+    {
+     "next_action_time": 200,
+      "message": "归位",
+      "wing": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 0
+      }
+    }
+  ]
+}

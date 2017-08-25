@@ -1,0 +1,28 @@
+{
+  "actions": [
+    {
+      "next_action_time": 600,
+      "message": "双翅抬起45度，灯带最亮",
+      "wing": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 45
+      },
+      "light_belt": {
+        "brightness": 240
+      }
+    },
+    {
+    "next_action_time": 200,
+      "message": "归位",
+      "wing": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 0
+      },
+      "light_belt": {
+        "brightness": 0
+      }
+    }
+  ]
+}

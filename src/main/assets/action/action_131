@@ -1,0 +1,44 @@
+{
+  "actions": [
+    {"message": "双翅膀110度",
+      "next_action_time": 600,
+      "wing": {
+        "direction": "move",
+        "speed": 50,
+        "angle": 110
+      }
+    },
+    {"message": "双翅膀20度",
+      "next_action_time": 300,
+      "wing": {
+        "direction": "move",
+        "speed": 50,
+        "angle": 20
+      }
+    },
+    {"message": "双翅膀110度",
+      "next_action_time": 600,
+      "wing": {
+        "direction": "move",
+        "speed": 50,
+        "angle": 110
+      }
+    },
+    {"message": "双翅膀20度",
+      "next_action_time": 300,
+      "wing": {
+        "direction": "move",
+        "speed": 50,
+        "angle": 20
+      }
+    },
+    {"message": "归位",
+      "next_action_time": 200,
+      "wing": {
+        "direction": "move",
+        "speed": 50,
+        "angle": 0
+      }
+    }
+  ]
+}

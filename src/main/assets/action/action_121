@@ -1,0 +1,30 @@
+{
+  "actions": [
+    {"message": "头右转10度",
+      "next_action_time": 900,
+      "head": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 130
+      }
+    },
+    {
+      "message": "头左转10",
+      "next_action_time": 900,
+      "head": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 110
+      }
+    },
+    {
+    "next_action_time": 200,
+      "message": "归位",
+      "head": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 120
+      }
+    }
+  ]
+}

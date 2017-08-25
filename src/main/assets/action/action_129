@@ -1,0 +1,21 @@
+{
+  "actions": [
+    {   "message": "双翅膀45度",
+      "next_action_time": 300,
+      "wing": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 45
+      }
+    },
+    {
+    "next_action_time": 200,
+      "message": "归位",
+      "wing": {
+        "direction": "move",
+        "speed": 25,
+        "angle": 0
+      }
+    }
+  ]
+}

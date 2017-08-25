@@ -1,0 +1,257 @@
+{
+    "actions": [
+        {
+            "message": "画圈诅咒:右轮前进，右翅膀抬到110度---灯带亮度240度",
+            "next_action_time": 500,
+            "right_wheel": {
+                "direction": "front",
+                "speed": 300
+            },
+            "right_wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+
+        {"message": "右轮停止，右翅膀归位，灯带亮度0度",
+            "next_action_time": 250,
+            "right_wheel": {
+                "direction": "stop"
+            },
+            "right_wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

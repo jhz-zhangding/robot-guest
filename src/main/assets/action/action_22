@@ -1,0 +1,117 @@
+{
+    "actions": [
+        {"message": "双翅膀抬起110度，灯带亮度240",
+            "next_action_time": 600,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "message": "左轮前进，双翅膀抬到110度。",
+            "next_action_time": 800,
+            "left_wheel": {
+                "direction": "front",
+                "speed": 300
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {"message": "左轮停止",
+            "left_wheel": {
+                "direction": "stop",
+                "speed": 300
+            }
+        },
+        {"message": "右轮前进，双翅膀抬起110度",
+            "next_action_time": 600,
+            "right_wheel": {
+                "direction": "front",
+                "speed": 300
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {
+            "message": "左轮后退，双翅膀抬到110度。",
+            "next_action_time": 600,
+            "right_wheel": {
+                "direction": "back",
+                "speed": 300
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {"message": "右轮停止",
+            "right_wheel": {
+                "direction": "stop",
+                "speed": 300
+            }
+        },
+        {"message": "左轮后退，双翅膀抬到110度",
+            "next_action_time":600,
+         
+            "left_wheel": {
+                "direction": "back",
+                "speed": 300
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {"message": "左轮停止，双翅膀抬到110度",
+		 "next_action_time":800,
+            "left_wheel": {
+                "direction": "stop",
+                "speed": 300
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {"message": "双翅膀抬到20度",
+            "next_action_time": 200,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle":20
+            }
+        },
+        {"message": "双翅膀抬到110度",
+            "next_action_time": 600,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 110
+            }
+        },
+        {"message": "双翅膀抬到0度，灯带亮度0度",
+            "next_action_time": 200,
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

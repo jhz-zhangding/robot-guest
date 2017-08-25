@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.efrobot.guest"
     android:versionCode="1"
-    android:versionName="4.60821" >
+    android:versionName="4.60825" >
 
     <uses-sdk
         android:minSdkVersion="19"

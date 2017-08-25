@@ -364,7 +364,7 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/item_selector_bg"
-                        android:gravity="center_vertical"
+                        android:layout_centerVertical="true"
                         android:orientation="horizontal">
 
                         <com.efrobot.guest.utils.NotScrollListView
@@ -383,6 +383,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_below="@+id/end_set_lv_rl"
+                        android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:minHeight="50dp">
 

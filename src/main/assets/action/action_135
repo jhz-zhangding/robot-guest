@@ -1,0 +1,53 @@
+{
+  "actions": [
+    { "message": "双翅膀110度。头左转25度，灯最亮",
+      "next_action_time": 500,
+      "wing": {
+        "direction": "move",
+        "speed": 25,
+        "angle": 110
+      },
+      "head": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 95
+      },
+      "light_belt": {
+        "brightness": 240
+      }
+    },
+    { "message": "双翅膀0度",
+      "next_action_time": 500,
+      "wing": {
+        "direction": "move",
+        "speed": 25,
+        "angle": 0
+      }
+    },
+    { "message": "双翅膀110度",
+      "next_action_time": 500,
+      "wing": {
+        "direction": "move",
+        "speed": 25,
+        "angle": 110
+      }
+    },
+    {
+      "next_action_time": 500,
+      "message": "归位",
+      "wing": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 0
+      },
+      "head": {
+        "direction": "move",
+        "speed": 100,
+        "angle": 120
+      },
+      "light_belt": {
+        "brightness": 0
+      }
+    }
+  ]
+}

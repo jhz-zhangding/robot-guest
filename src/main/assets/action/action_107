@@ -1,0 +1,16 @@
+{
+  "actions": [
+    {
+      "next_action_time": 500,
+      "message": "灯带闪一下:灯带240度",
+      "light_belt": {
+        "brightness": 240
+      }
+    },
+    {"message": "灯带0度",
+      "light_belt": {
+        "brightness": 0
+      }
+    }
+  ]
+}

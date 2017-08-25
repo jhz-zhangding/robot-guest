@@ -1,0 +1,30 @@
+{
+    "actions": [
+        {
+            "message": "灯带闪烁",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {
+           "message": "灯带闪烁",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

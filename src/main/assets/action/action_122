@@ -1,0 +1,40 @@
+{
+    "actions": [
+        {
+            "next_action_time": 1500,
+            "message": "头部右转50°",
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 170
+            }
+        },
+        {
+            "next_action_time": 3000,
+            "message": "头部左转70度°",
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 50
+            }
+        },
+        {
+            "next_action_time": 3000,
+            "message": "头部右转50°",
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 170
+            }
+        },
+        {
+            "next_action_time": 1500,
+            "message": "头部归位",
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 120
+            }
+        }
+    ]
+}

@@ -1,9 +1,5 @@
 package com.efrobot.guest.setting;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,27 +11,18 @@ import com.efrobot.guest.GuestsApplication;
 import com.efrobot.guest.R;
 import com.efrobot.guest.base.GuestsBasePresenter;
 import com.efrobot.guest.bean.AddCustomMode;
-import com.efrobot.guest.bean.CustomActionBean;
 import com.efrobot.guest.bean.ItemsContentBean;
-import com.efrobot.guest.bean.RemarkBean;
-import com.efrobot.guest.bean.SettingBean;
 import com.efrobot.guest.bean.UlPlaceBean;
-import com.efrobot.guest.dao.ActionBaseDao;
 import com.efrobot.guest.dao.DataManager;
-import com.efrobot.guest.dao.RemarkDao;
-import com.efrobot.guest.dao.SettingDao;
 import com.efrobot.guest.dao.UltrasonicDao;
 import com.efrobot.guest.utils.CustomHintDialog;
-import com.efrobot.guest.utils.FaceAndActionUtils;
 import com.efrobot.guest.utils.PreferencesUtils;
 import com.efrobot.guest.utils.TtsUtils;
 import com.efrobot.library.RobotManager;
 import com.efrobot.library.mvp.utils.L;
-import com.efrobot.library.task.UltrasonicTaskManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -55,9 +42,6 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     private UlPlaceBean ulPlaceBeen;
 
     private ArrayList<UlPlaceBean> ulPlaceBeans = null;
-
-    private List<CustomActionBean> startActionBeen;
-    private List<CustomActionBean> endActionBeen;
 
     //数据设置
     public static String SP_VOICE_TIME = "voiceTime";
@@ -115,7 +99,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     public void onResume() {
         super.onResume();
         L.e(TAG, "SettingPresenter onResume");
-        if(isCanUseGuest()) {
+        if (isCanUseGuest()) {
             initUltrasonicData();
         }
     }
@@ -130,7 +114,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         super.onCreate(savedInstanceState);
         ultrasonicDao = GuestsApplication.from(getContext()).getUltrasonicDao();
 
-        if(!isCanUseGuest()) {
+        if (!isCanUseGuest()) {
             showCanUserDialog(getContext().getString(R.string.error_use__hint));
         } else {
 
@@ -167,13 +151,14 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     }
 
     private GreetingAdapter greetingAdapter;
+
     public GreetingAdapter getGreetingAdapter(boolean isOnlyShowFirst) {
-        if(greetingAdapter == null) {
+        if (greetingAdapter == null) {
             greetingAdapter = new GreetingAdapter(getContext());
         }
         List<ItemsContentBean> list = DataManager.getInstance(getContext()).queryItem(1);
-        if(isOnlyShowFirst) {
-            if(list != null && list.size() > 1) {
+        if (isOnlyShowFirst) {
+            if (list != null && list.size() > 1) {
                 list = list.subList(0, 1);
             }
         }
@@ -182,13 +167,14 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     }
 
     private GreetingAdapter endGreetingAdapter;
+
     public GreetingAdapter getEndGreetingAdapter(boolean isOnlyShowFirst) {
-        if(endGreetingAdapter == null) {
+        if (endGreetingAdapter == null) {
             endGreetingAdapter = new GreetingAdapter(getContext());
         }
         List<ItemsContentBean> list = DataManager.getInstance(getContext()).queryItem(2);
-        if(isOnlyShowFirst) {
-            if(list != null && list.size() > 1) {
+        if (isOnlyShowFirst) {
+            if (list != null && list.size() > 1) {
                 list = list.subList(0, 1);
             }
         }
@@ -200,11 +186,11 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         boolean isCanUse = true;
         Uri uri = Uri.parse("content://com.efrobot.diy.diydataProvider/question");
         Cursor cursor = getContext().getContentResolver().query(uri, null, "type=?", new String[]{"3"}, null);
-        if(cursor != null && cursor.moveToNext()) {
+        if (cursor != null && cursor.moveToNext()) {
             isCanUse = false;
         }
         Cursor cursor1 = getContext().getContentResolver().query(uri, null, "type=?", new String[]{"4"}, null);
-        if(cursor1 != null && cursor1.moveToNext()) {
+        if (cursor1 != null && cursor1.moveToNext()) {
             isCanUse = false;
         }
         L.i(TAG, "isCanUse = " + isCanUse);

@@ -1,0 +1,28 @@
+{
+    "actions": [
+        {
+            "next_action_time": 300,
+            "message": "右翅膀45度，灯带最亮",
+            "right_wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 45
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 200,
+            "message": "归位",
+            "right_wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

@@ -1,0 +1,63 @@
+{
+    "actions": [
+        {
+            "message": "惊恐：双轮后退，灯带最亮240，双翅膀抬到80",
+            "next_action_time": 250,
+            "wheel": {
+                "direction": "back",
+                "speed": 100
+            },
+            "light_belt": {
+                "brightness": 240
+            },
+            "wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 80
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "灯带亮度240度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "灯带亮度0度",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "双轮停止，灯带亮度240度",
+            "next_action_time": 2000,
+            "wheel": {
+                "direction": "stop"
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {"message": "双轮向前，灯带亮度0度",
+            "next_action_time": 1000,
+            "wheel": {
+                "direction": "front",
+                "speed": 100
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {"message": "双轮停止",
+            "wheel": {
+                "direction": "stop",
+                 "angle": 0
+            }
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "actions": [
+        {
+            "next_action_time": 7000,
+            "wheel": {
+                "direction": "right_angle",
+                "speed": 300,
+                "angle": 180
+            },
+            "head": {
+                "speed": 100,
+                "angle": 240
+            }
+        }
+    ]
+}

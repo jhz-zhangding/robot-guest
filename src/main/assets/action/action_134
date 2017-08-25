@@ -1,0 +1,49 @@
+{
+    "actions": [
+        { "message": "右翅膀45度，头右转10度，灯带最亮",
+            "next_action_time": 300,
+            "right_wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 45
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 130
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        { "message": "灯带灭",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        { "message": "灯带亮",
+            "next_action_time": 250,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 200,
+            "message": "归位",
+            "right_wing": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 0
+            },
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 120
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

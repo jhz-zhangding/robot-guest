@@ -1,0 +1,18 @@
+{
+    "actions": [
+        {
+            "message": "双轮后退",
+            "next_action_time": 5000,
+            "wheel": {
+                "direction": "back",
+                "speed": 200
+            }
+        },
+        {
+            "message": "停止",
+            "wheel": {
+                "direction": "stop"
+            }
+        }
+    ]
+}

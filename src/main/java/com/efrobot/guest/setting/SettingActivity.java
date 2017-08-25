@@ -30,8 +30,10 @@ import android.widget.Toast;
 import com.efrobot.guest.R;
 import com.efrobot.guest.action.AddBodyShowView;
 import com.efrobot.guest.base.GuestsBaseActivity;
+import com.efrobot.guest.bean.ItemsContentBean;
 import com.efrobot.guest.bean.Location;
 import com.efrobot.guest.bean.WeekBean;
+import com.efrobot.guest.dao.DataManager;
 import com.efrobot.guest.explain.ExplainActivity;
 import com.efrobot.guest.service.UltrasonicService;
 import com.efrobot.guest.utils.CustomHintDialog;
@@ -144,11 +146,12 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         initViewId();
 
         greetingListView.setAdapter(((SettingPresenter) mPresenter).getGreetingAdapter(true));
-        endListView.setAdapter(((SettingPresenter)mPresenter).getEndGreetingAdapter(true));
+        endListView.setAdapter(((SettingPresenter) mPresenter).getEndGreetingAdapter(true));
 
         updatePlayMode(false);
         updateStopMode(false);
-
+        isShowStartSpreadBtn(false);
+        isShowFinishSpreadBtn(false);
 
         int savedMode = PreferencesUtils.getInt(this.getApplicationContext(), "mMode", 0);
         selectedMode = savedMode;
@@ -386,12 +389,26 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 startActivityForResult(intentEnd, END_REQUEST);
                 break;
             case R.id.start_delete_img:
-                ((SettingPresenter) mPresenter).getGreetingAdapter(false).notifyDataSetChanged();
-                ((SettingPresenter) mPresenter).getGreetingAdapter(false).setDelVisible();
+                isShowStartSpreadBtn(true);
+                ((SettingPresenter) mPresenter).getGreetingAdapter(false).setDelVisible(new GreetingAdapter.OnDeleteItemListener() {
+                    @Override
+                    public void existLessTwo(boolean isExistLessTwo) {
+                        if(isExistLessTwo) {
+                            greetingShowListBtn.setVisibility(View.GONE);
+                        }
+                    }
+                });
                 break;
             case R.id.end_delete_img:
-                ((SettingPresenter) mPresenter).getEndGreetingAdapter(false).notifyDataSetChanged();
-                ((SettingPresenter) mPresenter).getEndGreetingAdapter(false).setDelVisible();
+                isShowFinishSpreadBtn(true);
+                ((SettingPresenter) mPresenter).getEndGreetingAdapter(false).setDelVisible(new GreetingAdapter.OnDeleteItemListener() {
+                    @Override
+                    public void existLessTwo(boolean isExistLessTwo) {
+                        if(isExistLessTwo) {
+                            endShowListBtn.setVisibility(View.GONE);
+                        }
+                    }
+                });
                 break;
             case R.id.greeting_play_mode:
                 updatePlayMode(true);
@@ -454,24 +471,65 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
     private boolean isShowGreeting = false;
     private boolean isShowEnd = false;
-    private void showListView(View imageView) {
-        if(imageView.equals(greetingShowListBtnLL)) {
-            isShowGreeting = !isShowGreeting;
-            if(isShowGreeting) {
+
+    /**
+     * isShow 是否展开 开始迎宾条目
+     */
+    private void isShowStartSpreadBtn(boolean isShowStart) {
+        List<ItemsContentBean> startList = DataManager.getInstance(getContext()).queryItem(1);
+        if (startList != null && startList.size() > 1) {
+            greetingShowListBtn.setVisibility(View.VISIBLE);
+            if (isShowStart) {
+                //展开
+                isShowGreeting = true;
+                ((SettingPresenter) mPresenter).getGreetingAdapter(false).notifyDataSetChanged();
                 greetingShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
-                ((SettingPresenter)mPresenter).getGreetingAdapter(false).notifyDataSetChanged();
+            } else
+                greetingShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.open));
+        } else {
+            ((SettingPresenter) mPresenter).getGreetingAdapter(true).notifyDataSetChanged();
+            greetingShowListBtn.setVisibility(View.GONE);
+        }
+
+    }
+
+    /**
+     * isShow 是否展开 结束迎宾条目
+     */
+    private void isShowFinishSpreadBtn(boolean isShowFinish) {
+        List<ItemsContentBean> endList = DataManager.getInstance(getContext()).queryItem(2);
+        if (endList != null && endList.size() > 1) {
+            endShowListBtn.setVisibility(View.VISIBLE);
+            endShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
+            if (isShowFinish) {
+                isShowEnd = true;
+                ((SettingPresenter) mPresenter).getEndGreetingAdapter(false).notifyDataSetChanged();
+            } else
+                endShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.open));
+        } else {
+            ((SettingPresenter) mPresenter).getEndGreetingAdapter(true).notifyDataSetChanged();
+            endShowListBtn.setVisibility(View.GONE);
+        }
+    }
+
+    private void showListView(View imageView) {
+        if (imageView.equals(greetingShowListBtnLL)) {
+            isShowGreeting = !isShowGreeting;
+            if (isShowGreeting) {
+                greetingShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
+                ((SettingPresenter) mPresenter).getGreetingAdapter(false).notifyDataSetChanged();
             } else {
                 greetingShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.open));
-                ((SettingPresenter)mPresenter).getGreetingAdapter(true).notifyDataSetChanged();
+                ((SettingPresenter) mPresenter).getGreetingAdapter(true).notifyDataSetChanged();
             }
-        } else if(imageView.equals(endShowListBtnLL)) {
+        } else if (imageView.equals(endShowListBtnLL)) {
             isShowEnd = !isShowEnd;
-            if(isShowEnd) {
+            if (isShowEnd) {
                 endShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
-                ((SettingPresenter)mPresenter).getEndGreetingAdapter(false).notifyDataSetChanged();
+                ((SettingPresenter) mPresenter).getEndGreetingAdapter(false).notifyDataSetChanged();
             } else {
                 endShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.open));
-                ((SettingPresenter)mPresenter).getEndGreetingAdapter(true).notifyDataSetChanged();
+                ((SettingPresenter) mPresenter).getEndGreetingAdapter(true).notifyDataSetChanged();
             }
         }
     }
@@ -667,14 +725,9 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 1) { //从设置回来刷新
-            if(isShowGreeting) {
-                greetingShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
-            }
-            if(isShowEnd) {
-                endShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
-            }
-            ((SettingPresenter)mPresenter).getGreetingAdapter(false).notifyDataSetChanged();
-            ((SettingPresenter)mPresenter).getEndGreetingAdapter(false).notifyDataSetChanged();
+            isShowStartSpreadBtn(true);
+        } else if (requestCode == 2 && resultCode == 1) {
+            isShowFinishSpreadBtn(true);
         }
     }
 

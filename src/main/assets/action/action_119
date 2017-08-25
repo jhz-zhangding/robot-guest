@@ -1,0 +1,28 @@
+{
+    "actions": [
+        {
+            "next_action_time": 900,
+            "message": "头右转25度，灯带最亮",
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 145
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "next_action_time": 100,
+            "message": "归位",
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 120
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

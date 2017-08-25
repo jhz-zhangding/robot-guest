@@ -318,7 +318,7 @@ public class ItemsContentBean implements Serializable {
                 ", other='" + other + '\'' +
                 ", media='" + media + '\'' +
                 ", time='" + time + '\'' +
-                ", music='" + time + '\'' +
+                ", music='" + music + '\'' +
                 ", head='" + head + '\'' +
                 ", wheel='" + wheel + '\'' +
                 ", wing='" + wing + '\'' +

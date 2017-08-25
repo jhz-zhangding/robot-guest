@@ -33,6 +33,8 @@ public class GreetingAdapter extends BaseAdapter {
 
     private boolean isShowDel = false;
 
+    private OnDeleteItemListener onDeleteItemListener;
+
     public GreetingAdapter(Context context) {
         this.mContext = context;
         dataManager = DataManager.getInstance(mContext);
@@ -42,7 +44,8 @@ public class GreetingAdapter extends BaseAdapter {
         this.lists = datas;
     }
 
-    public void setDelVisible() {
+    public void setDelVisible(OnDeleteItemListener onDeleteItemListener) {
+        this.onDeleteItemListener = onDeleteItemListener;
         isShowDel = !isShowDel;
         notifyDataSetChanged();
     }
@@ -96,6 +99,14 @@ public class GreetingAdapter extends BaseAdapter {
             public void onClick(View v) {
                 dataManager.deleteContentById(lists.get(position).getId());
                 lists.remove(position);
+                if(lists.size() <= 1) {
+                    if(onDeleteItemListener != null) {
+                        onDeleteItemListener.existLessTwo(true);
+                    }
+                }
+                if(lists.size() == 0) {
+                    isShowDel = false;
+                }
                 notifyDataSetChanged();
             }
         });
@@ -106,5 +117,9 @@ public class GreetingAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView welcomeTts;
         ImageView delItemBtn;
+    }
+
+    interface OnDeleteItemListener {
+        void existLessTwo(boolean isExistLessTwo);
     }
 }

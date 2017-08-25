@@ -1,0 +1,14 @@
+{
+    "actions": [
+        {
+            "next_action_time": 500,
+            "message": "头部右转45度",
+            "head": {
+                "direction": "move",
+                "speed": 80,
+                "angle": 165
+            }
+        }
+
+    ]
+}

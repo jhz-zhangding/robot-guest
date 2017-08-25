@@ -3,6 +3,7 @@ package com.efrobot.guest.speech;
 import android.content.Intent;
 import android.util.Log;
 
+import com.efrobot.guest.GuestsApplication;
 import com.efrobot.guest.service.UltrasonicService;
 import com.efrobot.guest.utils.ActivityManager;
 import com.efrobot.library.mvp.utils.L;
@@ -62,6 +63,14 @@ public class CusProvider extends SpeechSdkProvider {
         L.e(TAG, "TTSEnd");
         if (UltrasonicService.isWelcomeTTsStart) {
             //欢迎与说完
+            GuestsApplication application = GuestsApplication.from(getContext());
+            if(application != null && application.ultrasonicService != null) {
+                application.ultrasonicService.ttsEnd();
+                if(application.ultrasonicService.isPlayPicture) {
+                    application.ultrasonicService.stopPlayPicture(3000);
+                    application.ultrasonicService.isPlayPicture = false;
+                }
+            }
             UltrasonicService.isWelcomeTTsStart = false;
         }
     }

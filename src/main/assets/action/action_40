@@ -1,0 +1,84 @@
+{
+    "actions": [
+        {
+            "message": "委屈/难过,摇头（头右转20→左转40→右转40→左转20），后退半个身位（20cm），→归位（换为微笑表情，前进20cm归位）. 灯带闪动1秒。
+			头右转20度，双轮后退，灯带最亮240",
+            "next_action_time": 250,
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 140
+            },
+            "wheel": {
+                "direction": "back",
+                "speed": 100
+            },
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        { "message": "头部左转20度，双轮后退",
+            "next_action_time": 250,
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 100
+            },
+            "wheel": {
+                "direction": "back",
+                "speed": 100
+            }
+        },
+        {  "message": "头部右转20度，双轮后退",
+            "next_action_time": 250,
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 140
+            },
+            "wheel": {
+                "direction": "back",
+                "speed": 100
+            }
+        },
+        { "message": "头部归位，双轮后退",
+            "next_action_time": 250,
+            "head": {
+                "direction": "move",
+                "speed": 100,
+                "angle": 120
+            },
+            "wheel": {
+                "direction": "back",
+                "speed": 100
+            }
+        },
+        {
+            "next_action_time": 500,
+            "wheel": {
+                "direction": "front",
+                "speed": 100
+            }
+        },
+        {  "message": "双轮向前，灯带抬起0度。",
+            "next_action_time": 500,
+            "wheel": {
+                "direction": "front",
+                "speed": 100
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        },
+        {
+            "message": "双轮停止，灯带亮度0度",
+            "wheel": {
+                "direction": "stop",
+                "speed": 100
+            },
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

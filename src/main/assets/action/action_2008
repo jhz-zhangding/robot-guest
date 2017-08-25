@@ -1,0 +1,18 @@
+{
+    "actions": [
+        {
+            "message": "双轮前进",
+            "next_action_time": 2500,
+            "wheel": {
+                "direction": "front",
+                "speed": 200
+            }
+        },
+        {
+            "message": "停止",
+            "wheel": {
+                "direction": "stop"
+            }
+        }
+    ]
+}

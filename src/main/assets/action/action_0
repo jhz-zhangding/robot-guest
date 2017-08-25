@@ -1,0 +1,19 @@
+{
+  "actions": [
+    {"message": "头停，双翅膀停，轮子停，灯带关",
+     "next_action_time": 1500,
+      "head": {
+        "direction": "stop"
+      },
+      "wing": {
+        "direction": "stop"
+      },
+      "wheel": {
+        "direction": "stop"
+      },
+      "light_belt": {
+        "brightness": 0
+      }
+    }
+  ]
+}

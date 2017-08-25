@@ -1,0 +1,46 @@
+{
+    "actions": [
+        {
+            "message": "身体右转30度",
+            "next_action_time": 750,
+            "wheel": {
+                "direction": "right_angle",
+                "speed": 400,
+                "angle": 30
+            }
+        },
+        {
+            "message": "身体左转30度",
+            "next_action_time": 750,
+            "wheel": {
+                "direction": "left_angle",
+                "speed": 400,
+                "angle": 30
+            }
+        },
+        {
+            "message": "身体右转30度",
+            "next_action_time": 750,
+            "wheel": {
+                "direction": "right_angle",
+                "speed": 400,
+                "angle": 30
+            }
+        },
+        {
+            "message": "身体左转30度",
+            "next_action_time": 750,
+            "wheel": {
+                "direction": "left_angle",
+                "speed": 400,
+                "angle": 30
+            }
+        },
+        {
+            "message": "停止",
+            "wheel": {
+                "direction": "stop"
+            }
+        }
+    ]
+}

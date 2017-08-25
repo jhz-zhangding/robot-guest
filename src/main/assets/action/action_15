@@ -1,0 +1,17 @@
+{
+    "actions": [
+        {"message": "身体左转180度",
+            "next_action_time": 3500,
+            "wheel": {
+                "direction": "right_angle",
+                "angle": "180",
+                "speed": 400
+            }
+        },
+        {"message": "身体停止",
+            "wheel": {
+                "direction": "stop"
+            }
+        }
+    ]
+}

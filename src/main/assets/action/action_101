@@ -1,0 +1,17 @@
+{
+    "actions": [
+        {
+            "message": "灯带长亮",
+            "next_action_time": 1500,
+            "light_belt": {
+                "brightness": 240
+            }
+        },
+        {
+            "message": "灯带关",
+            "light_belt": {
+                "brightness": 0
+            }
+        }
+    ]
+}

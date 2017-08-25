@@ -1,0 +1,21 @@
+{
+    "actions": [
+        {
+            "message": "困：双翅膀抬到55度",
+            "next_action_time": 1500,
+            "wing": {
+                "direction": "move",
+                "speed": 50,
+                "angle": 55
+            }
+        },
+        { "message": "双翅膀归位",
+            "next_action_time": 1000,
+            "wing": {
+                "direction": "move",
+                "speed": 20,
+                "angle": 0
+            }
+        }
+    ]
+}

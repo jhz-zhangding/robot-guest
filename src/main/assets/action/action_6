@@ -1,0 +1,18 @@
+{
+    "actions": [
+        {
+            "next_action_time": 2000,
+            "message": "身体右转45°",
+            "wheel": {
+                "direction": "right_angle",
+                "speed": 200,
+                "angle": 45
+            }
+        },
+        {"message": "停止",
+            "wheel": {
+                "direction": "stop"
+            }
+        }
+    ]
+}
