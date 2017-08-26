@@ -83,11 +83,6 @@
                 android:textSize="@dimen/textsize_26" />
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/setting_page_view_height"
-            android:background="@drawable/bottom_split_line" />
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -100,14 +95,6 @@
                 android:id="@+id/ul_place_test_layout"
                 layout="@layout/layout_ultrasonic_test_dis" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="276dp"
-                android:text="注：启动前请查看超声波数据是否正常，如不正常，请点击右侧“初始化”按钮"
-                android:textColor="@color/guest_text_color"
-                android:textSize="20sp" />
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/setting_page_view_height"
@@ -118,24 +105,10 @@
                 android:id="@+id/ul_timer_task_layout"
                 layout="@layout/layout_timer_task" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/setting_page_view_height"
-                android:layout_marginLeft="240dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="@dimen/setting_page_view_height"
-                android:background="@drawable/bottom_split_line" />
 
             <include
                 android:id="@+id/ul_place_layout"
                 layout="@layout/layout_dir_dis" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/setting_page_view_height"
-                android:layout_marginLeft="240dp"
-                android:layout_marginRight="30dp"
-                android:background="@drawable/bottom_split_line" />
 
 
             <LinearLayout
@@ -236,15 +209,6 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/setting_page_view_height"
-                android:layout_marginLeft="240dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="@dimen/setting_page_view_height"
-                android:background="@drawable/bottom_split_line"
-                android:visibility="visible" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -309,14 +273,6 @@
                     android:textSize="@dimen/text_size_30" />
 
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/setting_page_view_height"
-                android:layout_marginLeft="240dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="@dimen/setting_page_view_height"
-                android:background="@drawable/bottom_split_line" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -411,14 +367,6 @@
                     android:src="@mipmap/del_list" />
 
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/setting_page_view_height"
-                android:layout_marginLeft="240dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="@dimen/setting_page_view_height"
-                android:background="@drawable/bottom_split_line" />
 
         </LinearLayout>
     </LinearLayout>

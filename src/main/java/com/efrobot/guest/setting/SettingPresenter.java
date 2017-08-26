@@ -45,7 +45,6 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 
     //数据设置
     public static String SP_VOICE_TIME = "voiceTime";
-    public static String SP_IS_AUTO_OPEN = "isAutoOpen";
     public static String SP_MODE = "mMode";
 
     Handler ulHandle = new Handler() {
@@ -61,25 +60,38 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
                 case 1:
                     int numberNg = msg.arg1;
                     int valueNG = msg.arg2;
-                    long valueNg2Cm = valueNG / 10;
+                    long valueNgCM = valueNG / 10;
                     switch (numberNg) {
                         case 0:
-                            mView.setDistance0(valueNg2Cm + "");
+                            mView.setDistance1(valueNgCM + "");
                             break;
                         case 1:
-                            mView.setDistance1(valueNg2Cm + "");
+                            mView.setDistance2(valueNgCM + "");
+                            break;
+                        case 2:
+                            mView.setDistance3(valueNgCM + "");
+                            break;
+                        case 6:
+                            mView.setDistance7(valueNgCM + "");
                             break;
                         case 7:
-                            mView.setDistance7(valueNg2Cm + "");
+                            mView.setDistance8(valueNgCM + "");
                             break;
+
                         case 8:
-                            mView.setDistance8(valueNg2Cm + "");
+                            mView.setDistance9(valueNgCM + "");
                             break;
                         case 9:
-                            mView.setDistance9(valueNg2Cm + "");
+                            mView.setDistance10(valueNgCM + "");
                             break;
                         case 10:
-                            mView.setDistance10(valueNg2Cm + "");
+                            mView.setDistance11(valueNgCM + "");
+                            break;
+                        case 11:
+                            mView.setDistance12(valueNgCM + "");
+                            break;
+                        case 12:
+                            mView.setDistance13(valueNgCM + "");
                             break;
                     }
                     break;
@@ -129,19 +141,15 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         if (ulPlaceBeans != null && ulPlaceBeans.size() > 0) {
             for (int i = 0; i < ulPlaceBeans.size(); i++) {
                 if (ulPlaceBeans.get(i).getIsOpenValue() == 1) {
-                    mView.setIsOpenValue(ulPlaceBeans.get(i).getUltrasonicId(), 1);
-                    mView.setOpenDistanceValue(ulPlaceBeans.get(i).getUltrasonicId(), ulPlaceBeans.get(i).getDistanceValue());
+//                    mView.setIsOpenValue(ulPlaceBeans.get(i).getUltrasonicId(), 1);
+//                    mView.setOpenDistanceValue(ulPlaceBeans.get(i).getUltrasonicId(), ulPlaceBeans.get(i).getDistanceValue());
                 } else {
                     //置空
-                    mView.setIsOpenValue(ulPlaceBeans.get(i).getUltrasonicId(), 0);
-                    mView.setOpenDistanceValue(ulPlaceBeans.get(i).getUltrasonicId(), "");
+//                    mView.setIsOpenValue(ulPlaceBeans.get(i).getUltrasonicId(), 0);
+//                    mView.setOpenDistanceValue(ulPlaceBeans.get(i).getUltrasonicId(), "");
                 }
             }
         }
-
-        // 是否自动校正后超声波
-        boolean isAutoOpen = PreferencesUtils.getBoolean(getContext().getApplicationContext(), SP_IS_AUTO_OPEN);
-        mView.setAutoOpen(isAutoOpen);
 
         String exchangeTime = PreferencesUtils.getString(getContext().getApplicationContext(), SettingPresenter.SP_VOICE_TIME);
         if (!TextUtils.isEmpty(exchangeTime)) {
@@ -217,10 +225,6 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 
     public void affrim() {
 
-        //自动检测
-        boolean isAutoOpenInit = mView.getIsAutoOpen().isChecked();
-        PreferencesUtils.putBoolean(getContext().getApplicationContext(), SP_IS_AUTO_OPEN, isAutoOpenInit);
-
         //交流模式
         int mode = mView.getExchangeMode();
         PreferencesUtils.putInt(getContext().getApplicationContext(), SP_MODE, mode);
@@ -246,25 +250,25 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
             boolean isDistanceEmpty = true;
             //设置超声波
             for (int i = 0; i < SettingActivity.MyUlNum; i++) {
-                int isCheck = mView.getIsOpenValue(i);
-                if (!mView.getOpenDistanceValue(i).isEmpty()) {
-                    isDistanceEmpty = false;
-                }
-                if (isCheck == 1 && mView.getOpenDistanceValue(i).isEmpty()) {
-                    showToast("选中的超声波距离不能为空哦");
-                    return;
-                }
-                String ulDistance = mView.getOpenDistanceValue(i);
-                boolean isExit = ultrasonicDao.isExits(i);
-                if (isExit) {
-                    ultrasonicDao.update(isCheck, i, ulDistance);
-                } else {
-                    ulPlaceBeen = new UlPlaceBean();
-                    ulPlaceBeen.setUltrasonicId(i);
-                    ulPlaceBeen.setIsOpenValue(isCheck);
-                    ulPlaceBeen.setDistanceValue(ulDistance);
-                    ultrasonicDao.insert(ulPlaceBeen);
-                }
+//                int isCheck = mView.getIsOpenValue(i);
+//                if (!mView.getOpenDistanceValue(i).isEmpty()) {
+//                    isDistanceEmpty = false;
+//                }
+//                if (isCheck == 1 && mView.getOpenDistanceValue(i).isEmpty()) {
+//                    showToast("选中的超声波距离不能为空哦");
+//                    return;
+//                }
+//                String ulDistance = mView.getOpenDistanceValue(i);
+//                boolean isExit = ultrasonicDao.isExits(i);
+//                if (isExit) {
+//                    ultrasonicDao.update(isCheck, i, ulDistance);
+//                } else {
+//                    ulPlaceBeen = new UlPlaceBean();
+//                    ulPlaceBeen.setUltrasonicId(i);
+//                    ulPlaceBeen.setIsOpenValue(isCheck);
+//                    ulPlaceBeen.setDistanceValue(ulDistance);
+//                    ultrasonicDao.insert(ulPlaceBeen);
+//                }
 
             }
             if (isDistanceEmpty) {

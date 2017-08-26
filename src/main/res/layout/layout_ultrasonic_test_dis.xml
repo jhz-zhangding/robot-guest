@@ -6,6 +6,8 @@
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginTop="20dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
     android:background="@drawable/background"
     android:orientation="horizontal">
 
@@ -27,7 +29,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="1"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -52,6 +53,7 @@
                 android:id="@+id/ul_place_test_edit3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="@dimen/ultrasonic_margin_left"
                 android:text="895"
                 android:textColor="@color/white"
                 android:textSize="26sp"
@@ -60,7 +62,6 @@
             <com.efrobot.guest.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
                 android:gravity="center"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
@@ -72,6 +73,7 @@
                 android:id="@+id/ul_place_test_edit2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="@dimen/ultrasonic_margin_left"
                 android:text="895"
                 android:textColor="@color/white"
                 android:textSize="26sp"
@@ -80,7 +82,6 @@
             <com.efrobot.guest.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
                 android:gravity="center"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
@@ -92,6 +93,7 @@
                 android:id="@+id/ul_place_test_edit1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="@dimen/ultrasonic_margin_left"
                 android:text="895"
                 android:textColor="@color/white"
                 android:textSize="26sp"
@@ -100,7 +102,6 @@
             <com.efrobot.guest.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
                 android:gravity="center"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
@@ -112,6 +113,7 @@
                 android:id="@+id/ul_place_test_edit8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="@dimen/ultrasonic_margin_left"
                 android:text="895"
                 android:textColor="@color/white"
                 android:textSize="26sp"
@@ -120,7 +122,6 @@
             <com.efrobot.guest.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
                 android:gravity="center"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
@@ -132,6 +133,7 @@
                 android:id="@+id/ul_place_test_edit7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="@dimen/ultrasonic_margin_left"
                 android:text="895"
                 android:textColor="@color/white"
                 android:textSize="26sp"
@@ -141,7 +143,9 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
 
             <com.efrobot.guest.utils.ui.CircleView
                 android:layout_width="wrap_content"
@@ -155,9 +159,10 @@
                 android:textSize="@dimen/textsize_20" />
 
             <TextView
-                android:id="@+id/ul_place_test_edit11"
+                android:id="@+id/ul_place_test_edit12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="@dimen/ultrasonic_margin_left"
                 android:text="895"
                 android:textColor="@color/white"
                 android:textSize="26sp"
@@ -166,7 +171,6 @@
             <com.efrobot.guest.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
                 android:gravity="center"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
@@ -175,9 +179,10 @@
                 android:textSize="@dimen/textsize_20" />
 
             <TextView
-                android:id="@+id/ul_place_test_edit10"
+                android:id="@+id/ul_place_test_edit11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="@dimen/ultrasonic_margin_left"
                 android:text="895"
                 android:textColor="@color/white"
                 android:textSize="26sp"
@@ -186,7 +191,6 @@
             <com.efrobot.guest.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
                 android:gravity="center"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
@@ -195,9 +199,10 @@
                 android:textSize="@dimen/textsize_20" />
 
             <TextView
-                android:id="@+id/ul_place_test_edit9"
+                android:id="@+id/ul_place_test_edit10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="@dimen/ultrasonic_margin_left"
                 android:text="895"
                 android:textColor="@color/white"
                 android:textSize="26sp"
@@ -206,7 +211,6 @@
             <com.efrobot.guest.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
                 android:gravity="center"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
@@ -215,9 +219,10 @@
                 android:textSize="@dimen/textsize_20" />
 
             <TextView
-                android:id="@+id/ul_place_test_edit13"
+                android:id="@+id/ul_place_test_edit9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="@dimen/ultrasonic_margin_left"
                 android:text="895"
                 android:textColor="@color/white"
                 android:textSize="26sp"
@@ -226,7 +231,6 @@
             <com.efrobot.guest.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/ultrasonic_margin_left"
                 android:gravity="center"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
@@ -235,9 +239,10 @@
                 android:textSize="@dimen/textsize_20" />
 
             <TextView
-                android:id="@+id/ul_place_test_edit12"
+                android:id="@+id/ul_place_test_edit13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="@dimen/ultrasonic_margin_left"
                 android:text="895"
                 android:textColor="@color/white"
                 android:textSize="26sp"
@@ -245,46 +250,43 @@
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/padding_60"
-        android:gravity="center"
-        android:orientation="vertical">
-
         <TextView
-            android:id="@+id/ultrasonic_init_btn"
-            android:layout_width="@dimen/padding_120"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_bg"
-            android:gravity="center"
-            android:padding="@dimen/padding"
-            android:text="初始化"
-            android:textColor="@color/guest_text_color"
-            android:textSize="@dimen/textsize_26" />
-
-        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/setting_is_open"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="自动校正超声波"
-                android:textColor="@color/guest_text_color"
-                android:textSize="@dimen/textsize_26" />
-        </LinearLayout>
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:text="注：启动前请查看超声波数据是否正常，如不正常，请点击右侧“初始化”按钮"
+            android:textColor="@color/guest_text_color"
+            android:textSize="20sp" />
 
     </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/ultrasonic_setting_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/button_bg"
+        android:gravity="center"
+        android:padding="@dimen/padding"
+        android:text="去设置"
+        android:textColor="@color/guest_text_color"
+        android:textSize="@dimen/textsize_26" />
+
+    <TextView
+        android:id="@+id/ultrasonic_init_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/button_bg"
+        android:gravity="center"
+        android:padding="@dimen/padding"
+        android:text="标定"
+        android:textColor="@color/guest_text_color"
+        android:textSize="@dimen/textsize_26" />
+
 
 </LinearLayout>

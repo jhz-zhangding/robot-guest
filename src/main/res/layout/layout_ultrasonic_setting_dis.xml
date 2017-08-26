@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="20dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="20dp"
+    android:background="@drawable/background"
+    android:orientation="horizontal"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/welcome_statement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/button_bg"
+        android:gravity="center"
+        android:minHeight="45dp"
+        android:minWidth="220dp"
+        android:text="迎宾语设置"
+        android:textColor="@color/guest_text_color"
+        android:textSize="@dimen/type_title_size" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/setting_page_view_height"
+        android:minHeight="100dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/botton_white_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tts_text"
+                android:textColor="@color/guest_text_color"
+                android:textSize="@dimen/textsize_26" />
+
+            <ImageView
+                android:id="@+id/left_greeting_play_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@mipmap/order_play_pressed" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/greeting_list_rl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/item_selector_bg"
+                    android:orientation="horizontal">
+
+                    <com.efrobot.guest.utils.NotScrollListView
+                        android:id="@+id/greeting_set_lv"
+                        android:layout_width="600dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:divider="#004c91d1"
+                        android:dividerHeight="5dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/left_greeting_show_list_img_ll"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/greeting_list_rl"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:minHeight="50dp">
+
+                    <ImageView
+                        android:id="@+id/left_greeting_show_list_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@mipmap/open" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/left_greeting_add_im"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:src="@mipmap/add_pressed" />
+
+            <ImageView
+                android:id="@+id/left_start_delete_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:src="@mipmap/del_list" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/botton_white_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tts_text"
+                android:textColor="@color/guest_text_color"
+                android:textSize="@dimen/textsize_26" />
+
+            <ImageView
+                android:id="@+id/right_greeting_play_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@mipmap/order_play_pressed" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/right_greeting_list_rl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/item_selector_bg"
+                    android:orientation="horizontal">
+
+                    <com.efrobot.guest.utils.NotScrollListView
+                        android:id="@+id/right_greeting_set_lv"
+                        android:layout_width="600dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:divider="#004c91d1"
+                        android:dividerHeight="5dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/right_greeting_show_list_img_ll"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/right_greeting_list_rl"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:minHeight="50dp">
+
+                    <ImageView
+                        android:id="@+id/right_greeting_show_list_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@mipmap/open" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/right_greeting_add_im"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:src="@mipmap/add_pressed" />
+
+            <ImageView
+                android:id="@+id/right_start_delete_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:src="@mipmap/del_list" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/botton_white_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tts_text"
+                android:textColor="@color/guest_text_color"
+                android:textSize="@dimen/textsize_26" />
+
+            <ImageView
+                android:id="@+id/finish_greeting_play_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@mipmap/order_play_pressed" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/finish_greeting_list_rl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/item_selector_bg"
+                    android:orientation="horizontal">
+
+                    <com.efrobot.guest.utils.NotScrollListView
+                        android:id="@+id/finish_greeting_set_lv"
+                        android:layout_width="600dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:divider="#004c91d1"
+                        android:dividerHeight="5dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/greeting_show_list_img_ll"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/finish_greeting_list_rl"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:minHeight="50dp">
+
+                    <ImageView
+                        android:id="@+id/greeting_show_list_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@mipmap/open" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/finish_greeting_add_im"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:src="@mipmap/add_pressed" />
+
+            <ImageView
+                android:id="@+id/finish_start_delete_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:src="@mipmap/del_list" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

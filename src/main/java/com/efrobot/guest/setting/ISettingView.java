@@ -24,9 +24,6 @@ public interface ISettingView extends UiView {
     void setDistance12(String distance);
     void setDistance13(String distance);
 
-    CheckBox getIsAutoOpen();
-    void setAutoOpen(boolean isAuto);
-
     void setStartTime(String startTime);
     void setEndTime(String endTime);
     void setTimerPlace(String guestPlace);

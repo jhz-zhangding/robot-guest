@@ -171,12 +171,13 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         if (getCustomUltrasonicData()) {
             try {
                 SpeechManager.getInstance().closeSpeechDiscern(getApplicationContext());
-                boolean isAutoOpen = PreferencesUtils.getBoolean(getApplicationContext(), SettingPresenter.SP_IS_AUTO_OPEN);
-                if (isAutoOpen) {
-                    //开始标定模式
-                    TtsUtils.sendTts(getApplicationContext(), getString(R.string.init_ultrasonic_hint));
-                    mHandle.sendEmptyMessageDelayed(8, 3000);
-                } else {
+//                boolean isAutoOpen = PreferencesUtils.getBoolean(getApplicationContext(), SettingPresenter.SP_IS_AUTO_OPEN);
+//                if (isAutoOpen) {
+//                    //开始标定模式
+//                    TtsUtils.sendTts(getApplicationContext(), getString(R.string.init_ultrasonic_hint));
+//                    mHandle.sendEmptyMessageDelayed(8, 3000);
+//                } else
+                {
                     //直接开启超声波迎宾
                     L.i(TAG, "开始迎宾");
                     mHandle.sendEmptyMessageDelayed(0, 5000);
@@ -467,7 +468,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
         ItemsContentBean currentBean = null;
         if (START_GUEST_STRING.equals(typeStr)) {
-            if(itemsStartContents != null && itemsStartContents.size() > 0) {
+            if (itemsStartContents != null && itemsStartContents.size() > 0) {
                 if (startPlayMode == ORDER_PLAY) {
                     mStartCurrentIndex++;
                     if (mStartCurrentIndex > (itemsStartContents.size() - 1)) {
@@ -479,7 +480,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 currentBean = itemsStartContents.get(mStartCurrentIndex);
             }
         } else if (STOP_GUEST_STRING.equals(typeStr)) {
-            if(itemsEndContents != null && itemsEndContents.size() > 0) {
+            if (itemsEndContents != null && itemsEndContents.size() > 0) {
                 if (stopPlayMode == ORDER_PLAY) {
                     mEndCurrentIndex++;
                     if (mEndCurrentIndex > (itemsEndContents.size() - 1)) {
@@ -492,7 +493,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             }
         }
 
-        if(currentBean != null) {
+        if (currentBean != null) {
             L.e("startPlay", "itemsStartContents = " + itemsStartContents.get(0).toString());
             L.e("startPlay", "currentBean = " + currentBean.toString());
             //广告语和表情
@@ -920,11 +921,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         List<Byte> byteList4 = new ArrayList<Byte>(); // byte4 后5个
         if (customUlData != null && customUlData.size() > 0) {
             for (int i = 0; i < customUlData.size(); i++) {
-                if (customUlData.get(i) <= 2) {
-                    byteList5.add(getDataFromPosition(customUlData.get(i)));
-                }
-                if (customUlData.get(i) >= 3) {
-                    byteList4.add(getDataFromPosition(customUlData.get(i)));
+                if (customUlData.get(i) < 9) {
+                    byteList5.add(ultrasonicOpenMap.get(customUlData.get(i)));
+                } else {
+                    byteList4.add(ultrasonicOpenMap.get(customUlData.get(i)));
                 }
             }
 
@@ -960,38 +960,43 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
 
     /**
-     * position 前面6个探头 1～6
-     */
-    /**
      * byte[5]
      */
-    byte mByte1 = (byte) 0x01; // 探头1---0
-    byte mByte2 = (byte) 0x02; // 探头2---1
-    byte mByte8 = (byte) 0x80; // 探头8---2
+    byte mByte1 = (byte) 0x01; // 探头1---索引0
+    byte mByte2 = (byte) 0x02; // 探头2---
+    byte mByte3 = (byte) 0x04; // 探头3---
+    byte mByte7 = (byte) 0x40; // 探头7---
+    byte mByte8 = (byte) 0x80; // 探头8---
     /**
      * byte[4]
      */
-    byte mByte9 = (byte) 0x01; // 探头9---3
-    byte mByte10 = (byte) 0x02; // 探头10---4
-    byte mByte11 = (byte) 0x04; // 探头11---5
+    byte mByte9 = (byte) 0x01; // 探头9---
+    byte mByte10 = (byte) 0x02; // 探头10---
+    byte mByte11 = (byte) 0x04; // 探头11---
+    byte mByte12 = (byte) 0x08; // 探头12---
+    byte mByte13 = (byte) 0x10; // 探头13---
 
-    private byte getDataFromPosition(int position) {
+    Map<Integer, Byte> ultrasonicOpenMap = null;
 
-        switch (position) {
-            case 0:
-                return mByte1;
-            case 1:
-                return mByte2;
-            case 2:
-                return mByte8;
-            case 3:
-                return mByte9;
-            case 4:
-                return mByte10;
-            case 5:
-                return mByte11;
+    /**
+     * 设置要打开的的探头字节
+     * position 探头的下标
+     */
+    private void initAllOpenData(int position) {
+        if (ultrasonicOpenMap == null) {
+            ultrasonicOpenMap = new HashMap<Integer, Byte>();
+            ultrasonicOpenMap.put(1, mByte1);
+            ultrasonicOpenMap.put(2, mByte2);
+            ultrasonicOpenMap.put(3, mByte3);
+            ultrasonicOpenMap.put(7, mByte7);
+            ultrasonicOpenMap.put(8, mByte8);
+
+            ultrasonicOpenMap.put(9, mByte9);
+            ultrasonicOpenMap.put(10, mByte10);
+            ultrasonicOpenMap.put(11, mByte11);
+            ultrasonicOpenMap.put(12, mByte12);
+            ultrasonicOpenMap.put(13, mByte13);
         }
-        return (byte) 0x00;
     }
 
     //获取对应的pos

@@ -63,9 +63,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 ulDistanceEdit7, ulDistanceEdit8, ulDistanceEdit9,
             ulDistanceEdit10, ulDistanceEdit11, ulDistanceEdit12, ulDistanceEdit13;
 
-    //是否自动开始标定
-    private CheckBox settingIsOpen;
-
     //定时任务设置
     private EditText timerStartEdit, timerEndEdit, timerPlace;
     private Button chooseStartDayBtn, chooseEndDayBtn, saveStartBtn;
@@ -183,8 +180,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         ulDistanceText11 = (TextView) findViewById(R.id.ul_place_test_edit11);
         ulDistanceText12 = (TextView) findViewById(R.id.ul_place_test_edit12);
         ulDistanceText13 = (TextView) findViewById(R.id.ul_place_test_edit13);
-
-        settingIsOpen = (CheckBox) findViewById(R.id.setting_is_open);
 
         //设置数据
 //        ulDistanceEdit1 = (EditText) findViewById(R.id.ul_place_edit1);
@@ -641,16 +636,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     @Override
     public void setDistance13(String distance) {
         ulDistanceText13.setText(distance);
-    }
-
-    @Override
-    public CheckBox getIsAutoOpen() {
-        return settingIsOpen;
-    }
-
-    @Override
-    public void setAutoOpen(boolean isAuto) {
-        settingIsOpen.setChecked(isAuto);
     }
 
     @Override
