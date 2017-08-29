@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import com.efrobot.guest.GuestsApplication;
 import com.efrobot.guest.R;
 import com.efrobot.guest.base.GuestsBasePresenter;
-import com.efrobot.guest.bean.AddCustomMode;
 import com.efrobot.guest.bean.ItemsContentBean;
 import com.efrobot.guest.bean.UlPlaceBean;
 import com.efrobot.guest.dao.DataManager;
@@ -42,10 +41,6 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     private UlPlaceBean ulPlaceBeen;
 
     private ArrayList<UlPlaceBean> ulPlaceBeans = null;
-
-    //数据设置
-    public static String SP_VOICE_TIME = "voiceTime";
-    public static String SP_MODE = "mMode";
 
     Handler ulHandle = new Handler() {
         @Override
@@ -150,45 +145,35 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
                 }
             }
         }
-
-        String exchangeTime = PreferencesUtils.getString(getContext().getApplicationContext(), SettingPresenter.SP_VOICE_TIME);
-        if (!TextUtils.isEmpty(exchangeTime)) {
-            mView.setVoiceTime(exchangeTime);
-        }
-
     }
 
     private GreetingAdapter greetingAdapter;
 
-    public GreetingAdapter getGreetingAdapter(boolean isOnlyShowFirst) {
+    public GreetingAdapter getLeftGreetingAdapter() {
         if (greetingAdapter == null) {
             greetingAdapter = new GreetingAdapter(getContext());
         }
-        List<ItemsContentBean> list = DataManager.getInstance(getContext()).queryItem(1);
-        if (isOnlyShowFirst) {
-            if (list != null && list.size() > 1) {
-                list = list.subList(0, 1);
-            }
-        }
-        greetingAdapter.setSourceData(list);
         return greetingAdapter;
     }
 
-    private GreetingAdapter endGreetingAdapter;
+    private GreetingAdapter rightGreetingAdapter;
 
-    public GreetingAdapter getEndGreetingAdapter(boolean isOnlyShowFirst) {
-        if (endGreetingAdapter == null) {
-            endGreetingAdapter = new GreetingAdapter(getContext());
+    public GreetingAdapter getRightGreetingAdapter() {
+        if (rightGreetingAdapter == null) {
+            rightGreetingAdapter = new GreetingAdapter(getContext());
         }
-        List<ItemsContentBean> list = DataManager.getInstance(getContext()).queryItem(2);
-        if (isOnlyShowFirst) {
-            if (list != null && list.size() > 1) {
-                list = list.subList(0, 1);
-            }
-        }
-        endGreetingAdapter.setSourceData(list);
-        return endGreetingAdapter;
+        return rightGreetingAdapter;
     }
+
+    private GreetingAdapter finishGreetingAdapter;
+
+    public GreetingAdapter getFinishGreetingAdapter() {
+        if (finishGreetingAdapter == null) {
+            finishGreetingAdapter = new GreetingAdapter(getContext());
+        }
+        return finishGreetingAdapter;
+    }
+
 
     private boolean isCanUseGuest() {
         boolean isCanUse = true;
@@ -225,31 +210,10 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 
     public void affrim() {
 
-        //交流模式
-        int mode = mView.getExchangeMode();
-        PreferencesUtils.putInt(getContext().getApplicationContext(), SP_MODE, mode);
 
-        ArrayList<AddCustomMode> modes = GuestsApplication.from(getContext()).getModeDao().queryAll();
-
-        if (mode == SettingActivity.selectedCustomMode) {
-            if (modes != null && modes.size() > 0) {
-                if (modes.get(0).getMusic().isEmpty() && modes.get(0).getImage().isEmpty() &&
-                        modes.get(0).getMedia().isEmpty()) {
-                    showToast("自定义模式设置为空");
-                    return;
-                }
-            } else {
-                showToast("自定义模式设置为空");
-                return;
-            }
-        } else {
-
-            String voiceTime = mView.getVoiceTime();
-            PreferencesUtils.putString(getContext().getApplicationContext(), SP_VOICE_TIME, voiceTime);
-
-            boolean isDistanceEmpty = true;
-            //设置超声波
-            for (int i = 0; i < SettingActivity.MyUlNum; i++) {
+        boolean isDistanceEmpty = true;
+        //设置超声波
+        for (int i = 0; i < SettingActivity.MyUlNum; i++) {
 //                int isCheck = mView.getIsOpenValue(i);
 //                if (!mView.getOpenDistanceValue(i).isEmpty()) {
 //                    isDistanceEmpty = false;
@@ -269,15 +233,13 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 //                    ulPlaceBeen.setDistanceValue(ulDistance);
 //                    ultrasonicDao.insert(ulPlaceBeen);
 //                }
-
-            }
-            if (isDistanceEmpty) {
-                showToast("超声波距离不能为空哦");
-                return;
-            }
-
-            showToast("保存成功");
         }
+        if (isDistanceEmpty) {
+            showToast("超声波距离不能为空哦");
+            return;
+        }
+
+        showToast("保存成功");
     }
 
     private void reSend() {

@@ -2,10 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="20dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="20dp"
+    android:layout_margin="10dp"
     android:background="@drawable/background"
     android:orientation="horizontal"
     android:padding="20dp">
@@ -16,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="150dp"
         android:background="@drawable/button_bg"
         android:gravity="center"
         android:minHeight="45dp"
@@ -36,85 +33,114 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:background="@drawable/botton_white_bg"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="20dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tts_text"
-                android:textColor="@color/guest_text_color"
-                android:textSize="@dimen/textsize_26" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/left_greeting_play_mode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@mipmap/order_play_pressed" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/greeting_list_rl"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/item_selector_bg"
-                    android:orientation="horizontal">
+                    android:text="@string/ultrasonic_text"
+                    android:textColor="@color/guest_text_color"
+                    android:textSize="@dimen/textsize_26" />
+
+
+                <TextView
+                    android:id="@+id/ultrasonic_left_set_tv"
+                    android:layout_width="550dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="100dp"
+                    android:background="@color/white"
+                    android:minHeight="38dp"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:id="@+id/ultrasonic_left_set_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="@mipmap/right_normal"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tts_text"
+                    android:textColor="@color/guest_text_color"
+                    android:textSize="@dimen/textsize_26" />
+
+                <ImageView
+                    android:id="@+id/left_greeting_play_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@mipmap/order_play_pressed" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="550dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:background="@color/white"
+                        android:minHeight="38dp" />
 
                     <com.efrobot.guest.utils.NotScrollListView
-                        android:id="@+id/greeting_set_lv"
+                        android:id="@+id/left_greeting_set_lv"
                         android:layout_width="600dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
                         android:divider="#004c91d1"
                         android:dividerHeight="5dp" />
-                </LinearLayout>
+                </FrameLayout>
 
-                <LinearLayout
-                    android:id="@+id/left_greeting_show_list_img_ll"
-                    android:layout_width="100dp"
+                <ImageView
+                    android:id="@+id/left_greeting_add_im"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/greeting_list_rl"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:minHeight="50dp">
+                    android:layout_marginLeft="20dp"
+                    android:src="@mipmap/add_pressed" />
 
-                    <ImageView
-                        android:id="@+id/left_greeting_show_list_img"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@mipmap/open" />
+                <ImageView
+                    android:id="@+id/left_greeting_delete_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:src="@mipmap/del_list" />
+            </LinearLayout>
 
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/left_greeting_add_im"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/left_greeting_show_list_img_ll"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:src="@mipmap/add_pressed" />
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:paddingTop="15dp">
 
-            <ImageView
-                android:id="@+id/left_start_delete_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:src="@mipmap/del_list" />
+                <ImageView
+                    android:id="@+id/left_greeting_show_list_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/open" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -122,170 +148,197 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/botton_white_bg"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="20dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tts_text"
-                android:textColor="@color/guest_text_color"
-                android:textSize="@dimen/textsize_26" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/right_greeting_play_mode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@mipmap/order_play_pressed" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/right_greeting_list_rl"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/item_selector_bg"
-                    android:orientation="horizontal">
+                    android:text="@string/ultrasonic_text"
+                    android:textColor="@color/guest_text_color"
+                    android:textSize="@dimen/textsize_26" />
+
+                <TextView
+                    android:id="@+id/ultrasonic_right_set_tv"
+                    android:layout_width="550dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="100dp"
+                    android:background="@color/white"
+                    android:minHeight="38dp"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:id="@+id/ultrasonic_right_set_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="@mipmap/right_normal"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tts_text"
+                    android:textColor="@color/guest_text_color"
+                    android:textSize="@dimen/textsize_26" />
+
+                <ImageView
+                    android:id="@+id/right_greeting_play_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@mipmap/order_play_pressed" />
+
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="550dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:background="@color/white"
+                        android:minHeight="38dp" />
 
                     <com.efrobot.guest.utils.NotScrollListView
                         android:id="@+id/right_greeting_set_lv"
                         android:layout_width="600dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
                         android:divider="#004c91d1"
                         android:dividerHeight="5dp" />
-                </LinearLayout>
+                </FrameLayout>
 
-                <LinearLayout
-                    android:id="@+id/right_greeting_show_list_img_ll"
-                    android:layout_width="100dp"
+
+                <ImageView
+                    android:id="@+id/right_greeting_add_im"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/right_greeting_list_rl"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:minHeight="50dp">
+                    android:layout_marginLeft="20dp"
+                    android:src="@mipmap/add_pressed" />
 
-                    <ImageView
-                        android:id="@+id/right_greeting_show_list_img"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@mipmap/open" />
+                <ImageView
+                    android:id="@+id/right_greeting_delete_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:src="@mipmap/del_list" />
+            </LinearLayout>
 
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/right_greeting_add_im"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/right_greeting_show_list_img_ll"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:src="@mipmap/add_pressed" />
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:paddingTop="15dp">
 
-            <ImageView
-                android:id="@+id/right_start_delete_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:src="@mipmap/del_list" />
+                <ImageView
+                    android:id="@+id/right_greeting_show_list_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/open" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/botton_white_bg"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="20dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/tts_text"
-                android:textColor="@color/guest_text_color"
-                android:textSize="@dimen/textsize_26" />
+                android:layout_marginTop="20dp"
+                android:background="@drawable/botton_white_bg"
+                android:orientation="horizontal"
+                android:padding="20dp">
 
-            <ImageView
-                android:id="@+id/finish_greeting_play_mode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@mipmap/order_play_pressed" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/finish_greeting_list_rl"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/item_selector_bg"
-                    android:orientation="horizontal">
+                    android:text="@string/finish_tts_text"
+                    android:textColor="@color/guest_text_color"
+                    android:textSize="@dimen/textsize_26" />
+
+                <ImageView
+                    android:id="@+id/finish_greeting_play_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@mipmap/order_play_pressed" />
+
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="550dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:background="@color/white"
+                        android:minHeight="38dp" />
 
                     <com.efrobot.guest.utils.NotScrollListView
                         android:id="@+id/finish_greeting_set_lv"
                         android:layout_width="600dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
                         android:divider="#004c91d1"
                         android:dividerHeight="5dp" />
-                </LinearLayout>
+                </FrameLayout>
 
-                <LinearLayout
-                    android:id="@+id/greeting_show_list_img_ll"
-                    android:layout_width="100dp"
+
+                <ImageView
+                    android:id="@+id/finish_greeting_add_im"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/finish_greeting_list_rl"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:minHeight="50dp">
+                    android:layout_marginLeft="20dp"
+                    android:src="@mipmap/add_pressed" />
 
-                    <ImageView
-                        android:id="@+id/greeting_show_list_img"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@mipmap/open" />
+                <ImageView
+                    android:id="@+id/finish_greeting_delete_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:src="@mipmap/del_list" />
+            </LinearLayout>
 
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/finish_greeting_add_im"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/finish_greeting_show_list_img_ll"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:src="@mipmap/add_pressed" />
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:paddingTop="15dp">
 
-            <ImageView
-                android:id="@+id/finish_start_delete_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:src="@mipmap/del_list" />
+                <ImageView
+                    android:id="@+id/finish_greeting_show_list_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/open" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
 
     </LinearLayout>
-
 </LinearLayout>

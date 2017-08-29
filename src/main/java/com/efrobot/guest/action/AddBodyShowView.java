@@ -261,7 +261,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                 float time = (float) (mEditText.getText().length() * 0.27);
                 tvSayTime.setText("语音时长：" + time + "秒");
                 if (!isSelectedMusic && !isSelectedVideo) {
-                    msaybtn.setText("广告语(" + time + "'')");
+                    msaybtn.setText("迎宾语(" + time + "'')");
                     sayTime = (double) time;
                 }
 
@@ -610,7 +610,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                  * 闪光灯
                  */
                 updateView(v);
-                add_title.setText("添加广告语");
+                add_title.setText("添加迎宾语");
                 break;
             case R.id.light_value_btn:
                 updateView(v);
@@ -730,10 +730,10 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         float time = (float) (mEditText.getText().length() * 0.27);
 
         if (!isSelectedMusic && !isSelectedVideo) {
-            msaybtn.setText("广告语(" + time + "'')");
+            msaybtn.setText("迎宾语(" + time + "'')");
             sayTime = (double) time;
         } else {
-            msaybtn.setText("广告语");
+            msaybtn.setText("迎宾语");
             sayTime = 0;
         }
     }
@@ -755,7 +755,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         float time = (float) (mEditText.getText().length() * 0.27);
 
         tvSayTime.setText("语音时长：" + time + "秒");
-        msaybtn.setText("广告语(" + time + "'')");
+        msaybtn.setText("迎宾语(" + time + "'')");
         sayTime = (double) time;
         getMaxTime();
     }

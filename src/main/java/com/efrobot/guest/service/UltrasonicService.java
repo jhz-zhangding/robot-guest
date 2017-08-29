@@ -143,12 +143,12 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         startPlayMode = PreferencesUtils.getInt(this, SettingActivity.SP_START_PLAY_MODE, 0);
         stopPlayMode = PreferencesUtils.getInt(this, SettingActivity.SP_STOP_PLAY_MODE, 0);
         //交流时间
-        String voiceTime = PreferencesUtils.getString(this.getApplicationContext(), SettingPresenter.SP_VOICE_TIME);
-        if (voiceTime != null && !voiceTime.isEmpty()) {
-            waitTime = Integer.parseInt(voiceTime);
-        } else {
-            waitTime = 10;
-        }
+//        String voiceTime = PreferencesUtils.getString(this.getApplicationContext(), SettingPresenter.SP_VOICE_TIME);
+//        if (voiceTime != null && !voiceTime.isEmpty()) {
+//            waitTime = Integer.parseInt(voiceTime);
+//        } else {
+//            waitTime = 10;
+//        }
         L.i(TAG, "waitTime=" + waitTime);
 
         //超声波设置数据
@@ -496,7 +496,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         if (currentBean != null) {
             L.e("startPlay", "itemsStartContents = " + itemsStartContents.get(0).toString());
             L.e("startPlay", "currentBean = " + currentBean.toString());
-            //广告语和表情
+            //迎宾语和表情
             if (!TextUtils.isEmpty(currentBean.getOther())) {
                 closeTTs();
                 if (!TextUtils.isEmpty(currentBean.getFace())) {

@@ -6,7 +6,9 @@
     <string name="setting_title">等待状态设置</string>
     <string name="distance_text">距离：</string>
     <string name="distance_unit">cm</string>
-    <string name="tts_text">欢迎语：</string>
+    <string name="tts_text">迎宾语</string>
+    <string name="finish_tts_text">结束语</string>
+    <string name="ultrasonic_text">超声波</string>
     <string name="remark_text">备注：机器人说完欢迎语后，会进入语音交流模式，直到人离开</string>
     <string name="cancel">取消</string>
     <string name="affirm">确认</string>
@@ -241,9 +243,9 @@
 
 
     <string name="addmedia">1.自定义上传图片后，广告播放时图片文件会替换当前子项目包含的表情包。（建议图片大小为1280*800）。\n图片仅支持：JPG和PNG</string>
-    <string name="addmedia2">2.自定义上传视频后，广告播放时视频文件会覆盖广告语声音和机器人表情。\n视频仅支持：MP4</string>
+    <string name="addmedia2">2.自定义上传视频后，广告播放时视频文件会覆盖迎宾语声音和机器人表情。\n视频仅支持：MP4</string>
     <string name="addmedia3">3.上传视频后，无法上传图片与音频，同样的，上传图片或音频后无法上传视频。\n音频仅支持：MP3和WAV</string>
-    <string name="addmedia4">4.上传音频文件后，音频会覆盖广告语。</string>
+    <string name="addmedia4">4.上传音频文件后，音频会覆盖迎宾语。</string>
 
     <string name="init_ultrasonic_hint">超声波标定要保证周围1米没有障碍物,标定开始</string>
     <string name="error_use__hint">检测到DIY中已使用超声波，如需继续请关闭DIY中的超声波</string>

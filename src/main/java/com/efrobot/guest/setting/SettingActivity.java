@@ -54,43 +54,44 @@ import java.util.List;
  */
 public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implements ISettingView, View.OnClickListener {
 
+    private List<GreetingAdapter> adapterList;
+
     public static int MyUlNum = 6;
     private TextView ulDistanceText1, ulDistanceText2, ulDistanceText3, ulDistanceText7, ulDistanceText8;
     private TextView ulDistanceText9, ulDistanceText10, ulDistanceText11, ulDistanceText12, ulDistanceText13;
 
     //用户设置距离
     private EditText ulDistanceEdit1, ulDistanceEdit2, ulDistanceEdit3,
-                ulDistanceEdit7, ulDistanceEdit8, ulDistanceEdit9,
+            ulDistanceEdit7, ulDistanceEdit8, ulDistanceEdit9,
             ulDistanceEdit10, ulDistanceEdit11, ulDistanceEdit12, ulDistanceEdit13;
 
-    //定时任务设置
-    private EditText timerStartEdit, timerEndEdit, timerPlace;
-    private Button chooseStartDayBtn, chooseEndDayBtn, saveStartBtn;
-    private TextView chooseStartTxt, chooseEndTxt;
-
-
     //迎宾语 结束语
-    private ListView greetingListView;
-    private ListView endListView;
-    private ImageView addGreetBtn, addEndBtn;
-    private ImageView delGreetBtn, delEndBtn;
-    private ImageView startPlayMode, endPlayMode;
-    private LinearLayout greetingShowListBtnLL, endShowListBtnLL;
-    private ImageView greetingShowListBtn, endShowListBtn;
+    private ListView leftListView;
+    private ListView rightListView;
+    private ListView finishListView;
+
+    //播放模式
+    private ImageView leftPlayModeImg;
+    private ImageView rightPlayModeImg;
+    private ImageView finishPlayModeImg;
+
+    private ImageView addRightGreetBtn, addLeftGreetBtn, addFinishGreetBtn;
+    private ImageView delRightGreetBtn, delLeftGreetBtn, delFinishGreetBtn;
+
+    //展开
+    private LinearLayout leftShowListBtnLL, rightShowListBtnLL, finishShowListBtnLL;
+    private ImageView leftShowListBtn, rightShowListBtn, finishShowListBtn;
+
+    //选择超声波
+    private TextView leftUltrasonicTv,rightUltrasonicTv;
+    private ImageView leftUltrasonicBtn, rightUltrasonicBtn;
 
     //保存设置
-    private TextView mCancle, mAffirm, mTestUlBtn;
+    private TextView mCancel, mAffirm;
     private ImageView mStartBtn;
-    private final int WELCOME_REQUEST = 1;
-    private final int END_REQUEST = 2;
-
-    //交流模式
-    private RadioGroup modeSettingRg;
-    private RadioButton voiceMode, customMode;
-    public static int selectedVoiceMode = 0;
-    public static int selectedCustomMode = 1;
-    private int selectedMode = 0;
-    private TextView voiceTime;
+    private final int LEFT_REQUEST_CODE = 1;
+    private final int RIGHT_REQUEST_CODE = 2;
+    private final int FINISH_REQUEST_CODE = 3;
 
     public static String SP_START_PLAY_MODE = "sp_start_play_mode";
     public static String SP_STOP_PLAY_MODE = "sp_stop_play_mode";
@@ -113,8 +114,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             }
         }
     };
-    private int startMode;
-    private int stopMode;
 
     @Override
     public BasePresenter createPresenter() {
@@ -139,31 +138,23 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
         initViewId();
 
-        greetingListView.setAdapter(((SettingPresenter) mPresenter).getGreetingAdapter(true));
-        endListView.setAdapter(((SettingPresenter) mPresenter).getEndGreetingAdapter(true));
+        adapterList = new ArrayList<GreetingAdapter>();
+        adapterList.add(((SettingPresenter) mPresenter).getLeftGreetingAdapter());
+        adapterList.add(((SettingPresenter) mPresenter).getRightGreetingAdapter());
+        adapterList.add(((SettingPresenter) mPresenter).getFinishGreetingAdapter());
 
-        updatePlayMode(false);
-        updateStopMode(false);
-        isShowStartSpreadBtn(false);
-        isShowFinishSpreadBtn(false);
+        adapterList.get(0).isShowAllData(1, false);
+        adapterList.get(1).isShowAllData(2, false);
+        adapterList.get(2).isShowAllData(3, false);
 
-        int savedMode = PreferencesUtils.getInt(this.getApplicationContext(), "mMode", 0);
-        selectedMode = savedMode;
-        if (savedMode == SettingActivity.selectedVoiceMode) {
-            voiceMode.setChecked(true);
-        } else if (savedMode == SettingActivity.selectedCustomMode) {
-            customMode.setChecked(true);
-        }
-        modeSettingRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (i == R.id.voice_communication_mode) {
-                    selectedMode = selectedVoiceMode;
-                } else if (i == R.id.user_custom_mode) {
-                    selectedMode = selectedCustomMode;
-                }
-            }
-        });
+        leftListView.setAdapter(adapterList.get(0));
+        rightListView.setAdapter(adapterList.get(1));
+        finishListView.setAdapter(adapterList.get(2));
+
+        updateExpandView();
+        updatePlayModeView(leftPlayModeImg, false);
+        updatePlayModeView(rightPlayModeImg, false);
+        updatePlayModeView(finishPlayModeImg, false);
 
     }
 
@@ -193,46 +184,43 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 //        ulDistanceEdit12 = (EditText) findViewById(R.id.ul_place_edit12);
 //        ulDistanceEdit13 = (EditText) findViewById(R.id.ul_place_edit13);
 
-        //定时任务
-        timerStartEdit = (EditText) findViewById(R.id.timer_start_edit);
-        timerEndEdit = (EditText) findViewById(R.id.timer_end_edit);
-        timerPlace = (EditText) findViewById(R.id.timer_choose_place);
-        chooseStartTxt = (TextView) findViewById(R.id.timer_start_select_day);
-        chooseEndTxt = (TextView) findViewById(R.id.timer_end_select_day);
-
-
-        chooseStartDayBtn = (Button) findViewById(R.id.timer_start_choose_days);
-        chooseEndDayBtn = (Button) findViewById(R.id.timer_end_choose_days);
-        saveStartBtn = (Button) findViewById(R.id.timer_save_start);
-
         //迎宾语设置
-        greetingListView = (ListView) findViewById(R.id.greeting_set_lv);
-        addGreetBtn = (ImageView) findViewById(R.id.greeting_add_im);
-        delGreetBtn = (ImageView) findViewById(R.id.start_delete_img);
-        startPlayMode = (ImageView) findViewById(R.id.greeting_play_mode);
-        greetingShowListBtn = (ImageView) findViewById(R.id.greeting_show_list_img);
-        greetingShowListBtnLL = (LinearLayout) findViewById(R.id.greeting_show_list_img_ll);
+        leftListView = (ListView) findViewById(R.id.left_greeting_set_lv);
+        rightListView = (ListView) findViewById(R.id.right_greeting_set_lv);
+        finishListView = (ListView) findViewById(R.id.finish_greeting_set_lv);
 
-        endListView = (ListView) findViewById(R.id.end_set_lv);
-        addEndBtn = (ImageView) findViewById(R.id.end_add_im);
-        delEndBtn = (ImageView) findViewById(R.id.end_delete_img);
-        endPlayMode = (ImageView) findViewById(R.id.end_play_mode);
-        endShowListBtn = (ImageView) findViewById(R.id.end_show_list_img);
-        endShowListBtnLL = (LinearLayout) findViewById(R.id.end_show_list_img_ll);
+        //播放模式
+        leftPlayModeImg = (ImageView) findViewById(R.id.left_greeting_play_mode);
+        rightPlayModeImg = (ImageView) findViewById(R.id.right_greeting_play_mode);
+        finishPlayModeImg = (ImageView) findViewById(R.id.finish_greeting_play_mode);
 
-        //模式
-        modeSettingRg = (RadioGroup) findViewById(R.id.mode_setting);
-        voiceMode = (RadioButton) findViewById(R.id.voice_communication_mode);
-        customMode = (RadioButton) findViewById(R.id.user_custom_mode);
+        //添加
+        addLeftGreetBtn = (ImageView) findViewById(R.id.left_greeting_add_im);
+        addRightGreetBtn = (ImageView) findViewById(R.id.right_greeting_add_im);
+        addFinishGreetBtn = (ImageView) findViewById(R.id.finish_greeting_add_im);
+
+        //删除
+        delLeftGreetBtn = (ImageView) findViewById(R.id.left_greeting_delete_img);
+        delRightGreetBtn = (ImageView) findViewById(R.id.right_greeting_delete_img);
+        delFinishGreetBtn = (ImageView) findViewById(R.id.finish_greeting_delete_img);
+
+        leftShowListBtnLL = (LinearLayout) findViewById(R.id.left_greeting_show_list_img_ll);
+        rightShowListBtnLL = (LinearLayout) findViewById(R.id.right_greeting_show_list_img_ll);
+        finishShowListBtnLL = (LinearLayout) findViewById(R.id.finish_greeting_show_list_img_ll);
+        leftShowListBtn = (ImageView) findViewById(R.id.left_greeting_show_list_img);
+        rightShowListBtn = (ImageView) findViewById(R.id.right_greeting_show_list_img);
+        finishShowListBtn = (ImageView) findViewById(R.id.finish_greeting_show_list_img);
+
+        //超声波设置
+        leftUltrasonicTv = (TextView) findViewById(R.id.ultrasonic_left_set_tv);
+        rightUltrasonicTv = (TextView) findViewById(R.id.ultrasonic_right_set_tv);
+        leftUltrasonicBtn = (ImageView) findViewById(R.id.ultrasonic_left_set_img);
+        rightUltrasonicBtn = (ImageView) findViewById(R.id.ultrasonic_right_set_img);
 
         //按键
-        mCancle = (TextView) findViewById(R.id.cancel);
+        mCancel = (TextView) findViewById(R.id.cancel);
         mAffirm = (TextView) findViewById(R.id.affirm);
         mStartBtn = (ImageView) findViewById(R.id.ultrasonic_open_btn);
-        mTestUlBtn = (TextView) findViewById(R.id.ultrasonic_test_btn);
-        mTestUlBtn.setVisibility(View.GONE);
-
-        voiceTime = (TextView) findViewById(R.id.voice_time);
     }
 
     String data = "[\n" +
@@ -307,30 +295,27 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     @Override
     protected void setOnListener() {
         super.setOnListener();
-        mCancle.setOnClickListener(this);
+        mCancel.setOnClickListener(this);
         mAffirm.setOnClickListener(this);
         mStartBtn.setOnClickListener(this);
 
         findViewById(R.id.explain).setOnClickListener(this);
         findViewById(R.id.ultrasonic_init_btn).setOnClickListener(this);
 
-        addGreetBtn.setOnClickListener(this);
-        addEndBtn.setOnClickListener(this);
-        delGreetBtn.setOnClickListener(this);
-        delEndBtn.setOnClickListener(this);
-        startPlayMode.setOnClickListener(this);
-        endPlayMode.setOnClickListener(this);
-        greetingShowListBtnLL.setOnClickListener(this);
-        endShowListBtnLL.setOnClickListener(this);
-
-        //定时任务
-        chooseStartDayBtn.setOnClickListener(this);
-        chooseEndDayBtn.setOnClickListener(this);
-        timerStartEdit.setFocusable(false);
-        timerEndEdit.setFocusable(false);
-        timerPlace.setFocusable(false);
-        DatePickerUtils.getInstance().setDataPickDialog(timerStartEdit, this);
-        DatePickerUtils.getInstance().setDataPickDialog(timerEndEdit, this);
+        leftPlayModeImg.setOnClickListener(this);
+        rightPlayModeImg.setOnClickListener(this);
+        finishPlayModeImg.setOnClickListener(this);
+        addLeftGreetBtn.setOnClickListener(this);
+        addRightGreetBtn.setOnClickListener(this);
+        addFinishGreetBtn.setOnClickListener(this);
+        delLeftGreetBtn.setOnClickListener(this);
+        delRightGreetBtn.setOnClickListener(this);
+        delFinishGreetBtn.setOnClickListener(this);
+        leftShowListBtnLL.setOnClickListener(this);
+        rightShowListBtnLL.setOnClickListener(this);
+        finishShowListBtnLL.setOnClickListener(this);
+        leftUltrasonicBtn.setOnClickListener(this);
+        rightUltrasonicBtn.setOnClickListener(this);
     }
 
     @Override
@@ -350,242 +335,174 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 //初始化超声波
                 ((SettingPresenter) mPresenter).showDialog(getString(R.string.init_ultrasonic_hint));
                 break;
-            case R.id.timer_start_choose_days:
-                String selectedDays = PreferencesUtils.getString(this, "selectedStartDays");
-                setDialog(selectedDays, 0);
-                break;
-            case R.id.timer_end_choose_days:
-                String selectedEndDays = PreferencesUtils.getString(this, "selectedEndDays");
-                setDialog(selectedEndDays, 1);
-                break;
             case R.id.explain:
                 /***
                  * 打开使用说明页面
                  */
                 startActivity(new Intent(this, ExplainActivity.class));
                 break;
-            case R.id.greeting_add_im:
-                Intent intent = new Intent(this, AddBodyShowView.class);
-                intent.putExtra("itemNum", 1);
-                startActivityForResult(intent, WELCOME_REQUEST);
+            case R.id.left_greeting_add_im:
+                Intent leftIntent = new Intent(this, AddBodyShowView.class);
+                leftIntent.putExtra("itemNum", 1);
+                startActivityForResult(leftIntent, LEFT_REQUEST_CODE);
                 break;
-            case R.id.end_add_im:
-                Intent intentEnd = new Intent(this, AddBodyShowView.class);
-                intentEnd.putExtra("itemNum", 2);
-                startActivityForResult(intentEnd, END_REQUEST);
+            case R.id.right_greeting_add_im:
+                Intent rightIntentEnd = new Intent(this, AddBodyShowView.class);
+                rightIntentEnd.putExtra("itemNum", 2);
+                startActivityForResult(rightIntentEnd, RIGHT_REQUEST_CODE);
                 break;
-            case R.id.start_delete_img:
-                isShowStartSpreadBtn(true);
-                ((SettingPresenter) mPresenter).getGreetingAdapter(false).setDelVisible(new GreetingAdapter.OnDeleteItemListener() {
+            case R.id.finish_greeting_add_im:
+                Intent finishIntent = new Intent(this, AddBodyShowView.class);
+                finishIntent.putExtra("itemNum", 3);
+                startActivityForResult(finishIntent, FINISH_REQUEST_CODE);
+                break;
+            case R.id.left_greeting_delete_img:
+                ((SettingPresenter) mPresenter).getLeftGreetingAdapter().setDelVisible(new GreetingAdapter.OnDeleteItemListener() {
                     @Override
                     public void existLessTwo(boolean isExistLessTwo) {
                         if (isExistLessTwo) {
-                            greetingShowListBtn.setVisibility(View.GONE);
+                            leftShowListBtnLL.setVisibility(View.GONE);
                         }
                     }
                 });
                 break;
-            case R.id.end_delete_img:
-                isShowFinishSpreadBtn(true);
-                ((SettingPresenter) mPresenter).getEndGreetingAdapter(false).setDelVisible(new GreetingAdapter.OnDeleteItemListener() {
+            case R.id.right_greeting_delete_img:
+                ((SettingPresenter) mPresenter).getRightGreetingAdapter().setDelVisible(new GreetingAdapter.OnDeleteItemListener() {
                     @Override
                     public void existLessTwo(boolean isExistLessTwo) {
                         if (isExistLessTwo) {
-                            endShowListBtn.setVisibility(View.GONE);
+                            rightShowListBtnLL.setVisibility(View.GONE);
                         }
                     }
                 });
                 break;
-            case R.id.greeting_play_mode:
-                updatePlayMode(true);
+            case R.id.finish_greeting_delete_img:
+                ((SettingPresenter) mPresenter).getFinishGreetingAdapter().setDelVisible(new GreetingAdapter.OnDeleteItemListener() {
+                    @Override
+                    public void existLessTwo(boolean isExistLessTwo) {
+                        if (isExistLessTwo) {
+                            finishShowListBtnLL.setVisibility(View.GONE);
+                        }
+                    }
+                });
                 break;
-            case R.id.end_play_mode:
-                updateStopMode(true);
+            case R.id.left_greeting_play_mode:
+                updatePlayModeView(view, true);
                 break;
-            case R.id.greeting_show_list_img_ll:
-                showListView(view);
+            case R.id.right_greeting_play_mode:
+                updatePlayModeView(view, true);
                 break;
-            case R.id.end_show_list_img_ll:
-                showListView(view);
+            case R.id.finish_greeting_play_mode:
+                updatePlayModeView(view, true);
+                break;
+            case R.id.left_greeting_show_list_img_ll:
+                // 展开和收起
+                expandListView(1);
+                break;
+            case R.id.right_greeting_show_list_img_ll:
+                // 展开和收起
+                expandListView(2);
+                break;
+            case R.id.finish_greeting_show_list_img_ll:
+                // 展开和收起
+                expandListView(3);
+                break;
+            case R.id.ultrasonic_left_set_img:
+
+                break;
+            case R.id.ultrasonic_right_set_img:
+
                 break;
         }
     }
 
-    private void updatePlayMode(boolean isClick) {
-        int mode = PreferencesUtils.getInt(this, SP_START_PLAY_MODE, 0);
-        if (mode == 0) {
-            if (isClick) {
-                startPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shuffle_play_pressed));
-                PreferencesUtils.putInt(this, SP_START_PLAY_MODE, 1);
-                showToast("随机播放");
-            } else {
-                startPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.order_play_pressed));
-            }
-        } else if (mode == 1) {
-            if (isClick) {
-                startPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.order_play_pressed));
-                PreferencesUtils.putInt(this, SP_START_PLAY_MODE, 0);
-                showToast("列表循环");
-            } else {
-                startPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shuffle_play_pressed));
-            }
+    private void updatePlayModeView(View imageView, boolean isClick) {
+        int playMode = -1;
+        if (imageView.equals(leftPlayModeImg)) {
+            playMode = PreferencesUtils.getInt(this, SP_STOP_PLAY_MODE, 0);
+        } else if (imageView.equals(rightPlayModeImg)) {
+            playMode = PreferencesUtils.getInt(this, SP_STOP_PLAY_MODE, 0);
+        } else if (imageView.equals(finishPlayModeImg)) {
+
         }
-
-
-    }
-
-    private void updateStopMode(boolean isClick) {
-        int stopMode = PreferencesUtils.getInt(this, SP_STOP_PLAY_MODE, 0);
-        if (stopMode == 0) {
+        if (playMode != -1) {
             if (isClick) {
-                endPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shuffle_play_pressed));
+                imageView.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shuffle_play_pressed));
                 PreferencesUtils.putInt(this, SP_STOP_PLAY_MODE, 1);
                 showToast("随机播放");
             } else {
-                endPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.order_play_pressed));
-            }
-        } else if (stopMode == 1) {
-            if (isClick) {
-                endPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.order_play_pressed));
-                PreferencesUtils.putInt(this, SP_STOP_PLAY_MODE, 0);
-                showToast("列表循环");
-            } else {
-                endPlayMode.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shuffle_play_pressed));
+                imageView.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.order_play_pressed));
             }
         }
-    }
-
-    private boolean isShowGreeting = false;
-    private boolean isShowEnd = false;
-
-    /**
-     * isShow 是否展开 开始迎宾条目
-     */
-    private void isShowStartSpreadBtn(boolean isShowStart) {
-        List<ItemsContentBean> startList = DataManager.getInstance(getContext()).queryItem(1);
-        if (startList != null && startList.size() > 1) {
-            greetingShowListBtn.setVisibility(View.VISIBLE);
-            if (isShowStart) {
-                //展开
-                isShowGreeting = true;
-                ((SettingPresenter) mPresenter).getGreetingAdapter(false).notifyDataSetChanged();
-                greetingShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
-            } else
-                greetingShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.open));
-        } else {
-            ((SettingPresenter) mPresenter).getGreetingAdapter(true).notifyDataSetChanged();
-            greetingShowListBtn.setVisibility(View.GONE);
-        }
-
     }
 
     /**
-     * isShow 是否展开 结束迎宾条目
+     * 开始迎宾条目
      */
-    private void isShowFinishSpreadBtn(boolean isShowFinish) {
-        List<ItemsContentBean> endList = DataManager.getInstance(getContext()).queryItem(2);
-        if (endList != null && endList.size() > 1) {
-            endShowListBtn.setVisibility(View.VISIBLE);
-            endShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
-            if (isShowFinish) {
-                isShowEnd = true;
-                ((SettingPresenter) mPresenter).getEndGreetingAdapter(false).notifyDataSetChanged();
-            } else
-                endShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.open));
+    private void updateExpandView() {
+        List<ItemsContentBean> leftList = DataManager.getInstance(getContext()).queryItem(1);
+        int mLeftListSize = adapterList.get(0).getSourceDataSize();
+        if (mLeftListSize > 1) {
+            leftShowListBtnLL.setVisibility(View.VISIBLE);
+            leftShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
         } else {
-            ((SettingPresenter) mPresenter).getEndGreetingAdapter(true).notifyDataSetChanged();
-            endShowListBtn.setVisibility(View.GONE);
+            if (leftList != null && leftList.size() > 1) {
+                leftShowListBtnLL.setVisibility(View.VISIBLE);
+                leftShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.open));
+            } else
+                leftShowListBtnLL.setVisibility(View.GONE);
         }
+
+
+        List<ItemsContentBean> rightList = DataManager.getInstance(getContext()).queryItem(2);
+        int mRightListSize = adapterList.get(1).getSourceDataSize();
+        if (mRightListSize > 1) {
+            rightShowListBtnLL.setVisibility(View.VISIBLE);
+            rightShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
+        } else {
+            if (rightList != null && rightList.size() > 1) {
+                rightShowListBtnLL.setVisibility(View.VISIBLE);
+                rightShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.open));
+            } else
+                rightShowListBtnLL.setVisibility(View.GONE);
+        }
+
+
+        List<ItemsContentBean> finishList = DataManager.getInstance(getContext()).queryItem(3);
+        int mFinishListSize = adapterList.get(2).getSourceDataSize();
+        if (mFinishListSize > 1) {
+            finishShowListBtnLL.setVisibility(View.VISIBLE);
+            finishShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
+        } else {
+            if (finishList != null && finishList.size() > 1) {
+                finishShowListBtnLL.setVisibility(View.VISIBLE);
+                finishShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.open));
+            } else
+                finishShowListBtnLL.setVisibility(View.GONE);
+        }
+
     }
 
-    private void showListView(View imageView) {
-        if (imageView.equals(greetingShowListBtnLL)) {
-            isShowGreeting = !isShowGreeting;
-            if (isShowGreeting) {
-                greetingShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
-                ((SettingPresenter) mPresenter).getGreetingAdapter(false).notifyDataSetChanged();
-            } else {
-                greetingShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.open));
-                ((SettingPresenter) mPresenter).getGreetingAdapter(true).notifyDataSetChanged();
-            }
-        } else if (imageView.equals(endShowListBtnLL)) {
-            isShowEnd = !isShowEnd;
-            if (isShowEnd) {
-                endShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shrink));
-                ((SettingPresenter) mPresenter).getEndGreetingAdapter(false).notifyDataSetChanged();
-            } else {
-                endShowListBtn.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.open));
-                ((SettingPresenter) mPresenter).getEndGreetingAdapter(true).notifyDataSetChanged();
-            }
-        }
-    }
 
-    private void setDialog(String selectedDays, final int type) {
-        if (TextUtils.isEmpty(selectedDays)) {
-            selectedDays = "周一:周二:周三:周四:周五";
-        }
-        List<WeekBean> startWeekLists = initWeekData(selectedDays);
-        DatePickerUtils.getInstance().setDayPickDialog(startWeekLists, this, new DatePickerUtils.OnDayCheckListener() {
-            @Override
-            public void onCheckListData(LinkedHashMap<String, Boolean> maps) {
-                StringBuilder stringBuilder = new StringBuilder();
-                for (LinkedHashMap.Entry<String, Boolean> map : maps.entrySet()) {
-                    boolean ischeck = map.getValue();
-                    if (ischeck) {
-                        stringBuilder.append(map.getKey() + ":");
-                    }
+    /**
+     * 是否展开条目
+     * type 类型
+     */
+    private void expandListView(int type) {
+        List<ItemsContentBean> startList = DataManager.getInstance(getContext()).queryItem(type);
+        int currentListSize = adapterList.get(type - 1).getSourceDataSize();
+        if (startList != null) {
+            if (startList.size() > 1) {
+                if (startList.size() > currentListSize) {
+                    //展开
+                    adapterList.get(type - 1).isShowAllData(type, true);
+                } else if (startList.size() == currentListSize) {
+                    //收起
+                    adapterList.get(type - 1).isShowAllData(type, false);
                 }
-                if (stringBuilder.toString().contains(":")) {
-                    stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(":"));
-                }
-
-                if (type == 0) {
-                    PreferencesUtils.putString(SettingActivity.this, "selectedStartDays", stringBuilder.toString());
-                    chooseStartTxt.setText(stringBuilder.toString());
-                    if (TextUtils.isEmpty(chooseStartTxt.getText())) {
-                        chooseStartTxt.setText("周一:周二:周三:周四:周五");
-                    }
-                } else if (type == 1) {
-                    PreferencesUtils.putString(SettingActivity.this, "selectedEndDays", stringBuilder.toString());
-                    chooseEndTxt.setText(stringBuilder.toString());
-                    if (TextUtils.isEmpty(chooseEndTxt.getText())) {
-                        chooseEndTxt.setText("周一:周二:周三:周四:周五");
-                    }
-                }
-
             }
-        });
-    }
-
-    private List<WeekBean> initWeekData(String selectedDays) {
-        List<WeekBean> startWeekLists = new ArrayList<WeekBean>();
-
-        String[] days = selectedDays.split(":");
-        for (int i = 0; i < days.length; i++) {
-            WeekBean weekBean = new WeekBean();
-            weekBean.setDay(days[i]);
-            weekBean.setCheck(true);
-            startWeekLists.add(weekBean);
+            updateExpandView();
         }
-
-
-        return startWeekLists;
-    }
-
-
-    @Override
-    public int getExchangeMode() {
-        return selectedMode;
-    }
-
-    @Override
-    public void setVoiceTime(String time) {
-        voiceTime.setText(time);
-    }
-
-    @Override
-    public String getVoiceTime() {
-        return voiceTime.getText().toString();
     }
 
     @Override
@@ -639,34 +556,32 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     }
 
     @Override
-    public void setStartTime(String startTime) {
-        timerStartEdit.setText(startTime);
-    }
-
-    @Override
-    public void setEndTime(String endTime) {
-        timerEndEdit.setText(endTime);
-    }
-
-    @Override
-    public void setTimerPlace(String guestPlace) {
-        timerPlace.setText(guestPlace);
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         L.i(TAG, "SettingActivity onPause");
     }
 
+
+    private void showLeftUltrasonicDialog() {
+
+    }
+
+    private void showRightUltrasonicDialog() {
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == 1) { //从设置回来刷新
-            isShowStartSpreadBtn(true);
-        } else if (requestCode == 2 && resultCode == 1) {
-            isShowFinishSpreadBtn(true);
+        if (requestCode == LEFT_REQUEST_CODE && resultCode == 1) { //从设置回来刷新
+            adapterList.get(0).isShowAllData(1, true);
+        } else if (requestCode == RIGHT_REQUEST_CODE && resultCode == 1) {
+            adapterList.get(1).isShowAllData(2, true);
+        } else if (requestCode == FINISH_REQUEST_CODE && resultCode == 1) {
+            adapterList.get(2).isShowAllData(3, true);
         }
+
+        updateExpandView();
     }
 
     @Override
@@ -681,125 +596,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 //        }
         super.onDestroy();
 
-    }
-
-    /**
-     * 任务地点
-     */
-
-    private AlertDialog placeDialog;
-
-    private void initTimerPlaceData() {
-        ArrayList<Location> locationList = query(getContext());
-        if (locationList == null || locationList.size() == 0) {
-            Toast.makeText(getContext(), "无迎宾地点", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        placeDialog = new AlertDialog.Builder(getContext()).create();
-        placeDialog.setCancelable(true);
-        placeDialog.show();
-        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.timer_place_dialog, null);
-//        placeDialog.getWindow().setContentView(R.layout.timer_place_dialog);
-        placeDialog.getWindow().setContentView(dialogView);
-        ListView listView = (ListView) dialogView.findViewById(R.id.timer_place_list_view);
-
-        PlaceAdapter adapter = new PlaceAdapter(getContext(), locationList);
-        listView.setAdapter(adapter);
-
-
-    }
-
-    private class PlaceAdapter extends BaseAdapter {
-
-        ArrayList<Location> locationList;
-        Context context;
-
-        private PlaceAdapter(Context context, ArrayList<Location> locationList) {
-            this.locationList = locationList;
-            this.context = context;
-        }
-
-        @Override
-        public int getCount() {
-            return locationList.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return i;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(final int i, View convertView, ViewGroup viewGroup) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.timer_place_item, viewGroup, false);
-            TextView placeText = (TextView) convertView.findViewById(R.id.timer_place_item_text);
-
-            if (locationList != null && locationList.size() > 0) {
-                placeText.setText(locationList.get(i).getLocation_name());
-                placeText.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        timerPlace.setText(locationList.get(i).getLocation_name());
-                        if (placeDialog != null) {
-                            placeDialog.dismiss();
-                        }
-                    }
-                });
-            }
-
-            return convertView;
-        }
-    }
-
-    public static ArrayList<Location> query(Context mContext) {
-        ArrayList<Location> locationList = new ArrayList<Location>();
-        Uri uri = Uri.parse("content://com.efrobot.services.common/location");
-        try {
-            Cursor cursor = mContext.getContentResolver().query(uri, null, null, null, null);
-            while (cursor.moveToNext()) {
-
-                String locationName = null;
-                int location_name = cursor.getColumnIndex("location_name");
-                if (location_name > 0) {
-                    locationName = cursor.getString(location_name);
-                }
-
-                String locationX = null;
-                int location_x = cursor.getColumnIndex("location_x");
-                if (location_name > 0) {
-                    locationX = cursor.getString(location_x);
-                }
-
-                String locationY = null;
-                int location_y = cursor.getColumnIndex("location_y");
-                if (location_y > 0) {
-                    locationY = cursor.getString(location_y);
-                }
-
-                String locationType = null;
-                int location_type = cursor.getColumnIndex("location_type");
-                if (location_type > 0) {
-                    locationType = cursor.getString(location_type);
-                }
-
-                String locationAngle = null;
-                int location_angle = cursor.getColumnIndex("location_angle");
-                if (location_angle > 0) {
-                    locationAngle = cursor.getString(location_angle);
-                }
-
-                Location location = new Location(locationName, locationType, locationX, locationY, locationAngle);
-                locationList.add(location);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return locationList;
     }
 
     /**

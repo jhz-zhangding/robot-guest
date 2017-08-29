@@ -40,8 +40,33 @@ public class GreetingAdapter extends BaseAdapter {
         dataManager = DataManager.getInstance(mContext);
     }
 
+    public void isShowAllData(int type, boolean isShowAll) {
+        List<ItemsContentBean> list = DataManager.getInstance(mContext).queryItem(type);
+        if (list != null) {
+            if (!isShowAll) {
+                if (list != null && list.size() > 1) {
+                    list = list.subList(0, 1);
+                }
+            }
+        }
+        this.lists = list;
+        notifyDataSetChanged();
+    }
+
     public void setSourceData(List<ItemsContentBean> datas) {
         this.lists = datas;
+    }
+
+    public List<ItemsContentBean> getSourceData() {
+        return this.lists;
+    }
+
+    public int getSourceDataSize() {
+        int dataSize = 0;
+        if (this.lists != null) {
+            dataSize = this.lists.size();
+        }
+        return dataSize;
     }
 
     public void setDelVisible(OnDeleteItemListener onDeleteItemListener) {
@@ -80,7 +105,7 @@ public class GreetingAdapter extends BaseAdapter {
         }
 
         mHolder.welcomeTts.setText(lists.get(position).getOther());
-        if(isShowDel) {
+        if (isShowDel) {
             mHolder.delItemBtn.setVisibility(View.VISIBLE);
         } else {
             mHolder.delItemBtn.setVisibility(View.GONE);
@@ -99,12 +124,12 @@ public class GreetingAdapter extends BaseAdapter {
             public void onClick(View v) {
                 dataManager.deleteContentById(lists.get(position).getId());
                 lists.remove(position);
-                if(lists.size() <= 1) {
-                    if(onDeleteItemListener != null) {
+                if (lists.size() <= 1) {
+                    if (onDeleteItemListener != null) {
                         onDeleteItemListener.existLessTwo(true);
                     }
                 }
-                if(lists.size() == 0) {
+                if (lists.size() == 0) {
                     isShowDel = false;
                 }
                 notifyDataSetChanged();
@@ -114,6 +139,7 @@ public class GreetingAdapter extends BaseAdapter {
     }
 
     private ViewHolder mHolder;
+
     private class ViewHolder {
         TextView welcomeTts;
         ImageView delItemBtn;
