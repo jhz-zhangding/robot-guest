@@ -1,44 +1,41 @@
 package com.efrobot.guest.setting;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
-import android.net.Uri;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.efrobot.guest.GuestsApplication;
 import com.efrobot.guest.R;
 import com.efrobot.guest.action.AddBodyShowView;
 import com.efrobot.guest.base.GuestsBaseActivity;
 import com.efrobot.guest.bean.ItemsContentBean;
-import com.efrobot.guest.bean.Location;
-import com.efrobot.guest.bean.WeekBean;
+import com.efrobot.guest.bean.UlPlaceBean;
 import com.efrobot.guest.dao.DataManager;
+import com.efrobot.guest.dao.UltrasonicDao;
 import com.efrobot.guest.explain.ExplainActivity;
 import com.efrobot.guest.service.UltrasonicService;
+import com.efrobot.guest.setting.bean.SelectDirection;
 import com.efrobot.guest.utils.CustomHintDialog;
-import com.efrobot.guest.utils.DatePickerUtils;
 import com.efrobot.guest.utils.PreferencesUtils;
+import com.efrobot.guest.utils.ui.DisplayParamsUtil;
 import com.efrobot.library.RobotManager;
 import com.efrobot.library.RobotState;
 import com.efrobot.library.mvp.presenter.BasePresenter;
@@ -46,13 +43,20 @@ import com.efrobot.library.mvp.utils.L;
 import com.efrobot.speechsdk.SpeechManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * Created by Administrator on 2017/3/2.
  */
 public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implements ISettingView, View.OnClickListener {
+
+    public final int START_GUEST = 0;
+    public final int INIT_GUEST_USER_DATA = 1;
 
     private List<GreetingAdapter> adapterList;
 
@@ -83,25 +87,31 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     private ImageView leftShowListBtn, rightShowListBtn, finishShowListBtn;
 
     //选择超声波
-    private TextView leftUltrasonicTv,rightUltrasonicTv;
+    private TextView leftUltrasonicTv, rightUltrasonicTv;
     private ImageView leftUltrasonicBtn, rightUltrasonicBtn;
 
     //保存设置
-    private TextView mCancel, mAffirm;
+    private TextView mCancel, mAffirm, mSetting;
     private ImageView mStartBtn;
     private final int LEFT_REQUEST_CODE = 1;
     private final int RIGHT_REQUEST_CODE = 2;
     private final int FINISH_REQUEST_CODE = 3;
 
-    public static String SP_START_PLAY_MODE = "sp_start_play_mode";
-    public static String SP_STOP_PLAY_MODE = "sp_stop_play_mode";
+    public static String SP_LEFT_PLAY_MODE = "sp_left_play_mode";
+    public static String SP_RIGHT_PLAY_MODE = "sp_right_play_mode";
+    public static String SP_FINISH_PLAY_MODE = "sp_finish_play_mode";
+
+    public static int GUEST_ORDER_PLAY_MODE = 0;
+    public static int GUEST_LOOP_PLAY_MODE = 1;
+
+    private Map<Integer, EditText> ultrasonicMap = new HashMap<Integer, EditText>();
 
     private Handler mHanlder = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case 0:
+                case START_GUEST:
                     int maskSwitch = RobotState.getInstance(getContext()).getMaskState();
                     L.i(TAG, "面罩maskSwitch:" + maskSwitch);
                     if (maskSwitch == 0) {
@@ -110,6 +120,9 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                         showToast("开始迎宾");
 
                     }
+                    break;
+                case INIT_GUEST_USER_DATA:
+                    initUserSetting();
                     break;
             }
         }
@@ -172,18 +185,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         ulDistanceText12 = (TextView) findViewById(R.id.ul_place_test_edit12);
         ulDistanceText13 = (TextView) findViewById(R.id.ul_place_test_edit13);
 
-        //设置数据
-//        ulDistanceEdit1 = (EditText) findViewById(R.id.ul_place_edit1);
-//        ulDistanceEdit2 = (EditText) findViewById(R.id.ul_place_edit2);
-//        ulDistanceEdit3 = (EditText) findViewById(R.id.ul_place_edit3);
-//        ulDistanceEdit7 = (EditText) findViewById(R.id.ul_place_edit7);
-//        ulDistanceEdit8 = (EditText) findViewById(R.id.ul_place_edit8);
-//        ulDistanceEdit9 = (EditText) findViewById(R.id.ul_place_edit9);
-//        ulDistanceEdit10 = (EditText) findViewById(R.id.ul_place_edit10);
-//        ulDistanceEdit11 = (EditText) findViewById(R.id.ul_place_edit11);
-//        ulDistanceEdit12 = (EditText) findViewById(R.id.ul_place_edit12);
-//        ulDistanceEdit13 = (EditText) findViewById(R.id.ul_place_edit13);
-
         //迎宾语设置
         leftListView = (ListView) findViewById(R.id.left_greeting_set_lv);
         rightListView = (ListView) findViewById(R.id.right_greeting_set_lv);
@@ -221,6 +222,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         mCancel = (TextView) findViewById(R.id.cancel);
         mAffirm = (TextView) findViewById(R.id.affirm);
         mStartBtn = (ImageView) findViewById(R.id.ultrasonic_open_btn);
+        mSetting = (TextView) findViewById(R.id.ultrasonic_setting_btn);
     }
 
     String data = "[\n" +
@@ -297,6 +299,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         super.setOnListener();
         mCancel.setOnClickListener(this);
         mAffirm.setOnClickListener(this);
+        mSetting.setOnClickListener(this);
         mStartBtn.setOnClickListener(this);
 
         findViewById(R.id.explain).setOnClickListener(this);
@@ -340,6 +343,9 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                  * 打开使用说明页面
                  */
                 startActivity(new Intent(this, ExplainActivity.class));
+                break;
+            case R.id.ultrasonic_setting_btn:
+                showUltrasonicSettingDialog();
                 break;
             case R.id.left_greeting_add_im:
                 Intent leftIntent = new Intent(this, AddBodyShowView.class);
@@ -408,30 +414,274 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 expandListView(3);
                 break;
             case R.id.ultrasonic_left_set_img:
-
+                showSelectUltrasonicDialog(1);
                 break;
             case R.id.ultrasonic_right_set_img:
-
+                showSelectUltrasonicDialog(2);
                 break;
         }
     }
 
+
+    private Dialog ultrasonicSettingDialog;
+
+    private void showUltrasonicSettingDialog() {
+        if (ultrasonicSettingDialog == null) {
+            ultrasonicSettingDialog = new Dialog(this, R.style.NewSettingDialog);
+            View currentView = LayoutInflater.from(this).inflate(R.layout.layout_ultrasonic_select_dialog, null);
+            ulDistanceEdit1 = (EditText) currentView.findViewById(R.id.ul_place_edit1);
+            ultrasonicMap.put(0, ulDistanceEdit1);
+            ulDistanceEdit2 = (EditText) currentView.findViewById(R.id.ul_place_edit2);
+            ultrasonicMap.put(1, ulDistanceEdit2);
+            ulDistanceEdit3 = (EditText) currentView.findViewById(R.id.ul_place_edit3);
+            ultrasonicMap.put(2, ulDistanceEdit3);
+            ulDistanceEdit7 = (EditText) currentView.findViewById(R.id.ul_place_edit7);
+            ultrasonicMap.put(6, ulDistanceEdit7);
+            ulDistanceEdit8 = (EditText) currentView.findViewById(R.id.ul_place_edit8);
+            ultrasonicMap.put(7, ulDistanceEdit8);
+            ulDistanceEdit9 = (EditText) currentView.findViewById(R.id.ul_place_edit9);
+            ultrasonicMap.put(8, ulDistanceEdit9);
+            ulDistanceEdit10 = (EditText) currentView.findViewById(R.id.ul_place_edit10);
+            ultrasonicMap.put(9, ulDistanceEdit10);
+            ulDistanceEdit11 = (EditText) currentView.findViewById(R.id.ul_place_edit11);
+            ultrasonicMap.put(10, ulDistanceEdit11);
+            ulDistanceEdit12 = (EditText) currentView.findViewById(R.id.ul_place_edit12);
+            ultrasonicMap.put(11, ulDistanceEdit12);
+            ulDistanceEdit13 = (EditText) currentView.findViewById(R.id.ul_place_edit13);
+            ultrasonicMap.put(12, ulDistanceEdit13);
+            currentView.findViewById(R.id.ultrasonic_setting_affirm_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    saveUserSetting();
+                    ultrasonicSettingDialog.dismiss();
+                }
+            });
+            ultrasonicSettingDialog.setContentView(currentView);
+            Window dialogWindow = ultrasonicSettingDialog.getWindow();
+            dialogWindow.setGravity(Gravity.CENTER);
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            lp.width = DisplayParamsUtil.dipToPixel(this, 1100);
+            lp.height = DisplayParamsUtil.dipToPixel(this, 400);
+
+            dialogWindow.setAttributes(lp);
+            dialogWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        }
+        mHanlder.sendEmptyMessage(INIT_GUEST_USER_DATA);
+        ultrasonicSettingDialog.show();
+
+    }
+
+    /**
+     * 用户设置距离
+     */
+    private void saveUserSetting() {
+        UltrasonicDao ultrasonicDao = GuestsApplication.from(this).getUltrasonicDao();
+        for (Map.Entry entry : ultrasonicMap.entrySet()) {
+            L.e("saveUserSetting", "setUltrasonicId=" + (Integer) entry.getKey() + "- - -setDistanceValue=" + ((EditText) entry.getValue()).getText().toString());
+            UlPlaceBean ulPlaceBean = new UlPlaceBean();
+            int ultrasonicId = (Integer) entry.getKey();
+            String distanceValue = ((EditText) entry.getValue()).getText().toString();
+
+            ulPlaceBean.setUltrasonicId(ultrasonicId);
+            ulPlaceBean.setDistanceValue(distanceValue);
+            if (ultrasonicDao.isExits(ultrasonicId)) {
+                ultrasonicDao.update(0, ultrasonicId, distanceValue);
+            } else
+                ultrasonicDao.insert(ulPlaceBean);
+        }
+    }
+
+    /**
+     * 用户设置距离
+     */
+    private void initUserSetting() {
+        UltrasonicDao ultrasonicDao = GuestsApplication.from(this).getUltrasonicDao();
+        ArrayList<UlPlaceBean> lists = ultrasonicDao.queryAll();
+
+        if (lists != null) {
+            for (int i = 0; i < lists.size(); i++) {
+                UlPlaceBean ulPlaceBean = lists.get(i);
+                ultrasonicMap.get(ulPlaceBean.getUltrasonicId()).setText(ulPlaceBean.getDistanceValue());
+            }
+        }
+    }
+
+    private Dialog selectUltrasonicDialog;
+    private GridView selectGridView;
+    private SelectDirecAdapter selectDirecAdapter;
+    private LinearLayout titleLeftContainer, titleRightContainer;
+    private int currentDialogType = 1;
+    private void showSelectUltrasonicDialog(int type) {
+        currentDialogType = type;
+        if (selectUltrasonicDialog == null) {
+            selectUltrasonicDialog = new Dialog(this, R.style.NewSettingDialog);
+            View currentView = LayoutInflater.from(this).inflate(R.layout.select_derc_ultrasonic_dialog, null);
+            selectGridView = (GridView) currentView.findViewById(R.id.selected_dec_gv);
+            titleLeftContainer = (LinearLayout) currentView.findViewById(R.id.selected_dec_left_container);
+            titleRightContainer = (LinearLayout) currentView.findViewById(R.id.selected_dec_right_container);
+
+            selectDirecAdapter = new SelectDirecAdapter(this);
+            selectDirecAdapter.setSourceData(getDirecData());
+            selectDirecAdapter.setOnSelectedItem(new SelectDirecAdapter.OnSelectedItem() {
+                @Override
+                public void onSelect(SelectDirection selectDirection, int position) {
+                    if(currentDialogType == 1) {
+                        addChildLinearLayout(titleLeftContainer, selectDirection, position);
+                    } else if(currentDialogType == 2) {
+                        addChildLinearLayout(titleRightContainer, selectDirection, position);
+                    }
+                }
+            });
+            selectGridView.setAdapter(selectDirecAdapter);
+
+            selectUltrasonicDialog.setContentView(currentView);
+            Window dialogWindow = selectUltrasonicDialog.getWindow();
+            dialogWindow.setGravity(Gravity.CENTER);
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            lp.width = DisplayParamsUtil.dipToPixel(this, 800);
+            lp.height = DisplayParamsUtil.dipToPixel(this, 300);
+
+            dialogWindow.setAttributes(lp);
+        }
+        if(type == 1) {
+            titleLeftContainer.setVisibility(View.VISIBLE);
+            titleRightContainer.setVisibility(View.GONE);
+        } else if(type == 2) {
+            titleLeftContainer.setVisibility(View.GONE);
+            titleRightContainer.setVisibility(View.VISIBLE);
+        }
+        selectUltrasonicDialog.show();
+
+    }
+
+    private List<SelectDirection> tempLeftSelectDirections = new ArrayList<SelectDirection>();
+    private List<SelectDirection> tempRightSelectDirections = new ArrayList<SelectDirection>();
+
+    private void addChildLinearLayout(final LinearLayout parentView, final SelectDirection selectDirection, final int position) {
+        final LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        TextView textView = new TextView(this);
+        textView.setTextColor(Color.WHITE);
+        textView.setTextSize(DisplayParamsUtil.spToPixel(this, 26));
+        textView.setText(selectDirection.getValue());
+        linearLayout.addView(textView);
+
+        ImageView imageView = new ImageView(this);
+        imageView.setBackground(this.getResources().getDrawable(R.mipmap.del));
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(parentView != null) {
+                    parentView.removeView(linearLayout);
+                    if(currentDialogType == 1) {
+                        tempLeftSelectDirections.remove(selectDirection);
+                        updateSelectedTv(tempLeftSelectDirections, leftUltrasonicTv);
+                    } else if(currentDialogType == 2) {
+                        tempRightSelectDirections.remove(selectDirection);
+                        updateSelectedTv(tempRightSelectDirections, rightUltrasonicTv);
+                    }
+                    if(selectDirecAdapter != null) {
+                        selectDirecAdapter.resetTextView(position);
+                    }
+                }
+            }
+        });
+        linearLayout.addView(imageView);
+
+        if(parentView != null) {
+            parentView.addView(linearLayout);
+            if(currentDialogType == 1) {
+                tempLeftSelectDirections.add(selectDirection);
+                updateSelectedTv(tempLeftSelectDirections, leftUltrasonicTv);
+            } else if(currentDialogType == 2) {
+                tempRightSelectDirections.add(selectDirection);
+                updateSelectedTv(tempRightSelectDirections, rightUltrasonicTv);
+            }
+        }
+
+    }
+
+
+    private void updateSelectedTv(List<SelectDirection> tempSelectDirections, TextView textView) {
+        StringBuffer sb = new StringBuffer();
+        if(tempSelectDirections.size() > 0) {
+            if(tempSelectDirections.size() > 1) {
+                for (int i = 0; i < tempSelectDirections.size(); i++) {
+                    sb.append(tempSelectDirections.get(i).getValue()).append("/");
+                }
+            } else {
+                sb.append(tempSelectDirections.get(0).getValue());
+            }
+            if(sb.toString().contains("/")) {
+                sb.toString().substring(0, sb.toString().lastIndexOf("/"));
+            }
+            textView.setText(sb.toString());
+        } else {
+            textView.setText("");
+        }
+    }
+
+
+    private LinkedHashMap<Integer, String> direcMap;
+    private List<SelectDirection> getDirecData() {
+        List<SelectDirection> data = new ArrayList<SelectDirection>();
+        if(direcMap == null) {
+            direcMap = new LinkedHashMap<Integer, String>();
+            direcMap.put(2, "左1");
+            direcMap.put(1, "左3");
+            direcMap.put(0, "中1");
+            direcMap.put(7, "右3");
+            direcMap.put(6, "右1");
+
+            direcMap.put(12, "左2");
+            direcMap.put(10, "左4");
+            direcMap.put(9, "中2");
+            direcMap.put(8, "右4");
+            direcMap.put(11, "右2");
+        }
+        for(Map.Entry entry:direcMap.entrySet()) {
+            int ultrasonicId = (Integer)entry.getKey();
+            String value = (String) entry.getValue();
+            SelectDirection selectDirection = new SelectDirection();
+            selectDirection.setUltrasonicId(ultrasonicId);
+            selectDirection.setValue(value);
+            data.add(selectDirection);
+        }
+
+        return data;
+    }
+
+
     private void updatePlayModeView(View imageView, boolean isClick) {
         int playMode = -1;
+        String needSaveSp = "";
         if (imageView.equals(leftPlayModeImg)) {
-            playMode = PreferencesUtils.getInt(this, SP_STOP_PLAY_MODE, 0);
+            playMode = PreferencesUtils.getInt(this, SP_LEFT_PLAY_MODE, GUEST_ORDER_PLAY_MODE);
+            needSaveSp = SP_LEFT_PLAY_MODE;
         } else if (imageView.equals(rightPlayModeImg)) {
-            playMode = PreferencesUtils.getInt(this, SP_STOP_PLAY_MODE, 0);
+            playMode = PreferencesUtils.getInt(this, SP_RIGHT_PLAY_MODE, GUEST_ORDER_PLAY_MODE);
+            needSaveSp = SP_RIGHT_PLAY_MODE;
         } else if (imageView.equals(finishPlayModeImg)) {
-
+            playMode = PreferencesUtils.getInt(this, SP_FINISH_PLAY_MODE, GUEST_ORDER_PLAY_MODE);
+            needSaveSp = SP_FINISH_PLAY_MODE;
         }
         if (playMode != -1) {
-            if (isClick) {
-                imageView.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shuffle_play_pressed));
-                PreferencesUtils.putInt(this, SP_STOP_PLAY_MODE, 1);
-                showToast("随机播放");
-            } else {
+            if(playMode == GUEST_ORDER_PLAY_MODE) {
                 imageView.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.order_play_pressed));
+            } else if(playMode == GUEST_LOOP_PLAY_MODE) {
+                imageView.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shuffle_play_pressed));
+            }
+        }
+
+        if(isClick) {
+            if(playMode == GUEST_ORDER_PLAY_MODE) {
+                imageView.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.shuffle_play_pressed));
+                PreferencesUtils.putInt(this, needSaveSp, GUEST_LOOP_PLAY_MODE);
+                showToast("随机播放");
+            } else if(playMode == GUEST_LOOP_PLAY_MODE) {
+                imageView.setBackgroundDrawable(this.getResources().getDrawable(R.mipmap.order_play_pressed));
+                PreferencesUtils.putInt(this, needSaveSp, GUEST_ORDER_PLAY_MODE);
+                showToast("顺序播放");
             }
         }
     }
@@ -559,15 +809,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     protected void onPause() {
         super.onPause();
         L.i(TAG, "SettingActivity onPause");
-    }
-
-
-    private void showLeftUltrasonicDialog() {
-
-    }
-
-    private void showRightUltrasonicDialog() {
-
     }
 
     @Override

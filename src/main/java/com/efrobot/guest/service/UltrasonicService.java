@@ -140,8 +140,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     public void initGuestData() {
         //播放模式
-        startPlayMode = PreferencesUtils.getInt(this, SettingActivity.SP_START_PLAY_MODE, 0);
-        stopPlayMode = PreferencesUtils.getInt(this, SettingActivity.SP_STOP_PLAY_MODE, 0);
+        startPlayMode = PreferencesUtils.getInt(this, SettingActivity.SP_LEFT_PLAY_MODE, 0);
+        stopPlayMode = PreferencesUtils.getInt(this, SettingActivity.SP_RIGHT_PLAY_MODE, 0);
         //交流时间
 //        String voiceTime = PreferencesUtils.getString(this.getApplicationContext(), SettingPresenter.SP_VOICE_TIME);
 //        if (voiceTime != null && !voiceTime.isEmpty()) {

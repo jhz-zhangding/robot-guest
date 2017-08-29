@@ -214,7 +214,7 @@
                 android:layout_margin="@dimen/padding_35"
                 android:layout_marginBottom="@dimen/padding_35"
                 android:layout_marginTop="@dimen/padding_10"
-                android:background="@drawable/botton_white_bg"
+                android:background="@drawable/botton_blue_bg"
                 android:hint="请输入0-140个字符"
                 android:textColor="@color/white"
                 android:padding="@dimen/padding_15"

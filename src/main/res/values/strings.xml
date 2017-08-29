@@ -13,9 +13,11 @@
     <string name="cancel">取消</string>
     <string name="affirm">确认</string>
     <string name="confirm">确定</string>
+    <string name="ultrasonic_confirm">确认</string>
     <string name="action_text">去设置</string>
     <string name="welcome_tts">欢迎光临</string>
     <string name="ultrasonic_setting_hint">注:启动前请查看超声波数据是否正常，如不正常，请点击右侧"初始化"按钮</string>
+    <string name="ultrasonic_setting">超声波设置</string>
 
     <!-- ===================== -->
     <string-array name="face_time_bodycommercial">

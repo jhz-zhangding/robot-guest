@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099FF"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/ultrasonic_text"
+        android:textColor="@color/white"
+        android:textSize="36sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="已选择:"
+            android:textColor="@color/white"
+            android:textSize="30dp" />
+
+        <LinearLayout
+            android:id="@+id/selected_dec_left_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+            android:id="@+id/selected_dec_right_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white" />
+
+    <GridView
+        android:id="@+id/selected_dec_gv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:numColumns="5"
+        android:verticalSpacing="15dp"
+        />
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="20dp">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/select_dec_tv3_btn"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:background="@drawable/select_text_btn_selector"-->
+            <!--android:gravity="center"-->
+            <!--android:text="左1"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="26sp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/select_dec_tv2_btn"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:background="@drawable/select_text_btn_selector"-->
+            <!--android:gravity="center"-->
+            <!--android:text="左3"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="26sp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/select_dec_tv1_btn"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:background="@drawable/select_text_btn_selector"-->
+            <!--android:gravity="center"-->
+            <!--android:text="中1"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="26sp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/select_dec_tv8_btn"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:background="@drawable/select_text_btn_selector"-->
+            <!--android:gravity="center"-->
+            <!--android:text="右3"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="26sp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/select_dec_tv7_btn"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:background="@drawable/select_text_btn_selector"-->
+            <!--android:gravity="center"-->
+            <!--android:text="右1"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="26sp" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="20dp">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/select_dec_tv13_btn"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:background="@drawable/select_text_btn_selector"-->
+            <!--android:gravity="center"-->
+            <!--android:text="左2"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="26sp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/select_dec_tv11_btn"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:background="@drawable/select_text_btn_selector"-->
+            <!--android:gravity="center"-->
+            <!--android:text="左4"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="26sp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/select_dec_tv10_btn"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:background="@drawable/select_text_btn_selector"-->
+            <!--android:gravity="center"-->
+            <!--android:text="中2"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="26sp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/select_dec_tv9_btn"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:background="@drawable/select_text_btn_selector"-->
+            <!--android:gravity="center"-->
+            <!--android:text="右4"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="26sp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/select_dec_tv12_btn"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:background="@drawable/select_text_btn_selector"-->
+            <!--android:gravity="center"-->
+            <!--android:text="右2"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="26sp" />-->
+
+    <!--</LinearLayout>-->
+
+</LinearLayout>

@@ -10,6 +10,7 @@ import com.efrobot.guest.bean.ItemsContentBean;
 import com.efrobot.guest.bean.RemarkBean;
 import com.efrobot.guest.bean.SettingBean;
 import com.efrobot.guest.bean.UlPlaceBean;
+import com.efrobot.guest.setting.bean.SelectDirection;
 import com.efrobot.library.mvp.utils.L;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
@@ -50,7 +51,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         sqLiteDatabase.execSQL("create table if not exists " + SettingBean.TABLE_NAME
                 + " (_id integer primary key autoincrement," + SettingBean.DISTANCE + " text)");
 
-        //创建用户设置超声波表
+        //创建用户设置超声波距离表
         sqLiteDatabase.execSQL("create table if not exists " + UlPlaceBean.TABLE_NAME
                 + " (_id integer primary key autoincrement," + UlPlaceBean.ULTRASONIC_ID + " text," + UlPlaceBean.ISOPEN + " integer," + UlPlaceBean.DISTANCE + " text)");
         //创建动作表
@@ -59,6 +60,10 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         sqLiteDatabase.execSQL(getCreatEndActionSql());
         //创建交流模式信息表
         sqLiteDatabase.execSQL(getCreatExchangeModeSql());
+
+        //创建用户设置超声波开启表
+        sqLiteDatabase.execSQL("create table if not exists " + SelectDirection.TABLE_NAME
+                + " (" + SelectDirection.ULTRASONIC_ID + " integer," + SelectDirection.VALUE + " text," + SelectDirection.TYPE + " text)");
 
         try {
             TableUtils.createTable(connectionSource, FaceAndActionEntity.class);

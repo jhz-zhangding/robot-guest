@@ -246,6 +246,20 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         ulHandle.sendEmptyMessageDelayed(0, 5000);
     }
 
+    byte mByte1 = (byte) 0x01; // 探头1
+    byte mByte2 = (byte) 0x02;
+    byte mByte3 = (byte) 0x04;
+    byte mByte7 = (byte) 0x40;
+    byte mByte8 = (byte) 0x80;
+
+    byte mByte9 = (byte) 0x01; // 探头9
+    byte mByte10 = (byte) 0x02;
+    byte mByte11 = (byte) 0x04;
+    byte mByte12 = (byte) 0x08;
+    byte mByte13 = (byte) 0x10;
+
+    private final int OpenUltrasonicNum = 10;
+
     private void sendOpenUltrasonicData() {
         L.i("sendOpenUltrasonicData", "start send");
         byte[] data = new byte[12];
@@ -258,19 +272,9 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 
 //        data[4] = (byte) 0x0B;
 //        data[5] = (byte) 0x83;
-//
-        byte mByte1 = (byte) 0x01; // 探头1---0
-        byte mByte2 = (byte) 0x02; // 探头2---1
-        byte mByte8 = (byte) 0x80;
-        data[5] = ((byte) (mByte1 | mByte2 | mByte8));
-//
-        byte mByte9 = (byte) 0x01; // 探头9---3
-        byte mByte10 = (byte) 0x02; // 探头10---4
-        byte mByte11 = (byte) 0x04;
-        data[4] = ((byte) (mByte9 | mByte10 | mByte11));
 
-//        data[4] = (byte) 0x00;
-//        data[5] = (byte) 0x01;
+        data[5] = ((byte) (mByte1 | mByte2 | mByte3 | mByte7 | mByte8));
+        data[4] = ((byte) (mByte9 | mByte10 | mByte11 | mByte12 | mByte13));
 
         data[6] = (byte) 0x00;
         data[7] = (byte) 7;
@@ -294,8 +298,8 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
             ulHandle.removeMessages(0);
             if (isUltraData(data)) {
 //                L.i(TAG, "---------------data--" + Arrays.toString(data));
-                byte[] bytes = new byte[24];
-                System.arraycopy(data, 5, bytes, 0, 24);
+                byte[] bytes = new byte[4 * OpenUltrasonicNum];
+                System.arraycopy(data, 5, bytes, 0, 4 * OpenUltrasonicNum);
                 for (int i = 0; i < bytes.length; i++) {
                     if ((i - 3) % 4 == 0) {
                         int valueNG = (bytes[i] & 255) | ((bytes[i - 1] & 255) << 8); // 距离

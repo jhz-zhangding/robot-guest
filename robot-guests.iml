@@ -82,6 +82,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.efrobot.library.mvp/mvplibrary/0.0.12/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.efrobot.library.net/mvpnetlibrary/0.0.38/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.efrobot.library/framework/1.0.51/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-support" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
@@ -101,11 +102,11 @@
     <orderEntry type="library" exported="" name="mvpnetlibrary-0.0.38" level="project" />
     <orderEntry type="library" exported="" name="support-v4-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="speech-sdk" level="project" />
+    <orderEntry type="library" exported="" name="framework-1.0.51" level="project" />
     <orderEntry type="library" exported="" name="mvplibrary-0.0.12" level="project" />
     <orderEntry type="library" exported="" name="ormlite-android-5.0" level="project" />
     <orderEntry type="library" exported="" name="efrobot-SDK" level="project" />
     <orderEntry type="library" exported="" name="coreprogress-0.0.3" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="framework-1.0.37" level="project" />
   </component>
 </module>

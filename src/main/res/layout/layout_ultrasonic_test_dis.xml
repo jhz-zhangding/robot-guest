@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/ultrasonic_margin_left"
-                android:text="895"
+                android:text="819"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 android:textStyle="bold" />
@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/ultrasonic_margin_left"
-                android:text="895"
+                android:text="819"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 android:textStyle="bold" />
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/ultrasonic_margin_left"
-                android:text="895"
+                android:text="819"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 android:textStyle="bold" />
@@ -113,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/ultrasonic_margin_left"
-                android:text="895"
+                android:text="819"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 android:textStyle="bold" />
@@ -133,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/ultrasonic_margin_left"
-                android:text="895"
+                android:text="819"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 android:textStyle="bold" />
@@ -158,11 +158,11 @@
                 android:textSize="@dimen/textsize_20" />
 
             <TextView
-                android:id="@+id/ul_place_test_edit12"
+                android:id="@+id/ul_place_test_edit13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/ultrasonic_margin_left"
-                android:text="895"
+                android:text="819"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 android:textStyle="bold" />
@@ -182,7 +182,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/ultrasonic_margin_left"
-                android:text="895"
+                android:text="819"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 android:textStyle="bold" />
@@ -202,7 +202,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/ultrasonic_margin_left"
-                android:text="895"
+                android:text="819"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 android:textStyle="bold" />
@@ -222,7 +222,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/ultrasonic_margin_left"
-                android:text="895"
+                android:text="819"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 android:textStyle="bold" />
@@ -238,11 +238,11 @@
                 android:textSize="@dimen/textsize_20" />
 
             <TextView
-                android:id="@+id/ul_place_test_edit13"
+                android:id="@+id/ul_place_test_edit12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/ultrasonic_margin_left"
-                android:text="895"
+                android:text="819"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 android:textStyle="bold" />
