@@ -57,7 +57,7 @@
                     android:textSize="@dimen/textsize_26" />
 
                 <EditText
-                    android:id="@+id/ul_place_edit3"
+                    android:id="@+id/ul_place_edit2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -81,7 +81,7 @@
                     android:textSize="@dimen/textsize_26" />
 
                 <EditText
-                    android:id="@+id/ul_place_edit2"
+                    android:id="@+id/ul_place_edit1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -136,7 +136,7 @@
                     android:textSize="@dimen/textsize_26" />
 
                 <EditText
-                    android:id="@+id/ul_place_edit11"
+                    android:id="@+id/ul_place_edit10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -192,7 +192,7 @@
                     android:textSize="@dimen/textsize_26" />
 
                 <EditText
-                    android:id="@+id/ul_place_edit1"
+                    android:id="@+id/ul_place_edit0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -224,7 +224,7 @@
                     android:textSize="@dimen/textsize_26" />
 
                 <EditText
-                    android:id="@+id/ul_place_edit10"
+                    android:id="@+id/ul_place_edit9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -278,7 +278,7 @@
                     android:textSize="@dimen/textsize_26" />
 
                 <EditText
-                    android:id="@+id/ul_place_edit8"
+                    android:id="@+id/ul_place_edit7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -303,7 +303,7 @@
                     android:textSize="@dimen/textsize_26" />
 
                 <EditText
-                    android:id="@+id/ul_place_edit7"
+                    android:id="@+id/ul_place_edit6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -335,7 +335,7 @@
                     android:textSize="@dimen/textsize_26" />
 
                 <EditText
-                    android:id="@+id/ul_place_edit9"
+                    android:id="@+id/ul_place_edit8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -359,7 +359,7 @@
                     android:textSize="@dimen/textsize_26" />
 
                 <EditText
-                    android:id="@+id/ul_place_edit13"
+                    android:id="@+id/ul_place_edit11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"

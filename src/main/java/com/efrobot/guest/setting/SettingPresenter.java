@@ -7,28 +7,30 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
+import com.efrobot.guest.Env.EnvUtil;
 import com.efrobot.guest.GuestsApplication;
 import com.efrobot.guest.R;
 import com.efrobot.guest.base.GuestsBasePresenter;
 import com.efrobot.guest.bean.ItemsContentBean;
 import com.efrobot.guest.bean.UlPlaceBean;
 import com.efrobot.guest.dao.DataManager;
+import com.efrobot.guest.dao.SelectedDao;
 import com.efrobot.guest.dao.UltrasonicDao;
+import com.efrobot.guest.setting.bean.SelectDirection;
 import com.efrobot.guest.utils.CustomHintDialog;
-import com.efrobot.guest.utils.PreferencesUtils;
 import com.efrobot.guest.utils.TtsUtils;
 import com.efrobot.library.RobotManager;
 import com.efrobot.library.mvp.utils.L;
+import com.efrobot.library.task.UltrasonicTaskManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Administrator on 2017/3/2.
  */
-public class SettingPresenter extends GuestsBasePresenter<ISettingView> implements RobotManager.OnGetUltrasonicCallBack {
+public class SettingPresenter extends GuestsBasePresenter<ISettingView> implements RobotManager.OnGetUltrasonicCallBack, RobotManager.OnUltrasonicOccupyStatelistener {
 
     private boolean isReceiveUltrasonic = false;
 
@@ -36,9 +38,9 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         super(mView);
     }
 
+    private DataManager dataManager;
+    private SelectedDao selectedDao;
     private UltrasonicDao ultrasonicDao;
-
-    private UlPlaceBean ulPlaceBeen;
 
     private ArrayList<UlPlaceBean> ulPlaceBeans = null;
 
@@ -106,9 +108,9 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     public void onResume() {
         super.onResume();
         L.e(TAG, "SettingPresenter onResume");
-        if (isCanUseGuest()) {
+//        if (isCanUseGuest()) {
             initUltrasonicData();
-        }
+//        }
     }
 
     public void initUltrasonicData() {
@@ -119,32 +121,19 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RobotManager.getInstance(getContext()).registerUltrasonicOccupylistener(this);
+
+
         ultrasonicDao = GuestsApplication.from(getContext()).getUltrasonicDao();
+        dataManager = DataManager.getInstance(getContext());
+        selectedDao = GuestsApplication.from(getContext()).getSelectedDao();
 
-        if (!isCanUseGuest()) {
-            showCanUserDialog(getContext().getString(R.string.error_use__hint));
-        } else {
-
+//        if (!isCanUseGuest()) {
+//            showCanUserDialog(getContext().getString(R.string.error_use__hint));
+//        } else {
             //超声波测试数据
             initUltrasonicData();
-            initSettingData();
-        }
-    }
-
-    private void initSettingData() {
-        ulPlaceBeans = ultrasonicDao.queryAll();
-        if (ulPlaceBeans != null && ulPlaceBeans.size() > 0) {
-            for (int i = 0; i < ulPlaceBeans.size(); i++) {
-                if (ulPlaceBeans.get(i).getIsOpenValue() == 1) {
-//                    mView.setIsOpenValue(ulPlaceBeans.get(i).getUltrasonicId(), 1);
-//                    mView.setOpenDistanceValue(ulPlaceBeans.get(i).getUltrasonicId(), ulPlaceBeans.get(i).getDistanceValue());
-                } else {
-                    //置空
-//                    mView.setIsOpenValue(ulPlaceBeans.get(i).getUltrasonicId(), 0);
-//                    mView.setOpenDistanceValue(ulPlaceBeans.get(i).getUltrasonicId(), "");
-                }
-            }
-        }
+//        }
     }
 
     private GreetingAdapter greetingAdapter;
@@ -195,49 +184,49 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         super.onDestroy();
         L.i(TAG, "onDestroy");
         unRegisterAllCallBack();
-//        RobotManager.getInstance(getContext()).unRegisterOnGetInfraredCallBack();
     }
 
     public void unRegisterAllCallBack() {
         RobotManager.getInstance(getContext()).unRegisterOnGetUltrasonicCallBack();
-        //TODO 新策略
-//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).closeUltrasonicFeedback();
+        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).closeUltrasonicFeedback(EnvUtil.ULGST001);
     }
 
-    public void cancle() {
+    public void cancel() {
         exit();
     }
 
-    public void affrim() {
+    public void affirm() {
 
-
+        ArrayList<UlPlaceBean> ulPlaceBeans = ultrasonicDao.queryAll();
         boolean isDistanceEmpty = true;
         //设置超声波
-        for (int i = 0; i < SettingActivity.MyUlNum; i++) {
-//                int isCheck = mView.getIsOpenValue(i);
-//                if (!mView.getOpenDistanceValue(i).isEmpty()) {
-//                    isDistanceEmpty = false;
-//                }
-//                if (isCheck == 1 && mView.getOpenDistanceValue(i).isEmpty()) {
-//                    showToast("选中的超声波距离不能为空哦");
-//                    return;
-//                }
-//                String ulDistance = mView.getOpenDistanceValue(i);
-//                boolean isExit = ultrasonicDao.isExits(i);
-//                if (isExit) {
-//                    ultrasonicDao.update(isCheck, i, ulDistance);
-//                } else {
-//                    ulPlaceBeen = new UlPlaceBean();
-//                    ulPlaceBeen.setUltrasonicId(i);
-//                    ulPlaceBeen.setIsOpenValue(isCheck);
-//                    ulPlaceBeen.setDistanceValue(ulDistance);
-//                    ultrasonicDao.insert(ulPlaceBeen);
-//                }
+        for (int i = 0; i < ulPlaceBeans.size(); i++) {
+            if(TextUtils.isEmpty(ulPlaceBeans.get(i).getDistanceValue())) {
+                isDistanceEmpty = true;
+                break;
+            } else {
+                isDistanceEmpty = false;
+            }
         }
         if (isDistanceEmpty) {
             showToast("超声波距离不能为空哦");
             return;
         }
+
+
+        ArrayList<SelectDirection> selectDirections = selectedDao.queryAll();
+        if(selectDirections.size() <= 0) {
+            showToast("超声波方向不能为空哦");
+            return;
+        }
+
+        ArrayList<ItemsContentBean> itemsLeftContentBeans = dataManager.queryItem(1);
+        ArrayList<ItemsContentBean> itemsRightContentBeans = dataManager.queryItem(2);
+        if(itemsLeftContentBeans.size() == 0 && itemsRightContentBeans.size() == 0) {
+            showToast("迎宾语不能为空哦");
+            return;
+        }
+
 
         showToast("保存成功");
     }
@@ -262,27 +251,16 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 
     private void sendOpenUltrasonicData() {
         L.i("sendOpenUltrasonicData", "start send");
-        byte[] data = new byte[12];
-        data[0] = (byte) 0x0c;
-        data[1] = (byte) 0x03;
-        data[2] = (byte) 0x06;
-        data[3] = (byte) 0x03;
-//        data[4] = (byte) 0x1F;
-//        data[5] = (byte) 0xFF;
 
-//        data[4] = (byte) 0x0B;
-//        data[5] = (byte) 0x83;
-
-        data[5] = ((byte) (mByte1 | mByte2 | mByte3 | mByte7 | mByte8));
-        data[4] = ((byte) (mByte9 | mByte10 | mByte11 | mByte12 | mByte13));
-
-        data[6] = (byte) 0x00;
-        data[7] = (byte) 7;
-        //开启后8秒左右收到回调
-        RobotManager.getInstance(getContext()).getCustomTaskInstance().sendByteData(data);
         RobotManager.getInstance(getContext()).registerOnGetUltrasonicCallBack(this);
-        //TODO 新策略
-//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).openUltrasonicFeedback(1923);
+
+        byte topOpen = (byte) (mByte1 | mByte2 | mByte3 | mByte7 | mByte8);
+
+        byte bottomOpen = (byte) (mByte9 | mByte10 | mByte11 | mByte12 | mByte13);
+
+        int needOpenUl  = (topOpen & 0xFFFF) | (bottomOpen & 0xFFFF << 8);
+
+        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).openUltrasonicFeedback(EnvUtil.ULGST001, needOpenUl);
         if (!isReceiveUltrasonic) { //是否接受到超声波检测信息
             reSend();
         }
@@ -416,4 +394,14 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         return (df.format(new Date()));     // new Date()为获取当前系统时间
     }
 
+    /**
+     *  1; 超声波模块可用
+     *  0; 超声波模块不可用
+     * */
+    @Override
+    public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
+        L.e(TAG, "sceneCode = " + sceneCode + "---isAvailable = " + isAvailable);
+
+
+    }
 }

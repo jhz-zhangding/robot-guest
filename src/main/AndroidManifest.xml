@@ -53,7 +53,6 @@
             android:exported="true"></service>
 
         <activity android:name="com.efrobot.guest.action.AddBodyShowView" />
-        <activity android:name="com.efrobot.guest.action.CustomAddActivity" />
         <activity android:name="com.efrobot.guest.player.MediaPlayActivity" />
         <activity android:name="com.efrobot.guest.explain.ExplainActivity" />
 

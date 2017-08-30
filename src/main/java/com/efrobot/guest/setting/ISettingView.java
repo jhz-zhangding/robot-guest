@@ -25,4 +25,5 @@ public interface ISettingView extends UiView {
     void setDistance12(String distance);
 
     void setDistance13(String distance);
+
 }

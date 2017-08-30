@@ -7,17 +7,12 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.efrobot.guest.bean.CustomActionBean;
 import com.efrobot.guest.bean.UlPlaceBean;
-import com.efrobot.guest.dao.ActionBaseDao;
-import com.efrobot.guest.dao.ExchangeModeDao;
-import com.efrobot.guest.dao.RemarkDao;
-import com.efrobot.guest.dao.SettingDao;
+import com.efrobot.guest.dao.SelectedDao;
 import com.efrobot.guest.dao.UltrasonicDao;
 import com.efrobot.guest.db.DbHelper;
 import com.efrobot.guest.main.MainActivity;
 import com.efrobot.guest.service.UltrasonicService;
-import com.efrobot.guest.setting.SettingPresenter;
 import com.efrobot.guest.utils.GuestDes3Util;
 import com.efrobot.guest.utils.PreferencesUtils;
 import com.efrobot.library.mvp.utils.L;
@@ -31,7 +26,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2017/3/2.
@@ -83,28 +77,6 @@ public class GuestsApplication extends Application {
     }
 
     private void initData() {
-        ArrayList<CustomActionBean> listBean = new ArrayList<CustomActionBean>();
-        CustomActionBean bean = new CustomActionBean();
-        bean.setFace("");
-        bean.setHead("");
-        bean.setWing("");
-        // 进入常亮
-        int lightType = 1;
-        bean.setLight(lightType);
-        listBean.add(bean);
-        getActionDao().insertAction(listBean);
-
-        ArrayList<CustomActionBean> listBean1 = new ArrayList<CustomActionBean>();
-        CustomActionBean bean1 = new CustomActionBean();
-        bean1.setFace("");
-        bean1.setHead("");
-        bean1.setWing("");
-        // 退出关闭
-        int lightTypeEnd = 0;
-        bean1.setLight(lightTypeEnd);
-        listBean1.add(bean1);
-        getActionDao().insertEndAction(listBean1);
-
         //设置超声波
         UlPlaceBean ulPlaceBeen = new UlPlaceBean();
         ulPlaceBeen.setUltrasonicId(0);
@@ -160,26 +132,6 @@ public class GuestsApplication extends Application {
         return mDbHelper;
     }
 
-    RemarkDao mDataDao;
-
-    public RemarkDao getRemarkDao() {
-        if (mDataDao == null) {
-            mDataDao = new RemarkDao(getDataBase());
-        }
-        return mDataDao;
-    }
-
-
-    SettingDao mSettingDao;
-
-    public SettingDao getSettingDao() {
-        if (mSettingDao == null) {
-            mSettingDao = new SettingDao(getDataBase());
-        }
-        return mSettingDao;
-    }
-
-
     UltrasonicDao ultrasonicDao;
 
     public UltrasonicDao getUltrasonicDao() {
@@ -189,20 +141,12 @@ public class GuestsApplication extends Application {
         return ultrasonicDao;
     }
 
-    ActionBaseDao actionBaseDao;
+    SelectedDao selectedDao;
 
-    public ActionBaseDao getActionDao() {
-        if (actionBaseDao == null)
-            actionBaseDao = new ActionBaseDao(getDataBase());
-        return actionBaseDao;
-    }
-
-    ExchangeModeDao exchangeModeDao;
-
-    public ExchangeModeDao getModeDao() {
-        if (exchangeModeDao == null)
-            exchangeModeDao = new ExchangeModeDao(getDataBase());
-        return exchangeModeDao;
+    public SelectedDao getSelectedDao() {
+        if (selectedDao == null)
+            selectedDao = new SelectedDao(getDataBase());
+        return selectedDao;
     }
 
     static Method systemProperties_get = null;

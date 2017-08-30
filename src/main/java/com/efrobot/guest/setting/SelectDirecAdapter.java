@@ -44,9 +44,13 @@ public class SelectDirecAdapter extends BaseAdapter {
         this.onSelectedItem = onSelectedItem;
     }
 
-    public void resetTextView(int position) {
+    public void resetTextView(SelectDirection selectDirection) {
         if(lists != null) {
-            lists.get(position).setSelected(false);
+            for (int i = 0; i < lists.size(); i++) {
+                if(lists.get(i).getUltrasonicId() == selectDirection.getUltrasonicId()) {
+                    lists.get(i).setSelected(false);
+                }
+            }
             notifyDataSetChanged();
         }
     }
@@ -95,7 +99,7 @@ public class SelectDirecAdapter extends BaseAdapter {
                 lists.get(position).setSelected(true);
                 notifyDataSetChanged();
                 if(onSelectedItem != null) {
-                    onSelectedItem.onSelect(lists.get(position), position);
+                    onSelectedItem.onSelect(lists.get(position));
                 }
             }
         });
@@ -109,7 +113,7 @@ public class SelectDirecAdapter extends BaseAdapter {
     }
 
     public interface OnSelectedItem {
-        void onSelect(SelectDirection selectDirection, int position);
+        void onSelect(SelectDirection selectDirection);
     }
 
 }
