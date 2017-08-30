@@ -171,6 +171,7 @@
                     android:id="@+id/ultrasonic_right_set_tv"
                     android:layout_width="550dp"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
                     android:layout_marginLeft="102dp"
                     android:background="@color/white"
                     android:gravity="center_vertical"
