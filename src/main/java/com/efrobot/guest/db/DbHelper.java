@@ -23,7 +23,7 @@ import java.sql.SQLException;
 public class DbHelper extends OrmLiteSqliteOpenHelper {
     public final String TAG = this.getClass().getSimpleName();
     private Context context;
-    private static int version = 1;
+    private static int version = 2;
     private static String DB_NAME = "GUESTS";
 
     public DbHelper(Context context) {
