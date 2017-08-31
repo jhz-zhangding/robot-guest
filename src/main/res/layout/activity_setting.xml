@@ -295,7 +295,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:text="语音交流时间(s)："
+                    android:text="延迟时间(s)："
                     android:textColor="@color/guest_text_color"
                     android:textSize="25sp" />
 
