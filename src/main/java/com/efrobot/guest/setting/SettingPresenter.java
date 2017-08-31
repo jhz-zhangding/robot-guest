@@ -401,7 +401,9 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     @Override
     public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
         L.e(TAG, "sceneCode = " + sceneCode + "---isAvailable = " + isAvailable);
-
+//        if(isAvailable == 0) {
+//            showCanUserDialog("超声波暂不可用，");
+//        }
 
     }
 }
