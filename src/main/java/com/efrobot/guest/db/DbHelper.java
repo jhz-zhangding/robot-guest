@@ -70,7 +70,14 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int i, int i1) {
-
+        if (version == 2) {
+            try {
+                TableUtils.createTable(connectionSource, FaceAndActionEntity.class);
+                TableUtils.createTable(connectionSource, ItemsContentBean.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
