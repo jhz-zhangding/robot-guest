@@ -116,7 +116,7 @@ public class GreetingAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AddBodyShowView.class);
                 intent.putExtra("content", lists.get(position));
-                ((Activity) mContext).startActivityForResult(intent, 1);
+                ((Activity) mContext).startActivityForResult(intent, lists.get(position).getItemNum());
             }
         });
         mHolder.delItemBtn.setOnClickListener(new View.OnClickListener() {

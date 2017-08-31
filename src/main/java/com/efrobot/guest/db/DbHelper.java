@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.efrobot.guest.bean.FaceAndActionEntity;
 import com.efrobot.guest.bean.ItemsContentBean;
-import com.efrobot.guest.bean.UlPlaceBean;
+import com.efrobot.guest.bean.UlDistanceBean;
 import com.efrobot.guest.setting.bean.SelectDirection;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
@@ -41,8 +41,8 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         //创建用户设置超声波距离表
-        sqLiteDatabase.execSQL("create table if not exists " + UlPlaceBean.TABLE_NAME
-                + " (_id integer primary key autoincrement," + UlPlaceBean.ULTRASONIC_ID + " text," + UlPlaceBean.ISOPEN + " integer," + UlPlaceBean.DISTANCE + " text)");
+        sqLiteDatabase.execSQL("create table if not exists " + UlDistanceBean.TABLE_NAME
+                + " (_id integer primary key autoincrement," + UlDistanceBean.ULTRASONIC_ID + " text," + UlDistanceBean.ISOPEN + " integer," + UlDistanceBean.DISTANCE + " text)");
         //创建用户设置超声波开启表
         sqLiteDatabase.execSQL("create table if not exists " + SelectDirection.TABLE_NAME
                 + " (" + SelectDirection.ULTRASONIC_ID + " integer," + SelectDirection.VALUE + " text," + SelectDirection.TYPE + " text)");

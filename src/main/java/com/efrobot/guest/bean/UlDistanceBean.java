@@ -5,7 +5,7 @@ import android.database.Cursor;
 /**
  * Created by zd on 2017/3/13.
  */
-public class UlPlaceBean {
+public class UlDistanceBean {
 
     public static String TABLE_NAME = "ultrasonic_setting";
     public static String ULTRASONIC_ID = "ultrasonic_id";
@@ -19,11 +19,11 @@ public class UlPlaceBean {
     private int isOpenValue;
     private String distanceValue;
 
-    public UlPlaceBean() {
+    public UlDistanceBean() {
 
     }
 
-    public UlPlaceBean(Cursor mCursor) {
+    public UlDistanceBean(Cursor mCursor) {
 
         if (mCursor == null) {
             return;

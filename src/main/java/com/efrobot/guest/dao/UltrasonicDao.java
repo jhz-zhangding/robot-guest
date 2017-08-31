@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.efrobot.guest.bean.UlPlaceBean;
+import com.efrobot.guest.bean.UlDistanceBean;
 import com.efrobot.guest.db.DbHelper;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class UltrasonicDao {
         this.dbOpenHelper = dataBase;
     }
 
-    public void insert(final UlPlaceBean beanArrayList) {
+    public void insert(final UlDistanceBean beanArrayList) {
         if (dbOpenHelper != null) {
             synchronized (dbOpenHelper) {
                 db = dbOpenHelper.getWritableDatabase();
@@ -35,10 +35,10 @@ public class UltrasonicDao {
                      * 插入问题
                      */
                     ContentValues values = new ContentValues();
-                    values.put(UlPlaceBean.ISOPEN, beanArrayList.getIsOpenValue());
-                    values.put(UlPlaceBean.ULTRASONIC_ID, beanArrayList.getUltrasonicId());
-                    values.put(UlPlaceBean.DISTANCE, beanArrayList.getDistanceValue());
-                    db.insert(UlPlaceBean.TABLE_NAME, null, values);
+                    values.put(UlDistanceBean.ISOPEN, beanArrayList.getIsOpenValue());
+                    values.put(UlDistanceBean.ULTRASONIC_ID, beanArrayList.getUltrasonicId());
+                    values.put(UlDistanceBean.DISTANCE, beanArrayList.getDistanceValue());
+                    db.insert(UlDistanceBean.TABLE_NAME, null, values);
 
                     /**
                      * 设置批量插入成功
@@ -55,7 +55,7 @@ public class UltrasonicDao {
     }
 
 
-    public ArrayList<UlPlaceBean> queryAll() {
+    public ArrayList<UlDistanceBean> queryAll() {
 
         if (dbOpenHelper != null) {
             synchronized (dbOpenHelper) {
@@ -66,12 +66,12 @@ public class UltrasonicDao {
                 db.beginTransaction();
                 Cursor mCursor = null;
                 try {
-                    mCursor = db.query(UlPlaceBean.TABLE_NAME, null, null, null, null, null, null);
-                    ArrayList<UlPlaceBean> list = new ArrayList<UlPlaceBean>();
+                    mCursor = db.query(UlDistanceBean.TABLE_NAME, null, null, null, null, null, null);
+                    ArrayList<UlDistanceBean> list = new ArrayList<UlDistanceBean>();
                     if (mCursor != null) {
 
                         while (mCursor.moveToNext()) {
-                            UlPlaceBean mMembers = new UlPlaceBean(mCursor);
+                            UlDistanceBean mMembers = new UlDistanceBean(mCursor);
                             list.add(mMembers);
                         }
                     }
@@ -108,7 +108,7 @@ public class UltrasonicDao {
                 db.beginTransaction();
                 Cursor mCursor = null;
                 try {
-                    String existSql = "select * from "+UlPlaceBean.TABLE_NAME+" where " + UlPlaceBean.ULTRASONIC_ID + "=?";
+                    String existSql = "select * from "+ UlDistanceBean.TABLE_NAME+" where " + UlDistanceBean.ULTRASONIC_ID + "=?";
                     mCursor = db.rawQuery(existSql, new String[]{ulId + ""});
                     result = null != mCursor && mCursor.moveToFirst() ;
                     db.setTransactionSuccessful();
@@ -129,13 +129,13 @@ public class UltrasonicDao {
 
     public void update(int isOpen, int ulId, String openDistance) {
         ContentValues cv = new ContentValues();
-        cv.put(UlPlaceBean.ISOPEN, isOpen);
-        cv.put(UlPlaceBean.DISTANCE, openDistance);
-        db.update(UlPlaceBean.TABLE_NAME, cv, UlPlaceBean.ULTRASONIC_ID + "=?", new String[]{String.valueOf(ulId)});
+        cv.put(UlDistanceBean.ISOPEN, isOpen);
+        cv.put(UlDistanceBean.DISTANCE, openDistance);
+        db.update(UlDistanceBean.TABLE_NAME, cv, UlDistanceBean.ULTRASONIC_ID + "=?", new String[]{String.valueOf(ulId)});
     }
 
     public void delete(int id) {
-        db.delete(UlPlaceBean.TABLE_NAME, "UlPlaceBean.ULTRASONIC_ID = ?", new String[]{String.valueOf(id)});
+        db.delete(UlDistanceBean.TABLE_NAME, "UlDistanceBean.ULTRASONIC_ID = ?", new String[]{String.valueOf(id)});
     }
 
 }

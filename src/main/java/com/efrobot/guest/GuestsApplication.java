@@ -7,7 +7,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.efrobot.guest.bean.UlPlaceBean;
+import com.efrobot.guest.bean.UlDistanceBean;
 import com.efrobot.guest.dao.SelectedDao;
 import com.efrobot.guest.dao.UltrasonicDao;
 import com.efrobot.guest.db.DbHelper;
@@ -78,19 +78,19 @@ public class GuestsApplication extends Application {
 
     private void initData() {
         //设置超声波
-        UlPlaceBean ulPlaceBeen = new UlPlaceBean();
+        UlDistanceBean ulPlaceBeen = new UlDistanceBean();
         ulPlaceBeen.setUltrasonicId(0);
         ulPlaceBeen.setIsOpenValue(1);
         ulPlaceBeen.setDistanceValue("100");
         getUltrasonicDao().insert(ulPlaceBeen);
 
-        UlPlaceBean ulPlaceBeen1 = new UlPlaceBean();
+        UlDistanceBean ulPlaceBeen1 = new UlDistanceBean();
         ulPlaceBeen1.setUltrasonicId(1);
         ulPlaceBeen1.setIsOpenValue(1);
         ulPlaceBeen1.setDistanceValue("100");
         getUltrasonicDao().insert(ulPlaceBeen1);
 
-        UlPlaceBean ulPlaceBeen2 = new UlPlaceBean();
+        UlDistanceBean ulPlaceBeen2 = new UlDistanceBean();
         ulPlaceBeen2.setUltrasonicId(2);
         ulPlaceBeen2.setIsOpenValue(1);
         ulPlaceBeen2.setDistanceValue("100");

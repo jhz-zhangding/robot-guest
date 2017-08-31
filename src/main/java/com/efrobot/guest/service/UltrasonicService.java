@@ -23,7 +23,7 @@ import com.efrobot.guest.Env.EnvUtil;
 import com.efrobot.guest.GuestsApplication;
 import com.efrobot.guest.R;
 import com.efrobot.guest.bean.ItemsContentBean;
-import com.efrobot.guest.bean.UlPlaceBean;
+import com.efrobot.guest.bean.UlDistanceBean;
 import com.efrobot.guest.dao.DataManager;
 import com.efrobot.guest.dao.SelectedDao;
 import com.efrobot.guest.dao.UltrasonicDao;
@@ -71,10 +71,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     private boolean mIsExecute = false;
     private boolean isReceiveUltrasonic = false;
-    private String ttsValue = "";
 
     //超声波数据设置
-    private ArrayList<UlPlaceBean> ulPlaceBeans = null;
+    private ArrayList<UlDistanceBean> ulDistanceBeen = null;
 
     private UltrasonicDao ultrasonicDao;
     private SelectedDao selectedDao;
@@ -139,9 +138,16 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         ultrasonicDao = GuestsApplication.from(getApplicationContext()).getUltrasonicDao();
         selectedDao = GuestsApplication.from(getApplicationContext()).getSelectedDao();
 
+        //超声波设置数据
+        ulDistanceBeen = ultrasonicDao.queryAll();
+        if(ulDistanceBeen == null || ulDistanceBeen.size() < 10) {
+            showToast("迎宾距离不能为空");
+            return super.onStartCommand(intent, START_STICKY, startId);
+        }
+
+        //超声波方向设置
         leftSelectDirections = selectedDao.queryOneType(1);
         rightSelectDirections = selectedDao.queryOneType(2);
-
         if (leftSelectDirections.size() == 0 && rightSelectDirections.size() == 0) {
             showToast("请设置迎宾方向");
             return super.onStartCommand(intent, START_STICKY, startId);
@@ -187,14 +193,14 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         L.i(TAG, "waitTime=" + waitTime);
 
         //超声波设置数据
-        ulPlaceBeans = ultrasonicDao.queryAll();
-        if (ulPlaceBeans != null && ulPlaceBeans.size() > 0) {
-            for (int i = 0; i < ulPlaceBeans.size(); i++) {
-                flagsMap.put(ulPlaceBeans.get(i).getUltrasonicId(), false);
+        ulDistanceBeen = ultrasonicDao.queryAll();
+        if (ulDistanceBeen != null && ulDistanceBeen.size() > 0) {
+            for (int i = 0; i < ulDistanceBeen.size(); i++) {
+                flagsMap.put(ulDistanceBeen.get(i).getUltrasonicId(), false);
             }
             customUlData = new ArrayList<Integer>();
-            for (int i = 0; i < ulPlaceBeans.size(); i++) {
-                customUlData.add(ulPlaceBeans.get(i).getUltrasonicId());
+            for (int i = 0; i < ulDistanceBeen.size(); i++) {
+                customUlData.add(ulDistanceBeen.get(i).getUltrasonicId());
             }
             customNumber = customUlData.size();
         }
@@ -240,7 +246,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             if (actionList.size() > 0) {
                 if (currentCount > actionList.size() - 1) {
                     isActionFinish = true;
-//                    openSpeechDiscern();
+                    openSpeechDiscern();
                 } else {
                     L.i("执行动作", "currentCount = " + currentCount);
                     mHandle.sendEmptyMessage(PLAY_MORE_ACTION);
@@ -315,7 +321,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     removeMessages(LIGHT_CLOSE);
                     RobotManager.getInstance(UltrasonicService.this).getControlInstance().setLightBeltBrightness(0);
                     isLightFinish = true;
-//                    openSpeechDiscern();
+                    openSpeechDiscern();
                     break;
                 case LIGHT_CLOSE:
                     //关 灯带
@@ -383,6 +389,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                             setHeadAction(RIGHT_HEAD);
                         } else if (ultrasonicId == 7 || ultrasonicId == 8) {
                             setHeadAction(LEFT_HEAD);
+                        } else if (ultrasonicId == 2 || ultrasonicId == 12) {
+                            setHeadAction(TOO_RIGHT_HEAD);
+                        } else if (ultrasonicId == 6 || ultrasonicId == 11) {
+                            setHeadAction(TOO_LEFT_HEAD);
                         }
 
                         flagsMap.put(ultrasonicId, true);
@@ -663,7 +673,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 if (dialog != null) {
                     isPictureFinish = true;
                     dialog.dismiss();
-//                    openSpeechDiscern();
+                    openSpeechDiscern();
                 }
             }
         }, time);
@@ -673,16 +683,16 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         showTip("说话结束");
         isTtsFinish = true;
         isFaceFinish = true;
-//        openSpeechDiscern();
+        openSpeechDiscern();
     }
 
-//    private void openSpeechDiscern() {
-//        if (isAllPlayFinish()) {
-//            showTip("开启语音识别");
-//            SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
-//            TtsUtils.sendTts(getApplicationContext(), "大家来聊聊天吧");
-//        }
-//    }
+    private void openSpeechDiscern() {
+        if (isAllPlayFinish()) {
+            showTip("开启语音识别");
+            SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
+            TtsUtils.sendTts(getApplicationContext(), " ");
+        }
+    }
 
     /**
      * 播放音乐
@@ -700,7 +710,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             public void onCompletion(boolean isPlaySuccess) {
                 showTip("执行播放音乐结束");
                 isMusicFinish = true;
-//                openSpeechDiscern();
+                openSpeechDiscern();
             }
 
             @Override
@@ -968,11 +978,11 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
      * position 前面6个探头 1～6
      */
     private int getDistanceFromPosition(int numberNg) {
-        if (ulPlaceBeans != null && ulPlaceBeans.size() > 0) {
-            for (int i = 0; i < ulPlaceBeans.size(); i++) {
-                if(numberNg == ulPlaceBeans.get(i).getUltrasonicId()) {
-                    if (!ulPlaceBeans.get(i).getDistanceValue().isEmpty()) {
-                        return Integer.parseInt(ulPlaceBeans.get(i).getDistanceValue()) * 10;
+        if (ulDistanceBeen != null && ulDistanceBeen.size() > 0) {
+            for (int i = 0; i < ulDistanceBeen.size(); i++) {
+                if(numberNg == ulDistanceBeen.get(i).getUltrasonicId()) {
+                    if (!ulDistanceBeen.get(i).getDistanceValue().isEmpty()) {
+                        return Integer.parseInt(ulDistanceBeen.get(i).getDistanceValue()) * 10;
                     }
                 }
             }
@@ -1035,7 +1045,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 //                    player.setLooping(true);
                     showTip("播放视频结束");
                     isMediaFinish = true;
-//                    openSpeechDiscern();
+                    openSpeechDiscern();
                 }
             });
             player.prepare();
@@ -1188,7 +1198,19 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             "        \"directionspinner\": \"左转\",\n" +
             "        \"direction\": \"move\"\n" +
             "      },\n" +
-            "      \"next_action_time\": \"3000\"\n" +
+            "      \"next_action_time\": \"1000\"\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}";
+    String tooLeftHeadJson = "{\n" +
+            "  \"actions\": [\n" +
+            "    {\n" +
+            "      \"head\": {\n" +
+            "        \"angle\": 45,\n" +
+            "        \"directionspinner\": \"左转\",\n" +
+            "        \"direction\": \"move\"\n" +
+            "      },\n" +
+            "      \"next_action_time\": \"1000\"\n" +
             "    }\n" +
             "  ]\n" +
             "}";
@@ -1200,7 +1222,19 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             "        \"directionspinner\": \"右转\",\n" +
             "        \"direction\": \"move\"\n" +
             "      },\n" +
-            "      \"next_action_time\": \"3000\"\n" +
+            "      \"next_action_time\": \"1000\"\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}";
+    String tooRightHeadJson = "{\n" +
+            "  \"actions\": [\n" +
+            "    {\n" +
+            "      \"head\": {\n" +
+            "        \"angle\": 195,\n" +
+            "        \"directionspinner\": \"右转\",\n" +
+            "        \"direction\": \"move\"\n" +
+            "      },\n" +
+            "      \"next_action_time\": \"1000\"\n" +
             "    }\n" +
             "  ]\n" +
             "}";
@@ -1216,17 +1250,29 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             "    }\n" +
             "  ]\n" +
             "}";
-    private final int RIGHT_HEAD = 0;
-    private final int LEFT_HEAD = 1;
+    private final int TOO_RIGHT_HEAD = 0;
+    private final int RIGHT_HEAD = 1;
     private final int ORIGIN_HEAD = 2;
+    private final int LEFT_HEAD = 3;
+    private final int TOO_LEFT_HEAD = 4;
 
     private int lastHead = -1;
 
     private void setHeadAction(int direc) {
         switch (direc) {
+            case TOO_RIGHT_HEAD:
+                if (direc != lastHead) {
+                    groupManager.execute(tooRightHeadJson);
+                }
+                break;
             case RIGHT_HEAD:
                 if (direc != lastHead) {
                     groupManager.execute(rightHeadJson);
+                }
+                break;
+            case ORIGIN_HEAD:
+                if (direc != lastHead) {
+                    groupManager.execute(originHeadJson);
                 }
                 break;
             case LEFT_HEAD:
@@ -1234,9 +1280,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     groupManager.execute(leftHeadJson);
                 }
                 break;
-            case ORIGIN_HEAD:
+            case TOO_LEFT_HEAD:
                 if (direc != lastHead) {
-                    groupManager.execute(originHeadJson);
+                    groupManager.execute(tooLeftHeadJson);
                 }
                 break;
         }

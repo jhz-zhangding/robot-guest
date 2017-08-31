@@ -26,7 +26,7 @@ import com.efrobot.guest.R;
 import com.efrobot.guest.action.AddBodyShowView;
 import com.efrobot.guest.base.GuestsBaseActivity;
 import com.efrobot.guest.bean.ItemsContentBean;
-import com.efrobot.guest.bean.UlPlaceBean;
+import com.efrobot.guest.bean.UlDistanceBean;
 import com.efrobot.guest.dao.DataManager;
 import com.efrobot.guest.dao.SelectedDao;
 import com.efrobot.guest.dao.UltrasonicDao;
@@ -321,8 +321,10 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 ((SettingPresenter) mPresenter).affirm();
                 break;
             case R.id.ultrasonic_open_btn: //开始迎宾
-                ((SettingPresenter) mPresenter).affirm();
-                showDialog("即将开始迎宾，请关闭面罩后开始迎宾");
+                boolean isCanAffirm = ((SettingPresenter) mPresenter).affirm();
+                if(isCanAffirm) {
+                    showDialog("即将开始迎宾，请关闭面罩后开始迎宾");
+                }
                 break;
             case R.id.ultrasonic_init_btn:
                 //初始化超声波
@@ -339,17 +341,17 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 break;
             case R.id.left_greeting_add_im:
                 Intent leftIntent = new Intent(this, AddBodyShowView.class);
-                leftIntent.putExtra("itemNum", 1);
+                leftIntent.putExtra("itemNum", LEFT_REQUEST_CODE);
                 startActivityForResult(leftIntent, LEFT_REQUEST_CODE);
                 break;
             case R.id.right_greeting_add_im:
                 Intent rightIntentEnd = new Intent(this, AddBodyShowView.class);
-                rightIntentEnd.putExtra("itemNum", 2);
+                rightIntentEnd.putExtra("itemNum", RIGHT_REQUEST_CODE);
                 startActivityForResult(rightIntentEnd, RIGHT_REQUEST_CODE);
                 break;
             case R.id.finish_greeting_add_im:
                 Intent finishIntent = new Intent(this, AddBodyShowView.class);
-                finishIntent.putExtra("itemNum", 3);
+                finishIntent.putExtra("itemNum", FINISH_REQUEST_CODE);
                 startActivityForResult(finishIntent, FINISH_REQUEST_CODE);
                 break;
             case R.id.left_greeting_delete_img:
@@ -468,16 +470,16 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         UltrasonicDao ultrasonicDao = GuestsApplication.from(this).getUltrasonicDao();
         for (Map.Entry entry : ultrasonicMap.entrySet()) {
             L.e("saveUserSetting", "setUltrasonicId=" + (Integer) entry.getKey() + "- - -setDistanceValue=" + ((EditText) entry.getValue()).getText().toString());
-            UlPlaceBean ulPlaceBean = new UlPlaceBean();
+            UlDistanceBean ulDistanceBean = new UlDistanceBean();
             int ultrasonicId = (Integer) entry.getKey();
             String distanceValue = ((EditText) entry.getValue()).getText().toString();
 
-            ulPlaceBean.setUltrasonicId(ultrasonicId);
-            ulPlaceBean.setDistanceValue(distanceValue);
+            ulDistanceBean.setUltrasonicId(ultrasonicId);
+            ulDistanceBean.setDistanceValue(distanceValue);
             if (ultrasonicDao.isExits(ultrasonicId)) {
                 ultrasonicDao.update(0, ultrasonicId, distanceValue);
             } else
-                ultrasonicDao.insert(ulPlaceBean);
+                ultrasonicDao.insert(ulDistanceBean);
         }
     }
 
@@ -486,12 +488,12 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
      */
     private void initUserSetting() {
         UltrasonicDao ultrasonicDao = GuestsApplication.from(this).getUltrasonicDao();
-        ArrayList<UlPlaceBean> lists = ultrasonicDao.queryAll();
+        ArrayList<UlDistanceBean> lists = ultrasonicDao.queryAll();
 
         if (lists != null) {
             for (int i = 0; i < lists.size(); i++) {
-                UlPlaceBean ulPlaceBean = lists.get(i);
-                ultrasonicMap.get(ulPlaceBean.getUltrasonicId()).setText(ulPlaceBean.getDistanceValue());
+                UlDistanceBean ulDistanceBean = lists.get(i);
+                ultrasonicMap.get(ulDistanceBean.getUltrasonicId()).setText(ulDistanceBean.getDistanceValue());
             }
         }
     }

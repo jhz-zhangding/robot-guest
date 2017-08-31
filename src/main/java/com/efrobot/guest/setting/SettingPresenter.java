@@ -9,10 +9,9 @@ import android.text.TextUtils;
 
 import com.efrobot.guest.Env.EnvUtil;
 import com.efrobot.guest.GuestsApplication;
-import com.efrobot.guest.R;
 import com.efrobot.guest.base.GuestsBasePresenter;
 import com.efrobot.guest.bean.ItemsContentBean;
-import com.efrobot.guest.bean.UlPlaceBean;
+import com.efrobot.guest.bean.UlDistanceBean;
 import com.efrobot.guest.dao.DataManager;
 import com.efrobot.guest.dao.SelectedDao;
 import com.efrobot.guest.dao.UltrasonicDao;
@@ -42,7 +41,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     private SelectedDao selectedDao;
     private UltrasonicDao ultrasonicDao;
 
-    private ArrayList<UlPlaceBean> ulPlaceBeans = null;
+    private ArrayList<UlDistanceBean> ulDistanceBeen = null;
 
     Handler ulHandle = new Handler() {
         @Override
@@ -195,13 +194,13 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         exit();
     }
 
-    public void affirm() {
+    public boolean affirm() {
 
-        ArrayList<UlPlaceBean> ulPlaceBeans = ultrasonicDao.queryAll();
+        ArrayList<UlDistanceBean> ulDistanceBeen = ultrasonicDao.queryAll();
         boolean isDistanceEmpty = true;
         //设置超声波
-        for (int i = 0; i < ulPlaceBeans.size(); i++) {
-            if(TextUtils.isEmpty(ulPlaceBeans.get(i).getDistanceValue())) {
+        for (int i = 0; i < ulDistanceBeen.size(); i++) {
+            if(TextUtils.isEmpty(ulDistanceBeen.get(i).getDistanceValue())) {
                 isDistanceEmpty = true;
                 break;
             } else {
@@ -210,25 +209,26 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         }
         if (isDistanceEmpty) {
             showToast("超声波距离不能为空哦");
-            return;
+            return false;
         }
 
 
         ArrayList<SelectDirection> selectDirections = selectedDao.queryAll();
         if(selectDirections.size() <= 0) {
             showToast("超声波方向不能为空哦");
-            return;
+            return false;
         }
 
         ArrayList<ItemsContentBean> itemsLeftContentBeans = dataManager.queryItem(1);
         ArrayList<ItemsContentBean> itemsRightContentBeans = dataManager.queryItem(2);
         if(itemsLeftContentBeans.size() == 0 && itemsRightContentBeans.size() == 0) {
             showToast("迎宾语不能为空哦");
-            return;
+            return false;
         }
 
 
         showToast("保存成功");
+        return true;
     }
 
     private void reSend() {
