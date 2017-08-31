@@ -416,6 +416,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                                     mGroupTask.reset();
                                 }
                                 SpeechManager.getInstance().closeSpeechDiscern(getApplicationContext());
+                                IsOpenRepeatLight = false;
+                                closeRepeatLight();
                             }
                             mIsExecute = false;
                         }
@@ -648,7 +650,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         if (isAllPlayFinish()) {
             showTip("开启语音识别");
             SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
-            TtsUtils.sendTts(getApplicationContext(), "大家来聊聊天吧");
+            TtsUtils.sendTts(getApplicationContext(), "");
+            IsOpenRepeatLight = true;
+            openRepeatLight();
         }
     }
 
@@ -889,9 +893,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     //常亮
     private void openRepeatLight() {
-        RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(255);
         L.i(TAG, "openRepeatLight常亮");
         if (IsOpenRepeatLight) {
+            RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(255);
             mHandle.sendEmptyMessageDelayed(1, 500);
         }
     }
