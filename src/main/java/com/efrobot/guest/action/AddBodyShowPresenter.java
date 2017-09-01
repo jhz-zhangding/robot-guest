@@ -586,8 +586,8 @@ public class AddBodyShowPresenter extends GuestsBasePresenter<IAddBodyShowView> 
         if (type == 1) {
             try {
                 String face = mAdapter.getItem(position).index;
-                if (titleFace.size() > 9) {
-                    showToast("最多只能添加10个表情哦");
+                if (titleFace.size() > 0) {
+                    showToast("最多只能添加1个表情哦");
                     return;
                 }
                 //增加表情

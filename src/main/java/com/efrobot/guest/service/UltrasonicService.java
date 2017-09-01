@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -104,6 +105,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private Dialog dialog;
 
     private MusicPlayer mediaPlayer;
+
+    private long wordSpeed = 270L;
 
     @Override
     public void onCreate() {
@@ -221,6 +224,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private final int LIGHT_END = 101;
     private final int LIGHT_OPEN = 102;
     private final int LIGHT_CLOSE = 103;
+    private final int TTS_FINISH = 104;
 
     private boolean isReceiveData = false;
 
@@ -290,6 +294,16 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     RobotManager.getInstance(UltrasonicService.this).getControlInstance().setLightBeltBrightness(0);
                     if (light.equals("2")) {
                         sendEmptyMessageDelayed(LIGHT_OPEN, 250);
+                    }
+                    break;
+                case TTS_FINISH:
+                    if (isWelcomeTTsStart) {
+                        ttsEnd();
+                        if(isPlayPicture) {
+                            stopPlayPicture(1000);
+                            isPlayPicture = false;
+                        }
+                        isWelcomeTTsStart = false;
                     }
                     break;
             }
@@ -473,32 +487,32 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
         ItemsContentBean currentBean = null;
         if (START_GUEST_STRING.equals(typeStr)) {
-            if(itemsStartContents != null && itemsStartContents.size() > 0) {
+            if (itemsStartContents != null && itemsStartContents.size() > 0) {
                 if (startPlayMode == ORDER_PLAY) {
                     mStartCurrentIndex++;
                     if (mStartCurrentIndex > (itemsStartContents.size() - 1)) {
                         mStartCurrentIndex = 0;
                     }
                 } else if (startPlayMode == RANDOM_PLAY) {
-                    mStartCurrentIndex = (int) (Math.random() * ((itemsStartContents.size() - 1)));
+                    mStartCurrentIndex = (int) (Math.random() * ((itemsStartContents.size())));
                 }
                 currentBean = itemsStartContents.get(mStartCurrentIndex);
             }
         } else if (STOP_GUEST_STRING.equals(typeStr)) {
-            if(itemsEndContents != null && itemsEndContents.size() > 0) {
+            if (itemsEndContents != null && itemsEndContents.size() > 0) {
                 if (stopPlayMode == ORDER_PLAY) {
                     mEndCurrentIndex++;
                     if (mEndCurrentIndex > (itemsEndContents.size() - 1)) {
                         mEndCurrentIndex = 0;
                     }
                 } else if (stopPlayMode == RANDOM_PLAY) {
-                    mEndCurrentIndex = (int) (Math.random() * ((itemsEndContents.size() - 1)));
+                    mEndCurrentIndex = (int) (Math.random() * ((itemsEndContents.size())));
                 }
                 currentBean = itemsEndContents.get(mEndCurrentIndex);
             }
         }
 
-        if(currentBean != null) {
+        if (currentBean != null) {
             L.e("startPlay", "itemsStartContents = " + itemsStartContents.get(0).toString());
             L.e("startPlay", "currentBean = " + currentBean.toString());
             //广告语和表情
@@ -508,6 +522,11 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     TtsUtils.sendTts(getApplicationContext(), currentBean.getOther() + "@#;" + currentBean.getFace());
                 } else
                     TtsUtils.sendTts(getApplicationContext(), currentBean.getOther());
+                SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
+                long ttsTime = currentBean.getOther().length() * wordSpeed;
+                mHandle.sendEmptyMessageDelayed(TTS_FINISH, ttsTime);
+                showTip("ttsTime=" + ttsTime );
+
             } else {
                 isTtsFinish = true;
                 isFaceFinish = true;
@@ -525,18 +544,19 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     //播放视频
                     playAudio(currentBean.getMedia());
                     isPictureFinish = true;
-                } else {
+                } else if (currentBean.getMedia().toLowerCase().endsWith(".png") ||
+                        currentBean.getMedia().toLowerCase().endsWith(".jpg")) {
                     //播放图片
                     //正在播放图片
                     isPlayPicture = true;
                     if (!TextUtils.isEmpty(currentBean.getMedia())) {
                         File mFile = new File(currentBean.getMedia());
                         if (mFile.exists()) {
-                            dialog = new Dialog(this, R.style.Dialog_Fullscreen);
+                            dialog = new Dialog(UltrasonicService.this, R.style.Dialog_Fullscreen);
                             View currentView = LayoutInflater.from(UltrasonicService.this).inflate(R.layout.ul_picture_dialog, null);
+                            dialog.setContentView(currentView);
                             ImageView adPlayerPic = (ImageView) currentView.findViewById(R.id.ul_picture_img);
                             playAdPicture(adPlayerPic, mFile);
-                            dialog.setContentView(currentView);
                             dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
                             dialog.show();
                         }
@@ -1270,6 +1290,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
         if (mediaPlayer != null)
             mediaPlayer.stop();
+
+        if (dialog != null)
+            dialog.dismiss();
+
 
         if (han != null) {
             han.removeMessages(START_TIMER_GUEST);
