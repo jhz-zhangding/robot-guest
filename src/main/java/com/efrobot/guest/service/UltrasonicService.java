@@ -862,9 +862,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         data[6] = (byte) 0x00;
         data[7] = (byte) 7;
         //开启后8秒左右收到回调
-//        RobotManager.getInstance(getApplicationContext()).getCustomTaskInstance().sendByteData(data);
+        RobotManager.getInstance(getApplicationContext()).getCustomTaskInstance().sendByteData(data);
         //TODO 新策略
-        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).openUltrasonicFeedback(byte4 << 8 | byte5);
+//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).openUltrasonicFeedback(byte4 << 8 | byte5);
         if (!isReceiveUltrasonic) { //是否接受到超声波检测信息
             reSend();
         }
@@ -1263,7 +1263,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 //        closeUltrasonic(this);// 关闭超声波，暂不关
         RobotManager.getInstance(this).unRegisterOnGetUltrasonicCallBack();
         //TODO 新策略
-        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).closeUltrasonicFeedback();
+//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).closeUltrasonicFeedback();
 //        RobotManager.getInstance(this).unRegisterOnGetInfraredCallBack();
         RobotManager.getInstance(this).getNavigationInstance().unRegisterOnNavigationStateChangeListener(this);
         RobotManager.getInstance(this).unRegisterOnWheelStateChangeListener();
