@@ -20,6 +20,7 @@ import com.efrobot.guest.utils.PreferencesUtils;
 import com.efrobot.guest.utils.TtsUtils;
 import com.efrobot.library.RobotManager;
 import com.efrobot.library.mvp.utils.L;
+import com.efrobot.library.task.UltrasonicTaskManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -208,7 +209,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     public void unRegisterAllCallBack() {
         RobotManager.getInstance(getContext()).unRegisterOnGetUltrasonicCallBack();
         //TODO 新策略
-//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).closeUltrasonicFeedback();
+        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).closeUltrasonicFeedback();
     }
 
     public void cancle() {
@@ -309,10 +310,10 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         data[6] = (byte) 0x00;
         data[7] = (byte) 7;
         //开启后8秒左右收到回调
-        RobotManager.getInstance(getContext()).getCustomTaskInstance().sendByteData(data);
+//        RobotManager.getInstance(getContext()).getCustomTaskInstance().sendByteData(data);
         RobotManager.getInstance(getContext()).registerOnGetUltrasonicCallBack(this);
         //TODO 新策略
-//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).openUltrasonicFeedback(1923);
+        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).openUltrasonicFeedback(1923);
         if (!isReceiveUltrasonic) { //是否接受到超声波检测信息
             reSend();
         }
