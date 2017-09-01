@@ -49,24 +49,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/padding_0"
-                android:layout_toLeftOf="@+id/ultrasonic_test_btn"
+                android:layout_toLeftOf="@+id/affirm"
                 android:padding="@dimen/padding_20"
                 android:src="@drawable/play_bg" />
-
-            <TextView
-                android:id="@+id/ultrasonic_test_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/padding_20"
-                android:layout_toLeftOf="@+id/affirm"
-                android:background="@drawable/button_bg"
-                android:gravity="center"
-                android:minWidth="@dimen/padding_120"
-                android:padding="@dimen/padding"
-                android:text="测试超声波"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textsize_26" />
 
             <TextView
                 android:id="@+id/affirm"

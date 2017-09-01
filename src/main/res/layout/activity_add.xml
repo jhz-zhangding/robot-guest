@@ -97,7 +97,7 @@
                     style="@style/text_face_author"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rdiobutton_bg"
+                    android:background="@drawable/setting_button_bg"
                     android:checked="true"
                     android:padding="@dimen/padding_10"
                     android:text="迎宾语" />
@@ -109,7 +109,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_10"
-                    android:background="@drawable/rdiobutton_bg"
+                    android:background="@drawable/setting_button_bg"
                     android:padding="@dimen/padding_10"
                     android:text="灯带"
 
@@ -122,7 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_10"
-                    android:background="@drawable/rdiobutton_bg"
+                    android:background="@drawable/setting_button_bg"
                     android:padding="@dimen/padding_10"
                     android:text="@string/faceValue"
 
@@ -136,7 +136,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_10"
-                    android:background="@drawable/rdiobutton_bg"
+                    android:background="@drawable/setting_button_bg"
                     android:padding="@dimen/padding_10"
                     android:text="@string/action_value"
 
