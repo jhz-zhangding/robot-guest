@@ -71,7 +71,6 @@ public class CusProvider extends SpeechSdkProvider {
                     application.ultrasonicService.isPlayPicture = false;
                 }
             }
-            UltrasonicService.isWelcomeTTsStart = false;
         }
     }
 
