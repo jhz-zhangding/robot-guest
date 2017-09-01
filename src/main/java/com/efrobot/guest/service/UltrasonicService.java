@@ -967,6 +967,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     //关闭
     private void closeRepeatLight() {
+        IsOpenRepeatLight = false;
         RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(0);
     }
 
