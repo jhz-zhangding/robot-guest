@@ -34,7 +34,9 @@ import com.efrobot.guest.utils.FileUtils;
 import com.efrobot.guest.utils.MusicPlayer;
 import com.efrobot.guest.utils.PreferencesUtils;
 import com.efrobot.guest.utils.TtsUtils;
+import com.efrobot.library.OnRobotStateChangeListener;
 import com.efrobot.library.RobotManager;
+import com.efrobot.library.RobotState;
 import com.efrobot.library.mvp.utils.L;
 import com.efrobot.library.mvp.utils.RobotToastUtil;
 import com.efrobot.library.task.GroupManager;
@@ -60,7 +62,8 @@ import java.util.TimerTask;
  */
 
 public class UltrasonicService extends Service implements RobotManager.OnGetUltrasonicCallBack,
-        NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener {
+        NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener,
+        OnRobotStateChangeListener{
 
     private String CLOSE_TTS = "com.efrobot.speech.voice.ACTION_TTS";
     private static final String TAG = UltrasonicService.class.getSimpleName();
@@ -126,6 +129,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         //导航监听轮子变化
         RobotManager.getInstance(this).getNavigationInstance().registerOnNavigationStateChangeListener(this);
         RobotManager.getInstance(this).registerOnWheelStateChangeListener(this);
+        RobotManager.getInstance(this).registerHeadKeyStateChangeListener(this);
         mUltrasonic = GuestsApplication.from(getApplicationContext()).getUltrasonicDao();
         // 1:开始迎宾 2:结束迎宾
         itemsStartContents = DataManager.getInstance(UltrasonicService.this).queryItem(1);
@@ -213,7 +217,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     openSpeechDiscern();
                 } else {
                     L.i("执行动作", "currentCount = " + currentCount);
-                    mHandle.sendEmptyMessage(PLAY_MORE_ACTION);
+                    Message message = new Message();
+                    message.what = PLAY_MORE_ACTION;
+                    message.arg1 = actionList.get(currentCount);
+                    mHandle.sendMessage(message);
                 }
             }
 
@@ -269,7 +276,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     sendTestUltrasonic(false);
                     break;
                 case PLAY_MORE_ACTION:
-                    checkAction(actionList.get(currentCount));
+                    checkAction(msg.arg1);
                     break;
                 case LIGHT_OPEN:
                     //开 灯带
@@ -603,6 +610,11 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             }
         }
 
+        if(groupManager != null) {
+            actionList.clear();
+            groupManager.stop();
+        }
+
         if (actionList != null && actionList.size() > 0) {
             currentCount = 0;
             checkAction(actionList.get(currentCount));
@@ -703,6 +715,30 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             }
         });
 
+    }
+
+    private MediaPlayer player;
+
+    private void playAudio(String path) {
+        // 从文件系统播放
+        player = new MediaPlayer();
+        try {
+            player.setDataSource(path);
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+//                    player.start();
+//                    player.setLooping(true);
+                    showTip("播放视频结束");
+                    isMediaFinish = true;
+                    openSpeechDiscern();
+                }
+            });
+            player.prepare();
+            player.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -1039,30 +1075,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         return 1;
     }
 
-    private MediaPlayer player;
-
-    private void playAudio(String path) {
-        // 从文件系统播放
-        player = new MediaPlayer();
-        try {
-            player.setDataSource(path);
-            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-//                    player.start();
-//                    player.setLooping(true);
-                    showTip("播放视频结束");
-                    isMediaFinish = true;
-                    openSpeechDiscern();
-                }
-            });
-            player.prepare();
-            player.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private boolean isGetInfrared = false;
 
     private void sendInfrared() {
@@ -1314,4 +1326,38 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         mHandle = null;
     }
 
+    @Override
+    public void onRobotSateChange(int robotStateIndex, int newState) {
+        if(robotStateIndex == RobotState.ROBOT_STATE_INDEX_HEAD_KEY) {
+            showTip("头部按钮监听:" + "newState = " + newState);
+            if(newState == 1) {
+                if(!isTtsFinish) {
+                    isTtsFinish = true;
+                }
+
+                if(!isActionFinish) {
+                    isActionFinish = true;
+                }
+
+                if(!isPictureFinish) {
+                    if(dialog != null) {
+                        dialog.dismiss();
+                    }
+                }
+
+                if(!isMediaFinish) {
+                    if(player != null) {
+                        player.stop();
+                    }
+                }
+
+                if(!isMusicFinish) {
+                    if(mediaPlayer != null) {
+                        mediaPlayer.stop();
+                    }
+                }
+
+            }
+        }
+    }
 }

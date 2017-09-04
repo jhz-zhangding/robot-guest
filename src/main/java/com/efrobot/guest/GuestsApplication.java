@@ -31,7 +31,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2017/3/2.
@@ -278,8 +280,7 @@ public class GuestsApplication extends Application {
         //写入Log信息的方法，写入到SD卡里面
         private void writeLog(String log, String name) {
 
-            CharSequence timestamp = DateFormat.format("yyyyMMdd_kkmmss",
-                    System.currentTimeMillis());
+            CharSequence timestamp = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date());
             String filename = name + "_" + timestamp + ".log";
 
             File file = new File(filename);
