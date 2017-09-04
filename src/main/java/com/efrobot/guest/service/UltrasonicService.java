@@ -35,7 +35,9 @@ import com.efrobot.guest.utils.FileUtils;
 import com.efrobot.guest.utils.MusicPlayer;
 import com.efrobot.guest.utils.PreferencesUtils;
 import com.efrobot.guest.utils.TtsUtils;
+import com.efrobot.library.OnRobotStateChangeListener;
 import com.efrobot.library.RobotManager;
+import com.efrobot.library.RobotState;
 import com.efrobot.library.mvp.utils.L;
 import com.efrobot.library.mvp.utils.RobotToastUtil;
 import com.efrobot.library.task.GroupManager;
@@ -62,7 +64,7 @@ import java.util.TimerTask;
 
 public class UltrasonicService extends Service implements RobotManager.OnGetUltrasonicCallBack,
         NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener,
-        RobotManager.OnUltrasonicOccupyStatelistener {
+        RobotManager.OnUltrasonicOccupyStatelistener, OnRobotStateChangeListener{
 
     private String CLOSE_TTS = "com.efrobot.speech.voice.ACTION_TTS";
     private static final String TAG = UltrasonicService.class.getSimpleName();
@@ -132,6 +134,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         groupManager = RobotManager.getInstance(this.getApplicationContext()).getGroupInstance();
         mGroupTask = SpeechGroupManager.getInstance(RobotManager.getInstance(getApplicationContext()));
         RobotManager.getInstance(UltrasonicService.this).registerUltrasonicOccupylistener(this);
+        RobotManager.getInstance(UltrasonicService.this).registerHeadKeyStateChangeListener(this);
+
+
         GuestsApplication.from(this).setUltrasonicService(this);
         //注册盖子
         registerLiboard();
@@ -524,7 +529,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                         mStartLeftCurrentIndex = 0;
                     }
                 } else if (startLeftPlayMode == RANDOM_PLAY) {
-                    mStartLeftCurrentIndex = (int) (Math.random() * ((itemsLeftContents.size() - 1)));
+                    mStartLeftCurrentIndex = (int) (Math.random() * (itemsLeftContents.size()));
                 }
                 currentBean = itemsLeftContents.get(mStartLeftCurrentIndex);
             }
@@ -536,7 +541,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                         mStartRightCurrentIndex = 0;
                     }
                 } else if (startRightPlayMode == RANDOM_PLAY) {
-                    mStartRightCurrentIndex = (int) (Math.random() * ((itemsRightContents.size() - 1)));
+                    mStartRightCurrentIndex = (int) (Math.random() * (itemsRightContents.size()));
                 }
                 currentBean = itemsRightContents.get(mStartRightCurrentIndex);
             }
@@ -548,7 +553,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                         mEndCurrentIndex = 0;
                     }
                 } else if (stopPlayMode == RANDOM_PLAY) {
-                    mEndCurrentIndex = (int) (Math.random() * ((itemsEndContents.size() - 1)));
+                    mEndCurrentIndex = (int) (Math.random() * (itemsEndContents.size()));
                 }
                 currentBean = itemsEndContents.get(mEndCurrentIndex);
             }
@@ -569,6 +574,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 long ttsTime = ttsLength * wordSpeed;
                 showTip("ttsLength=" + ttsLength + "- - ttsTime=" + ttsTime);
                 mHandle.sendEmptyMessageDelayed(TTS_FINISH, ttsTime);
+
+                SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
             } else {
                 isTtsFinish = true;
                 isFaceFinish = true;
@@ -1370,5 +1377,12 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     @Override
     public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
         L.e(TAG, "sceneCode = " + sceneCode + "---isAvailable = " + isAvailable);
+    }
+
+    @Override
+    public void onRobotSateChange(int robotStateIndex, int newState) {
+        if(robotStateIndex == RobotState.ROBOT_STATE_INDEX_HEAD_KEY) {
+
+        }
     }
 }
