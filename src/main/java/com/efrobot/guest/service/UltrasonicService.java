@@ -411,7 +411,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     //全部检测
                     if (farDistanceNum >= NUM_FARVALUE * customNumber) {
                         //全部检测无人, 所有执行完毕, 开始计时
-                        if (!isTimer && mIsExecute && !isWelcomeTTsStart) {
+                        if (!isTimer && mIsExecute) {
                             if (isTtsFinish == true && isFaceFinish == true && isLightFinish == true && isMusicFinish == true &&
                                     isPictureFinish == true && isActionFinish == true && isMediaFinish == true) {
                                 isTimer = true;
@@ -611,7 +611,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         }
 
         if(groupManager != null) {
-            actionList.clear();
             groupManager.stop();
         }
 
@@ -1330,9 +1329,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     public void onRobotSateChange(int robotStateIndex, int newState) {
         if(robotStateIndex == RobotState.ROBOT_STATE_INDEX_HEAD_KEY) {
             showTip("头部按钮监听:" + "newState = " + newState);
-            if(newState == 1) {
+            if(newState == 2) {
                 if(!isTtsFinish) {
                     isTtsFinish = true;
+                    isFaceFinish = true;
                 }
 
                 if(!isActionFinish) {
