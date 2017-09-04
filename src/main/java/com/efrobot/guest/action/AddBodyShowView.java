@@ -248,7 +248,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         totalTime = (TextView) findViewById(R.id.totalTime);
 
 
-        InputFilter[] filters = {new NameLengthFilter(280)};
+        InputFilter[] filters = {new NameLengthFilter(Integer.MAX_VALUE)};
         mEditText.setFilters(filters);
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override

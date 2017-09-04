@@ -216,7 +216,7 @@
                 android:layout_marginBottom="@dimen/padding_35"
                 android:layout_marginTop="@dimen/padding_10"
                 android:background="@drawable/botton_white_bg"
-                android:hint="请输入0-140个字符"
+                android:hint="请输入迎宾语"
                 android:textColor="@color/white"
                 android:padding="@dimen/padding_15"
                 android:textSize="@dimen/textsize_26" />
