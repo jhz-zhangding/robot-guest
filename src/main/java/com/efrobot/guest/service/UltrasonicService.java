@@ -63,8 +63,10 @@ import java.util.TimerTask;
  */
 
 public class UltrasonicService extends Service implements RobotManager.OnGetUltrasonicCallBack,
-        NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener,
-        RobotManager.OnUltrasonicOccupyStatelistener, OnRobotStateChangeListener{
+        NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener
+//        , RobotManager.OnUltrasonicOccupyStatelistener,
+// OnRobotStateChangeListener
+{
 
     private String CLOSE_TTS = "com.efrobot.speech.voice.ACTION_TTS";
     private static final String TAG = UltrasonicService.class.getSimpleName();
@@ -133,8 +135,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         IsRunning = true;
         groupManager = RobotManager.getInstance(this.getApplicationContext()).getGroupInstance();
         mGroupTask = SpeechGroupManager.getInstance(RobotManager.getInstance(getApplicationContext()));
-        RobotManager.getInstance(UltrasonicService.this).registerUltrasonicOccupylistener(this);
-        RobotManager.getInstance(UltrasonicService.this).registerHeadKeyStateChangeListener(this);
+//        RobotManager.getInstance(UltrasonicService.this).registerUltrasonicOccupylistener(this);
+//        RobotManager.getInstance(UltrasonicService.this).registerHeadKeyStateChangeListener(this);
 
 
         GuestsApplication.from(this).setUltrasonicService(this);
@@ -925,7 +927,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         //data[4] = (byte) 0x1F; 打开全部
         //data[5] = (byte) 0xFF;
         //开启后8秒左右收到回调
-        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).openUltrasonicFeedback(EnvUtil.ULGST001, (byte4 & 0xFFFF << 8) | (byte5 & 0xFFFF));
+//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).openUltrasonicFeedback(EnvUtil.ULGST001, (byte4 & 0xFFFF << 8) | (byte5 & 0xFFFF));
         if (!isReceiveUltrasonic) { //是否接受到超声波检测信息
             reSend();
         }
@@ -1346,7 +1348,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 //        closeUltrasonic(this);// 关闭超声波，暂不关
         RobotManager.getInstance(this).unRegisterOnGetUltrasonicCallBack();
         //TODO 新策略
-        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).closeUltrasonicFeedback(EnvUtil.ULGST001);
+//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).closeUltrasonicFeedback(EnvUtil.ULGST001);
 //        RobotManager.getInstance(this).unRegisterOnGetInfraredCallBack();
         RobotManager.getInstance(this).getNavigationInstance().unRegisterOnNavigationStateChangeListener(this);
         RobotManager.getInstance(this).unRegisterOnWheelStateChangeListener();
@@ -1374,15 +1376,15 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         mHandle = null;
     }
 
-    @Override
-    public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
-        L.e(TAG, "sceneCode = " + sceneCode + "---isAvailable = " + isAvailable);
-    }
+//    @Override
+//    public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
+//        L.e(TAG, "sceneCode = " + sceneCode + "---isAvailable = " + isAvailable);
+//    }
 
-    @Override
-    public void onRobotSateChange(int robotStateIndex, int newState) {
-        if(robotStateIndex == RobotState.ROBOT_STATE_INDEX_HEAD_KEY) {
-
-        }
-    }
+//    @Override
+//    public void onRobotSateChange(int robotStateIndex, int newState) {
+//        if(robotStateIndex == RobotState.ROBOT_STATE_INDEX_HEAD_KEY) {
+//
+//        }
+//    }
 }
