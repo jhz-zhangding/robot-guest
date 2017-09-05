@@ -434,9 +434,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                                 startPlay(STOP_GUEST_STRING);
                                 han.removeMessages(0);
                                 isTimer = false;
-                                if (mGroupTask != null) {
-                                    mGroupTask.reset();
-                                }
                                 SpeechManager.getInstance().closeSpeechDiscern(getApplicationContext());
                                 IsOpenRepeatLight = false;
                                 closeRepeatLight();
@@ -684,7 +681,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         if (isAllPlayFinish()) {
             showTip("开启语音识别");
             SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
-            TtsUtils.sendTts(getApplicationContext(), "");
+            TtsUtils.sendTts(getApplicationContext(), "@#;36");
         }
     }
 
