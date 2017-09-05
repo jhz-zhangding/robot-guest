@@ -306,10 +306,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 case TTS_FINISH:
                     if (isWelcomeTTsStart) {
                         ttsEnd();
-                        if (isPlayPicture) {
-                            stopPlayPicture(1000);
-                            isPlayPicture = false;
-                        }
                         isWelcomeTTsStart = false;
                     }
                     break;
@@ -517,7 +513,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         }
 
         if (currentBean != null) {
-            L.e("startPlay", "itemsStartContents = " + itemsStartContents.get(0).toString());
             L.e("startPlay", "currentBean = " + currentBean.toString());
             //广告语和表情
             if (!TextUtils.isEmpty(currentBean.getOther())) {
@@ -527,6 +522,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 } else
                     TtsUtils.sendTts(getApplicationContext(), currentBean.getOther());
                 long ttsTime = currentBean.getOther().length() * wordSpeed;
+                mHandle.removeMessages(TTS_FINISH);
                 mHandle.sendEmptyMessageDelayed(TTS_FINISH, ttsTime);
                 showTip("ttsTime=" + ttsTime);
 
@@ -674,6 +670,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         showTip("说话结束");
         isTtsFinish = true;
         isFaceFinish = true;
+        if (isPlayPicture) {
+            stopPlayPicture(1000);
+            isPlayPicture = false;
+        }
         openSpeechDiscern();
     }
 
