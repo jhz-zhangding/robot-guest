@@ -14,7 +14,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -42,7 +41,6 @@ import com.efrobot.library.mvp.utils.RobotToastUtil;
 import com.efrobot.library.task.GroupManager;
 import com.efrobot.library.task.NavigationManager;
 import com.efrobot.library.task.SpeechGroupManager;
-import com.efrobot.library.task.UltrasonicTaskManager;
 import com.efrobot.speechsdk.SpeechManager;
 
 import java.io.File;
@@ -63,7 +61,7 @@ import java.util.TimerTask;
 
 public class UltrasonicService extends Service implements RobotManager.OnGetUltrasonicCallBack,
         NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener,
-        OnRobotStateChangeListener{
+        OnRobotStateChangeListener {
 
     private String CLOSE_TTS = "com.efrobot.speech.voice.ACTION_TTS";
     private static final String TAG = UltrasonicService.class.getSimpleName();
@@ -216,11 +214,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     isActionFinish = true;
                     openSpeechDiscern();
                 } else {
-                    L.i("执行动作", "currentCount = " + currentCount);
-                    Message message = new Message();
-                    message.what = PLAY_MORE_ACTION;
-                    message.arg1 = actionList.get(currentCount);
-                    mHandle.sendMessage(message);
+                    L.e("执行动作", "currentCount = " + currentCount);
+//                    mHandle.sendEmptyMessage(PLAY_MORE_ACTION);
+                    mHandle.sendEmptyMessageDelayed(PLAY_MORE_ACTION, 1000);
                 }
             }
 
@@ -276,7 +272,11 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     sendTestUltrasonic(false);
                     break;
                 case PLAY_MORE_ACTION:
-                    checkAction(msg.arg1);
+                    if (actionList.size() > 0) {
+                        if (currentCount < actionList.size()) {
+                            checkAction(actionList.get(currentCount));
+                        }
+                    }
                     break;
                 case LIGHT_OPEN:
                     //开 灯带
@@ -306,7 +306,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 case TTS_FINISH:
                     if (isWelcomeTTsStart) {
                         ttsEnd();
-                        if(isPlayPicture) {
+                        if (isPlayPicture) {
                             stopPlayPicture(1000);
                             isPlayPicture = false;
                         }
@@ -529,10 +529,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     TtsUtils.sendTts(getApplicationContext(), currentBean.getOther() + "@#;" + currentBean.getFace());
                 } else
                     TtsUtils.sendTts(getApplicationContext(), currentBean.getOther());
-                SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
                 long ttsTime = currentBean.getOther().length() * wordSpeed;
                 mHandle.sendEmptyMessageDelayed(TTS_FINISH, ttsTime);
-                showTip("ttsTime=" + ttsTime );
+                showTip("ttsTime=" + ttsTime);
 
             } else {
                 isTtsFinish = true;
@@ -610,13 +609,13 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             }
         }
 
-        if(groupManager != null) {
+        if (groupManager != null) {
             groupManager.stop();
         }
 
         if (actionList != null && actionList.size() > 0) {
             currentCount = 0;
-            checkAction(actionList.get(currentCount));
+            checkAction(actionList.get(0));
         } else
             isActionFinish = true;
     }
@@ -1327,32 +1326,37 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     @Override
     public void onRobotSateChange(int robotStateIndex, int newState) {
-        if(robotStateIndex == RobotState.ROBOT_STATE_INDEX_HEAD_KEY) {
+        if (robotStateIndex == RobotState.ROBOT_STATE_INDEX_HEAD_KEY) {
             showTip("头部按钮监听:" + "newState = " + newState);
-            if(newState == 2) {
-                if(!isTtsFinish) {
+            SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
+            if (newState == 2) {
+                if (!isTtsFinish) {
                     isTtsFinish = true;
                     isFaceFinish = true;
                 }
 
-                if(!isActionFinish) {
+                if (!isActionFinish) {
                     isActionFinish = true;
+                    mHandle.removeMessages(PLAY_MORE_ACTION);
+                    if (actionList != null) {
+                        actionList.clear();
+                    }
                 }
 
-                if(!isPictureFinish) {
-                    if(dialog != null) {
+                if (!isPictureFinish) {
+                    if (dialog != null) {
                         dialog.dismiss();
                     }
                 }
 
-                if(!isMediaFinish) {
-                    if(player != null) {
+                if (!isMediaFinish) {
+                    if (player != null) {
                         player.stop();
                     }
                 }
 
-                if(!isMusicFinish) {
-                    if(mediaPlayer != null) {
+                if (!isMusicFinish) {
+                    if (mediaPlayer != null) {
                         mediaPlayer.stop();
                     }
                 }

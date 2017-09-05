@@ -602,8 +602,8 @@ public class AddBodyShowPresenter extends GuestsBasePresenter<IAddBodyShowView> 
         } else if (type == 2) {
             try {
                 String action = mAdapter.getItem(position).index;
-                if (titleAction.size() > 9) {
-                    showToast("最多只能添加10个动作哦");
+                if (titleAction.size() > 0) {
+                    showToast("最多只能添加1个动作哦");
                     return;
                 }
                 //增加动作
