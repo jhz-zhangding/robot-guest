@@ -427,6 +427,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                             }
                         } else {
                             if (mIsExecute) {
+//                                closeTTs();
+
                                 startPlay(STOP_GUEST_STRING);
                                 han.removeMessages(0);
                                 isTimer = false;
@@ -472,6 +474,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     /**
      * type 0：开始迎宾 1：结束迎宾
      */
+    ItemsContentBean currentBean = null;
     private void startPlay(String typeStr) {
         //开始检测到人就开启灯带
         IsOpenRepeatLight = true;
@@ -485,7 +488,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         isMusicFinish = false;
         isPictureFinish = false;
 
-        ItemsContentBean currentBean = null;
         if (START_GUEST_STRING.equals(typeStr)) {
             if (itemsStartContents != null && itemsStartContents.size() > 0) {
                 if (startPlayMode == ORDER_PLAY) {
@@ -516,11 +518,16 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             L.e("startPlay", "currentBean = " + currentBean.toString());
             //广告语和表情
             if (!TextUtils.isEmpty(currentBean.getOther())) {
-                closeTTs();
-                if (!TextUtils.isEmpty(currentBean.getFace())) {
-                    TtsUtils.sendTts(getApplicationContext(), currentBean.getOther() + "@#;" + currentBean.getFace());
-                } else
-                    TtsUtils.sendTts(getApplicationContext(), currentBean.getOther());
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!TextUtils.isEmpty(currentBean.getFace())) {
+                            TtsUtils.sendTts(UltrasonicService.this, currentBean.getOther() + "@#;" + currentBean.getFace());
+                        } else
+                            TtsUtils.sendTts(UltrasonicService.this, currentBean.getOther());
+                    }
+                }).start();
+
                 long ttsTime = currentBean.getOther().length() * wordSpeed;
                 mHandle.removeMessages(TTS_FINISH);
                 mHandle.sendEmptyMessageDelayed(TTS_FINISH, ttsTime);
