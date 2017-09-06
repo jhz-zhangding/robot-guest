@@ -90,6 +90,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     //选择超声波
     private TextView leftUltrasonicTv, rightUltrasonicTv;
     private ImageView leftUltrasonicBtn, rightUltrasonicBtn;
+    private LinkedHashMap<Integer, String> direcMap;
 
     //保存设置
     private TextView mCancel, mAffirm, mSetting;
@@ -112,16 +113,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-//                case START_GUEST:
-//                    int maskSwitch = RobotState.getInstance(getContext()).getMaskState();
-//                    L.i(TAG, "面罩maskSwitch:" + maskSwitch);
-//                    if (maskSwitch == 0) {
-//                        mServiceIntent = new Intent(getContext(), UltrasonicService.class);
-//                        getContext().getApplicationContext().startService(mServiceIntent);
-//                        showToast("开始迎宾");
-//
-//                    }
-//                    break;
                 case INIT_GUEST_USER_DATA:
                     initUserSetting();
                     break;
@@ -175,6 +166,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         finishListView.setAdapter(adapterList.get(2));
 
 
+        initDialogData();
         updateExpandView();
         updatePlayModeView(leftPlayModeImg, false);
         updatePlayModeView(rightPlayModeImg, false);
@@ -398,15 +390,15 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 break;
             case R.id.left_greeting_show_list_img_ll:
                 // 展开和收起
-                expandListView(1);
+                expandListViewItem(1);
                 break;
             case R.id.right_greeting_show_list_img_ll:
                 // 展开和收起
-                expandListView(2);
+                expandListViewItem(2);
                 break;
             case R.id.finish_greeting_show_list_img_ll:
                 // 展开和收起
-                expandListView(3);
+                expandListViewItem(3);
                 break;
             case R.id.ultrasonic_left_set_img:
                 showSelectUltrasonicDialog(1);
@@ -448,7 +440,9 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 @Override
                 public void onClick(View v) {
                     saveUserSetting();
-                    getUpdateData();
+                    updateDialogSelectedData();
+                    if (selectDirecAdapter != null)
+                        selectDirecAdapter.notifyDataSetChanged();
                     ultrasonicSettingDialog.dismiss();
                 }
             });
@@ -468,7 +462,22 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     }
 
     /**
-     * 用户设置距离
+     * 初始化用户设置距离
+     */
+    private void initUserSetting() {
+        UltrasonicDao ultrasonicDao = GuestsApplication.from(this).getUltrasonicDao();
+        ArrayList<UlDistanceBean> lists = ultrasonicDao.queryAll();
+
+        if (lists != null) {
+            for (int i = 0; i < lists.size(); i++) {
+                UlDistanceBean ulDistanceBean = lists.get(i);
+                ultrasonicMap.get(ulDistanceBean.getUltrasonicId()).setText(ulDistanceBean.getDistanceValue());
+            }
+        }
+    }
+
+    /**
+     * 保存用户设置距离
      */
     private void saveUserSetting() {
         UltrasonicDao ultrasonicDao = GuestsApplication.from(this).getUltrasonicDao();
@@ -487,25 +496,15 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     }
 
     /**
-     * 用户设置距离
+     * 用户设置超声波方向dialog
      */
-    private void initUserSetting() {
-        UltrasonicDao ultrasonicDao = GuestsApplication.from(this).getUltrasonicDao();
-        ArrayList<UlDistanceBean> lists = ultrasonicDao.queryAll();
-
-        if (lists != null) {
-            for (int i = 0; i < lists.size(); i++) {
-                UlDistanceBean ulDistanceBean = lists.get(i);
-                ultrasonicMap.get(ulDistanceBean.getUltrasonicId()).setText(ulDistanceBean.getDistanceValue());
-            }
-        }
-    }
-
     private Dialog selectUltrasonicDialog;
     private GridView selectGridView;
     private SelectDirecAdapter selectDirecAdapter;
     private LinearLayout titleLeftContainer, titleRightContainer;
     private int currentDialogType = 1;
+    private List<SelectDirection> tempLeftSelectDirections = new ArrayList<SelectDirection>();
+    private List<SelectDirection> tempRightSelectDirections = new ArrayList<SelectDirection>();
 
     private void showSelectUltrasonicDialog(int type) {
         currentDialogType = type;
@@ -517,18 +516,15 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             titleRightContainer = (LinearLayout) currentView.findViewById(R.id.selected_dec_right_container);
 
             selectDirecAdapter = new SelectDirecAdapter(this);
-            selectDirecAdapter.setSourceData(getUpdateData());
+            selectDirecAdapter.setSourceData(updateDialogSelectedData());
             selectDirecAdapter.setOnSelectedItem(new SelectDirecAdapter.OnSelectedItem() {
                 @Override
                 public void onSelect(SelectDirection selectDirection) {
+                    //选中该方向
                     if (currentDialogType == 1) {
                         addChildLinearLayout(titleLeftContainer, selectDirection);
-                        tempLeftSelectDirections.add(selectDirection);
-                        updateSelectedTv(tempLeftSelectDirections, leftUltrasonicTv);
                     } else if (currentDialogType == 2) {
                         addChildLinearLayout(titleRightContainer, selectDirection);
-                        tempRightSelectDirections.add(selectDirection);
-                        updateSelectedTv(tempRightSelectDirections, rightUltrasonicTv);
                     }
                     if (!selectedDao.isExits(selectDirection.getUltrasonicId())) {
                         selectedDao.insert(selectDirection);
@@ -557,9 +553,9 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
     }
 
-    private List<SelectDirection> tempLeftSelectDirections = new ArrayList<SelectDirection>();
-    private List<SelectDirection> tempRightSelectDirections = new ArrayList<SelectDirection>();
-
+    /**
+     * 添加选中项
+     * */
     private void addChildLinearLayout(final LinearLayout parentView, final SelectDirection selectDirection) {
         if (currentDialogType == 1) {
             selectDirection.setType(1);
@@ -580,8 +576,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //删除
-
+                //删除该选中
                 if (parentView != null) {
                     parentView.removeView(linearLayout);
                     if (currentDialogType == 1) {
@@ -617,9 +612,19 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             parentView.addView(linearLayout);
         }
 
+        if (currentDialogType == 1) {
+            tempLeftSelectDirections.add(selectDirection);
+            updateSelectedTv(tempLeftSelectDirections, leftUltrasonicTv);
+        } else if (currentDialogType == 2) {
+            tempRightSelectDirections.add(selectDirection);
+            updateSelectedTv(tempRightSelectDirections, rightUltrasonicTv);
+        }
+
     }
 
-
+    /**
+     * 更新选中文本
+     * */
     private void updateSelectedTv(List<SelectDirection> tempSelectDirections, TextView textView) {
         StringBuffer sb = new StringBuffer();
         if (tempSelectDirections.size() > 0) {
@@ -639,50 +644,44 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         }
     }
 
-    private void updateDirectionSelectedView() {
+    /**
+     * 是否该选中项 已被置空
+     * */
+    private List<Integer> emptyDistanceList;
+    private void updateTempDirectionSelected() {
         List<UlDistanceBean> ulDistanceBeen = GuestsApplication.from(this).getUltrasonicDao().queryAll();
+        emptyDistanceList = new ArrayList<Integer>();
         int ul_id = -1;
         for (int i = 0; i < ulDistanceBeen.size(); i++) {
-            if(TextUtils.isEmpty(ulDistanceBeen.get(i).getDistanceValue())) {
+            if (TextUtils.isEmpty(ulDistanceBeen.get(i).getDistanceValue())) {
                 ul_id = ulDistanceBeen.get(i).getUltrasonicId();
+                emptyDistanceList.add(ul_id);
             }
 
-            for (int j = tempLeftSelectDirections.size() - 1; j > 0; j--) {
+            for (int j = tempLeftSelectDirections.size() - 1; j >= 0; j--) {
                 if (tempLeftSelectDirections.get(j).getUltrasonicId() == ul_id) {
                     tempLeftSelectDirections.remove(j);
+                    if (selectedDao.isExits(ul_id)) {
+                        selectedDao.delete(ul_id);
+                    }
                 }
             }
 
-            for (int j = tempRightSelectDirections.size() - 1; j > 0; j--) {
+            for (int j = tempRightSelectDirections.size() - 1; j >= 0; j--) {
                 if (tempRightSelectDirections.get(j).getUltrasonicId() == ul_id) {
                     tempRightSelectDirections.remove(j);
+                    if (selectedDao.isExits(ul_id)) {
+                        selectedDao.delete(ul_id);
+                    }
                 }
             }
         }
     }
 
+    //更新超声波方向选择状态
+    private List<SelectDirection> updateDialogSelectedData() {
+        List<SelectDirection> data = new ArrayList<SelectDirection>();
 
-    private LinkedHashMap<Integer, String> direcMap;
-
-    private List<SelectDirection> getUpdateData() {
-        if (direcMap == null) {
-            direcMap = new LinkedHashMap<Integer, String>();
-            direcMap.put(2, "左1");
-            direcMap.put(1, "左3");
-            direcMap.put(0, "中1");
-            direcMap.put(7, "右3");
-            direcMap.put(6, "右1");
-
-            direcMap.put(12, "左2");
-            direcMap.put(10, "左4");
-            direcMap.put(9, "中2");
-            direcMap.put(8, "右4");
-            direcMap.put(11, "右2");
-        }
-        return updateDirectionButton();
-    }
-
-    private List<SelectDirection> updateDirectionButton() {
         if (titleLeftContainer != null) {
             titleLeftContainer.removeAllViews();
         }
@@ -690,15 +689,18 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             titleRightContainer.removeAllViews();
         }
 
-        updateDirectionSelectedView();
+        updateTempDirectionSelected();
 
-        List<SelectDirection> data = new ArrayList<SelectDirection>();
         for (Map.Entry entry : direcMap.entrySet()) {
             int ultrasonicId = (Integer) entry.getKey();
             String value = (String) entry.getValue();
             SelectDirection selectDirection = new SelectDirection();
             selectDirection.setUltrasonicId(ultrasonicId);
             selectDirection.setValue(value);
+            if (emptyDistanceList.contains(ultrasonicId)) {
+                selectDirection.setSelected(true);
+            }
+
             for (int i = 0; i < tempLeftSelectDirections.size(); i++) {
                 if (tempLeftSelectDirections.get(i).getUltrasonicId() == ultrasonicId) {
                     selectDirection.setSelected(true);
@@ -722,6 +724,9 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         return data;
     }
 
+    /**
+     * 初始化数据
+     * */
     private void updateDirectionView(TextView leftView, TextView rightView) {
         ArrayList<SelectDirection> leftDirectionLists = selectedDao.queryOneType(1);
         ArrayList<SelectDirection> rightDirectionLists = selectedDao.queryOneType(2);
@@ -767,7 +772,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     }
 
     /**
-     * 开始迎宾条目
+     * 更新条目展开状态
      */
     private void updateExpandView() {
         List<ItemsContentBean> leftList = DataManager.getInstance(getContext()).queryItem(1);
@@ -815,10 +820,10 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
 
     /**
-     * 是否展开条目
+     * 点击伸缩开条目
      * type 类型
      */
-    private void expandListView(int type) {
+    private void expandListViewItem(int type) {
         List<ItemsContentBean> startList = DataManager.getInstance(getContext()).queryItem(type);
         int currentListSize = adapterList.get(type - 1).getSourceDataSize();
         if (startList != null) {
@@ -832,6 +837,23 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 }
             }
             updateExpandView();
+        }
+    }
+
+    private void initDialogData() {
+        if (direcMap == null) {
+            direcMap = new LinkedHashMap<Integer, String>();
+            direcMap.put(2, "左1");
+            direcMap.put(1, "左3");
+            direcMap.put(0, "中1");
+            direcMap.put(7, "右3");
+            direcMap.put(6, "右1");
+
+            direcMap.put(12, "左2");
+            direcMap.put(10, "左4");
+            direcMap.put(9, "中2");
+            direcMap.put(8, "右4");
+            direcMap.put(11, "右2");
         }
     }
 
