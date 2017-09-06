@@ -693,6 +693,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
                 TtsUtils.sendTts(getApplicationContext(), "@#;36");
             } else if(STOP_GUEST_STRING.equals(currentPlayType)) {
+                lastHead = -1;
                 if(groupManager != null) {
                     groupManager.reset();
                 }
