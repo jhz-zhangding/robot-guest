@@ -330,10 +330,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
 
                         int myDistance = getDistanceFromPosition(numberNg); //设置的探头距离
-                        int number = getPositionFromNumber(numberNg); //获取自己设置的探头编号
+//                        int number = getPositionFromNumber(numberNg); //获取自己设置的探头编号
                         L.i(TAG, "numberNg = " + numberNg + "---myDistance = " + myDistance);
                         if (customUlData.contains(getPositionFromNumber(numberNg))) {
-                            if (isConformDistance(valueNG, myDistance, number)) {
+                            if (isConformDistance(valueNG, myDistance, numberNg)) {
                                 break;
                             }
                         }
@@ -362,11 +362,11 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
                 if (valueNG <= distance) {
                     //跟随动作
-                    if (number == 0 || number == 4) {
+                    if (number == 0 || number == 9) {
                         setHeadAction(ORIGIN_HEAD);
-                    } else if (number == 1 || number == 5) {
+                    } else if (number == 1 || number == 10) {
                         setHeadAction(RIGHT_HEAD);
-                    } else if (number == 2 || number == 3) {
+                    } else if (number == 7 || number == 8) {
                         setHeadAction(LEFT_HEAD);
                     }
 
@@ -428,7 +428,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                         } else {
                             if (mIsExecute) {
 //                                closeTTs();
-
+                                isWelcomeTTsStart = true;
                                 startPlay(STOP_GUEST_STRING);
                                 han.removeMessages(0);
                                 isTimer = false;
@@ -474,8 +474,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     /**
      * type 0：开始迎宾 1：结束迎宾
      */
+    private String currentPlayType = "";
     ItemsContentBean currentBean = null;
     private void startPlay(String typeStr) {
+        currentPlayType = typeStr;
         //开始检测到人就开启灯带
         IsOpenRepeatLight = true;
         openRepeatLight();
@@ -609,9 +611,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             }
         }
 
-        if (groupManager != null) {
-            groupManager.stop();
-        }
+//        if (groupManager != null) {
+//            groupManager.stop();
+//        }
 
         if (actionList != null && actionList.size() > 0) {
             currentCount = 0;
@@ -686,9 +688,15 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     private void openSpeechDiscern() {
         if (isAllPlayFinish()) {
-            showTip("开启语音识别");
-            SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
-            TtsUtils.sendTts(getApplicationContext(), "@#;36");
+            if (START_GUEST_STRING.equals(currentPlayType)) {
+                showTip("开启语音识别");
+                SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
+                TtsUtils.sendTts(getApplicationContext(), "@#;36");
+            } else if(STOP_GUEST_STRING.equals(currentPlayType)) {
+                if(groupManager != null) {
+                    groupManager.reset();
+                }
+            }
         }
     }
 
@@ -1258,21 +1266,26 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         switch (direc) {
             case RIGHT_HEAD:
                 if (direc != lastHead) {
+                    L.e("setHeadAction", "direc = " + direc + "- - lastHead = " + lastHead);
                     groupManager.execute(rightHeadJson);
+                    lastHead = direc;
                 }
                 break;
             case LEFT_HEAD:
                 if (direc != lastHead) {
+                    L.e("setHeadAction", "direc = " + direc + "- - lastHead = " + lastHead);
                     groupManager.execute(leftHeadJson);
+                    lastHead = direc;
                 }
                 break;
             case ORIGIN_HEAD:
                 if (direc != lastHead) {
+                    L.e("setHeadAction", "direc = " + direc + "- - lastHead = " + lastHead);
                     groupManager.execute(originHeadJson);
+                    lastHead = direc;
                 }
                 break;
         }
-        lastHead = direc;
     }
 
     private void showToast(String content) {
