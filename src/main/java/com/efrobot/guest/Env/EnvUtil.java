@@ -11,6 +11,7 @@ public class EnvUtil {
     public static int VersionCode = 2;
     public static String VersionName = VersionCode + getCurrentTime();
     public static boolean IS_DEBUG = true;
+    public static String ULGST001 = "ULGST001";
 
     private static String getCurrentTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yy:MM:dd HH:mm");

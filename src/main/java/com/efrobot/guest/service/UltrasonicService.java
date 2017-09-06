@@ -29,6 +29,7 @@ import com.efrobot.guest.setting.SettingActivity;
 import com.efrobot.guest.setting.SettingPresenter;
 import com.efrobot.guest.utils.ActivityManager;
 import com.efrobot.guest.utils.BitmapUtils;
+import com.efrobot.guest.utils.CustomHintDialog;
 import com.efrobot.guest.utils.FileUtils;
 import com.efrobot.guest.utils.MusicPlayer;
 import com.efrobot.guest.utils.PreferencesUtils;
@@ -61,7 +62,7 @@ import java.util.TimerTask;
 
 public class UltrasonicService extends Service implements RobotManager.OnGetUltrasonicCallBack,
         NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener,
-        OnRobotStateChangeListener {
+        OnRobotStateChangeListener, RobotManager.OnUltrasonicOccupyStatelistener {
 
     private String CLOSE_TTS = "com.efrobot.speech.voice.ACTION_TTS";
     private static final String TAG = UltrasonicService.class.getSimpleName();
@@ -126,6 +127,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         registerLiboard();
         //导航监听轮子变化
         RobotManager.getInstance(this).getNavigationInstance().registerOnNavigationStateChangeListener(this);
+        RobotManager.getInstance(this).registerUltrasonicOccupylistener(this);
         RobotManager.getInstance(this).registerOnWheelStateChangeListener(this);
         RobotManager.getInstance(this).registerHeadKeyStateChangeListener(this);
         mUltrasonic = GuestsApplication.from(getApplicationContext()).getUltrasonicDao();
@@ -1380,5 +1382,27 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
             }
         }
+    }
+
+    @Override
+    public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
+        if(isAvailable == 0) {
+            showCanUserDialog(this.getString(R.string.error_use__hint));
+        }
+    }
+
+    public void showCanUserDialog(String content) {
+        CustomHintDialog hitDialog = new CustomHintDialog(this, -1);
+        hitDialog.setTitle("提示");
+        hitDialog.setMessage(content);
+        hitDialog.setCancelable(false);
+        hitDialog.setSubmitButton("确定", new CustomHintDialog.IButtonOnClickLister() {
+            @Override
+            public void onClickLister() {
+                stopSelf();
+            }
+        });
+        hitDialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+        hitDialog.show();
     }
 }
