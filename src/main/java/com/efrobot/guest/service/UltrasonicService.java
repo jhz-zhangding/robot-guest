@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.efrobot.guest.Env.EnvUtil;
 import com.efrobot.guest.GuestsApplication;
 import com.efrobot.guest.R;
 import com.efrobot.guest.bean.ItemsContentBean;
@@ -42,6 +43,7 @@ import com.efrobot.library.mvp.utils.RobotToastUtil;
 import com.efrobot.library.task.GroupManager;
 import com.efrobot.library.task.NavigationManager;
 import com.efrobot.library.task.SpeechGroupManager;
+import com.efrobot.library.task.UltrasonicTaskManager;
 import com.efrobot.speechsdk.SpeechManager;
 
 import java.io.File;
@@ -930,9 +932,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         data[6] = (byte) 0x00;
         data[7] = (byte) 7;
         //开启后8秒左右收到回调
-        RobotManager.getInstance(getApplicationContext()).getCustomTaskInstance().sendByteData(data);
+//        RobotManager.getInstance(getApplicationContext()).getCustomTaskInstance().sendByteData(data);
         //TODO 新策略
-//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).openUltrasonicFeedback(byte4 << 8 | byte5);
+        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).openUltrasonicFeedback(EnvUtil.ULGST001, byte4 << 8 | byte5);
         if (!isReceiveUltrasonic) { //是否接受到超声波检测信息
             reSend();
         }
@@ -1312,7 +1314,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 //        closeUltrasonic(this);// 关闭超声波，暂不关
         RobotManager.getInstance(this).unRegisterOnGetUltrasonicCallBack();
         //TODO 新策略
-//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).closeUltrasonicFeedback();
+        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).closeUltrasonicFeedback(EnvUtil.ULGST001);
 //        RobotManager.getInstance(this).unRegisterOnGetInfraredCallBack();
         RobotManager.getInstance(this).getNavigationInstance().unRegisterOnNavigationStateChangeListener(this);
         RobotManager.getInstance(this).unRegisterOnWheelStateChangeListener();
@@ -1387,22 +1389,26 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     @Override
     public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
         if(isAvailable == 0) {
+            mHandle.removeMessages(0);
             showCanUserDialog(this.getString(R.string.error_use__hint));
         }
     }
 
+    private CustomHintDialog hitDialog;
     public void showCanUserDialog(String content) {
-        CustomHintDialog hitDialog = new CustomHintDialog(this, -1);
-        hitDialog.setTitle("提示");
-        hitDialog.setMessage(content);
-        hitDialog.setCancelable(false);
-        hitDialog.setSubmitButton("确定", new CustomHintDialog.IButtonOnClickLister() {
-            @Override
-            public void onClickLister() {
-                stopSelf();
-            }
-        });
-        hitDialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+        if(hitDialog == null) {
+            hitDialog = new CustomHintDialog(this, -1);
+            hitDialog.setTitle("提示");
+            hitDialog.setMessage(content);
+            hitDialog.setCancelable(false);
+            hitDialog.setSubmitButton("确定", new CustomHintDialog.IButtonOnClickLister() {
+                @Override
+                public void onClickLister() {
+                    stopSelf();
+                }
+            });
+            hitDialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+        }
         hitDialog.show();
     }
 }

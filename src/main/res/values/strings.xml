@@ -246,7 +246,7 @@
     <string name="addmedia4">4.上传音频文件后，音频会覆盖广告语。</string>
 
     <string name="init_ultrasonic_hint">超声波标定要保证周围1米没有障碍物,标定开始</string>
-    <string name="error_use__hint">检测到DIY中已使用超声波，如需继续请关闭DIY中的超声波</string>
+    <string name="error_use__hint">检测到其他程序正在使用超声波，如需继续请关闭该程序中的超声波</string>
 
     <string name="guest_explain_text0">迎宾功能通过机器人正面的6个超声波传感器感应是否有人接近机器人，可以通过勾选启用某一个或者某几个超声波并填写探测距离。当超声波检测到该距离内有人时，则会触发迎宾语。当检测人离开10秒后，则触发结束语，将回到等待状态。
 </string>

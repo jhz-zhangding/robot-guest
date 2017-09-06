@@ -102,7 +102,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         super.onResume();
         L.e(TAG, "SettingPresenter onResume");
 //        if (isCanUseGuest()) {
-            initUltrasonicData();
+        initUltrasonicData();
 //        }
     }
 
@@ -122,9 +122,9 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 //            showCanUserDialog(getContext().getString(R.string.error_use__hint));
 //        } else {
 
-            //超声波测试数据
-            initUltrasonicData();
-            initSettingData();
+        //超声波测试数据
+//            initUltrasonicData();
+        initSettingData();
 //        }
     }
 
@@ -212,7 +212,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     public void unRegisterAllCallBack() {
         RobotManager.getInstance(getContext()).unRegisterOnGetUltrasonicCallBack();
         //TODO 新策略
-        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).closeUltrasonicFeedback();
+        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).closeUltrasonicFeedback(EnvUtil.ULGST001);
     }
 
     public void cancle() {
@@ -373,16 +373,18 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     }
 
     public void showCanUserDialog(String content) {
-        hitDialog = new CustomHintDialog(getContext(), -1);
-        hitDialog.setTitle("提示");
-        hitDialog.setMessage(content);
-        hitDialog.setCancelable(false);
-        hitDialog.setSubmitButton("确定", new CustomHintDialog.IButtonOnClickLister() {
-            @Override
-            public void onClickLister() {
-                exit();
-            }
-        });
+        if(hitDialog == null) {
+            hitDialog = new CustomHintDialog(getContext(), -1);
+            hitDialog.setTitle("提示");
+            hitDialog.setMessage(content);
+            hitDialog.setCancelable(false);
+            hitDialog.setSubmitButton("确定", new CustomHintDialog.IButtonOnClickLister() {
+                @Override
+                public void onClickLister() {
+                    exit();
+                }
+            });
+        }
         hitDialog.show();
     }
 
@@ -453,10 +455,12 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     /**
      * AVAILABLE = 1; //超声波模块可用
      * AVAILABLE = 0; //超声波模块不可用
-     * */
+     */
     @Override
     public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
-        if(isAvailable == 0) {
+        L.e("onUltrasonicOccupyState", "sceneCode" + sceneCode + "- - isAvailable = " + isAvailable);
+        if (isAvailable == 0) {
+            ulHandle.removeMessages(0);
             showCanUserDialog(getContext().getString(R.string.error_use__hint));
         }
     }
