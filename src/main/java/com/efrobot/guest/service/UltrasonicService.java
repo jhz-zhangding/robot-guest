@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.efrobot.guest.Env.EnvUtil;
 import com.efrobot.guest.GuestsApplication;
 import com.efrobot.guest.R;
 import com.efrobot.guest.bean.ItemsContentBean;
@@ -35,15 +34,12 @@ import com.efrobot.guest.utils.FileUtils;
 import com.efrobot.guest.utils.MusicPlayer;
 import com.efrobot.guest.utils.PreferencesUtils;
 import com.efrobot.guest.utils.TtsUtils;
-import com.efrobot.library.OnRobotStateChangeListener;
 import com.efrobot.library.RobotManager;
-import com.efrobot.library.RobotState;
 import com.efrobot.library.mvp.utils.L;
 import com.efrobot.library.mvp.utils.RobotToastUtil;
 import com.efrobot.library.task.GroupManager;
 import com.efrobot.library.task.NavigationManager;
 import com.efrobot.library.task.SpeechGroupManager;
-import com.efrobot.library.task.UltrasonicTaskManager;
 import com.efrobot.speechsdk.SpeechManager;
 
 import java.io.File;
@@ -136,10 +132,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         groupManager = RobotManager.getInstance(this.getApplicationContext()).getGroupInstance();
         mGroupTask = SpeechGroupManager.getInstance(RobotManager.getInstance(getApplicationContext()));
 //        RobotManager.getInstance(UltrasonicService.this).registerUltrasonicOccupylistener(this);
-//        RobotManager.getInstance(UltrasonicService.this).registerHeadKeyStateChangeListener(this);
-
 
         GuestsApplication.from(this).setUltrasonicService(this);
+
         //注册盖子
         registerLiboard();
         //导航监听轮子变化
@@ -147,13 +142,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         RobotManager.getInstance(this).registerOnWheelStateChangeListener(this);
         ultrasonicDao = GuestsApplication.from(getApplicationContext()).getUltrasonicDao();
         selectedDao = GuestsApplication.from(getApplicationContext()).getSelectedDao();
-
-        //超声波设置数据
-        ulDistanceBeen = ultrasonicDao.queryAll();
-        if (ulDistanceBeen == null || ulDistanceBeen.size() < 10) {
-            showToast("迎宾距离不能为空");
-            return super.onStartCommand(intent, START_STICKY, startId);
-        }
 
         //超声波方向设置
         leftSelectDirections = selectedDao.queryOneType(1);
@@ -202,18 +190,20 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 //        }
         L.i(TAG, "waitTime=" + waitTime);
 
+        customUlData = new ArrayList<Integer>();
         //超声波设置数据
         ulDistanceBeen = ultrasonicDao.queryAll();
-        if (ulDistanceBeen != null && ulDistanceBeen.size() > 0) {
-            for (int i = 0; i < ulDistanceBeen.size(); i++) {
+        for (int i = ulDistanceBeen.size() - 1; i >= 0; i--) {
+            if (TextUtils.isEmpty(ulDistanceBeen.get(i).getDistanceValue())) {
+                ulDistanceBeen.remove(i);
+            } else {
                 flagsMap.put(ulDistanceBeen.get(i).getUltrasonicId(), false);
-            }
-            customUlData = new ArrayList<Integer>();
-            for (int i = 0; i < ulDistanceBeen.size(); i++) {
                 customUlData.add(ulDistanceBeen.get(i).getUltrasonicId());
             }
-            customNumber = customUlData.size();
         }
+
+        customNumber = customUlData.size();
+
         //每10秒发送移除睡眠
         han.sendEmptyMessageDelayed(START_TIMER_CLEAR_SLEEP, 1000);
         //是否有设置的探头信息
@@ -345,13 +335,13 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     }
                     break;
                 case LIGHT_ALWAYS_OPEN:
-                    if(!isCloseLight) {
+                    if (!isCloseLight) {
                         RobotManager.getInstance(UltrasonicService.this).getControlInstance().setLightBeltBrightness(240);
                         sendEmptyMessageDelayed(LIGHT_ALWAYS_OPEN, 800);
                     }
                     break;
                 case TTS_FINISH:
-                    if(isWelcomeTTsStart) {
+                    if (isWelcomeTTsStart) {
                         ttsEnd();
                         isWelcomeTTsStart = false;
                     }

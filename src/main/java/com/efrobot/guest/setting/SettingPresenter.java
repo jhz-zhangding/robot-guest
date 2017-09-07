@@ -188,6 +188,9 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     }
 
     public void unRegisterAllCallBack() {
+        ulHandle.removeMessages(0);
+        ulHandle.removeMessages(1);
+        ulHandle.removeMessages(2);
         RobotManager.getInstance(getContext()).unRegisterOnGetUltrasonicCallBack();
 //        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).closeUltrasonicFeedback(EnvUtil.ULGST001);
     }
@@ -199,17 +202,17 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     public boolean affirm() {
 
         ArrayList<UlDistanceBean> ulDistanceBeen = ultrasonicDao.queryAll();
-        boolean isDistanceEmpty = true;
+        boolean isAllDistanceEmpty = true;
         //设置超声波
         for (int i = 0; i < ulDistanceBeen.size(); i++) {
-            if (TextUtils.isEmpty(ulDistanceBeen.get(i).getDistanceValue())) {
-                isDistanceEmpty = true;
+            if (!TextUtils.isEmpty(ulDistanceBeen.get(i).getDistanceValue())) {
+                isAllDistanceEmpty = false;
                 break;
             } else {
-                isDistanceEmpty = false;
+                isAllDistanceEmpty = true;
             }
         }
-        if (isDistanceEmpty) {
+        if (isAllDistanceEmpty) {
             showToast("超声波距离不能为空哦");
             return false;
         }

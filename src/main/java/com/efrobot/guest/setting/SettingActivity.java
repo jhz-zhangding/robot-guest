@@ -167,6 +167,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
 
         initDialogData();
+        initSelectUltrasonicDialog();
         updateExpandView();
         updatePlayModeView(leftPlayModeImg, false);
         updatePlayModeView(rightPlayModeImg, false);
@@ -440,9 +441,10 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 @Override
                 public void onClick(View v) {
                     saveUserSetting();
-                    updateDialogSelectedData();
-                    if (selectDirecAdapter != null)
+                    if (selectDirecAdapter != null) {
+                        selectDirecAdapter.setSourceData(updateDialogSelectedData());
                         selectDirecAdapter.notifyDataSetChanged();
+                    }
                     ultrasonicSettingDialog.dismiss();
                 }
             });
@@ -496,7 +498,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     }
 
     /**
-     * 用户设置超声波方向dialog
+     * 初始化用户设置超声波方向dialog
      */
     private Dialog selectUltrasonicDialog;
     private GridView selectGridView;
@@ -506,42 +508,46 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     private List<SelectDirection> tempLeftSelectDirections = new ArrayList<SelectDirection>();
     private List<SelectDirection> tempRightSelectDirections = new ArrayList<SelectDirection>();
 
+    private void initSelectUltrasonicDialog() {
+        selectUltrasonicDialog = new Dialog(this, R.style.NewSettingDialog);
+        View currentView = LayoutInflater.from(this).inflate(R.layout.select_derc_ultrasonic_dialog, null);
+        selectGridView = (GridView) currentView.findViewById(R.id.selected_dec_gv);
+        titleLeftContainer = (LinearLayout) currentView.findViewById(R.id.selected_dec_left_container);
+        titleRightContainer = (LinearLayout) currentView.findViewById(R.id.selected_dec_right_container);
+
+        selectDirecAdapter = new SelectDirecAdapter(this);
+        selectDirecAdapter.setSourceData(updateDialogSelectedData());
+        selectDirecAdapter.setOnSelectedItem(new SelectDirecAdapter.OnSelectedItem() {
+            @Override
+            public void onSelect(SelectDirection selectDirection) {
+                //选中该方向
+                if (currentDialogType == 1) {
+                    addChildLinearLayout(titleLeftContainer, selectDirection);
+                } else if (currentDialogType == 2) {
+                    addChildLinearLayout(titleRightContainer, selectDirection);
+                }
+                if (!selectedDao.isExits(selectDirection.getUltrasonicId())) {
+                    selectedDao.insert(selectDirection);
+                }
+            }
+        });
+        selectGridView.setAdapter(selectDirecAdapter);
+
+        selectUltrasonicDialog.setContentView(currentView);
+        Window dialogWindow = selectUltrasonicDialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        lp.width = DisplayParamsUtil.dipToPixel(this, 800);
+        lp.height = DisplayParamsUtil.dipToPixel(this, 300);
+
+        dialogWindow.setAttributes(lp);
+    }
+
+    /**
+     * 显示用户设置超声波方向dialog
+     */
     private void showSelectUltrasonicDialog(int type) {
         currentDialogType = type;
-        if (selectUltrasonicDialog == null) {
-            selectUltrasonicDialog = new Dialog(this, R.style.NewSettingDialog);
-            View currentView = LayoutInflater.from(this).inflate(R.layout.select_derc_ultrasonic_dialog, null);
-            selectGridView = (GridView) currentView.findViewById(R.id.selected_dec_gv);
-            titleLeftContainer = (LinearLayout) currentView.findViewById(R.id.selected_dec_left_container);
-            titleRightContainer = (LinearLayout) currentView.findViewById(R.id.selected_dec_right_container);
-
-            selectDirecAdapter = new SelectDirecAdapter(this);
-            selectDirecAdapter.setSourceData(updateDialogSelectedData());
-            selectDirecAdapter.setOnSelectedItem(new SelectDirecAdapter.OnSelectedItem() {
-                @Override
-                public void onSelect(SelectDirection selectDirection) {
-                    //选中该方向
-                    if (currentDialogType == 1) {
-                        addChildLinearLayout(titleLeftContainer, selectDirection);
-                    } else if (currentDialogType == 2) {
-                        addChildLinearLayout(titleRightContainer, selectDirection);
-                    }
-                    if (!selectedDao.isExits(selectDirection.getUltrasonicId())) {
-                        selectedDao.insert(selectDirection);
-                    }
-                }
-            });
-            selectGridView.setAdapter(selectDirecAdapter);
-
-            selectUltrasonicDialog.setContentView(currentView);
-            Window dialogWindow = selectUltrasonicDialog.getWindow();
-            dialogWindow.setGravity(Gravity.CENTER);
-            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-            lp.width = DisplayParamsUtil.dipToPixel(this, 800);
-            lp.height = DisplayParamsUtil.dipToPixel(this, 300);
-
-            dialogWindow.setAttributes(lp);
-        }
         if (type == 1) {
             titleLeftContainer.setVisibility(View.VISIBLE);
             titleRightContainer.setVisibility(View.GONE);
@@ -550,12 +556,11 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             titleRightContainer.setVisibility(View.VISIBLE);
         }
         selectUltrasonicDialog.show();
-
     }
 
     /**
      * 添加选中项
-     * */
+     */
     private void addChildLinearLayout(final LinearLayout parentView, final SelectDirection selectDirection) {
         if (currentDialogType == 1) {
             selectDirection.setType(1);
@@ -624,7 +629,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
     /**
      * 更新选中文本
-     * */
+     */
     private void updateSelectedTv(List<SelectDirection> tempSelectDirections, TextView textView) {
         StringBuffer sb = new StringBuffer();
         if (tempSelectDirections.size() > 0) {
@@ -636,7 +641,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 sb.append(tempSelectDirections.get(0).getValue());
             }
             if (sb.toString().contains("/")) {
-                sb.toString().substring(0, sb.toString().lastIndexOf("/"));
+                sb.toString().substring(0, sb.toString().lastIndexOf("/") - 1);
             }
             textView.setText(sb.toString());
         } else {
@@ -646,8 +651,9 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
     /**
      * 是否该选中项 已被置空
-     * */
+     */
     private List<Integer> emptyDistanceList;
+
     private void updateTempDirectionSelected() {
         List<UlDistanceBean> ulDistanceBeen = GuestsApplication.from(this).getUltrasonicDao().queryAll();
         emptyDistanceList = new ArrayList<Integer>();
@@ -675,10 +681,14 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                     }
                 }
             }
+            updateSelectedTv(tempLeftSelectDirections, leftUltrasonicTv);
+            updateSelectedTv(tempRightSelectDirections, rightUltrasonicTv);
         }
     }
 
-    //更新超声波方向选择状态
+    /**
+     * 更新超声波方向是否可选
+     */
     private List<SelectDirection> updateDialogSelectedData() {
         List<SelectDirection> data = new ArrayList<SelectDirection>();
 
@@ -697,6 +707,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             SelectDirection selectDirection = new SelectDirection();
             selectDirection.setUltrasonicId(ultrasonicId);
             selectDirection.setValue(value);
+            selectDirection.setSelected(false);
             if (emptyDistanceList.contains(ultrasonicId)) {
                 selectDirection.setSelected(true);
             }
@@ -726,7 +737,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
     /**
      * 初始化数据
-     * */
+     */
     private void updateDirectionView(TextView leftView, TextView rightView) {
         ArrayList<SelectDirection> leftDirectionLists = selectedDao.queryOneType(1);
         ArrayList<SelectDirection> rightDirectionLists = selectedDao.queryOneType(2);
