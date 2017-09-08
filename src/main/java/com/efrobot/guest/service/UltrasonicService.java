@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.efrobot.guest.Env.EnvUtil;
 import com.efrobot.guest.GuestsApplication;
 import com.efrobot.guest.R;
 import com.efrobot.guest.bean.ItemsContentBean;
@@ -26,6 +27,7 @@ import com.efrobot.guest.bean.UlDistanceBean;
 import com.efrobot.guest.dao.DataManager;
 import com.efrobot.guest.dao.SelectedDao;
 import com.efrobot.guest.dao.UltrasonicDao;
+import com.efrobot.guest.player.MediaPlayActivity;
 import com.efrobot.guest.setting.SettingActivity;
 import com.efrobot.guest.setting.bean.SelectDirection;
 import com.efrobot.guest.utils.ActivityManager;
@@ -34,12 +36,15 @@ import com.efrobot.guest.utils.FileUtils;
 import com.efrobot.guest.utils.MusicPlayer;
 import com.efrobot.guest.utils.PreferencesUtils;
 import com.efrobot.guest.utils.TtsUtils;
+import com.efrobot.library.OnRobotStateChangeListener;
 import com.efrobot.library.RobotManager;
+import com.efrobot.library.RobotState;
 import com.efrobot.library.mvp.utils.L;
 import com.efrobot.library.mvp.utils.RobotToastUtil;
 import com.efrobot.library.task.GroupManager;
 import com.efrobot.library.task.NavigationManager;
 import com.efrobot.library.task.SpeechGroupManager;
+import com.efrobot.library.task.UltrasonicTaskManager;
 import com.efrobot.speechsdk.SpeechManager;
 
 import java.io.File;
@@ -59,7 +64,7 @@ import java.util.TimerTask;
  */
 
 public class UltrasonicService extends Service implements RobotManager.OnGetUltrasonicCallBack,
-        NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener
+        NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener, OnRobotStateChangeListener
 //        , RobotManager.OnUltrasonicOccupyStatelistener,
 // OnRobotStateChangeListener
 {
@@ -114,9 +119,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private String light;
     private Dialog dialog;
 
-    private MusicPlayer mediaPlayer;
+    private MusicPlayer musicPlayer;
 
-    //0.27秒
+    //语音说话 0.27秒
     private long wordSpeed = 270;
 
     @Override
@@ -129,17 +134,18 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     public int onStartCommand(Intent intent, int flags, int startId) {
         L.i(TAG, "onStartCommand");
         IsRunning = true;
+//        RobotManager.getInstance(this).registerUltrasonicOccupylistener(this);
+        RobotManager.getInstance(this).registerHeadKeyStateChangeListener(this);
+        RobotManager.getInstance(this).getNavigationInstance().registerOnNavigationStateChangeListener(this);
+        RobotManager.getInstance(this).registerOnWheelStateChangeListener(this);
+        //注册面罩广播
+        registerLiboard();
+
         groupManager = RobotManager.getInstance(this.getApplicationContext()).getGroupInstance();
         mGroupTask = SpeechGroupManager.getInstance(RobotManager.getInstance(getApplicationContext()));
-//        RobotManager.getInstance(UltrasonicService.this).registerUltrasonicOccupylistener(this);
 
         GuestsApplication.from(this).setUltrasonicService(this);
 
-        //注册盖子
-        registerLiboard();
-        //导航监听轮子变化
-        RobotManager.getInstance(this).getNavigationInstance().registerOnNavigationStateChangeListener(this);
-        RobotManager.getInstance(this).registerOnWheelStateChangeListener(this);
         ultrasonicDao = GuestsApplication.from(getApplicationContext()).getUltrasonicDao();
         selectedDao = GuestsApplication.from(getApplicationContext()).getSelectedDao();
 
@@ -165,7 +171,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         itemsRightContents = DataManager.getInstance(UltrasonicService.this).queryItem(2);
         itemsEndContents = DataManager.getInstance(UltrasonicService.this).queryItem(3);
 
-        mediaPlayer = new MusicPlayer(null);
+        musicPlayer = new MusicPlayer(null);
 
         if (itemsLeftContents == null || itemsLeftContents.size() == 0) {
             showToast("请设置欢迎语");
@@ -181,14 +187,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         startLeftPlayMode = PreferencesUtils.getInt(this, SettingActivity.SP_LEFT_PLAY_MODE, 0);
         startRightPlayMode = PreferencesUtils.getInt(this, SettingActivity.SP_RIGHT_PLAY_MODE, 0);
         stopPlayMode = PreferencesUtils.getInt(this, SettingActivity.SP_RIGHT_PLAY_MODE, 0);
-        //交流时间
-//        String voiceTime = PreferencesUtils.getString(this.getApplicationContext(), SettingPresenter.SP_VOICE_TIME);
-//        if (voiceTime != null && !voiceTime.isEmpty()) {
-//            waitTime = Integer.parseInt(voiceTime);
-//        } else {
-//            waitTime = 10;
-//        }
-        L.i(TAG, "waitTime=" + waitTime);
 
         customUlData = new ArrayList<Integer>();
         //超声波设置数据
@@ -210,12 +208,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         if (getCustomUltrasonicData()) {
             try {
                 SpeechManager.getInstance().closeSpeechDiscern(getApplicationContext());
-//                boolean isAutoOpen = PreferencesUtils.getBoolean(getApplicationContext(), SettingPresenter.SP_IS_AUTO_OPEN);
-//                if (isAutoOpen) {
-//                    //开始标定模式
-//                    TtsUtils.sendTts(getApplicationContext(), getString(R.string.init_ultrasonic_hint));
-//                    mHandle.sendEmptyMessageDelayed(8, 3000);
-//                } else
                 {
                     //直接开启超声波迎宾
                     L.i(TAG, "开始迎宾");
@@ -249,6 +241,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     openSpeechDiscern();
                 } else {
                     L.i("执行动作", "currentCount = " + currentCount);
+                    if(mHandle != null)
                     mHandle.sendEmptyMessage(PLAY_MORE_ACTION);
                 }
             }
@@ -262,11 +255,12 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private final int LIGHT_CLOSE = 103;
     private final int TTS_FINISH = 104;
     private final int LIGHT_ALWAYS_OPEN = 105;
+    public final int VIDEO_FINISH = 106;
     private boolean isCloseLight = true;
 
     private boolean isReceiveData = false;
 
-    Handler mHandle = new Handler(Looper.getMainLooper()) {
+    public Handler mHandle = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -345,6 +339,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                         ttsEnd();
                         isWelcomeTTsStart = false;
                     }
+                    break;
+                case VIDEO_FINISH:
+                    isMediaFinish = true;
+                    openSpeechDiscern();
                     break;
             }
         }
@@ -565,6 +563,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 int ttsLength = currentBean.getOther().length();
                 long ttsTime = ttsLength * wordSpeed;
                 showTip("ttsLength=" + ttsLength + "- - ttsTime=" + ttsTime);
+                if(mHandle != null)
                 mHandle.sendEmptyMessageDelayed(TTS_FINISH, ttsTime);
 
                 SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
@@ -583,11 +582,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
                 if (currentBean.getMedia().toLowerCase().endsWith(".mp4")) {
                     //播放视频
-                    playAudio(currentBean.getMedia());
+                    GuestsApplication.from(this).playGuestVideoByPath("video", currentBean.getMedia());
                     isPictureFinish = true;
                 } else {
                     //播放图片
-                    //正在播放图片
                     isPlayPicture = true;
                     if (!TextUtils.isEmpty(currentBean.getMedia())) {
                         File mFile = new File(currentBean.getMedia());
@@ -704,18 +702,20 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     }
 
     public void ttsEnd() {
-        showTip("说话结束");
+        showTip("说话结束, 需要结束图片");
         isTtsFinish = true;
         isFaceFinish = true;
         openSpeechDiscern();
+        stopPlayPicture(1000);
     }
 
     private void openSpeechDiscern() {
         if (isAllPlayFinish()) {
             showTip("开启语音识别");
             SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
-            TtsUtils.sendTts(getApplicationContext(), "");
+            TtsUtils.sendTts(getApplicationContext(), "@#;36");
             isCloseLight = false;
+            if(mHandle != null)
             mHandle.sendEmptyMessage(LIGHT_ALWAYS_OPEN);
         }
     }
@@ -727,11 +727,11 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
      */
     private void playMusic(String music) {
         //判断文件是否存在
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
+        if (musicPlayer != null) {
+            musicPlayer.stop();
         }
-        assert mediaPlayer != null;
-        mediaPlayer.playUrl(music, new MusicPlayer.OnMusicCompletionListener() {
+        assert musicPlayer != null;
+        musicPlayer.playUrl(music, new MusicPlayer.OnMusicCompletionListener() {
             @Override
             public void onCompletion(boolean isPlaySuccess) {
                 showTip("执行播放音乐结束");
@@ -910,14 +910,25 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     }
 
-    //打开用户定义的超声波
+    /**
+     * 打开用户定义的超声波
+     * */
     private void sendUserUltrasonic() {
 
         L.i(TAG, "Send user custom data to open ultrasonic");
-        //data[4] = (byte) 0x1F; 打开全部
-        //data[5] = (byte) 0xFF;
+        byte[] data = new byte[12];
+        data[0] = (byte) 0x0c;
+        data[1] = (byte) 0x03;
+        data[2] = (byte) 0x06;
+        data[3] = (byte) 0x03;
+        data[4] = byte4;//        data[4] = (byte) 0x1F; 打开全部
+        data[5] = byte5;//        data[5] = (byte) 0xFF;
+        data[6] = (byte) 0x00;
+        data[7] = (byte) 7;
         //开启后8秒左右收到回调
-//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).openUltrasonicFeedback(EnvUtil.ULGST001, (byte4 & 0xFFFF << 8) | (byte5 & 0xFFFF));
+        RobotManager.getInstance(getApplicationContext()).getCustomTaskInstance().sendByteData(data);
+        //TODO 新策略
+//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).openUltrasonicFeedback(EnvUtil.ULGST001, byte4 << 8 | byte5);
         if (!isReceiveUltrasonic) { //是否接受到超声波检测信息
             reSend();
         }
@@ -951,6 +962,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(255);
         L.i(TAG, "openRepeatLight常亮");
         if (IsOpenRepeatLight) {
+            if(mHandle != null)
             mHandle.sendEmptyMessageDelayed(1, 500);
         }
     }
@@ -960,6 +972,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         this.duration = duration;
         RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(255);
         if (IsOpenRepeatLight) {
+            if(mHandle != null)
             mHandle.sendEmptyMessageDelayed(2, duration);
         }
     }
@@ -1017,24 +1030,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         return -1;
     }
 
-
-    /**
-     * byte[5]
-     */
-    byte mByte1 = (byte) 0x01; // 探头1---索引0
-    byte mByte2 = (byte) 0x02; // 探头2---
-    byte mByte3 = (byte) 0x04; // 探头3---
-    byte mByte7 = (byte) 0x40; // 探头7---
-    byte mByte8 = (byte) 0x80; // 探头8---
-    /**
-     * byte[4]
-     */
-    byte mByte9 = (byte) 0x01; // 探头9---
-    byte mByte10 = (byte) 0x02; // 探头10---
-    byte mByte11 = (byte) 0x04; // 探头11---
-    byte mByte12 = (byte) 0x08; // 探头12---
-    byte mByte13 = (byte) 0x10; // 探头13---
-
     Map<Integer, Byte> ultrasonicOpenMap = null;
 
     /**
@@ -1044,17 +1039,18 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private void initAllOpenData() {
         if (ultrasonicOpenMap == null) {
             ultrasonicOpenMap = new HashMap<Integer, Byte>();
-            ultrasonicOpenMap.put(0, mByte1);
-            ultrasonicOpenMap.put(1, mByte2);
-            ultrasonicOpenMap.put(2, mByte3);
-            ultrasonicOpenMap.put(6, mByte7);
-            ultrasonicOpenMap.put(7, mByte8);
+            //byte[5]
+            ultrasonicOpenMap.put(0, (byte) 0x01);
+            ultrasonicOpenMap.put(1, (byte) 0x02);
+            ultrasonicOpenMap.put(2, (byte) 0x04);
+            ultrasonicOpenMap.put(6, (byte) 0x40);
+            ultrasonicOpenMap.put(7, (byte) 0x80);
 
-            ultrasonicOpenMap.put(8, mByte9);
-            ultrasonicOpenMap.put(9, mByte10);
-            ultrasonicOpenMap.put(10, mByte11);
-            ultrasonicOpenMap.put(11, mByte12);
-            ultrasonicOpenMap.put(12, mByte13);
+            ultrasonicOpenMap.put(8, (byte) 0x01);
+            ultrasonicOpenMap.put(9, (byte) 0x02);
+            ultrasonicOpenMap.put(10, (byte) 0x04);
+            ultrasonicOpenMap.put(11, (byte) 0x08);
+            ultrasonicOpenMap.put(12, (byte) 0x10);
         }
     }
 
@@ -1095,16 +1091,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         RobotManager.getInstance(getApplicationContext()).getCustomTaskInstance().sendByteData(data);
         if (!isGetInfrared) {
             mHandle.sendEmptyMessageDelayed(7, 5000);
-        }
-    }
-
-
-    //退出播放自定义
-    private void stopCustomMode() {
-        ActivityManager.getInstance().finishActivity();
-        if (null != player) {
-            player.reset();
-            player.stop();
         }
     }
 
@@ -1343,8 +1329,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         RobotManager.getInstance(this).getNavigationInstance().unRegisterOnNavigationStateChangeListener(this);
         RobotManager.getInstance(this).unRegisterOnWheelStateChangeListener();
 
-        if (mediaPlayer != null)
-            mediaPlayer.stop();
+        if (musicPlayer != null)
+            musicPlayer.stop();
 
         if (han != null) {
             han.removeMessages(START_TIMER_GUEST);
@@ -1364,6 +1350,39 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         }
         closeRepeatLight();
         mHandle = null;
+    }
+
+    @Override
+    public void onRobotSateChange(int robotStateIndex, int newState) {
+        if(robotStateIndex == RobotState.ROBOT_STATE_INDEX_HEAD_KEY) {
+            if(newState == 2) {
+
+                if(!isTtsFinish) {
+                    isTtsFinish = true;
+                    isFaceFinish = true;
+                }
+
+                if(!isPictureFinish)
+                stopPlayPicture(0);
+
+                if(!isActionFinish) {
+                    isActionFinish = true;
+                }
+
+                if(!isMusicFinish) {
+                    if(musicPlayer != null)
+                        musicPlayer.stop();
+                    isMusicFinish = true;
+                }
+
+                if(!isMediaFinish) {
+                    isMediaFinish = true;
+                    GuestsApplication.from(this).dismissGuestVideo();
+                }
+
+
+            }
+        }
     }
 
 //    @Override

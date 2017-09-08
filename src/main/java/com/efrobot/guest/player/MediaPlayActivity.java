@@ -14,6 +14,7 @@ import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.efrobot.guest.GuestsApplication;
 import com.efrobot.guest.R;
 import com.efrobot.guest.utils.ActivityManager;
 
@@ -30,7 +31,8 @@ public class MediaPlayActivity extends Activity {
 
     private MediaPlayer player;
 
-    private boolean isRepeat = true;
+    private boolean isRepeat = false;
+    private GuestsApplication application;
 
     @Override
     protected void onStart() {
@@ -41,6 +43,9 @@ public class MediaPlayActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_media_play);
+
+        application = GuestsApplication.from(this);
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
@@ -88,7 +93,12 @@ public class MediaPlayActivity extends Activity {
             Toast.makeText(MediaPlayActivity.this, "播放完成", Toast.LENGTH_SHORT).show();
             if (isRepeat) {
                 mVideoView.setVideoPath(filePath);
-                mVideoView.start();
+            }
+
+            if(application != null && application.ultrasonicService != null) {
+                if(application.ultrasonicService.mHandle != null) {
+                    application.ultrasonicService.mHandle.sendEmptyMessage(application.ultrasonicService.VIDEO_FINISH);
+                }
             }
         }
     }

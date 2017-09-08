@@ -62,15 +62,11 @@ public class CusProvider extends SpeechSdkProvider {
         super.TTSEnd();
         L.e(TAG, "TTSEnd");
         if (UltrasonicService.isWelcomeTTsStart) {
-            //欢迎与说完
             GuestsApplication application = GuestsApplication.from(getContext());
             if(application != null && application.ultrasonicService != null) {
-//                application.ultrasonicService.ttsEnd();
-                if(application.ultrasonicService.isPlayPicture) {
-                    application.ultrasonicService.stopPlayPicture(3000);
-                    application.ultrasonicService.isPlayPicture = false;
-                }
+                application.ultrasonicService.ttsEnd();
             }
+            UltrasonicService.isWelcomeTTsStart = false;
         }
     }
 

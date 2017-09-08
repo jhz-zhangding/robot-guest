@@ -166,6 +166,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         finishListView.setAdapter(adapterList.get(2));
 
 
+        updateDirectionView(leftUltrasonicTv, rightUltrasonicTv);
         initDialogData();
         initSelectUltrasonicDialog();
         updateExpandView();
@@ -173,7 +174,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         updatePlayModeView(rightPlayModeImg, false);
         updatePlayModeView(finishPlayModeImg, false);
 
-        updateDirectionView(leftUltrasonicTv, rightUltrasonicTv);
 
     }
 
@@ -522,8 +522,10 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             public void onSelect(SelectDirection selectDirection) {
                 //选中该方向
                 if (currentDialogType == 1) {
+                    tempLeftSelectDirections.add(selectDirection);
                     addChildLinearLayout(titleLeftContainer, selectDirection);
                 } else if (currentDialogType == 2) {
+                    tempRightSelectDirections.add(selectDirection);
                     addChildLinearLayout(titleRightContainer, selectDirection);
                 }
                 if (!selectedDao.isExits(selectDirection.getUltrasonicId())) {
@@ -618,10 +620,8 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         }
 
         if (currentDialogType == 1) {
-            tempLeftSelectDirections.add(selectDirection);
             updateSelectedTv(tempLeftSelectDirections, leftUltrasonicTv);
         } else if (currentDialogType == 2) {
-            tempRightSelectDirections.add(selectDirection);
             updateSelectedTv(tempRightSelectDirections, rightUltrasonicTv);
         }
 
@@ -663,26 +663,24 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 ul_id = ulDistanceBeen.get(i).getUltrasonicId();
                 emptyDistanceList.add(ul_id);
             }
+        }
 
-            for (int j = tempLeftSelectDirections.size() - 1; j >= 0; j--) {
-                if (tempLeftSelectDirections.get(j).getUltrasonicId() == ul_id) {
-                    tempLeftSelectDirections.remove(j);
-                    if (selectedDao.isExits(ul_id)) {
-                        selectedDao.delete(ul_id);
-                    }
+        for (int j = tempLeftSelectDirections.size() - 1; j >= 0; j--) {
+            if (emptyDistanceList.contains(tempLeftSelectDirections.get(j).getUltrasonicId())) {
+                tempLeftSelectDirections.remove(j);
+                if (selectedDao.isExits(ul_id)) {
+                    selectedDao.delete(ul_id);
                 }
             }
+        }
 
-            for (int j = tempRightSelectDirections.size() - 1; j >= 0; j--) {
-                if (tempRightSelectDirections.get(j).getUltrasonicId() == ul_id) {
-                    tempRightSelectDirections.remove(j);
-                    if (selectedDao.isExits(ul_id)) {
-                        selectedDao.delete(ul_id);
-                    }
+        for (int j = tempRightSelectDirections.size() - 1; j >= 0; j--) {
+            if (emptyDistanceList.contains(tempRightSelectDirections.get(j).getUltrasonicId())) {
+                tempRightSelectDirections.remove(j);
+                if (selectedDao.isExits(ul_id)) {
+                    selectedDao.delete(ul_id);
                 }
             }
-            updateSelectedTv(tempLeftSelectDirections, leftUltrasonicTv);
-            updateSelectedTv(tempRightSelectDirections, rightUltrasonicTv);
         }
     }
 
@@ -732,6 +730,8 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             }
             data.add(selectDirection);
         }
+        updateSelectedTv(tempLeftSelectDirections, leftUltrasonicTv);
+        updateSelectedTv(tempRightSelectDirections, rightUltrasonicTv);
         return data;
     }
 

@@ -2,7 +2,9 @@ package com.efrobot.guest;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,6 +14,7 @@ import com.efrobot.guest.dao.SelectedDao;
 import com.efrobot.guest.dao.UltrasonicDao;
 import com.efrobot.guest.db.DbHelper;
 import com.efrobot.guest.main.MainActivity;
+import com.efrobot.guest.player.MediaPlayActivity;
 import com.efrobot.guest.service.UltrasonicService;
 import com.efrobot.guest.utils.GuestDes3Util;
 import com.efrobot.guest.utils.PreferencesUtils;
@@ -40,6 +43,8 @@ public class GuestsApplication extends Application {
     private boolean isPrintCrashLog = true;
 
     public UltrasonicService ultrasonicService;
+
+    public MediaPlayActivity mediaPlayActivity;
 
     @Override
     public void onCreate() {
@@ -148,6 +153,40 @@ public class GuestsApplication extends Application {
             selectedDao = new SelectedDao(getDataBase());
         return selectedDao;
     }
+
+
+    /***
+     * 播放DIY视频
+     */
+    public void playGuestVideoByPath(String type, String path) {
+
+        if (!TextUtils.isEmpty(path)) {
+
+            if (mediaPlayActivity == null) {
+                Intent mIntent = new Intent(getApplicationContext(), MediaPlayActivity.class);
+                mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mIntent.putExtra("file_type", type);
+                mIntent.putExtra("Localpath", path);
+                getApplicationContext().startActivity(mIntent);
+            }
+
+        }
+
+    }
+
+    public void dismissGuestVideo() {
+        if (mediaPlayActivity != null) {
+            mediaPlayActivity.finish();
+            mediaPlayActivity = null;
+        }
+
+    }
+
+
+
+
+
+
 
     static Method systemProperties_get = null;
 
