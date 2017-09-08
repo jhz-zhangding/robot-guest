@@ -109,7 +109,7 @@
                         android:background="@color/white"
                         android:minHeight="38dp" />
 
-                    <com.efrobot.guest.utils.NotScrollListView
+                    <com.efrobot.guests.utils.NotScrollListView
                         android:id="@+id/left_greeting_set_lv"
                         android:layout_width="600dp"
                         android:layout_height="wrap_content"
@@ -225,7 +225,7 @@
                         android:background="@color/white"
                         android:minHeight="38dp" />
 
-                    <com.efrobot.guest.utils.NotScrollListView
+                    <com.efrobot.guests.utils.NotScrollListView
                         android:id="@+id/right_greeting_set_lv"
                         android:layout_width="600dp"
                         android:layout_height="wrap_content"
@@ -306,7 +306,7 @@
                         android:background="@color/white"
                         android:minHeight="38dp" />
 
-                    <com.efrobot.guest.utils.NotScrollListView
+                    <com.efrobot.guests.utils.NotScrollListView
                         android:id="@+id/finish_greeting_set_lv"
                         android:layout_width="600dp"
                         android:layout_height="wrap_content"

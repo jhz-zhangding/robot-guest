@@ -37,7 +37,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.efrobot.guest.utils.ui.CircleView
+            <com.efrobot.guests.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -58,7 +58,7 @@
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
-            <com.efrobot.guest.utils.ui.CircleView
+            <com.efrobot.guests.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -78,7 +78,7 @@
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
-            <com.efrobot.guest.utils.ui.CircleView
+            <com.efrobot.guests.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -98,7 +98,7 @@
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
-            <com.efrobot.guest.utils.ui.CircleView
+            <com.efrobot.guests.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -118,7 +118,7 @@
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
-            <com.efrobot.guest.utils.ui.CircleView
+            <com.efrobot.guests.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -146,7 +146,7 @@
             android:layout_marginTop="10dp"
             >
 
-            <com.efrobot.guest.utils.ui.CircleView
+            <com.efrobot.guests.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -167,7 +167,7 @@
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
-            <com.efrobot.guest.utils.ui.CircleView
+            <com.efrobot.guests.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -187,7 +187,7 @@
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
-            <com.efrobot.guest.utils.ui.CircleView
+            <com.efrobot.guests.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -207,7 +207,7 @@
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
-            <com.efrobot.guest.utils.ui.CircleView
+            <com.efrobot.guests.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -227,7 +227,7 @@
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
-            <com.efrobot.guest.utils.ui.CircleView
+            <com.efrobot.guests.utils.ui.CircleView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
