@@ -59,6 +59,12 @@ public class ItemsContentBean implements Serializable {
     @DatabaseField(columnName = "startAppName")//启动App的名称
     private String startAppName;
 
+    @DatabaseField(columnName = "startGuestTimePart")//迎宾触发时间段限制
+    private String startGuestTimePart;
+
+    @DatabaseField(columnName = "alternateField")//迎宾备用字段
+    private String alternateField;
+
     public ItemsContentBean(int id, int itemNum, String sport, String face, String action, String light, String other, String media, String time, String music, String head, String wheel, String wing, String openLightTime,
                             String flickerLightTime, String faceTime, String actionTime, String actionSystemTime, String maxTime, String startAppAction, String startAppName) {
         this.id = id;
@@ -152,6 +158,8 @@ public class ItemsContentBean implements Serializable {
         this.maxTime = c.getString(c.getColumnIndexOrThrow("maxTime"));
         this.startAppAction = c.getString(c.getColumnIndexOrThrow("startAppAction"));
         this.startAppName = c.getString(c.getColumnIndexOrThrow("startAppName"));
+        this.startGuestTimePart = c.getString(c.getColumnIndexOrThrow("startGuestTimePart"));
+        this.alternateField = c.getString(c.getColumnIndexOrThrow("alternateField"));
     }
 
     public int getId() {
@@ -306,6 +314,22 @@ public class ItemsContentBean implements Serializable {
         this.startAppName = startAppName;
     }
 
+    public String getStartGuestTimePart() {
+        return startGuestTimePart;
+    }
+
+    public void setStartGuestTimePart(String startGuestTimePart) {
+        this.startGuestTimePart = startGuestTimePart;
+    }
+
+    public String getAlternateField() {
+        return alternateField;
+    }
+
+    public void setAlternateField(String alternateField) {
+        this.alternateField = alternateField;
+    }
+
     @Override
     public String toString() {
         return "ItemsContentBean{" +
@@ -330,6 +354,8 @@ public class ItemsContentBean implements Serializable {
                 ", maxTime='" + maxTime + '\'' +
                 ", startAppAction='" + startAppAction + '\'' +
                 ", startAppName='" + startAppName + '\'' +
+                ", startGuestTimePart='" + startGuestTimePart + '\'' +
+                ", alternateField='" + alternateField + '\'' +
                 '}';
     }
 }

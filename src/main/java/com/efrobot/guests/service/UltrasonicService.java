@@ -79,7 +79,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private UltrasonicDao ultrasonicDao;
     private SelectedDao selectedDao;
 
-    private int conformDistanceNum = 0;  //进入检测范围次数
     private int farDistanceNum = 0;  //离开检测范围次数
     private int NUM_VALUE = 1; //默认进入次数
     private int NUM_FARVALUE = 4; //默认离开次数
@@ -237,8 +236,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     openSpeechDiscern();
                 } else {
                     L.i("执行动作", "currentCount = " + currentCount);
-                    if(mHandle != null)
-                    mHandle.sendEmptyMessage(PLAY_MORE_ACTION);
+                    if (mHandle != null)
+                        mHandle.sendEmptyMessage(PLAY_MORE_ACTION);
                 }
             }
 
@@ -252,6 +251,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private final int TTS_FINISH = 104;
     private final int LIGHT_ALWAYS_OPEN = 105;
     public final int VIDEO_FINISH = 106;
+    public final int MUSIC_NEED_SAY = 107;
     private boolean isCloseLight = true;
 
     private boolean isReceiveData = false;
@@ -340,6 +340,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     isMediaFinish = true;
                     openSpeechDiscern();
                     break;
+                case MUSIC_NEED_SAY:
+                    TtsUtils.sendTts(UltrasonicService.this, " ");
+                    break;
             }
         }
     };
@@ -358,7 +361,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     if ((i - 3) % 4 == 0) {
                         int valueNG = (bytes[i] & 255) | ((bytes[i - 1] & 255) << 8); // 距离
                         int numberNg = (bytes[i - 2] & 255) | ((bytes[i - 3] & 255) << 8); // 返回的探头编号 0-12
-
 
                         int myDistance = getDistanceFromPosition(numberNg); //设置的探头距离
                         L.i(TAG, "numberNg = " + numberNg + "---myDistance = " + myDistance);
@@ -405,27 +407,21 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     }
 
                     flagsMap.put(ultrasonicId, true);
-                    conformDistanceNum++;  //符合设定的距离就记忆次数
                     farDistanceNum = 0;
-                    if (conformDistanceNum >= NUM_VALUE) {
-                        conformDistanceNum = 0;
-                        if (!mIsExecute) {
-                            if (leftSelectNum.contains(ultrasonicId)) {
-                                currentNeedPlay = START_LEFT_STRING;
-                                L.i(TAG, "-----han----mIsExecute=" + mIsExecute);
-                                mIsExecute = true;
-                                isWelcomeTTsStart = true;
-                                startPlay(currentNeedPlay);
-                            } else if (rightSelectNum.contains(ultrasonicId)) {
-                                currentNeedPlay = START_RIGHT_STRING;
-                                L.i(TAG, "-----han----mIsExecute=" + mIsExecute);
-                                mIsExecute = true;
-                                isWelcomeTTsStart = true;
-                                startPlay(currentNeedPlay);
-                            }
+                    if (!mIsExecute) {
+                        if (leftSelectNum.contains(ultrasonicId)) {
+                            L.i(TAG, "-----han----mIsExecute=" + mIsExecute);
+                            mIsExecute = true;
+                            isWelcomeTTsStart = true;
+                            startPlay(START_LEFT_STRING);
+                        } else if (rightSelectNum.contains(ultrasonicId)) {
+                            L.i(TAG, "-----han----mIsExecute=" + mIsExecute);
+                            mIsExecute = true;
+                            isWelcomeTTsStart = true;
+                            startPlay(START_RIGHT_STRING);
                         }
-                        return true;
                     }
+                    return true;
                 } else {
                     //记录距离
                     if (valueNG <= distance) {
@@ -434,29 +430,27 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                         flagsMap.put(ultrasonicId, false);
                     }
 
-                    farDistanceNum++;
-                    L.i(TAG, "开始计时 farDistanceNum:" + farDistanceNum + "---isAllFaraway() = " + isAllFaraway() + "---mIsExecute = " + mIsExecute + "---isWelcomeTTsStart=" + isWelcomeTTsStart);
                     //全部检测
-                    if (farDistanceNum >= NUM_FARVALUE * customNumber) {
-                        //全部检测无人, 所有执行完毕播放结束语
-                        if (mIsExecute) {
+                    if (mIsExecute) {
+                        farDistanceNum++;
+                        L.i(TAG, "开始计时 farDistanceNum:" + farDistanceNum + "---isAllFaraway() = " + isAllFaraway() + "---mIsExecute = " + mIsExecute + "---isWelcomeTTsStart=" + isWelcomeTTsStart);
+                        if (farDistanceNum >= NUM_FARVALUE * customNumber) {
+                            //全部检测无人, 所有执行完毕播放结束语
+
                             if (isTtsFinish == true && isFaceFinish == true && isLightFinish == true && isMusicFinish == true &&
                                     isPictureFinish == true && isActionFinish == true && isMediaFinish == true) {
                                 L.i(TAG, "mIsExecute=" + mIsExecute);
                                 if (mIsExecute) {
                                     startPlay(STOP_GUEST_STRING);
                                     han.removeMessages(0);
-                                    if (mGroupTask != null) {
-                                        mGroupTask.reset();
-                                    }
                                     SpeechManager.getInstance().closeSpeechDiscern(getApplicationContext());
                                     isCloseLight = true;
                                     RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(0);
                                 }
                                 mIsExecute = false;
                             }
+                            lastHead = -1;
                         }
-
                     }
                 }
             }
@@ -467,14 +461,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     }
 
     private boolean isAllPlayFinish() {
-        boolean allFinish = false;
         L.e("isAllPlayFinish", "isTtsFinish = " + isTtsFinish + "--isFaceFinish = " + isFaceFinish + "--isLightFinish = " + isLightFinish + "--isMusicFinish = " + isMusicFinish + "--isPictureFinish = " + isPictureFinish +
                 "--isActionFinish = " + isActionFinish + "--isMediaFinish = " + isMediaFinish);
-        if (isTtsFinish == true && isFaceFinish == true && isLightFinish == true && isMusicFinish == true &&
-                isPictureFinish == true && isActionFinish == true && isMediaFinish == true) {
-            allFinish = true;
-        }
-        return allFinish;
+        return isTtsFinish == true && isFaceFinish == true && isLightFinish == true && isMusicFinish == true &&
+                isPictureFinish == true && isActionFinish == true && isMediaFinish == true;
     }
 
     private final int START_LEFT_STRING = 1;
@@ -497,6 +487,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
      * type 0：开始迎宾 1：结束迎宾
      */
     private void startPlay(int type) {
+        currentNeedPlay = type;
 
         isTtsFinish = false;
         isFaceFinish = false;
@@ -559,8 +550,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 int ttsLength = currentBean.getOther().length();
                 long ttsTime = ttsLength * wordSpeed;
                 showTip("ttsLength=" + ttsLength + "- - ttsTime=" + ttsTime);
-                if(mHandle != null)
-                mHandle.sendEmptyMessageDelayed(TTS_FINISH, ttsTime);
+                if (mHandle != null)
+                    mHandle.sendEmptyMessageDelayed(TTS_FINISH, ttsTime);
             } else {
                 isTtsFinish = true;
                 isFaceFinish = true;
@@ -705,12 +696,18 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     private void openSpeechDiscern() {
         if (isAllPlayFinish()) {
-            showTip("开启语音识别");
-            SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
-            TtsUtils.sendTts(getApplicationContext(), "@#;36");
-            isCloseLight = false;
-            if(mHandle != null)
-            mHandle.sendEmptyMessage(LIGHT_ALWAYS_OPEN);
+
+            if (currentNeedPlay == START_LEFT_STRING || currentNeedPlay == START_RIGHT_STRING) {
+
+                showTip("开启语音识别");
+                SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
+                TtsUtils.sendTts(getApplicationContext(), "@#;36");
+                isCloseLight = false;
+                if (mHandle != null)
+                    mHandle.sendEmptyMessage(LIGHT_ALWAYS_OPEN);
+            } else if (currentNeedPlay == STOP_GUEST_STRING) {
+
+            }
         }
     }
 
@@ -719,6 +716,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
      *
      * @param music 音乐路径
      */
+    public boolean musicNeedSay = false;
+
     private void playMusic(String music) {
         //判断文件是否存在
         if (musicPlayer != null) {
@@ -730,12 +729,16 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             public void onCompletion(boolean isPlaySuccess) {
                 showTip("执行播放音乐结束");
                 isMusicFinish = true;
+                musicNeedSay = false;
+                mHandle.removeMessages(MUSIC_NEED_SAY);
                 openSpeechDiscern();
             }
 
             @Override
             public void onPrepare(int Duration) {
-
+                // TODO需要循環发送说说话表情
+                musicNeedSay = true;
+                mHandle.sendEmptyMessage(MUSIC_NEED_SAY);
             }
         });
 
@@ -906,7 +909,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     /**
      * 打开用户定义的超声波
-     * */
+     */
     private void sendUserUltrasonic() {
 
         L.i(TAG, "Send user custom data to open ultrasonic");
@@ -956,8 +959,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(255);
         L.i(TAG, "openRepeatLight常亮");
         if (IsOpenRepeatLight) {
-            if(mHandle != null)
-            mHandle.sendEmptyMessageDelayed(1, 500);
+            if (mHandle != null)
+                mHandle.sendEmptyMessageDelayed(1, 500);
         }
     }
 
@@ -966,8 +969,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         this.duration = duration;
         RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(255);
         if (IsOpenRepeatLight) {
-            if(mHandle != null)
-            mHandle.sendEmptyMessageDelayed(2, duration);
+            if (mHandle != null)
+                mHandle.sendEmptyMessageDelayed(2, duration);
         }
     }
 
@@ -987,7 +990,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         List<Byte> byteList4 = new ArrayList<Byte>(); // byte4 后5个
         if (customUlData != null && customUlData.size() > 0) {
             for (int i = 0; i < customUlData.size(); i++) {
-                if (customUlData.get(i) < 9) {
+                if (customUlData.get(i) < 8) {
                     byteList5.add(ultrasonicOpenMap.get(customUlData.get(i)));
                 } else {
                     byteList4.add(ultrasonicOpenMap.get(customUlData.get(i)));
@@ -1348,30 +1351,34 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     @Override
     public void onRobotSateChange(int robotStateIndex, int newState) {
-        if(robotStateIndex == RobotState.ROBOT_STATE_INDEX_HEAD_KEY) {
-            if(newState == 2) {
+        if (robotStateIndex == RobotState.ROBOT_STATE_INDEX_HEAD_KEY) {
+            if (newState == 2) {
                 SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
                 TtsUtils.sendTts(getApplicationContext(), "@#;36");
 
-                if(!isTtsFinish) {
+                if (!isTtsFinish) {
                     isTtsFinish = true;
                     isFaceFinish = true;
                 }
 
-                if(!isPictureFinish)
-                stopPlayPicture(0);
+                if (!isPictureFinish)
+                    stopPlayPicture(0);
 
-                if(!isActionFinish) {
+                if (!isActionFinish) {
                     isActionFinish = true;
                 }
 
-                if(!isMusicFinish) {
-                    if(musicPlayer != null)
+                if (!isMusicFinish) {
+                    if (musicPlayer != null)
                         musicPlayer.stop();
                     isMusicFinish = true;
+
+                    musicNeedSay = false;
+                    if (mHandle != null)
+                        mHandle.removeMessages(MUSIC_NEED_SAY);
                 }
 
-                if(!isMediaFinish) {
+                if (!isMediaFinish) {
                     isMediaFinish = true;
                     GuestsApplication.from(this).dismissGuestVideo();
                 }

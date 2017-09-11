@@ -61,13 +61,20 @@ public class CusProvider extends SpeechSdkProvider {
     public void TTSEnd() {
         super.TTSEnd();
         L.e(TAG, "TTSEnd");
+        GuestsApplication application = GuestsApplication.from(getContext());
         if (UltrasonicService.isWelcomeTTsStart) {
-            GuestsApplication application = GuestsApplication.from(getContext());
             if(application != null && application.ultrasonicService != null) {
                 application.ultrasonicService.ttsEnd();
             }
             UltrasonicService.isWelcomeTTsStart = false;
         }
+
+
+        if(application.ultrasonicService != null && application.ultrasonicService.mHandle != null) {
+            if(application.ultrasonicService.musicNeedSay)
+            application.ultrasonicService.mHandle.sendEmptyMessage(application.ultrasonicService.MUSIC_NEED_SAY);
+        }
+
     }
 
 }
