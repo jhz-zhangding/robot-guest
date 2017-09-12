@@ -16,6 +16,7 @@ import com.efrobot.guests.bean.FaceAndActionEntity;
 import com.efrobot.guests.bean.ItemsContentBean;
 import com.efrobot.guests.dao.DataManager;
 import com.efrobot.guests.utils.CustomHintDialog;
+import com.efrobot.guests.utils.DatePickerUtils;
 import com.efrobot.guests.utils.DiyFaceAndActionUtils;
 import com.efrobot.library.model.AppInfo;
 import com.efrobot.library.mvp.utils.L;
@@ -302,6 +303,8 @@ public class AddBodyShowPresenter extends GuestsBasePresenter<IAddBodyShowView> 
                 } else {
                     initMusic();
                 }
+
+                mView.setGuestTime(bean.getStartGuestTimePart());
 
 
             }
@@ -710,6 +713,22 @@ public class AddBodyShowPresenter extends GuestsBasePresenter<IAddBodyShowView> 
                 bean.setLight(mView.getLight());
             }
         }
+
+        if (!mView.getGuestStartTime().isEmpty() || !mView.getGuestEndTime().isEmpty()) {
+            if (!mView.getGuestStartTime().isEmpty() && !mView.getGuestEndTime().isEmpty()) {
+                if (DatePickerUtils.getInstance().isGreaterThanLast(mView.getGuestStartTime(), mView.getGuestEndTime())) {
+                    showToast("开始时间不能大于或等于结束时间");
+                    return;
+                } else {
+                    bean.setStartGuestTimePart(mView.getGuestStartTime() + "@#" + mView.getGuestEndTime());
+                }
+            } else {
+                showToast("您在时间段选项中有时间未选择，可能会无法执行定时效果。");
+                return;
+            }
+        }
+
+
         if (dbType == 1) {
             //添加
             localDB.insertContent(bean);

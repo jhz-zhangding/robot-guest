@@ -102,4 +102,8 @@ public interface IAddBodyShowView extends UiView {
 
 
     double getMaxTime();
+
+    String getGuestStartTime();
+    String getGuestEndTime();
+    void setGuestTime(String time);
 }

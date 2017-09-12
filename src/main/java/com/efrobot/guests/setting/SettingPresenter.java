@@ -19,6 +19,7 @@ import com.efrobot.guests.utils.CustomHintDialog;
 import com.efrobot.guests.utils.TtsUtils;
 import com.efrobot.library.RobotManager;
 import com.efrobot.library.mvp.utils.L;
+import com.efrobot.library.mvp.utils.PreferencesUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -229,6 +230,19 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
             return false;
         }
 
+        String checkTimeStr = mView.getCheckTime();
+        if(TextUtils.isEmpty(checkTimeStr)) {
+            showToast("延迟时间不能为空哦");
+            return false;
+        }
+
+        int checkTime = Integer.parseInt(checkTimeStr);
+        if(checkTime <= 0) {
+            showToast("延迟时间小于0哦");
+            return false;
+        }
+
+        PreferencesUtils.putInt(getContext(), "mCheckTime", checkTime);
 
         showToast("保存成功");
         return true;

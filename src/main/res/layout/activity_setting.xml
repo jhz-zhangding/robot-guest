@@ -85,8 +85,6 @@
                 android:id="@+id/ul_timer_task_layout"
                 layout="@layout/layout_ultrasonic_setting_dis" />
 
-
-
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

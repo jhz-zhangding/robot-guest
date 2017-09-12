@@ -29,6 +29,7 @@ import com.efrobot.guests.dao.UltrasonicDao;
 import com.efrobot.guests.setting.SettingActivity;
 import com.efrobot.guests.setting.bean.SelectDirection;
 import com.efrobot.guests.utils.BitmapUtils;
+import com.efrobot.guests.utils.DatePickerUtils;
 import com.efrobot.guests.utils.FileUtils;
 import com.efrobot.guests.utils.MusicPlayer;
 import com.efrobot.guests.utils.PreferencesUtils;
@@ -40,13 +41,13 @@ import com.efrobot.library.mvp.utils.L;
 import com.efrobot.library.mvp.utils.RobotToastUtil;
 import com.efrobot.library.task.GroupManager;
 import com.efrobot.library.task.NavigationManager;
-import com.efrobot.library.task.SpeechGroupManager;
 import com.efrobot.speechsdk.SpeechManager;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +66,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 // OnRobotStateChangeListener
 {
 
-    private String CLOSE_TTS = "com.efrobot.speech.voice.ACTION_TTS";
     private static final String TAG = UltrasonicService.class.getSimpleName();
 
     public static boolean IsRunning = false;
@@ -82,6 +82,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private int farDistanceNum = 0;  //离开检测范围次数
     private int NUM_VALUE = 1; //默认进入次数
     private int NUM_FARVALUE = 4; //默认离开次数
+    private int waitTime = 10;//离开检测时间
 
     public static boolean IsOpenRepeatLight = true; //灯光开关
     private Map<Integer, Boolean> flagsMap = new HashMap<Integer, Boolean>();
@@ -92,15 +93,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     private GroupManager groupManager;
 
-    private long duration = 1000;
-
-    //离开检测时间
-    private int waitTime = 10;
-
     public static boolean isWelcomeTTsStart = false;
-
-    private SpeechGroupManager mGroupTask;
-
 
     private List<SelectDirection> leftSelectDirections;
     private List<SelectDirection> rightSelectDirections;
@@ -112,12 +105,13 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private List<ItemsContentBean> itemsRightContents;
     private List<ItemsContentBean> itemsEndContents;
     private String light;
-    private Dialog dialog;
+    private Dialog pictureDialog;
 
     private MusicPlayer musicPlayer;
 
     //语音说话 0.27秒
     private long wordSpeed = 270;
+    private Calendar mCalendar;
 
     @Override
     public void onCreate() {
@@ -129,6 +123,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     public int onStartCommand(Intent intent, int flags, int startId) {
         L.i(TAG, "onStartCommand");
         IsRunning = true;
+        mCalendar = Calendar.getInstance();
 //        RobotManager.getInstance(this).registerUltrasonicOccupylistener(this);
         RobotManager.getInstance(this).registerHeadKeyStateChangeListener(this);
         RobotManager.getInstance(this).getNavigationInstance().registerOnNavigationStateChangeListener(this);
@@ -136,8 +131,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         //注册面罩广播
         registerLiboard();
 
+        waitTime = PreferencesUtils.getInt(this, "mCheckTime", 5);
+
         groupManager = RobotManager.getInstance(this.getApplicationContext()).getGroupInstance();
-        mGroupTask = SpeechGroupManager.getInstance(RobotManager.getInstance(getApplicationContext()));
 
         GuestsApplication.from(this).setUltrasonicService(this);
 
@@ -274,19 +270,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     L.i(TAG, "Open Light");
                     openRepeatLight();
                     break;
-                case 2: //
-                    L.i(TAG, "flicker Light");
-                    if (IsOpenRepeatLight) {
-                        RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(0);
-                        mHandle.sendEmptyMessageDelayed(6, duration);
-                    }
-                    break;
-                case 6: //
-                    if (IsOpenRepeatLight) {
-                        RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(255);
-                        mHandle.sendEmptyMessageDelayed(2, duration);
-                    }
-                    break;
                 case 7:
                     //打开红外
                     sendInfrared();
@@ -406,18 +389,20 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                         setHeadAction(TOO_LEFT_HEAD);
                     }
 
+                    if(isTimingCount) {
+                        removeTimerCount();
+                    }
+
                     flagsMap.put(ultrasonicId, true);
                     farDistanceNum = 0;
                     if (!mIsExecute) {
                         if (leftSelectNum.contains(ultrasonicId)) {
                             L.i(TAG, "-----han----mIsExecute=" + mIsExecute);
                             mIsExecute = true;
-                            isWelcomeTTsStart = true;
                             startPlay(START_LEFT_STRING);
                         } else if (rightSelectNum.contains(ultrasonicId)) {
                             L.i(TAG, "-----han----mIsExecute=" + mIsExecute);
                             mIsExecute = true;
-                            isWelcomeTTsStart = true;
                             startPlay(START_RIGHT_STRING);
                         }
                     }
@@ -433,20 +418,22 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     //全部检测
                     if (mIsExecute) {
                         farDistanceNum++;
-                        L.i(TAG, "开始计时 farDistanceNum:" + farDistanceNum + "---isAllFaraway() = " + isAllFaraway() + "---mIsExecute = " + mIsExecute + "---isWelcomeTTsStart=" + isWelcomeTTsStart);
-                        if (farDistanceNum >= NUM_FARVALUE * customNumber) {
-                            //全部检测无人, 所有执行完毕播放结束语
-
-                            if (isTtsFinish == true && isFaceFinish == true && isLightFinish == true && isMusicFinish == true &&
-                                    isPictureFinish == true && isActionFinish == true && isMediaFinish == true) {
-                                L.i(TAG, "mIsExecute=" + mIsExecute);
-                                if (mIsExecute) {
-                                    startPlay(STOP_GUEST_STRING);
-                                    han.removeMessages(0);
-                                    SpeechManager.getInstance().closeSpeechDiscern(getApplicationContext());
-                                    isCloseLight = true;
-                                    RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(0);
-                                }
+                        L.i(TAG, "开始计时 farDistanceNum:" + farDistanceNum + "---isAllFaraway() = " + isAllFaraway());
+                        //全部探头检测无人, 并且所有执行完毕开始计时
+                        if (farDistanceNum >= NUM_FARVALUE * customNumber && isAllFaraway() && isAllPlayFinish()) {
+                            //发送计时
+                            if (!isTimingCount) {
+                                sendTimerCount();
+                            }
+                            L.i(TAG, "开始计时 timingCount = " + timingCount + "-- waitTime = " + waitTime);
+                            if (isTimingCount && timingCount < waitTime) {
+                                return true;
+                            } else {
+                                startPlay(STOP_GUEST_STRING);
+                                han.removeMessages(0);
+                                SpeechManager.getInstance().closeSpeechDiscern(getApplicationContext());
+                                isCloseLight = true;
+                                RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(0);
                                 mIsExecute = false;
                             }
                             lastHead = -1;
@@ -458,6 +445,25 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * 开始发送计时
+     */
+    public void sendTimerCount() {
+        timingCount = 0;
+        isTimingCount = true;
+        han.removeMessages(START_TIMER_GUEST);
+        han.sendEmptyMessage(START_TIMER_GUEST);
+    }
+
+    /**
+     * 移除计时
+     */
+    public void removeTimerCount() {
+        han.removeMessages(START_TIMER_GUEST);
+        timingCount = 0;
+        isTimingCount = false;
     }
 
     private boolean isAllPlayFinish() {
@@ -488,6 +494,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
      */
     private void startPlay(int type) {
         currentNeedPlay = type;
+        isWelcomeTTsStart = true;
 
         isTtsFinish = false;
         isFaceFinish = false;
@@ -539,9 +546,27 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
         if (currentBean != null) {
             L.e("startPlay", "currentBean = " + currentBean.toString());
+
+            String guestTime = currentBean.getStartGuestTimePart();
+            if (!TextUtils.isEmpty(guestTime) && guestTime.contains("@#")) {
+                String[] times = guestTime.split("@#");
+                mCalendar.setTimeInMillis(System.currentTimeMillis());
+                int currentHour = mCalendar.get(Calendar.HOUR_OF_DAY);
+                int currentMinutes = mCalendar.get(Calendar.MINUTE);
+                String currentTime = (currentHour + ":" + currentMinutes);
+
+                boolean isThanStart = DatePickerUtils.getInstance().isGreaterThanLast(currentTime, times[0]);
+                boolean isThanEnd = DatePickerUtils.getInstance().isGreaterThanLast(currentTime, times[1]);
+
+                if (!isThanStart || isThanEnd) {
+                    return;
+                }
+            }
+
+
             //迎宾语和表情
             if (!TextUtils.isEmpty(currentBean.getOther())) {
-                closeTTs();
+                TtsUtils.closeTTs(UltrasonicService.this);
                 if (!TextUtils.isEmpty(currentBean.getFace())) {
                     TtsUtils.sendTts(getApplicationContext(), currentBean.getOther() + "@#;" + currentBean.getFace());
                 } else
@@ -575,13 +600,13 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     if (!TextUtils.isEmpty(currentBean.getMedia())) {
                         File mFile = new File(currentBean.getMedia());
                         if (mFile.exists()) {
-                            dialog = new Dialog(this, R.style.Dialog_Fullscreen);
+                            pictureDialog = new Dialog(this, R.style.Dialog_Fullscreen);
                             View currentView = LayoutInflater.from(UltrasonicService.this).inflate(R.layout.ul_picture_dialog, null);
                             ImageView adPlayerPic = (ImageView) currentView.findViewById(R.id.ul_picture_img);
                             playAdPicture(adPlayerPic, mFile);
-                            dialog.setContentView(currentView);
-                            dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
-                            dialog.show();
+                            pictureDialog.setContentView(currentView);
+                            pictureDialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+                            pictureDialog.show();
                         }
                     }
                     isMediaFinish = true;
@@ -595,6 +620,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             if (!TextUtils.isEmpty(currentBean.getMusic())) {
                 playMusic(currentBean.getMusic());
             } else isMusicFinish = true;
+        } else {
+            if (groupManager != null) {
+                groupManager.reset();
+            }
         }
     }
 
@@ -677,9 +706,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             @Override
             public void run() {
                 showTip("图片结束");
-                if (dialog != null) {
+                if (pictureDialog != null) {
                     isPictureFinish = true;
-                    dialog.dismiss();
+                    pictureDialog.dismiss();
                     openSpeechDiscern();
                 }
             }
@@ -691,7 +720,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         isTtsFinish = true;
         isFaceFinish = true;
         openSpeechDiscern();
-        stopPlayPicture(3000);
+        if (!isPictureFinish) {
+            stopPlayPicture(3000);
+        }
     }
 
     private void openSpeechDiscern() {
@@ -706,7 +737,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 if (mHandle != null)
                     mHandle.sendEmptyMessage(LIGHT_ALWAYS_OPEN);
             } else if (currentNeedPlay == STOP_GUEST_STRING) {
-
+                if (groupManager != null) {
+                    groupManager.reset();
+                }
             }
         }
     }
@@ -802,16 +835,23 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     private final int START_TIMER_GUEST = 0;
     private final int START_TIMER_CLEAR_SLEEP = 1;
-    private int time;
+    /**
+     * time 计时
+     */
+    private int timingCount = 0;
+    /**
+     * 是否正在计时
+     */
+    private boolean isTimingCount = false;
+
     private Handler han = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case START_TIMER_GUEST:
-                    time++;
+                    timingCount++;
                     han.sendEmptyMessageDelayed(START_TIMER_GUEST, 1000);
-                    L.i(TAG, "开始计时迎宾time = " + time);
                     break;
                 case START_TIMER_CLEAR_SLEEP:
                     try {
@@ -961,16 +1001,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         if (IsOpenRepeatLight) {
             if (mHandle != null)
                 mHandle.sendEmptyMessageDelayed(1, 500);
-        }
-    }
-
-    //闪烁
-    private void openFlickerLight(long duration) {
-        this.duration = duration;
-        RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(255);
-        if (IsOpenRepeatLight) {
-            if (mHandle != null)
-                mHandle.sendEmptyMessageDelayed(2, duration);
         }
     }
 
@@ -1172,33 +1202,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             }
         }
     };
-
-
-    /**
-     * 关闭TTS
-     */
-    private void closeTTs() {
-        Intent intent = new Intent(CLOSE_TTS);
-        final Map<String, Object> map = new HashMap<String, Object>();
-        map.put("modelType", "stopTTS");
-        intent.putExtra("data", simpleMapToJsonStr(map));
-        L.i(TAG, "data = " + simpleMapToJsonStr(map));
-        sendBroadcast(intent);
-    }
-
-    public String simpleMapToJsonStr(Map<String, Object> map) {
-        if (map == null || map.isEmpty()) {
-            return "null";
-        }
-        String jsonStr = "{";
-        Set<?> keySet = map.keySet();
-        for (Object key : keySet) {
-            jsonStr += "\"" + key + "\":\"" + map.get(key) + "\",";
-        }
-        jsonStr = jsonStr.substring(0, jsonStr.length() - 1);
-        jsonStr += "}";
-        return jsonStr;
-    }
 
     String leftHeadJson = "{\n" +
             "  \"actions\": [\n" +

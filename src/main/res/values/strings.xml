@@ -9,6 +9,7 @@
     <string name="tts_text">迎宾语</string>
     <string name="finish_tts_text">结束语</string>
     <string name="ultrasonic_text">超声波</string>
+    <string name="ultrasonic_guest_delay_time">延迟时间：</string>
     <string name="remark_text">备注：机器人说完欢迎语后，会进入语音交流模式，直到人离开</string>
     <string name="cancel">取消</string>
     <string name="affirm">确认</string>

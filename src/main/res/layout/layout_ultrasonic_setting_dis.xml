@@ -5,25 +5,61 @@
     android:layout_margin="10dp"
     android:background="@drawable/background"
     android:orientation="horizontal"
-    android:paddingTop="20dp"
     android:paddingBottom="20dp"
     android:paddingRight="20dp"
-    >
+    android:paddingTop="20dp">
 
-    <TextView
-        android:id="@+id/welcome_statement"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="150dp"
-        android:background="@drawable/title_bg"
-        android:gravity="center"
-        android:minHeight="85dp"
-        android:minWidth="220dp"
-        android:text="迎宾语设置"
-        android:textColor="@color/guest_text_color"
-        android:textSize="@dimen/type_title_size" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/welcome_statement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_bg"
+            android:gravity="center"
+            android:minHeight="85dp"
+            android:minWidth="220dp"
+            android:text="迎宾语设置"
+            android:textColor="@color/guest_text_color"
+            android:textSize="@dimen/type_title_size" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="220dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ultrasonic_guest_delay_time"
+                android:textColor="@color/guest_text_color"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/setting_page_max_time"
+                android:layout_width="80sp"
+                android:layout_height="45dp"
+                android:inputType="number"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:text="5"
+                android:gravity="center_vertical"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -58,21 +94,20 @@
                     android:id="@+id/ultrasonic_left_set_tv"
                     android:layout_width="550dp"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
                     android:layout_marginLeft="102dp"
                     android:background="@color/white"
                     android:gravity="center_vertical"
-                    android:textSize="20sp"
                     android:minHeight="38dp"
-                    android:textColor="@color/black" />
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/ultrasonic_left_set_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:background="@mipmap/right_normal"
-                    />
+                    android:background="@mipmap/right_normal" />
 
             </LinearLayout>
 
@@ -174,21 +209,20 @@
                     android:id="@+id/ultrasonic_right_set_tv"
                     android:layout_width="550dp"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
                     android:layout_marginLeft="102dp"
                     android:background="@color/white"
                     android:gravity="center_vertical"
-                    android:textSize="20sp"
                     android:minHeight="38dp"
-                    android:textColor="@color/black" />
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/ultrasonic_right_set_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:background="@mipmap/right_normal"
-                    />
+                    android:background="@mipmap/right_normal" />
 
             </LinearLayout>
 

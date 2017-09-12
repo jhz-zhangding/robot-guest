@@ -3,6 +3,7 @@ package com.efrobot.guests.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +11,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.efrobot.guests.R;
 import com.efrobot.guests.bean.WeekBean;
@@ -34,8 +33,6 @@ public class DatePickerUtils {
     private AlertDialog dayPickDialog;
     public Context mContext;
 
-    public boolean isAlreadyStart = false;
-
     public static DatePickerUtils getInstance() {
         if (null == datePickerUtils) {
             datePickerUtils = new DatePickerUtils();
@@ -43,58 +40,70 @@ public class DatePickerUtils {
         return datePickerUtils;
     }
 
-    private int hour, minute;
+    private String hourStr, minuteStr;
 
-    public void setDataPickDialog(final EditText view, final Context context) {
+    public void setDataPickDialog(final TextView view, final Context context) {
         this.mContext = context;
-        view.setOnClickListener(new View.OnClickListener() {
+        dialog = new AlertDialog.Builder(mContext).create();
+        dialog.setCancelable(true);
+        dialog.show();
+        dialog.getWindow().setContentView(R.layout.timer_hh_mm_pick);
+        Log.i("DatePickerUtils", "setDataPickDialog show");
+
+        Calendar c = Calendar.getInstance();
+        ((TimePicker) dialog.getWindow().findViewById(R.id.time_picker)).setIs24HourView(true);
+        ((TimePicker) dialog.getWindow().findViewById(R.id.time_picker)).setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minutes) {
+                if (hourOfDay < 10) {
+                    hourStr = "0" + hourOfDay;
+                } else
+                    hourStr = "" + hourOfDay;
+                if (minutes < 10) {
+                    minuteStr = "0" + minutes;
+                } else
+                    minuteStr = "" + minutes;
+                Log.i("time-------------->", hourOfDay + ":" + minutes);
+            }
+        });
+        dialog.getWindow().findViewById(R.id.time_sure).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                isAlreadyStart = PreferencesUtils.getBoolean(context.getApplicationContext(), "isAlreadyStart", false);
-                ;
-                if (isAlreadyStart) {
-                    Toast.makeText(context, "已经开启了定时任务", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
-                dialog = new AlertDialog.Builder(mContext).create();
-                dialog.setCancelable(true);
-                dialog.show();
-                dialog.getWindow().setContentView(R.layout.timer_hh_mm_pick);
-                Log.i("DatePickerUtils", "setDataPickDialog show");
-
-                Calendar c = Calendar.getInstance();
-                hour = c.get(Calendar.HOUR_OF_DAY);
-                minute = c.get(Calendar.MINUTE);
-                ((TimePicker) dialog.getWindow().findViewById(R.id.time_picker)).setIs24HourView(true);
-                ((TimePicker) dialog.getWindow().findViewById(R.id.time_picker)).setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-
-
-                    public void onTimeChanged(TimePicker view, int hourOfDay, int minutes) {
-                        hour = hourOfDay;
-                        minute = minutes;
-
-
-                        Log.i("time-------------->", hour + ":" + minute);
-                    }
-                });
-
-
-                dialog.getWindow().findViewById(R.id.time_sure).setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        if (minute < 10) {
-                            view.setText(hour + ":" + "0" + minute);
-                        } else
-                            view.setText(hour + ":" + minute);
-                        dialog.dismiss();
-                    }
-                });
+                view.setText(hourStr + ":" + minuteStr);
+                dialog.dismiss();
             }
-
         });
+    }
+
+    /***
+     * 24小时比较大小
+     * params 23:56 to 24:40
+     */
+    public boolean isGreaterThanLast(String timeOne, String timeTwo) {
+        boolean isGreaterThan = false;
+        if (!TextUtils.isEmpty(timeOne) && timeOne.contains(":") &&
+                !TextUtils.isEmpty(timeTwo) && timeTwo.contains(":")) {
+            String[] startTimeStr = timeOne.split(":");
+            int startTimeHour = Integer.parseInt(startTimeStr[0]);
+            int startTimeMinutes = Integer.parseInt(startTimeStr[1]);
+
+            String[] endTimeStr = timeTwo.split(":");
+            int endTimeHour = Integer.parseInt(endTimeStr[0]);
+            int endTimeMinutes = Integer.parseInt(endTimeStr[1]);
+
+            if (startTimeHour > endTimeHour) {
+                isGreaterThan = true;
+            } else if (startTimeHour == endTimeHour) {
+                if (startTimeMinutes >= endTimeMinutes)
+                    isGreaterThan = true;
+                else
+                    isGreaterThan = false;
+            } else {
+                isGreaterThan = false;
+            }
+        }
+        return isGreaterThan;
     }
 
     public void setDayPickDialog(List<WeekBean> weekList, Context context, OnDayCheckListener onDayCheckListener) {

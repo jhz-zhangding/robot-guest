@@ -3,6 +3,7 @@ package com.efrobot.guests.setting;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,7 +103,14 @@ public class GreetingAdapter extends BaseAdapter {
             mHolder = (ViewHolder) convertView.getTag();
         }
 
-        mHolder.welcomeTts.setText(lists.get(position).getOther());
+        String time = lists.get(position).getStartGuestTimePart();
+        if (!TextUtils.isEmpty(time) && time.contains("@#")) {
+            String[] times = time.split("@#");
+            String timeStr = times[0] + "--" + times[1];
+            mHolder.welcomeTts.setText("(" + timeStr + ")" + lists.get(position).getOther());
+        } else
+            mHolder.welcomeTts.setText(lists.get(position).getOther());
+
         if (isShowDel) {
             mHolder.delItemBtn.setVisibility(View.VISIBLE);
         } else {

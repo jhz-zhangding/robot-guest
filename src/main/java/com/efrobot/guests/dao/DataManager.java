@@ -218,6 +218,7 @@ public class DataManager {
         values.put("maxTime", bean.getMaxTime());
         values.put("startAppAction", bean.getStartAppAction());
         values.put("startAppName", bean.getStartAppName());
+        values.put("startGuestTimePart", bean.getStartGuestTimePart());
         db.insert(CONTENT_TABLE, null, values);
         closDb(db);
     }
@@ -251,6 +252,7 @@ public class DataManager {
         values.put("maxTime", bean.getMaxTime());
         values.put("startAppAction", bean.getStartAppAction());
         values.put("startAppName", bean.getStartAppName());
+        values.put("startGuestTimePart", bean.getStartGuestTimePart());
         db.update(CONTENT_TABLE, values, "_id=? ", new String[]{bean.getId() + ""});
     }
 

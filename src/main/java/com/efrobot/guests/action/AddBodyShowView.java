@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import com.efrobot.guests.R;
 import com.efrobot.guests.base.GuestsBaseActivity;
+import com.efrobot.guests.utils.DatePickerUtils;
 import com.efrobot.library.mvp.utils.L;
 
 import java.io.File;
@@ -196,6 +197,13 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
     //定义一个广播监听器；
     private ResourceBroadcastReceiver resourcereceiver;
 
+    /**
+     *  迎宾触发时间段设置
+     */
+    private View tvTimeView;
+    private TextView tvTimeSpace;
+    private TextView etTimeStart, etTimeEnd;
+
 
     @Override
     protected void onViewInit() {
@@ -208,6 +216,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         mAction = (TextView) findViewById(R.id.add_action_btn);
         mCreateScript = (TextView) findViewById(R.id.add_create_script);
         tvAddMedia = (TextView) findViewById(R.id.tvAddMedia);
+        tvTimeSpace = (TextView) findViewById(R.id.tvTimeSpace);
         add_title = (TextView) findViewById(R.id.add_title);
         viewList.add(msaybtn);
         viewList.add(mLightbtn);
@@ -215,6 +224,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         viewList.add(mAction);
         viewList.add(mCreateScript);
         viewList.add(tvAddMedia);
+        viewList.add(tvTimeSpace);
 
         size = viewList.size();
 
@@ -227,6 +237,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         faceActionView = (View) findViewById(R.id.face_action);
         addMediaView = (View) findViewById(R.id.addMeida);
 //        addCustom = (View) findViewById(R.id.custom_action);
+        tvTimeView = (View) findViewById(R.id.addTimeSpace);
 
         mSaveBtn = (Button) findViewById(R.id.add_save_btn);
 
@@ -286,6 +297,9 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         openSpinner.setEnabled(false);
         flickerSpinner.setEnabled(false);
         mbackView = (TextView) findViewById(R.id.add_back);
+
+        etTimeStart = (TextView) findViewById(R.id.add_start_time_space);
+        etTimeEnd = (TextView) findViewById(R.id.add_end_time_space);
 
         /**
          * 隐藏键盘
@@ -541,24 +555,24 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         relSay.setVisibility(View.GONE);
         relBelt.setVisibility(View.GONE);
         faceActionView.setVisibility(View.GONE);
-//        addCustom.setVisibility(View.GONE);
         addMediaView.setVisibility(View.GONE);
+        tvTimeView.setVisibility(View.GONE);
         if (msaybtn.equals(view)) {
             relSay.setVisibility(View.VISIBLE);
         } else if (view.equals(mLightbtn)) {
             relBelt.setVisibility(View.VISIBLE);
         } else if (view.equals(mFace)) {
             tvAnctionsAndFaces.setVisibility(View.VISIBLE);
-//            mfaceActionvalue.setVisibility(View.GONE);
             faceActionView.setVisibility(View.VISIBLE);
         } else if (view.equals(mAction)) {
-//            tvFaces.setVisibility(View.GONE);
             tvAnctionsAndFaces.setVisibility(View.VISIBLE);
             faceActionView.setVisibility(View.VISIBLE);
         } else if (view.equals(mCreateScript)) {
             addCustom.setVisibility(View.VISIBLE);
         } else if (view.equals(tvAddMedia)) {
             addMediaView.setVisibility(View.VISIBLE);
+        } else if (view.equals(tvTimeSpace)) {
+            tvTimeView.setVisibility(View.VISIBLE);
         }
 
     }
@@ -582,6 +596,9 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
 
         mGridView.setOnItemClickListener(this);
         mRadioGroup.setOnCheckedChangeListener(this);
+
+        etTimeStart.setOnClickListener(this);
+        etTimeEnd.setOnClickListener(this);
 
 
         for (int i = 0; i < size; i++) {
@@ -658,6 +675,10 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                 updateView(v);
                 add_title.setText("添加自定义");
                 break;
+            case R.id.tvTimeSpace:
+                updateView(v);
+                add_title.setText("设置迎宾时间段");
+                break;
             case R.id.videoPull:
                 if (isSelectedMusic || isSelectedPicture) {
                     mPresenter.showToast("音乐图片模式下暂不支持上传视频");
@@ -722,6 +743,12 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                 isSelectedPicture = false;
                 if (TextUtils.isEmpty(((AddBodyShowPresenter)mPresenter).addMusic))
                     isSelectedPicture = false;
+                break;
+            case R.id.add_start_time_space:
+                DatePickerUtils.getInstance().setDataPickDialog((TextView) v, getContext());
+                break;
+            case R.id.add_end_time_space:
+                DatePickerUtils.getInstance().setDataPickDialog((TextView) v, getContext());
                 break;
         }
     }
@@ -943,6 +970,25 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         totalTime.setText("播放总时长:(" + bd.toString() + "'')");
         ((AddBodyShowPresenter)mPresenter).totalTime = bd.toString();
         return max;
+    }
+
+    @Override
+    public String getGuestStartTime() {
+        return etTimeStart.getText().toString();
+    }
+
+    @Override
+    public String getGuestEndTime() {
+        return etTimeEnd.getText().toString();
+    }
+
+    @Override
+    public void setGuestTime(String time) {
+        if(!TextUtils.isEmpty(time) && time.contains("@#")) {
+            String[] times = time.split("@#");
+            etTimeStart.setText(times[0]);
+            etTimeEnd.setText(times[1]);
+        }
     }
 
 

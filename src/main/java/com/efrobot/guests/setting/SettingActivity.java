@@ -92,6 +92,9 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     private ImageView leftUltrasonicBtn, rightUltrasonicBtn;
     private LinkedHashMap<Integer, String> direcMap;
 
+    //迎宾检测保护时间
+    private EditText etCheckTime;
+
     //保存设置
     private TextView mCancel, mAffirm, mSetting;
     private ImageView mStartBtn;
@@ -174,6 +177,8 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         updatePlayModeView(rightPlayModeImg, false);
         updatePlayModeView(finishPlayModeImg, false);
 
+        etCheckTime.setText(PreferencesUtils.getInt(this, "mCheckTime", 5) + "");
+
 
     }
 
@@ -223,6 +228,8 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         rightUltrasonicTv = (TextView) findViewById(R.id.ultrasonic_right_set_tv);
         leftUltrasonicBtn = (ImageView) findViewById(R.id.ultrasonic_left_set_img);
         rightUltrasonicBtn = (ImageView) findViewById(R.id.ultrasonic_right_set_img);
+
+        etCheckTime = (EditText) findViewById(R.id.setting_page_max_time);
 
         //按键
         mCancel = (TextView) findViewById(R.id.cancel);
@@ -916,6 +923,11 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     @Override
     public void setDistance13(String distance) {
         ulDistanceText13.setText(distance);
+    }
+
+    @Override
+    public String getCheckTime() {
+        return etCheckTime.getText().toString();
     }
 
     @Override

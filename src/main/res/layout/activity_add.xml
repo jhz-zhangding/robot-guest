@@ -163,6 +163,18 @@
                     android:padding="@dimen/padding_10"
                     android:text="自定义"
                     />
+
+                <TextView
+                    android:id="@+id/tvTimeSpace"
+                    style="@style/text_face_author"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_10"
+                    android:background="@drawable/setting_button_bg"
+                    android:padding="@dimen/padding_10"
+                    android:text="时间段"
+                    />
+
                 <TextView
                     android:id="@+id/totalTime"
                     android:layout_width="match_parent"
@@ -312,6 +324,12 @@
         <include
             android:id="@+id/addMeida"
             layout="@layout/addmedia_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <include
+            android:id="@+id/addTimeSpace"
+            layout="@layout/add_time_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
