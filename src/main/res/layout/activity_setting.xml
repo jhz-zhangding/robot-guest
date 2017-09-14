@@ -49,12 +49,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/padding_0"
-                android:layout_toLeftOf="@+id/affirm"
+                android:layout_toLeftOf="@+id/advanced_setting_btn"
                 android:padding="@dimen/padding_20"
                 android:src="@drawable/play_bg" />
 
             <TextView
-                android:id="@+id/affirm"
+                android:id="@+id/advanced_setting_btn"
                 android:layout_width="@dimen/padding_120"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -63,7 +63,7 @@
                 android:background="@drawable/button_bg"
                 android:gravity="center"
                 android:padding="@dimen/padding"
-                android:text="保存"
+                android:text="高级设置"
                 android:textColor="@color/white"
                 android:textSize="@dimen/textsize_26" />
         </RelativeLayout>

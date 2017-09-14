@@ -13,21 +13,20 @@
     <!-- 震动权限 -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
-        android:name="com.efrobot.guests.GuestsApplication"
+        android:name=".GuestsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.efrobot.guests.main.MainActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:name=".main.MainActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.efrobot.guests.setting.SettingActivity"
+            android:name=".setting.SettingActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,30 +36,43 @@
         </activity>
 
         <provider
-            android:name="com.efrobot.guests.speech.CusProvider"
+            android:name=".speech.CusProvider"
             android:authorities="com.efrobot.guests.speechSdkProvider"
             android:exported="true" />
 
-        <receiver android:name="com.efrobot.guests.speech.SpeechReceiver">
+        <receiver android:name=".speech.SpeechReceiver">
             <intent-filter>
                 <action android:name="com.efrobot.speechlibrary.ACTION_SPEECH_DISCERN_STATE" />
             </intent-filter>
         </receiver>
 
         <service
-            android:name="com.efrobot.guests.service.UltrasonicService"
+            android:name=".service.UltrasonicService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".action.AddBodyShowView" />
+        <activity android:name=".explain.ExplainActivity" />
+
+        <service android:name=".speech.AlarmUlService" />
+
+        <receiver android:name=".speech.AlarmUlService$AlarmEndReceiver" />
+        <receiver android:name=".speech.AlarmUlService$AlarmStartReceiver" />
+
+        <activity
+            android:name=".setting.advanced.AdvancedSettingActivity"
+            android:windowSoftInputMode="stateHidden" />
+
+        <service
+            android:name=".service.GuestRobotService"
             android:enabled="true"
             android:exported="true"></service>
 
-        <activity android:name="com.efrobot.guests.action.AddBodyShowView" />
-        <activity android:name="com.efrobot.guests.explain.ExplainActivity" />
-
-        <service android:name="com.efrobot.guests.speech.AlarmUlService" />
-
-        <receiver android:name="com.efrobot.guests.speech.AlarmUlService$AlarmEndReceiver" />
-        <receiver android:name="com.efrobot.guests.speech.AlarmUlService$AlarmStartReceiver" />
-
-
+        <receiver android:name=".broadcast.ReceiveBootBroadcast">
+            <intent-filter android:priority="3">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

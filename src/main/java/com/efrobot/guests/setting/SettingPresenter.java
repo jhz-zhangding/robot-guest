@@ -230,21 +230,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
             return false;
         }
 
-        String checkTimeStr = mView.getCheckTime();
-        if(TextUtils.isEmpty(checkTimeStr)) {
-            showToast("延迟时间不能为空哦");
-            return false;
-        }
-
-        int checkTime = Integer.parseInt(checkTimeStr);
-        if(checkTime <= 0) {
-            showToast("延迟时间小于0哦");
-            return false;
-        }
-
-        PreferencesUtils.putInt(getContext(), "mCheckTime", checkTime);
-
-        showToast("保存成功");
+        showToast("开始迎宾");
         return true;
     }
 

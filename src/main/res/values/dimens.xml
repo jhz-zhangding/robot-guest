@@ -102,7 +102,6 @@
     <dimen name="padding_160">160dp</dimen>
 
 
-
     <dimen name="size_0dp">0dp</dimen>
 
     <dimen name="padding_7">7dp</dimen>
@@ -135,5 +134,8 @@
 
 
     <dimen name="ultrasonic_margin_left">100dp</dimen>
+
+    <dimen name="advanced_title_text_size">28sp</dimen>
+    <dimen name="advanced_note_text_size">20sp</dimen>
 
 </resources>

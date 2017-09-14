@@ -264,4 +264,17 @@
 
     <string name="faceValue">表情</string>
     <string name="action_value">动作</string>
+    <string name="advanced_setting_value">高 级 设 置</string>
+
+    <string name="advanced_setting_time_title">语音交流延迟时间：</string>
+    <string name="advanced_setting_time_note">迎宾触发后，机器人执行完迎宾语后进入语音交流状态，设置语音交流延迟时间可提升超声波检测是否有人的准确率。例：设置语音交流延迟时间5秒，5秒内超声波都检测没人，则执行结束语。</string>
+
+    <string name="advanced_setting_correction_title">超声波自动校正</string>
+    <string name="advanced_setting_correction_note">超声波自动校正开启后，每次开启迎宾功能时，超声波都会自动标定一次。</string>
+
+    <string name="advanced_setting_guest_title">关闭面罩自动迎宾</string>
+    <string name="advanced_setting_guest_note">关闭面罩自动迎宾开启后，在迎宾APP中，无需按右上角的启动按钮，迎宾直接启动。注：关闭面罩前，请先确认超声波数据是否正常。</string>
+
+    <string name="advanced_setting_wheel_title">双轮运动</string>
+    <string name="advanced_setting_wheel_note">请谨慎关闭该功能！！！双轮运动关闭后，在迎宾状态下，机器人将不会再执行行走、转圈等动作，退出迎宾状态，双轮运动自动开启。异常情况退出迎宾状态，请重新进入迎宾app，否则无法恢复双轮状态。，</string>
 </resources>

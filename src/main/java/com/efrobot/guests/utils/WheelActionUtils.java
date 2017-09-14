@@ -44,9 +44,12 @@ public class WheelActionUtils {
         L.d(TAG, " 设置可以运动setWheelsState : " + settingWheelsState);
     }
 
+    public void remmberRobotWheel() {
+        defaultWheelsState = RobotManager.getInstance(mContext).getSettingWheelsState();
+    }
+
     //回复之前轮子的状态
     public void setLastStatusWheel() {
-//        boolean settingWheelsState = RobotManager.getInstance(mContext).getSettingWheelsState();
         L.d(TAG, " 退出设置setWheelsState : " + defaultWheelsState);
         RobotManager.getInstance(mContext).setSettingWheelsState(defaultWheelsState);
         setMoveAction();

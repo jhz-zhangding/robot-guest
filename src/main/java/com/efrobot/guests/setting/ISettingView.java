@@ -26,6 +26,4 @@ public interface ISettingView extends UiView {
 
     void setDistance13(String distance);
 
-    String getCheckTime();
-
 }

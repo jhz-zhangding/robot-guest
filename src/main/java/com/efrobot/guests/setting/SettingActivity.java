@@ -1,5 +1,6 @@
 package com.efrobot.guests.setting;
 
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -32,7 +33,9 @@ import com.efrobot.guests.dao.DataManager;
 import com.efrobot.guests.dao.SelectedDao;
 import com.efrobot.guests.dao.UltrasonicDao;
 import com.efrobot.guests.explain.ExplainActivity;
+import com.efrobot.guests.service.GuestRobotService;
 import com.efrobot.guests.service.UltrasonicService;
+import com.efrobot.guests.setting.advanced.AdvancedSettingActivity;
 import com.efrobot.guests.setting.bean.SelectDirection;
 import com.efrobot.guests.utils.CustomHintDialog;
 import com.efrobot.guests.utils.PreferencesUtils;
@@ -92,11 +95,8 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     private ImageView leftUltrasonicBtn, rightUltrasonicBtn;
     private LinkedHashMap<Integer, String> direcMap;
 
-    //迎宾检测保护时间
-    private EditText etCheckTime;
-
     //保存设置
-    private TextView mCancel, mAffirm, mSetting;
+    private TextView mCancel, mAdvance, mSetting;
     private ImageView mStartBtn;
     private final int LEFT_REQUEST_CODE = 1;
     private final int RIGHT_REQUEST_CODE = 2;
@@ -177,9 +177,9 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         updatePlayModeView(rightPlayModeImg, false);
         updatePlayModeView(finishPlayModeImg, false);
 
-        etCheckTime.setText(PreferencesUtils.getInt(this, "mCheckTime", 5) + "");
-
-
+        if(!serviceIsWorked(this, GuestRobotService.class.getName())) {
+            startService(new Intent(this, GuestRobotService.class));
+        }
     }
 
     private void initViewId() {
@@ -229,11 +229,9 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         leftUltrasonicBtn = (ImageView) findViewById(R.id.ultrasonic_left_set_img);
         rightUltrasonicBtn = (ImageView) findViewById(R.id.ultrasonic_right_set_img);
 
-        etCheckTime = (EditText) findViewById(R.id.setting_page_max_time);
-
         //按键
         mCancel = (TextView) findViewById(R.id.cancel);
-        mAffirm = (TextView) findViewById(R.id.affirm);
+        mAdvance = (TextView) findViewById(R.id.advanced_setting_btn);
         mStartBtn = (ImageView) findViewById(R.id.ultrasonic_open_btn);
         mSetting = (TextView) findViewById(R.id.ultrasonic_setting_btn);
     }
@@ -291,7 +289,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     protected void setOnListener() {
         super.setOnListener();
         mCancel.setOnClickListener(this);
-        mAffirm.setOnClickListener(this);
+        mAdvance.setOnClickListener(this);
         mSetting.setOnClickListener(this);
         mStartBtn.setOnClickListener(this);
 
@@ -320,8 +318,8 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             case R.id.cancel:
                 ((SettingPresenter) mPresenter).cancel();
                 break;
-            case R.id.affirm:
-                ((SettingPresenter) mPresenter).affirm();
+            case R.id.advanced_setting_btn:
+                startActivity(new Intent(this, AdvancedSettingActivity.class));
                 break;
             case R.id.ultrasonic_open_btn: //开始迎宾
                 boolean isCanAffirm = ((SettingPresenter) mPresenter).affirm();
@@ -926,14 +924,45 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     }
 
     @Override
-    public String getCheckTime() {
-        return etCheckTime.getText().toString();
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         L.i(TAG, "SettingActivity onPause");
+    }
+
+    /**
+     * 判断Service是否已经启动
+     *
+     * @param context     上下文对象
+     * @param serviceName Service的全路径名
+     * @return Service是否启动
+     */
+    public static boolean serviceIsWorked(Context context, String serviceName) {
+        if (context == null || serviceName == null || serviceName.trim().length() == 0) {
+            return false;
+        }
+        ActivityManager myManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ArrayList<ActivityManager.RunningServiceInfo> runningService = (ArrayList<ActivityManager.RunningServiceInfo>) myManager.getRunningServices(Integer.MAX_VALUE);
+
+        for (int i = 0; i < runningService.size(); i++) {
+            if (runningService.get(i).service.getClassName().equals(serviceName)) {
+                return true;
+            }
+        }
+
+        boolean isRunning = false;
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> serviceList = activityManager.getRunningServices(30);
+        if (!(serviceList.size() > 0)) {
+            return false;
+        }
+        for (int i = 0; i < serviceList.size(); i++) {
+            if (serviceList.get(i).service.getClassName().equals(serviceName)) {
+                isRunning = true;
+                break;
+            }
+        }
+        return isRunning;
+
     }
 
     @Override

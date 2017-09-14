@@ -1,7 +1,10 @@
 package com.efrobot.guests.speech;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
 
 import com.efrobot.guests.GuestsApplication;
 import com.efrobot.guests.service.UltrasonicService;
@@ -11,9 +14,9 @@ import com.efrobot.speechsdk.SpeechManager;
 import com.efrobot.speechsdk.SpeechSdkProvider;
 
 /**
- * Created by lhy on 2017/2/14
+ * Created by zd on 2017/2/14
  */
-public class CusProvider extends SpeechSdkProvider {
+public class CusProvider extends SpeechSdkProvider implements View.OnKeyListener{
     private static final String TAG = "CusProvider";
     public static final String AUTHORITY = "com.example.aidlclient1.provider";
 
@@ -77,4 +80,9 @@ public class CusProvider extends SpeechSdkProvider {
 
     }
 
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        return false;
+    }
 }
