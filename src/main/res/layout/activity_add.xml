@@ -112,7 +112,7 @@
                     android:background="@drawable/setting_button_bg"
                     android:padding="@dimen/padding_10"
                     android:text="灯带"
-
+                    android:visibility="gone"
                     />
 
 

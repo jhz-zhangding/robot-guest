@@ -41,6 +41,7 @@ public class DatePickerUtils {
     }
 
     private String hourStr, minuteStr;
+    private int hour, minute;
 
     public void setDataPickDialog(final TextView view, final Context context) {
         this.mContext = context;
@@ -51,24 +52,29 @@ public class DatePickerUtils {
         Log.i("DatePickerUtils", "setDataPickDialog show");
 
         Calendar c = Calendar.getInstance();
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        minute = c.get(Calendar.MINUTE);
         ((TimePicker) dialog.getWindow().findViewById(R.id.time_picker)).setIs24HourView(true);
         ((TimePicker) dialog.getWindow().findViewById(R.id.time_picker)).setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             public void onTimeChanged(TimePicker view, int hourOfDay, int minutes) {
-                if (hourOfDay < 10) {
-                    hourStr = "0" + hourOfDay;
-                } else
-                    hourStr = "" + hourOfDay;
-                if (minutes < 10) {
-                    minuteStr = "0" + minutes;
-                } else
-                    minuteStr = "" + minutes;
-                Log.i("time-------------->", hourOfDay + ":" + minutes);
+                hour = hourOfDay;
+                minute = minutes;
             }
         });
         dialog.getWindow().findViewById(R.id.time_sure).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
+                if (hour < 10) {
+                    hourStr = "0" + hour;
+                } else
+                    hourStr = "" + hour;
+                if (minute < 10) {
+                    minuteStr = "0" + minute;
+                } else
+                    minuteStr = "" + minute;
+                Log.i("time-------------->", hour + ":" + minute);
 
                 view.setText(hourStr + ":" + minuteStr);
                 dialog.dismiss();

@@ -219,7 +219,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         tvTimeSpace = (TextView) findViewById(R.id.tvTimeSpace);
         add_title = (TextView) findViewById(R.id.add_title);
         viewList.add(msaybtn);
-        viewList.add(mLightbtn);
+//        viewList.add(mLightbtn);
         viewList.add(mFace);
         viewList.add(mAction);
         viewList.add(mCreateScript);

@@ -52,7 +52,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -296,7 +295,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     removeMessages(LIGHT_OPEN);
                     removeMessages(LIGHT_CLOSE);
                     RobotManager.getInstance(UltrasonicService.this).getControlInstance().setLightBeltBrightness(0);
-                    isLightFinish = true;
                     openSpeechDiscern();
                     break;
                 case LIGHT_CLOSE:
@@ -389,7 +387,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                         setHeadAction(TOO_LEFT_HEAD);
                     }
 
-                    if(isTimingCount) {
+                    if (isTimingCount) {
                         removeTimerCount();
                     }
 
@@ -425,16 +423,15 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                             if (!isTimingCount) {
                                 sendTimerCount();
                             }
-                            L.i(TAG, "开始计时 timingCount = " + timingCount + "-- waitTime = " + waitTime);
-                            if (isTimingCount && timingCount < waitTime) {
-                                return true;
-                            } else {
+                            if (isTimingCount && timingCount > waitTime) {
+                                L.i(TAG, "迎宾结束");
                                 startPlay(STOP_GUEST_STRING);
                                 han.removeMessages(0);
                                 SpeechManager.getInstance().closeSpeechDiscern(getApplicationContext());
                                 isCloseLight = true;
                                 RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(0);
                                 mIsExecute = false;
+                                removeTimerCount();
                             }
                             lastHead = -1;
                         }
@@ -467,9 +464,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     }
 
     private boolean isAllPlayFinish() {
-        L.e("isAllPlayFinish", "isTtsFinish = " + isTtsFinish + "--isFaceFinish = " + isFaceFinish + "--isLightFinish = " + isLightFinish + "--isMusicFinish = " + isMusicFinish + "--isPictureFinish = " + isPictureFinish +
+        L.e("isAllPlayFinish", "isTtsFinish = " + isTtsFinish + "--isFaceFinish = " + isFaceFinish + "--isMusicFinish = " + isMusicFinish + "--isPictureFinish = " + isPictureFinish +
                 "--isActionFinish = " + isActionFinish + "--isMediaFinish = " + isMediaFinish);
-        return isTtsFinish == true && isFaceFinish == true && isLightFinish == true && isMusicFinish == true &&
+        return isTtsFinish == true && isFaceFinish == true && isMusicFinish == true &&
                 isPictureFinish == true && isActionFinish == true && isMediaFinish == true;
     }
 
@@ -487,7 +484,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     public boolean isPlayPicture = false;
 
-    private boolean isFaceFinish, isTtsFinish, isLightFinish, isActionFinish, isMediaFinish, isMusicFinish, isPictureFinish;
+    private boolean isFaceFinish, isTtsFinish, isActionFinish, isMediaFinish, isMusicFinish, isPictureFinish;
 
     /**
      * type 0：开始迎宾 1：结束迎宾
@@ -498,75 +495,18 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
         isTtsFinish = false;
         isFaceFinish = false;
-        isLightFinish = false;
         isActionFinish = false;
         isMediaFinish = false;
         isMusicFinish = false;
         isPictureFinish = false;
 
-        ItemsContentBean currentBean = null;
-        if (type == START_LEFT_STRING) {
-            if (itemsLeftContents != null && itemsLeftContents.size() > 0) {
-                if (startLeftPlayMode == ORDER_PLAY) {
-                    mStartLeftCurrentIndex++;
-                    if (mStartLeftCurrentIndex > (itemsLeftContents.size() - 1)) {
-                        mStartLeftCurrentIndex = 0;
-                    }
-                } else if (startLeftPlayMode == RANDOM_PLAY) {
-                    mStartLeftCurrentIndex = (int) (Math.random() * (itemsLeftContents.size()));
-                }
-                currentBean = itemsLeftContents.get(mStartLeftCurrentIndex);
-            }
-        } else if (type == START_RIGHT_STRING) {
-            if (itemsRightContents != null && itemsRightContents.size() > 0) {
-                if (startRightPlayMode == ORDER_PLAY) {
-                    mStartRightCurrentIndex++;
-                    if (mStartRightCurrentIndex > (itemsRightContents.size() - 1)) {
-                        mStartRightCurrentIndex = 0;
-                    }
-                } else if (startRightPlayMode == RANDOM_PLAY) {
-                    mStartRightCurrentIndex = (int) (Math.random() * (itemsRightContents.size()));
-                }
-                currentBean = itemsRightContents.get(mStartRightCurrentIndex);
-            }
-        } else if (type == STOP_GUEST_STRING) {
-            if (itemsEndContents != null && itemsEndContents.size() > 0) {
-                if (stopPlayMode == ORDER_PLAY) {
-                    mEndCurrentIndex++;
-                    if (mEndCurrentIndex > (itemsEndContents.size() - 1)) {
-                        mEndCurrentIndex = 0;
-                    }
-                } else if (stopPlayMode == RANDOM_PLAY) {
-                    mEndCurrentIndex = (int) (Math.random() * (itemsEndContents.size()));
-                }
-                currentBean = itemsEndContents.get(mEndCurrentIndex);
-            }
-        }
-
+        ItemsContentBean currentBean = getItemsContentBean(type);
 
         if (currentBean != null) {
             L.e("startPlay", "currentBean = " + currentBean.toString());
-
-            String guestTime = currentBean.getStartGuestTimePart();
-            if (!TextUtils.isEmpty(guestTime) && guestTime.contains("@#")) {
-                String[] times = guestTime.split("@#");
-                mCalendar.setTimeInMillis(System.currentTimeMillis());
-                int currentHour = mCalendar.get(Calendar.HOUR_OF_DAY);
-                int currentMinutes = mCalendar.get(Calendar.MINUTE);
-                String currentTime = (currentHour + ":" + currentMinutes);
-
-                boolean isThanStart = DatePickerUtils.getInstance().isGreaterThanLast(currentTime, times[0]);
-                boolean isThanEnd = DatePickerUtils.getInstance().isGreaterThanLast(currentTime, times[1]);
-
-                if (!isThanStart || isThanEnd) {
-                    return;
-                }
-            }
-
-
             //迎宾语和表情
             if (!TextUtils.isEmpty(currentBean.getOther())) {
-                TtsUtils.closeTTs(UltrasonicService.this);
+//                TtsUtils.closeTTs(UltrasonicService.this);
                 if (!TextUtils.isEmpty(currentBean.getFace())) {
                     TtsUtils.sendTts(getApplicationContext(), currentBean.getOther() + "@#;" + currentBean.getFace());
                 } else
@@ -586,7 +526,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             executeAction(currentBean);
 
             //灯带
-            executeLight(currentBean);
+//            executeLight(currentBean);
 
             if (!TextUtils.isEmpty(currentBean.getMedia())) {
 
@@ -625,6 +565,86 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 groupManager.reset();
             }
         }
+    }
+
+    private boolean isCanPlayItem(String guestTime) {
+        if (!TextUtils.isEmpty(guestTime) && guestTime.contains("@#")) {
+            String[] times = guestTime.split("@#");
+            mCalendar.setTimeInMillis(System.currentTimeMillis());
+            int currentHour = mCalendar.get(Calendar.HOUR_OF_DAY);
+            int currentMinutes = mCalendar.get(Calendar.MINUTE);
+            String currentTime = (currentHour + ":" + currentMinutes);
+
+            boolean isThanStart = DatePickerUtils.getInstance().isGreaterThanLast(currentTime, times[0]);
+            boolean isThanEnd = DatePickerUtils.getInstance().isGreaterThanLast(currentTime, times[1]);
+
+            if (!isThanStart || isThanEnd) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    private ItemsContentBean getItemsContentBean(int type) {
+        int mStartCurrentIndex = -1;
+        int currentPlayMode = 0;
+        List<ItemsContentBean> itemsContents = null;
+
+        if (type == START_LEFT_STRING) {
+            mStartCurrentIndex = mStartLeftCurrentIndex;
+            itemsContents = itemsLeftContents;
+            currentPlayMode = startLeftPlayMode;
+
+        } else if (type == START_RIGHT_STRING) {
+            mStartCurrentIndex = mStartRightCurrentIndex;
+            itemsContents = itemsRightContents;
+            currentPlayMode = startRightPlayMode;
+
+        } else if (type == STOP_GUEST_STRING) {
+            mStartCurrentIndex = mEndCurrentIndex;
+            itemsContents = itemsEndContents;
+            currentPlayMode = stopPlayMode;
+
+        }
+
+        ItemsContentBean currentBean = null;
+        List<ItemsContentBean> tempItemsContentBean = new ArrayList<ItemsContentBean>();
+
+        if (itemsContents != null && itemsContents.size() > 0) {
+            for (int i = 0; i < itemsContents.size(); i++) {
+                String guestTime = itemsContents.get(i).getStartGuestTimePart();
+                if (TextUtils.isEmpty(guestTime) || isCanPlayItem(guestTime)) {
+                    tempItemsContentBean.add(itemsContents.get(i));
+                }
+            }
+
+            if (tempItemsContentBean.size() == 0) {
+                return currentBean;
+            }
+
+            if (currentPlayMode == ORDER_PLAY) {
+                mStartCurrentIndex++;
+                if (mStartCurrentIndex > (tempItemsContentBean.size() - 1)) {
+                    mStartCurrentIndex = 0;
+                }
+            } else if (currentPlayMode == RANDOM_PLAY) {
+                mStartCurrentIndex = (int) (Math.random() * (tempItemsContentBean.size()));
+            }
+            currentBean = tempItemsContentBean.get(mStartCurrentIndex);
+
+            if (type == START_LEFT_STRING) {
+                mStartLeftCurrentIndex = mStartCurrentIndex;
+            } else if (type == START_RIGHT_STRING) {
+                mStartRightCurrentIndex = mStartCurrentIndex;
+            } else if (type == STOP_GUEST_STRING) {
+                mEndCurrentIndex = mStartCurrentIndex;
+            }
+
+        }
+
+        return currentBean;
     }
 
     /**
@@ -795,8 +815,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
              */
             String time = "0";
 
-            isLightFinish = false;
-
             if (light.equals("0")) {
                 time = currentBean.getOpenLightTime();
             } else if (light.equals("2")) {
@@ -805,7 +823,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
             if (mHandle != null) {
                 if (TextUtils.isEmpty(time)) {
-                    isLightFinish = true;
                     /***
                      * 关
                      */
@@ -852,6 +869,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 case START_TIMER_GUEST:
                     timingCount++;
                     han.sendEmptyMessageDelayed(START_TIMER_GUEST, 1000);
+                    L.i(TAG, "开始计时 timingCount = " + timingCount + "-- waitTime = " + waitTime);
                     break;
                 case START_TIMER_CLEAR_SLEEP:
                     try {
@@ -1347,6 +1365,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             mHandle.removeMessages(LIGHT_END);
             mHandle.removeMessages(LIGHT_OPEN);
             mHandle.removeMessages(TTS_FINISH);
+            mHandle.removeMessages(LIGHT_ALWAYS_OPEN);
         }
         closeRepeatLight();
         mHandle = null;

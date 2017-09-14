@@ -686,33 +686,34 @@ public class AddBodyShowPresenter extends GuestsBasePresenter<IAddBodyShowView> 
         bean.setFaceTime("" + finishFaceTime);
         bean.setActionSystemTime(String.format(Locale.CHINA, "%.2f", finishActionTime));
         bean.setMaxTime(totalTime);
-        bean.setLight(mView.getLight());
 
-        if ("1".equals(mView.getLight())) {
-            bean.setOpenLightTime("");
-            bean.setFlickerLightTime("");
-            bean.setLight(mView.getLight());
-        }
-        if ("0".equals(mView.getLight())) {
-            if ("无".equals(mView.getOpenSpinner().getSelectedItem().toString())) {
-                showToast("您在灯带选项中有时间未选择，可能会无法执行灯带效果。");
-                return;
-            } else {
-                bean.setFlickerLightTime("");
-                bean.setOpenLightTime(mView.getOpenSpinner().getSelectedItem().toString());
-                bean.setLight(mView.getLight());
-            }
-        }
-        if ("2".equals(mView.getLight())) {
-            if ("无".equals(mView.getFlickerSpinner().getSelectedItem().toString())) {
-                showToast("您在灯带选项中有时间未选择，可能会无法执行灯带效果。");
-                return;
-            } else {
-                bean.setOpenLightTime("");
-                bean.setFlickerLightTime(mView.getFlickerSpinner().getSelectedItem().toString());
-                bean.setLight(mView.getLight());
-            }
-        }
+//        bean.setLight(mView.getLight());
+//
+//        if ("1".equals(mView.getLight())) {
+//            bean.setOpenLightTime("");
+//            bean.setFlickerLightTime("");
+//            bean.setLight(mView.getLight());
+//        }
+//        if ("0".equals(mView.getLight())) {
+//            if ("无".equals(mView.getOpenSpinner().getSelectedItem().toString())) {
+//                showToast("您在灯带选项中有时间未选择，可能会无法执行灯带效果。");
+//                return;
+//            } else {
+//                bean.setFlickerLightTime("");
+//                bean.setOpenLightTime(mView.getOpenSpinner().getSelectedItem().toString());
+//                bean.setLight(mView.getLight());
+//            }
+//        }
+//        if ("2".equals(mView.getLight())) {
+//            if ("无".equals(mView.getFlickerSpinner().getSelectedItem().toString())) {
+//                showToast("您在灯带选项中有时间未选择，可能会无法执行灯带效果。");
+//                return;
+//            } else {
+//                bean.setOpenLightTime("");
+//                bean.setFlickerLightTime(mView.getFlickerSpinner().getSelectedItem().toString());
+//                bean.setLight(mView.getLight());
+//            }
+//        }
 
         if (!mView.getGuestStartTime().isEmpty() || !mView.getGuestEndTime().isEmpty()) {
             if (!mView.getGuestStartTime().isEmpty() && !mView.getGuestEndTime().isEmpty()) {
