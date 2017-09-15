@@ -8,6 +8,8 @@ import java.util.Date;
  */
 public class EnvUtil {
 
+    public static final int VERSION_CODE = 1;
+
     public static int VersionCode = 2;
     public static String VersionName = VersionCode + getCurrentTime();
     public static boolean IS_DEBUG = true;

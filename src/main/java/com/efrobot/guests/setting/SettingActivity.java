@@ -55,6 +55,7 @@ import java.util.Map;
 
 /**
  * Created by Administrator on 2017/3/2.
+ * 迎宾设置
  */
 public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implements ISettingView, View.OnClickListener {
 
@@ -156,8 +157,8 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         selectedDao = GuestsApplication.from(this).getSelectedDao();
 
         /**是否禁止过轮子**/
-        boolean isStopWheel = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_STOP_WHEEL, false);
-        if (isStopWheel) {
+        boolean isOpenWheel = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, true);
+        if (!isOpenWheel) {
             WheelActionUtils.getInstance(this).resetRobotWheel();
         }
 

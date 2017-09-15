@@ -16,6 +16,9 @@ import com.efrobot.library.mvp.presenter.BasePresenter;
 import com.efrobot.library.mvp.utils.PreferencesUtils;
 import com.zcw.togglebutton.ToggleButton;
 
+/**
+ * 高级设置
+ */
 public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingPresenter> implements IAdvancedView, View.OnClickListener {
 
     private TextView exitBtn;
@@ -131,13 +134,13 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         }
 
         if (v.equals(closeWheelBtn)) {
-            boolean isCloseWheel = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_STOP_WHEEL, false);
-            if (isCloseWheel) {
-//                closeWheelBtn.setText("开启");
-                closeWheelBtn.setToggleOn();
-                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_STOP_WHEEL, false);
-            } else {
+            boolean isOpenWheel = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, false);
+            if (isOpenWheel) {
+                //关闭轮子需要提示
                 showWheelWaringDialog();
+            } else {
+                closeWheelBtn.setToggleOn();
+                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, true);
             }
         }
     }
@@ -162,7 +165,7 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
             public void onClickLister() {
 //                closeWheelBtn.setText("关闭");
                 closeWheelBtn.setToggleOff();
-                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_STOP_WHEEL, true);
+                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, false);
                 if (waringDialog != null) {
                     waringDialog.dismiss();
                 }
@@ -200,11 +203,7 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 
     @Override
     public void setWheelState(Boolean openOrOff) {
-        if(openOrOff) {
-            closeWheelBtn.setToggleOff();
-        } else {
-            closeWheelBtn.setToggleOn();
-        }
+        updateToggleState(closeWheelBtn, openOrOff);
     }
 
     private void updateToggleState(ToggleButton button, Boolean openOrOff) {

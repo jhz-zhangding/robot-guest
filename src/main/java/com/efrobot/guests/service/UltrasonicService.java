@@ -113,7 +113,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     //语音说话 0.27秒
     private long wordSpeed = 270;
     private Calendar mCalendar;
-    private boolean isStopWheel;
+    private boolean isOpenWheel;
 
     @Override
     public void onCreate() {
@@ -140,8 +140,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     private void initGuestData() {
         /*********是否禁止轮子*********/
-        isStopWheel = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_STOP_WHEEL, true);
-        if (isStopWheel) {
+        isOpenWheel = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, true);
+        if (!isOpenWheel) {
             WheelActionUtils.getInstance(this).rememberRobotWheel();
             WheelActionUtils.getInstance(this).closeWheelAction();
         }
@@ -786,14 +786,18 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         }
     }
 
-    /**开启常亮灯带**/
+    /**
+     * 开启常亮灯带
+     **/
     private void openAlwaysLight() {
         isCloseLight = false;
         if (mHandle != null)
             mHandle.sendEmptyMessage(LIGHT_ALWAYS_OPEN);
     }
 
-    /**关闭常亮灯带**/
+    /**
+     * 关闭常亮灯带
+     **/
     private void closeAlwaysLight() {
         isCloseLight = true;
         RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(0);
@@ -1382,7 +1386,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         RobotManager.getInstance(this).getNavigationInstance().unRegisterOnNavigationStateChangeListener(this);
         RobotManager.getInstance(this).unRegisterOnWheelStateChangeListener();
 
-        if (isStopWheel) {
+        if (!isOpenWheel) {
+            //结束需要打开
             WheelActionUtils.getInstance(this).openWheelAction();
         }
 
@@ -1419,7 +1424,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
                 TtsUtils.sendTts(getApplicationContext(), "@#;36");
 
-                if(mIsExecute) {
+                if (mIsExecute) {
                     openAlwaysLight();
                 }
 

@@ -11,6 +11,9 @@ import com.efrobot.guests.Env.SpContans;
 import com.efrobot.library.mvp.utils.L;
 import com.efrobot.library.mvp.utils.PreferencesUtils;
 
+/**
+ * 监听盖子状态Service
+ */
 public class GuestRobotService extends Service {
 
     private static final String TAG = UltrasonicService.class.getSimpleName();
