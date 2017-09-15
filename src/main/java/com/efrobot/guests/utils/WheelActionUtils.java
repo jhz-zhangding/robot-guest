@@ -3,6 +3,7 @@ package com.efrobot.guests.utils;
 import android.content.Context;
 import android.content.Intent;
 
+import com.efrobot.guests.Env.SpContans;
 import com.efrobot.library.RobotManager;
 import com.efrobot.library.mvp.utils.L;
 
@@ -44,13 +45,15 @@ public class WheelActionUtils {
         L.d(TAG, " 设置可以运动setWheelsState : " + settingWheelsState);
     }
 
-    public void remmberRobotWheel() {
+    public void rememberRobotWheel() {
         defaultWheelsState = RobotManager.getInstance(mContext).getSettingWheelsState();
+        PreferencesUtils.putBoolean(mContext, SpContans.SP_REMEMBER_WHEEL_STATE, defaultWheelsState);
     }
 
-    //回复之前轮子的状态
-    public void setLastStatusWheel() {
+    //恢复之前轮子的状态
+    public void resetRobotWheel() {
         L.d(TAG, " 退出设置setWheelsState : " + defaultWheelsState);
+        defaultWheelsState = PreferencesUtils.getBoolean(mContext, SpContans.SP_REMEMBER_WHEEL_STATE, true);
         RobotManager.getInstance(mContext).setSettingWheelsState(defaultWheelsState);
         setMoveAction();
     }

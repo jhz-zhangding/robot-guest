@@ -9,11 +9,11 @@ public interface IAdvancedView extends UiView {
 
     void setDelayTime(String s);
 
-    void setCorrectionState(String s);
+    void setCorrectionState(Boolean openOrOff);
 
-    void setAutoGuestState(String s);
+    void setAutoGuestState(Boolean openOrOff);
 
-    void setWheelState(String s);
+    void setWheelState(Boolean openOrOff);
 
 
 }

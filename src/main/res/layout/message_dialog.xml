@@ -20,15 +20,14 @@
 
     <TextView
         android:id="@+id/tv_message"
-        style="@style/text_face_author"
         android:textColor="@color/color_text"
+        android:textSize="26sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/title"
         android:layout_weight="3"
         android:gravity="center"
         android:scrollbars = "vertical"
-
         />
 
 

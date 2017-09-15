@@ -27,7 +27,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".setting.SettingActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

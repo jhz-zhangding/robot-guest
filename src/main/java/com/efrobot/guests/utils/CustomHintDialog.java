@@ -199,11 +199,11 @@ public class CustomHintDialog {
         if (this.message != null && !this.message.equals("")) {
 
 
-            if (message.length() > 25) {
-                tvMessage.setGravity(Gravity.LEFT);
-            } else {
+//            if (message.length() > 25) {
+//                tvMessage.setGravity(Gravity.LEFT);
+//            } else {
                 tvMessage.setGravity(Gravity.CENTER);
-            }
+//            }
             tvMessage.setText(message);
         } else
             tvMessage.setVisibility(View.GONE);

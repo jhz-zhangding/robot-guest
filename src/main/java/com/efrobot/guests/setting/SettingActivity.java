@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.efrobot.guests.Env.SpContans;
 import com.efrobot.guests.GuestsApplication;
 import com.efrobot.guests.R;
 import com.efrobot.guests.action.AddBodyShowView;
@@ -39,6 +40,7 @@ import com.efrobot.guests.setting.advanced.AdvancedSettingActivity;
 import com.efrobot.guests.setting.bean.SelectDirection;
 import com.efrobot.guests.utils.CustomHintDialog;
 import com.efrobot.guests.utils.PreferencesUtils;
+import com.efrobot.guests.utils.WheelActionUtils;
 import com.efrobot.guests.utils.ui.DisplayParamsUtil;
 import com.efrobot.library.RobotManager;
 import com.efrobot.library.mvp.presenter.BasePresenter;
@@ -152,6 +154,12 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
         SpeechManager.getInstance().registerSpeechSDK(this, mISpeech);
         selectedDao = GuestsApplication.from(this).getSelectedDao();
+
+        /**是否禁止过轮子**/
+        boolean isStopWheel = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_STOP_WHEEL, false);
+        if (isStopWheel) {
+            WheelActionUtils.getInstance(this).resetRobotWheel();
+        }
 
         initViewId();
 
@@ -655,7 +663,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     }
 
     /**
-     * 是否该选中项 已被置空
+     * 是否该选中项已被置空
      */
     private List<Integer> emptyDistanceList;
 

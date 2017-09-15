@@ -142,6 +142,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         /*********是否禁止轮子*********/
         isStopWheel = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_STOP_WHEEL, true);
         if (isStopWheel) {
+            WheelActionUtils.getInstance(this).rememberRobotWheel();
             WheelActionUtils.getInstance(this).closeWheelAction();
         }
 
@@ -452,8 +453,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                                 startPlay(STOP_GUEST_STRING);
                                 han.removeMessages(0);
                                 SpeechManager.getInstance().closeSpeechDiscern(getApplicationContext());
-                                isCloseLight = true;
-                                RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(0);
+                                closeAlwaysLight();
                                 mIsExecute = false;
                                 removeTimerCount();
                             }
@@ -777,15 +777,26 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 showTip("开启语音识别");
                 SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
                 TtsUtils.sendTts(getApplicationContext(), "@#;36");
-                isCloseLight = false;
-                if (mHandle != null)
-                    mHandle.sendEmptyMessage(LIGHT_ALWAYS_OPEN);
+                openAlwaysLight();
             } else if (currentNeedPlay == STOP_GUEST_STRING) {
                 if (groupManager != null) {
                     groupManager.reset();
                 }
             }
         }
+    }
+
+    /**开启常亮灯带**/
+    private void openAlwaysLight() {
+        isCloseLight = false;
+        if (mHandle != null)
+            mHandle.sendEmptyMessage(LIGHT_ALWAYS_OPEN);
+    }
+
+    /**关闭常亮灯带**/
+    private void closeAlwaysLight() {
+        isCloseLight = true;
+        RobotManager.getInstance(getApplicationContext()).getControlInstance().setLightBeltBrightness(0);
     }
 
     /**
@@ -1407,6 +1418,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             if (newState == 2) {
                 SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
                 TtsUtils.sendTts(getApplicationContext(), "@#;36");
+
+                if(mIsExecute) {
+                    openAlwaysLight();
+                }
 
                 if (!isTtsFinish) {
                     isTtsFinish = true;

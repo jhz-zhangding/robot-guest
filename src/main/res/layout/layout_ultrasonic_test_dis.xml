@@ -254,7 +254,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="15dp"
-            android:text="注：启动前请查看超声波数据是否正常，如不正常，请点击右侧“初始化”按钮"
+            android:text="注：启动前请查看超声波数据是否正常，如不正常，请点击右侧“标定”按钮"
             android:textColor="@color/guest_text_color"
             android:textSize="20sp" />
 

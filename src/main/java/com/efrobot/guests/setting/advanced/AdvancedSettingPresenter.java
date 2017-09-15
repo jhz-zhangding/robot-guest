@@ -34,31 +34,19 @@ public class AdvancedSettingPresenter extends GuestsBasePresenter<IAdvancedView>
 
     public void updateBtnStatus() {
         int guestDelay = PreferencesUtils.getInt(getContext(), SpContans.AdvanceContans.SP_GUEST_DELAY_TIME, 5);
-            mView.setCorrectionState(guestDelay + "");
+        mView.setDelayTime(guestDelay + "");
 
 
         boolean isOpenCorrection = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, false);
-        if (isOpenCorrection) {
-            mView.setCorrectionState("开启");
-        } else {
-            mView.setCorrectionState("关闭");
-        }
+        mView.setCorrectionState(isOpenCorrection);
 
 
         boolean isOpenAutoGuest = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, false);
-        if (isOpenAutoGuest) {
-            mView.setAutoGuestState("开启");
-        } else {
-            mView.setAutoGuestState("关闭");
-        }
+        mView.setAutoGuestState(isOpenAutoGuest);
 
 
         boolean isCloseWheel = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_STOP_WHEEL, false);
-        if (isCloseWheel) {
-            mView.setWheelState("关闭");
-        } else {
-            mView.setWheelState("开启");
-        }
+        mView.setWheelState(isCloseWheel);
 
     }
 
