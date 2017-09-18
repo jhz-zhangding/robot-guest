@@ -37,7 +37,7 @@ dependencies {
     compile 'com.efrobot.library:framework:1.0.37'
     compile files('libs/android-support-v7-recyclerview.jar')
     compile files('libs/speech-sdk.jar')
-    compile files('libs/efrobot-SDK.jar')
+//    compile files('libs/efrobot-SDK.jar')
     compile files('libs/ormlite-core-5.0.jar')
     compile files('libs/ormlite-android-5.0.jar')
 }
