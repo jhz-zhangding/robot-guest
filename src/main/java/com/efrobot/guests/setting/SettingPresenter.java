@@ -1,13 +1,19 @@
 package com.efrobot.guests.setting;
 
+import android.app.Dialog;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.efrobot.guests.GuestsApplication;
+import com.efrobot.guests.R;
 import com.efrobot.guests.base.GuestsBasePresenter;
 import com.efrobot.guests.bean.ItemsContentBean;
 import com.efrobot.guests.bean.UlDistanceBean;
@@ -161,6 +167,18 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
             finishGreetingAdapter = new GreetingAdapter(getContext());
         }
         return finishGreetingAdapter;
+    }
+
+
+    private Dialog helpDialog;
+    public void showFunHelpDialog() {
+        helpDialog  = new Dialog(getContext(), R.style.Dialog_Fullscreen);
+        View currentView = LayoutInflater.from(getContext()).inflate(R.layout.ul_picture_dialog, null);
+        ImageView adPlayerPic = (ImageView) currentView.findViewById(R.id.ul_picture_img);
+        helpDialog.setContentView(currentView);
+        helpDialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+        helpDialog.show();
+
     }
 
 
