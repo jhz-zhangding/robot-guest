@@ -717,7 +717,7 @@ public class AddBodyShowPresenter extends GuestsBasePresenter<IAddBodyShowView> 
 
         if (!mView.getGuestStartTime().isEmpty() || !mView.getGuestEndTime().isEmpty()) {
             if (!mView.getGuestStartTime().isEmpty() && !mView.getGuestEndTime().isEmpty()) {
-                if (DatePickerUtils.getInstance().isGreaterThanLast(mView.getGuestStartTime(), mView.getGuestEndTime())) {
+                if (DatePickerUtils.getInstance().timeCompareMax(mView.getGuestStartTime(), mView.getGuestEndTime())) {
                     showToast("开始时间不能大于或等于结束时间");
                     return;
                 } else {

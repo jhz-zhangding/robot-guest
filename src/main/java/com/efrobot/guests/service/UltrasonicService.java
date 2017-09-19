@@ -599,8 +599,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             int currentMinutes = mCalendar.get(Calendar.MINUTE);
             String currentTime = (currentHour + ":" + currentMinutes);
 
-            boolean isThanStart = DatePickerUtils.getInstance().isGreaterThanLast(currentTime, times[0]);
-            boolean isThanEnd = DatePickerUtils.getInstance().isGreaterThanLast(currentTime, times[1]);
+            boolean isThanStart = DatePickerUtils.getInstance().timeCompareMax(currentTime, times[0]);
+            boolean isThanEnd = DatePickerUtils.getInstance().timeCompareMax(currentTime, times[1]);
 
             if (!isThanStart || isThanEnd) {
                 return false;

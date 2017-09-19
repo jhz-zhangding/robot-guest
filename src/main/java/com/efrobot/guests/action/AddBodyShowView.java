@@ -745,10 +745,10 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                     isSelectedPicture = false;
                 break;
             case R.id.add_start_time_space:
-                DatePickerUtils.getInstance().setDataPickDialog((TextView) v, getContext());
+                DatePickerUtils.getInstance().setDataPickDialog((TextView) v, null, getContext());
                 break;
             case R.id.add_end_time_space:
-                DatePickerUtils.getInstance().setDataPickDialog((TextView) v, getContext());
+                DatePickerUtils.getInstance().setDataPickDialog((TextView) v, null, getContext());
                 break;
         }
     }

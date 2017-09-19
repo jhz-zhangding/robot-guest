@@ -43,13 +43,17 @@ public class DatePickerUtils {
     private String hourStr, minuteStr;
     private int hour, minute;
 
-    public void setDataPickDialog(final TextView view, final Context context) {
+    public void setDataPickDialog(final TextView view, final String title, final Context context) {
         this.mContext = context;
         dialog = new AlertDialog.Builder(mContext).create();
         dialog.setCancelable(true);
         dialog.show();
         dialog.getWindow().setContentView(R.layout.timer_hh_mm_pick);
         Log.i("DatePickerUtils", "setDataPickDialog show");
+        if(title != null && !TextUtils.isEmpty(title)) {
+            ((TextView)dialog.getWindow().findViewById(R.id.time_title)).setText(title);
+        }
+
 
         Calendar c = Calendar.getInstance();
         hour = c.get(Calendar.HOUR_OF_DAY);
@@ -86,7 +90,7 @@ public class DatePickerUtils {
      * 24小时比较大小
      * params 23:56 to 24:40
      */
-    public boolean isGreaterThanLast(String timeOne, String timeTwo) {
+    public boolean timeCompareMax(String timeOne, String timeTwo) {
         boolean isGreaterThan = false;
         if (!TextUtils.isEmpty(timeOne) && timeOne.contains(":") &&
                 !TextUtils.isEmpty(timeTwo) && timeTwo.contains(":")) {

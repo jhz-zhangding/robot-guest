@@ -7,9 +7,10 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/time_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="请选择日期和时间"
+        android:text="请选择时间段"
         android:textSize="22sp"
         android:layout_marginTop="15dp"
         />

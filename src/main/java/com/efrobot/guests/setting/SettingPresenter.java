@@ -187,6 +187,10 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         hintRl3 = (RelativeLayout) currentView.findViewById(R.id.hint_3);
         hintRl4 = (RelativeLayout) currentView.findViewById(R.id.hint_4);
 
+        hintRl2.setVisibility(View.GONE);
+        hintRl3.setVisibility(View.GONE);
+        hintRl4.setVisibility(View.GONE);
+
         showHint1();
 
         helpDialog.setContentView(currentView);
@@ -266,11 +270,12 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 
     }
 
-    private ImageView knownImg3, hintText;
+    private ImageView guestSetImg, knownImg3, hintText;
     private RelativeLayout handDir1RlBtn, handDir2RlBtn, hintSelectDirRl;
     private ImageView knownImg3_1;
     private void showHint3() {
         hintRl3.setVisibility(View.VISIBLE);
+        guestSetImg  = (ImageView) hintRl3.findViewById(R.id.dialog_help_guest_content);
         knownImg3 = (ImageView) hintRl3.findViewById(R.id.dialog_help_known_3);
         hintText = (ImageView) hintRl3.findViewById(R.id.hint_3_text);
         handDir1RlBtn = (RelativeLayout) hintRl3.findViewById(R.id.hint_3_1_dir_rl);
@@ -287,6 +292,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
                     @Override
                     public void onClick(View v) {
                         handDir1RlBtn.setVisibility(View.GONE);
+                        guestSetImg.setVisibility(View.GONE);
                         hintSelectDirRl.setVisibility(View.VISIBLE);
                     }
                 });
@@ -299,6 +305,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
             @Override
             public void onClick(View v) {
                 hintSelectDirRl.setVisibility(View.GONE);
+                guestSetImg.setVisibility(View.VISIBLE);
                 handDir2RlBtn.setVisibility(View.VISIBLE);
                 handDir2RlBtn.setOnClickListener(new View.OnClickListener() {
                     @Override

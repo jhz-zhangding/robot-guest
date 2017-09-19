@@ -66,8 +66,6 @@
             android:layout_marginTop="50dp"
             android:background="@mipmap/dialog_help_known"
             android:visibility="visible"
-            android:scaleX="1.2"
-            android:scaleY="1.2"
             />
 
         <ImageView
@@ -100,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/dialog_help_set_ultrasonic"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-40dp"
+            android:layout_marginTop="40dp"
             android:background="@mipmap/dialog_help_set_ultrasonic_text"
             android:visibility="visible" />
 
@@ -111,7 +109,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/dialog_help_set_ultrasonic"
             android:layout_marginRight="60dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="80dp"
             android:background="@mipmap/dialog_help_known"
             android:visibility="visible" />
     </RelativeLayout>
@@ -120,7 +118,6 @@
         android:id="@+id/hint_3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#AA666768"
         android:visibility="gone"
         >
 
@@ -156,24 +153,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="80dp"
             android:layout_marginTop="320dp"
             android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="100dp"
-                android:background="@mipmap/circle_5" />
+                android:background="@mipmap/circle_5"
+                android:layout_marginRight="180dp"
+                />
 
             <ImageView
                 android:id="@+id/dialog_help_select_dir_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
                 android:layout_marginTop="40dp"
+                android:layout_marginLeft="40dp"
                 android:background="@mipmap/help_hand_3" />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/dialog_help_hand_select_direc"
+                android:layout_below="@+id/dialog_help_select_dir_btn"
+                />
         </RelativeLayout>
 
         <RelativeLayout
@@ -181,14 +184,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="80dp"
             android:layout_marginTop="370dp"
             android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="100dp"
+                android:layout_marginRight="180dp"
                 android:background="@mipmap/circle_5" />
 
             <ImageView
@@ -198,13 +200,20 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="40dp"
                 android:background="@mipmap/help_hand_3" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/dialog_help_hand_add"
+                android:layout_below="@+id/dialog_help_add_item_btn"
+                />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/hint_3_dir_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#AA666768"
+            android:background="#15cccccc"
             android:visibility="gone"
             >
 
@@ -219,8 +228,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/dialog_help_select_dir"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="150dp"
                 android:background="@mipmap/dialog_help_select_dir_text"
                 />
 
@@ -229,9 +238,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/dialog_help_select_dir"
-                android:layout_marginRight="60dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginRight="80dp"
+                android:layout_marginTop="120dp"
                 android:background="@mipmap/dialog_help_known"
                 />
         </RelativeLayout>
@@ -242,12 +250,27 @@
         android:id="@+id/hint_4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@mipmap/dialog_help_add" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#50000000" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/dialog_help_add_2"
+            android:layout_marginLeft="75dp"
+            android:layout_marginTop="23dp"
+            />
+
+
 
         <ImageView
             android:layout_width="wrap_content"
@@ -272,6 +295,16 @@
             android:layout_marginBottom="50dp"
             android:layout_marginRight="50dp"
             android:background="@mipmap/dialog_help_known" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/dialog_help_add_text"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="70dp"
+            android:layout_marginLeft="380dp"
+            />
+
     </RelativeLayout>
 
 
