@@ -341,10 +341,13 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 ((SettingPresenter) mPresenter).showDialog(getString(R.string.init_ultrasonic_hint));
                 break;
             case R.id.explain:
-                /***
-                 * 打开使用说明页面
-                 */
-                startActivity(new Intent(this, ExplainActivity.class));
+//                /***
+//                 * 打开使用说明页面
+//                 */
+//                startActivity(new Intent(this, ExplainActivity.class));
+                /** 打开引导页*/
+                ((SettingPresenter)mPresenter).showFunHelpDialog();
+
                 break;
             case R.id.ultrasonic_setting_btn:
                 showUltrasonicSettingDialog();

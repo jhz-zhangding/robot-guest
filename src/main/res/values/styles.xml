@@ -17,6 +17,13 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="Dialog_Help_Fullscreen">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+    </style>
+
     <!--                  -->
     <style name="text_face_author">
         <item name="android:textSize">@dimen/textsize_20</item>

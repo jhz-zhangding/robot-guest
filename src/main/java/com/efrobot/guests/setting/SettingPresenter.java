@@ -1,5 +1,7 @@
 package com.efrobot.guests.setting;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.database.Cursor;
 import android.net.Uri;
@@ -7,10 +9,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.efrobot.guests.GuestsApplication;
 import com.efrobot.guests.R;
@@ -171,13 +178,153 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 
 
     private Dialog helpDialog;
+    private RelativeLayout hintRl1, hintRl2, hintRl3, hintRl4;
     public void showFunHelpDialog() {
-        helpDialog  = new Dialog(getContext(), R.style.Dialog_Fullscreen);
-        View currentView = LayoutInflater.from(getContext()).inflate(R.layout.ul_picture_dialog, null);
-        ImageView adPlayerPic = (ImageView) currentView.findViewById(R.id.ul_picture_img);
+        helpDialog  = new Dialog(getContext(), R.style.Dialog_Help_Fullscreen);
+        View currentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_use_help, null);
+        hintRl1 = (RelativeLayout) currentView.findViewById(R.id.hint_1);
+        hintRl2 = (RelativeLayout) currentView.findViewById(R.id.hint_2);
+        hintRl3 = (RelativeLayout) currentView.findViewById(R.id.hint_3);
+        hintRl4 = (RelativeLayout) currentView.findViewById(R.id.hint_4);
+
+        showHint1();
+
         helpDialog.setContentView(currentView);
         helpDialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
         helpDialog.show();
+
+    }
+
+    private Handler viewHandle = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what == 0) {
+
+//                TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, -300);
+//                translateAnimation.setDuration(2000);
+//                translateAnimation.setFillAfter(true);
+//                hand1.startAnimation(translateAnimation);
+
+
+                ValueAnimator animator = ValueAnimator.ofFloat(hand1.getTranslationY(), -200.0f);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = (Float) animation.getAnimatedValue();
+                        hand1.setTranslationY(value);
+                    }
+                });
+                animator.setDuration(400);
+                animator.start();
+
+            }
+        }
+    };
+
+    private ImageView knownImg1;
+    private RelativeLayout hand1;
+    private void showHint1() {
+        hintRl1.setVisibility(View.VISIBLE);
+        knownImg1 = (ImageView) hintRl1.findViewById(R.id.dialog_help_known_1);
+        hand1 = (RelativeLayout) hintRl1.findViewById(R.id.hand_1);
+
+        knownImg1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                knownImg1.setVisibility(View.GONE);
+                hand1.setVisibility(View.VISIBLE);
+                hand1.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        viewHandle.sendEmptyMessage(0);
+                    }
+                });
+
+            }
+        });
+        hand1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hintRl1.setVisibility(View.GONE);
+                showHint2();
+            }
+        });
+    }
+
+    private ImageView knownImg2;
+    private void showHint2() {
+        hintRl2.setVisibility(View.VISIBLE);
+        knownImg2 = (ImageView) hintRl2.findViewById(R.id.dialog_help_known_2);
+        knownImg2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hintRl2.setVisibility(View.GONE);
+                showHint3();
+            }
+        });
+
+    }
+
+    private ImageView knownImg3, hintText;
+    private RelativeLayout handDir1RlBtn, handDir2RlBtn, hintSelectDirRl;
+    private ImageView knownImg3_1;
+    private void showHint3() {
+        hintRl3.setVisibility(View.VISIBLE);
+        knownImg3 = (ImageView) hintRl3.findViewById(R.id.dialog_help_known_3);
+        hintText = (ImageView) hintRl3.findViewById(R.id.hint_3_text);
+        handDir1RlBtn = (RelativeLayout) hintRl3.findViewById(R.id.hint_3_1_dir_rl);
+        hintSelectDirRl = (RelativeLayout) hintRl3.findViewById(R.id.hint_3_dir_view);
+        knownImg3_1 = (ImageView) hintRl3.findViewById(R.id.dialog_help_known_3_1);
+
+        knownImg3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                knownImg3.setVisibility(View.GONE);
+                hintText.setVisibility(View.GONE);
+                handDir1RlBtn.setVisibility(View.VISIBLE);
+                handDir1RlBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        handDir1RlBtn.setVisibility(View.GONE);
+                        hintSelectDirRl.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        });
+
+        handDir2RlBtn = (RelativeLayout) hintRl3.findViewById(R.id.hint_3_2_dir_rl);
+
+        knownImg3_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hintSelectDirRl.setVisibility(View.GONE);
+                handDir2RlBtn.setVisibility(View.VISIBLE);
+                handDir2RlBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        hintRl3.setVisibility(View.GONE);
+                        showHint4();
+                    }
+                });
+            }
+        });
+
+    }
+
+    private ImageView known4Img;
+    private void showHint4() {
+        hintRl4.setVisibility(View.VISIBLE);
+        known4Img = (ImageView) hintRl4.findViewById(R.id.dialog_help_known4);
+        known4Img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(helpDialog != null) {
+                    helpDialog.dismiss();
+                    helpDialog = null;
+                }
+            }
+        });
 
     }
 
