@@ -40,15 +40,13 @@
 
                 <TextView
                     android:id="@+id/advanced_setting_exit"
-                    android:layout_width="@dimen/padding_120"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/padding_40"
-                    android:background="@drawable/button_bg"
+                    android:background="@drawable/selector_save_button_bg"
                     android:gravity="center"
-                    android:padding="@dimen/padding"
-                    android:text="返回"
                     android:textColor="@color/white"
                     android:textSize="@dimen/textsize_26" />
 

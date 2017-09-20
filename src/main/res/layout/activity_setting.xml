@@ -13,20 +13,20 @@
         <RelativeLayout
             android:id="@+id/top"
             android:layout_width="match_parent"
-            android:layout_height="90dp">
+            android:layout_height="wrap_content"
+            android:minHeight="80dp"
+            >
 
             <TextView
                 android:id="@+id/cancel"
-                android:layout_width="@dimen/padding_120"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/padding_40"
                 android:layout_marginRight="@dimen/padding_40"
-                android:background="@drawable/button_bg"
+                android:background="@drawable/selector_back_button_bg"
                 android:gravity="center"
-                android:padding="@dimen/padding"
-                android:text="退出"
                 android:textColor="@color/white"
                 android:textSize="@dimen/textsize_26" />
 
@@ -36,37 +36,51 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/cancel"
-                android:background="@drawable/button_bg"
+                android:background="@drawable/selector_help_button_bg"
                 android:gravity="center"
-                android:padding="@dimen/padding"
-                android:text="使用说明"
                 android:textColor="@color/white"
                 android:textSize="@dimen/textsize_26" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="迎宾"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+
+                />
 
             <ImageView
                 android:id="@+id/ultrasonic_open_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/padding_0"
+                android:layout_marginRight="30dp"
                 android:layout_toLeftOf="@+id/advanced_setting_btn"
-                android:padding="@dimen/padding_20"
-                android:src="@drawable/play_bg" />
+                android:src="@drawable/selector_run_button_bg" />
 
             <TextView
                 android:id="@+id/advanced_setting_btn"
-                android:layout_width="@dimen/padding_120"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/padding_40"
-                android:background="@drawable/button_bg"
+                android:background="@drawable/selector_setting_button_bg"
                 android:gravity="center"
-                android:padding="@dimen/padding"
-                android:text="高级设置"
                 android:textColor="@color/white"
                 android:textSize="@dimen/textsize_26" />
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#AAFFFFFF"
+            />
 
 
         <LinearLayout
