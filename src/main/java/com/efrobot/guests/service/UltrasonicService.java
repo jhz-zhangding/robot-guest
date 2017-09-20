@@ -600,15 +600,15 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             String currentTime = (currentHour + ":" + currentMinutes);
 
             boolean isThanStart = DatePickerUtils.getInstance().timeCompareMax(currentTime, times[0]);
-            boolean isThanEnd = DatePickerUtils.getInstance().timeCompareMax(currentTime, times[1]);
+            boolean isThanEnd = DatePickerUtils.getInstance().timeCompareMax(times[1], currentTime);
 
-            if (!isThanStart || isThanEnd) {
-                return false;
+            if (isThanStart && isThanEnd) {
+                return true;
             }
         } else {
             return false;
         }
-        return true;
+        return false;
     }
 
     private ItemsContentBean getItemsContentBean(int type) {
@@ -637,15 +637,27 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         List<ItemsContentBean> tempItemsContentBean = new ArrayList<ItemsContentBean>();
 
         if (itemsContents != null && itemsContents.size() > 0) {
+            /** 符合时间的优先*/
             for (int i = 0; i < itemsContents.size(); i++) {
                 String guestTime = itemsContents.get(i).getStartGuestTimePart();
-                if (TextUtils.isEmpty(guestTime) || isCanPlayItem(guestTime)) {
+                if (isCanPlayItem(guestTime)) {
                     tempItemsContentBean.add(itemsContents.get(i));
                 }
             }
 
+
+            /** 无符合时间，选择未设置时间*/
             if (tempItemsContentBean.size() == 0) {
-                return currentBean;
+                for (int i = 0; i < itemsContents.size(); i++) {
+                    String guestTime = itemsContents.get(i).getStartGuestTimePart();
+                    if (TextUtils.isEmpty(guestTime)) {
+                        tempItemsContentBean.add(itemsContents.get(i));
+                    }
+                }
+            }
+
+            if(tempItemsContentBean.size() == 0) {
+                return null;
             }
 
             if (currentPlayMode == ORDER_PLAY) {

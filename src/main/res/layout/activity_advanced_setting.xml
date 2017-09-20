@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:toggle="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/main_bg"
     android:paddingBottom="25dp"
+    xmlns:toggle="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="30dp"
     android:paddingRight="30dp"
     android:paddingTop="25dp">
@@ -44,11 +44,12 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/padding_40"
-                    android:background="@drawable/selector_save_button_bg"
+                    android:drawableLeft="@drawable/selector_save_button_bg"
+                    android:drawablePadding="5dp"
                     android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/textsize_26" />
+                    android:text="保存并退出"
+                    android:textColor="@drawable/selector_title_click"
+                    android:textSize="@dimen/textsize_22" />
 
             </RelativeLayout>
 
@@ -217,6 +218,7 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:id="@+id/advanced_setting_auto_html_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -276,7 +278,7 @@
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/advanced_setting_html_text"
+                    android:id="@+id/advanced_setting_wheel_html_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"

@@ -25,10 +25,12 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/padding_40"
                 android:layout_marginRight="@dimen/padding_40"
-                android:background="@drawable/selector_back_button_bg"
+                android:drawableLeft="@drawable/selector_back_button_bg"
+                android:drawablePadding="5dp"
+                android:text="退出"
                 android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textsize_26" />
+                android:textColor="@drawable/selector_title_click"
+                android:textSize="@dimen/textsize_22" />
 
             <TextView
                 android:id="@+id/explain"
@@ -36,10 +38,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/cancel"
-                android:background="@drawable/selector_help_button_bg"
+                android:drawableLeft="@drawable/selector_help_button_bg"
+                android:drawablePadding="5dp"
+                android:text="使用说明"
                 android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textsize_26" />
+                android:textColor="@drawable/selector_title_click"
+                android:textSize="@dimen/textsize_22" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,21 +51,27 @@
                 android:layout_centerVertical="true"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="迎宾"
+                android:text="机器人迎宾"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="32sp"
 
                 />
 
-            <ImageView
+            <TextView
                 android:id="@+id/ultrasonic_open_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="30dp"
                 android:layout_toLeftOf="@+id/advanced_setting_btn"
-                android:src="@drawable/selector_run_button_bg" />
+                android:drawableLeft="@drawable/selector_run_button_bg"
+                android:drawablePadding="5dp"
+                android:text="运行"
+                android:gravity="center"
+                android:textColor="@drawable/selector_title_click"
+                android:textSize="@dimen/textsize_22"
+                />
 
             <TextView
                 android:id="@+id/advanced_setting_btn"
@@ -70,10 +80,12 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/padding_40"
-                android:background="@drawable/selector_setting_button_bg"
+                android:drawableLeft="@drawable/selector_setting_button_bg"
+                android:drawablePadding="5dp"
+                android:text="高级设置"
                 android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textsize_26" />
+                android:textColor="@drawable/selector_title_click"
+                android:textSize="@dimen/textsize_22" />
         </RelativeLayout>
 
         <View

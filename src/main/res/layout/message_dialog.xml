@@ -12,7 +12,6 @@
 
     <TextView
         android:id="@+id/title"
-        style="@style/text_face_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding"
@@ -20,7 +19,7 @@
 
     <TextView
         android:id="@+id/tv_message"
-        android:textColor="@color/color_text"
+        android:textColor="@color/white"
         android:textSize="26sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,7 +47,7 @@
             android:gravity="center"
             android:paddingBottom="@dimen/padding_15dp"
             android:paddingTop="@dimen/padding_15dp"
-            android:textColor="@color/hint_diakog_cancle_textcoklor" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tv_ok"
@@ -60,6 +59,6 @@
             android:gravity="center"
             android:paddingBottom="@dimen/padding_15dp"
             android:paddingTop="@dimen/padding_15dp"
-            android:textColor="@color/hint_diakog_cancle_textcoklor" />
+            android:textColor="@color/white" />
     </LinearLayout>
 </LinearLayout>

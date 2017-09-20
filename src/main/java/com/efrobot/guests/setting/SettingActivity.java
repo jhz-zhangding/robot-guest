@@ -100,7 +100,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
     //保存设置
     private TextView mCancel, mAdvance, mSetting;
-    private ImageView mStartBtn;
+    private TextView mStartBtn;
     private final int LEFT_REQUEST_CODE = 1;
     private final int RIGHT_REQUEST_CODE = 2;
     private final int FINISH_REQUEST_CODE = 3;
@@ -186,7 +186,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         updatePlayModeView(rightPlayModeImg, false);
         updatePlayModeView(finishPlayModeImg, false);
 
-        if(!serviceIsWorked(this, GuestRobotService.class.getName())) {
+        if (!serviceIsWorked(this, GuestRobotService.class.getName())) {
             startService(new Intent(this, GuestRobotService.class));
         }
     }
@@ -241,7 +241,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         //按键
         mCancel = (TextView) findViewById(R.id.cancel);
         mAdvance = (TextView) findViewById(R.id.advanced_setting_btn);
-        mStartBtn = (ImageView) findViewById(R.id.ultrasonic_open_btn);
+        mStartBtn = (TextView) findViewById(R.id.ultrasonic_open_btn);
         mSetting = (TextView) findViewById(R.id.ultrasonic_setting_btn);
     }
 
@@ -346,7 +346,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 //                 */
 //                startActivity(new Intent(this, ExplainActivity.class));
                 /** 打开引导页*/
-                ((SettingPresenter)mPresenter).showFunHelpDialog();
+                ((SettingPresenter) mPresenter).showFunHelpDialog();
 
                 break;
             case R.id.ultrasonic_setting_btn:
@@ -1052,8 +1052,11 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                         SpeechManager.getInstance().removeSpeechState(getContext().getApplicationContext(), 11);
                         L.i(TAG, "lidBoardReceive close----" + close + "   start service");
                         //开启迎宾
-                        mServiceIntent = new Intent(getContext(), UltrasonicService.class);
-                        getContext().getApplicationContext().startService(mServiceIntent);
+                        boolean isStartUpUltrasonic = PreferencesUtils.getBoolean(context, SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, false);
+                        if (!isStartUpUltrasonic) {
+                            mServiceIntent = new Intent(getContext(), UltrasonicService.class);
+                            getContext().getApplicationContext().startService(mServiceIntent);
+                        }
                         UltrasonicService.IsOpenRepeatLight = false;
                         unregisterReceiver(lidBoardReceive);
                         L.i(TAG, "lidBoardReceive unregisterReceiver(this)");

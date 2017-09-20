@@ -58,8 +58,12 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 
 
         String d = "<html>请谨慎关闭该功能！！！双轮运动关闭后，在迎宾状态下，机器人将不会再执行行走、转圈等动作，退出迎宾状态，双轮运动自动开启。<u><font color=\"#ff8f00\">异常情况退出迎宾状态，请重新进入迎宾app，否则无法恢复双轮状态。</u></html>";
-        TextView wheelHintTv = (TextView) findViewById(R.id.advanced_setting_html_text);
+        TextView wheelHintTv = (TextView) findViewById(R.id.advanced_setting_wheel_html_text);
         wheelHintTv.setText(Html.fromHtml(d));
+
+        String e = "<html>此功能开启后，只需关闭面罩，机器人就会自动进入迎宾模式。关闭面罩前，请先确认超声波数据是否正常。<u><font color=\"#ff8f00\">注：在其他应用场景中，若关闭面罩不需要开启迎宾功能时，请关闭这个功能。</u></html>";
+        TextView autoGuestTextView = (TextView) findViewById(R.id.advanced_setting_auto_html_text);
+        autoGuestTextView.setText(Html.fromHtml(e));
     }
 
 

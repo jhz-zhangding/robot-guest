@@ -44,7 +44,7 @@
         <!-- 是否浮现在activity之上 -->
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:windowBackground">@mipmap/popu_bg</item>
+        <item name="android:windowBackground">@drawable/dialog_border_bg</item>
         <item name="android:backgroundDimEnabled">true</item>
         <!-- 是否是黑色背景 -->
         <!-- 模糊 -->
