@@ -17,7 +17,7 @@ public class SpContans {
 
         public final static String SP_GUEST_AUTO_GUEST = "sp_guest_auto_guest";
 
-        public final static String SP_GUEST_OPEN_WHEEL = "sp_guest_open_wheel";
+//        public final static String SP_GUEST_OPEN_WHEEL = "sp_guest_open_wheel";
 
     }
 

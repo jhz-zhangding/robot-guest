@@ -29,7 +29,7 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 
     private ToggleButton autoGuestBtn;
 
-    private ToggleButton closeWheelBtn;
+//    private ToggleButton closeWheelBtn;
 
     @Override
     protected int getContentViewResource() {
@@ -54,12 +54,12 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         guestTimeEt = (EditText) findViewById(R.id.advanced_setting_time_et);
         correctionBtn = (ToggleButton) findViewById(R.id.advanced_setting_correction_btn);
         autoGuestBtn = (ToggleButton) findViewById(R.id.advanced_setting_guest_btn);
-        closeWheelBtn = (ToggleButton) findViewById(R.id.advanced_setting_wheel_btn);
+//        closeWheelBtn = (ToggleButton) findViewById(R.id.advanced_setting_wheel_btn);
 
 
-        String d = "<html>请谨慎关闭该功能！！！双轮运动关闭后，在迎宾状态下，机器人将不会再执行行走、转圈等动作，退出迎宾状态，双轮运动自动开启。<u><font color=\"#ff8f00\">异常情况退出迎宾状态，请重新进入迎宾app，否则无法恢复双轮状态。</u></html>";
-        TextView wheelHintTv = (TextView) findViewById(R.id.advanced_setting_wheel_html_text);
-        wheelHintTv.setText(Html.fromHtml(d));
+//        String d = "<html>请谨慎关闭该功能！！！双轮运动关闭后，在迎宾状态下，机器人将不会再执行行走、转圈等动作，退出迎宾状态，双轮运动自动开启。<u><font color=\"#ff8f00\">异常情况退出迎宾状态，请重新进入迎宾app，否则无法恢复双轮状态。</u></html>";
+//        TextView wheelHintTv = (TextView) findViewById(R.id.advanced_setting_wheel_html_text);
+//        wheelHintTv.setText(Html.fromHtml(d));
 
         String e = "<html>此功能开启后，只需关闭面罩，机器人就会自动进入迎宾模式。关闭面罩前，请先确认超声波数据是否正常。<u><font color=\"#ff8f00\">注：在其他应用场景中，若关闭面罩不需要开启迎宾功能时，请关闭这个功能。</u></html>";
         TextView autoGuestTextView = (TextView) findViewById(R.id.advanced_setting_auto_html_text);
@@ -94,7 +94,7 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         exitBtn.setOnClickListener(this);
         correctionBtn.setOnClickListener(this);
         autoGuestBtn.setOnClickListener(this);
-        closeWheelBtn.setOnClickListener(this);
+//        closeWheelBtn.setOnClickListener(this);
     }
 
     @Override
@@ -105,9 +105,10 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
             updateStatus(v);
         } else if (v.equals(autoGuestBtn)) {
             updateStatus(v);
-        } else if (v.equals(closeWheelBtn)) {
-            updateStatus(v);
         }
+//        else if (v.equals(closeWheelBtn)) {
+//            updateStatus(v);
+//        }
     }
 
     private void updateStatus(View v) {
@@ -137,48 +138,48 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
             }
         }
 
-        if (v.equals(closeWheelBtn)) {
-            boolean isOpenWheel = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, false);
-            if (isOpenWheel) {
-                //关闭轮子需要提示
-                showWheelWaringDialog();
-            } else {
-                closeWheelBtn.setToggleOn();
-                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, true);
-            }
-        }
+//        if (v.equals(closeWheelBtn)) {
+//            boolean isOpenWheel = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, false);
+//            if (isOpenWheel) {
+//                //关闭轮子需要提示
+//                showWheelWaringDialog();
+//            } else {
+//                closeWheelBtn.setToggleOn();
+//                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, true);
+//            }
+//        }
     }
 
-    private CustomHintDialog waringDialog;
-
-    private void showWheelWaringDialog() {
-        waringDialog = new CustomHintDialog(this, 0);
-        waringDialog.setMessage("关闭双轮运动会导致机器人无法运动\n" +
-                "确认要关闭双轮运动吗？");
-        waringDialog.setCancleButton("取消", new CustomHintDialog.IButtonOnClickLister() {
-            @Override
-            public void onClickLister() {
-                if (waringDialog != null) {
-                    waringDialog.dismiss();
-                }
-            }
-        });
-
-        waringDialog.setSubmitButton("确认", new CustomHintDialog.IButtonOnClickLister() {
-            @Override
-            public void onClickLister() {
-//                closeWheelBtn.setText("关闭");
-                closeWheelBtn.setToggleOff();
-                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, false);
-                if (waringDialog != null) {
-                    waringDialog.dismiss();
-                }
-            }
-        });
-
-        waringDialog.show();
-
-    }
+//    private CustomHintDialog waringDialog;
+//
+//    private void showWheelWaringDialog() {
+//        waringDialog = new CustomHintDialog(this, 0);
+//        waringDialog.setMessage("关闭双轮运动会导致机器人无法运动\n" +
+//                "确认要关闭双轮运动吗？");
+//        waringDialog.setCancleButton("取消", new CustomHintDialog.IButtonOnClickLister() {
+//            @Override
+//            public void onClickLister() {
+//                if (waringDialog != null) {
+//                    waringDialog.dismiss();
+//                }
+//            }
+//        });
+//
+//        waringDialog.setSubmitButton("确认", new CustomHintDialog.IButtonOnClickLister() {
+//            @Override
+//            public void onClickLister() {
+////                closeWheelBtn.setText("关闭");
+//                closeWheelBtn.setToggleOff();
+//                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, false);
+//                if (waringDialog != null) {
+//                    waringDialog.dismiss();
+//                }
+//            }
+//        });
+//
+//        waringDialog.show();
+//
+//    }
 
     @Override
     public void showToast(String text) {
@@ -207,7 +208,7 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 
     @Override
     public void setWheelState(Boolean openOrOff) {
-        updateToggleState(closeWheelBtn, openOrOff);
+//        updateToggleState(closeWheelBtn, openOrOff);
     }
 
     private void updateToggleState(ToggleButton button, Boolean openOrOff) {

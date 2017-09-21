@@ -113,7 +113,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     //语音说话 0.27秒
     private long wordSpeed = 270;
     private Calendar mCalendar;
-    private boolean isOpenWheel;
+//    private boolean isOpenWheel;
 
     @Override
     public void onCreate() {
@@ -140,11 +140,11 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     private void initGuestData() {
         /*********是否禁止轮子*********/
-        isOpenWheel = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, true);
-        if (!isOpenWheel) {
-            WheelActionUtils.getInstance(this).rememberRobotWheel();
-            WheelActionUtils.getInstance(this).closeWheelAction();
-        }
+//        isOpenWheel = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, true);
+//        if (!isOpenWheel) {
+//            WheelActionUtils.getInstance(this).rememberRobotWheel();
+//            WheelActionUtils.getInstance(this).closeWheelAction();
+//        }
 
         musicPlayer = new MusicPlayer(null);
         /**开始迎宾item**/
@@ -200,7 +200,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
 
         //每10秒发送移除睡眠
-        han.sendEmptyMessageDelayed(START_TIMER_CLEAR_SLEEP, 2000);
+        han.sendEmptyMessageDelayed(START_TIMER_CLEAR_SLEEP, 3000);
         //是否有设置的探头信息
         if (getCustomUltrasonicData()) {
             try {
@@ -488,8 +488,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     }
 
     private boolean isAllPlayFinish() {
-        L.e("isAllPlayFinish", "isTtsFinish = " + isTtsFinish + "--isFaceFinish = " + isFaceFinish + "--isMusicFinish = " + isMusicFinish + "--isPictureFinish = " + isPictureFinish +
-                "--isActionFinish = " + isActionFinish + "--isMediaFinish = " + isMediaFinish);
+//        L.e("isAllPlayFinish", "isTtsFinish = " + isTtsFinish + "--isFaceFinish = " + isFaceFinish + "--isMusicFinish = " + isMusicFinish + "--isPictureFinish = " + isPictureFinish +
+//                "--isActionFinish = " + isActionFinish + "--isMediaFinish = " + isMediaFinish);
         return isTtsFinish == true && isFaceFinish == true && isMusicFinish == true &&
                 isPictureFinish == true && isActionFinish == true && isMediaFinish == true;
     }
@@ -656,7 +656,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 }
             }
 
-            if(tempItemsContentBean.size() == 0) {
+            if (tempItemsContentBean.size() == 0) {
                 return null;
             }
 
@@ -788,7 +788,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
                 showTip("开启语音识别");
                 SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
-                TtsUtils.sendTts(getApplicationContext(), "@#;36");
+                TtsUtils.getInstance().sendOpenSpeechBroadcast(this);
                 openAlwaysLight();
             } else if (currentNeedPlay == STOP_GUEST_STRING) {
                 if (groupManager != null) {
@@ -1398,32 +1398,30 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         RobotManager.getInstance(this).getNavigationInstance().unRegisterOnNavigationStateChangeListener(this);
         RobotManager.getInstance(this).unRegisterOnWheelStateChangeListener();
 
-        if (!isOpenWheel) {
-            //结束需要打开
-            WheelActionUtils.getInstance(this).openWheelAction();
-        }
+//        if (!isOpenWheel) {
+//            //结束需要打开
+//            WheelActionUtils.getInstance(this).openWheelAction();
+//        }
+
+        //音乐说话表情停止
+        musicNeedSay = false;
 
         if (musicPlayer != null)
             musicPlayer.stop();
 
+        //图片停止
+        if (pictureDialog != null) {
+            pictureDialog.dismiss();
+        }
+
+        GuestsApplication.from(this).dismissGuestVideo();
+
+
         if (han != null) {
             han.removeCallbacksAndMessages(null);
-//            han.removeMessages(START_TIMER_GUEST);
-//            han.removeMessages(START_TIMER_CLEAR_SLEEP);
         }
         if (mHandle != null) {
             mHandle.removeCallbacksAndMessages(null);
-//            mHandle.removeMessages(0);
-//            mHandle.removeMessages(1);
-//            mHandle.removeMessages(2);
-//            mHandle.removeMessages(6);
-//            mHandle.removeMessages(7);
-//            mHandle.removeMessages(8);
-//            mHandle.removeMessages(LIGHT_CLOSE);
-//            mHandle.removeMessages(LIGHT_END);
-//            mHandle.removeMessages(LIGHT_OPEN);
-//            mHandle.removeMessages(TTS_FINISH);
-//            mHandle.removeMessages(LIGHT_ALWAYS_OPEN);
         }
         closeRepeatLight();
         mHandle = null;
@@ -1433,8 +1431,11 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     public void onRobotSateChange(int robotStateIndex, int newState) {
         if (robotStateIndex == RobotState.ROBOT_STATE_INDEX_HEAD_KEY) {
             if (newState == 2) {
+                if (mHandle != null)
+                    mHandle.removeMessages(TTS_FINISH);
+
                 SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
-                TtsUtils.sendTts(getApplicationContext(), "@#;36");
+                TtsUtils.getInstance().sendOpenSpeechBroadcast(this);
 
                 if (mIsExecute) {
                     openAlwaysLight();

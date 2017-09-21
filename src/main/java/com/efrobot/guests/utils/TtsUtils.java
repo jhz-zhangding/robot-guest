@@ -16,6 +16,25 @@ import java.util.Set;
  * Created by admin on 2017/2/27.
  */
 public class TtsUtils {
+
+    /**
+     * 停止语音识别的广播
+     */
+    public String ACTION_SPEECH_STOP = "com.efrobot.speech.action.SPEECH_STOP";
+    /**
+     * 开启语音识别的广播
+     */
+    public String ACTION_SPEECH_START = "com.efrobot.speech.action.SPEECH_START";
+
+    private static TtsUtils instance;
+
+    public static TtsUtils getInstance() {
+        if(instance == null) {
+            instance = new TtsUtils();
+        }
+        return instance;
+    }
+
     public static void sendTts(Context context, String content) {
         L.i("TtsUtils", "content--" + content);
         try {
@@ -57,6 +76,22 @@ public class TtsUtils {
         jsonStr = jsonStr.substring(0, jsonStr.length() - 1);
         jsonStr += "}";
         return jsonStr;
+    }
+
+    /**
+     * 开启语音识别广播
+     */
+    public void sendOpenSpeechBroadcast(Context context) {
+        Intent intent = new Intent(ACTION_SPEECH_START);
+        context.sendBroadcast(intent);
+    }
+
+    /**
+     * 发送关闭语音识别广播
+     * */
+    public void sendCloseSpeechBroadCast(Context context) {
+        Intent intent = new Intent(ACTION_SPEECH_STOP);
+        context.sendBroadcast(intent);
     }
 
 }

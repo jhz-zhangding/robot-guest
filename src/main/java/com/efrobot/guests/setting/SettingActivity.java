@@ -157,10 +157,10 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         selectedDao = GuestsApplication.from(this).getSelectedDao();
 
         /**是否禁止过轮子**/
-        boolean isOpenWheel = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, true);
-        if (!isOpenWheel) {
-            WheelActionUtils.getInstance(this).resetRobotWheel();
-        }
+//        boolean isOpenWheel = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, true);
+//        if (!isOpenWheel) {
+//            WheelActionUtils.getInstance(this).resetRobotWheel();
+//        }
 
         initViewId();
 
