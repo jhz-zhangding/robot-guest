@@ -270,12 +270,13 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 
     }
 
-    private ImageView guestSetImg, knownImg3, hintText;
+    private RelativeLayout guestSetImg;
+    private ImageView knownImg3, hintText;
     private RelativeLayout handDir1RlBtn, handDir2RlBtn, hintSelectDirRl;
     private ImageView knownImg3_1;
     private void showHint3() {
         hintRl3.setVisibility(View.VISIBLE);
-        guestSetImg  = (ImageView) hintRl3.findViewById(R.id.dialog_help_guest_content);
+        guestSetImg  = (RelativeLayout) hintRl3.findViewById(R.id.dialog_help_guest_content);
         knownImg3 = (ImageView) hintRl3.findViewById(R.id.dialog_help_known_3);
         hintText = (ImageView) hintRl3.findViewById(R.id.hint_3_text);
         handDir1RlBtn = (RelativeLayout) hintRl3.findViewById(R.id.hint_3_1_dir_rl);

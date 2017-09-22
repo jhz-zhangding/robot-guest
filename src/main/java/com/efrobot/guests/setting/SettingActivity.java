@@ -667,7 +667,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     }
 
     /**
-     * 是否该选中项已被置空
+     * 是否距离设置选项已被置空
      */
     private List<Integer> emptyDistanceList;
 

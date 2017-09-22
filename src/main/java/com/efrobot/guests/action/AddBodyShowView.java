@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import com.efrobot.guests.R;
 import com.efrobot.guests.base.GuestsBaseActivity;
+import com.efrobot.guests.bean.ItemsContentBean;
 import com.efrobot.guests.utils.DatePickerUtils;
 import com.efrobot.library.mvp.utils.L;
 
@@ -44,6 +45,8 @@ import java.util.Locale;
  */
 public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> implements IAddBodyShowView, View.OnClickListener, AdapterView.OnItemClickListener, RadioGroup.OnCheckedChangeListener {
     private TextView msaybtn;
+    private String mSayType;
+
     private TextView totalTime;
     private TextView mLightbtn, add_title;
     private int size;
@@ -198,7 +201,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
     private ResourceBroadcastReceiver resourcereceiver;
 
     /**
-     *  迎宾触发时间段设置
+     * 迎宾触发时间段设置
      */
     private View tvTimeView;
     private TextView tvTimeSpace;
@@ -209,7 +212,26 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
     protected void onViewInit() {
         super.onViewInit();
 
+        Intent intent = getIntent();
+
+        int itemNum = 0;
+        if (intent.hasExtra("itemNum")) {
+            itemNum = intent.getIntExtra("itemNum", -1);
+        } else if (intent.hasExtra("content")) {
+            ItemsContentBean bean = (ItemsContentBean) intent.getSerializableExtra("content");
+            if (bean != null) {
+                itemNum = bean.getItemNum();
+            }
+        }
+        if (itemNum == 3)
+            mSayType = "结束语";
+        else {
+            mSayType = "迎宾语";
+        }
+
         msaybtn = (TextView) findViewById(R.id.say_value_btn);
+        msaybtn.setText(mSayType);
+
         relSay = (LinearLayout) findViewById(R.id.relSay);
         mLightbtn = (TextView) findViewById(R.id.light_value_btn);
         mFace = (TextView) findViewById(R.id.add_face_btn);
@@ -272,7 +294,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                 float time = (float) (mEditText.getText().length() * 0.27);
                 tvSayTime.setText("语音时长：" + time + "秒");
                 if (!isSelectedMusic && !isSelectedVideo) {
-                    msaybtn.setText("迎宾语(" + time + "'')");
+                    msaybtn.setText(mSayType + "(" + time + "'')");
                     sayTime = (double) time;
                 }
 
@@ -615,7 +637,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
              * 退出页面
              */
             case R.id.add_back:
-                ((AddBodyShowPresenter)mPresenter).exitAdd();
+                ((AddBodyShowPresenter) mPresenter).exitAdd();
 //                music_img_tag = -1;
 //                videotag = -1;
                 break;
@@ -646,7 +668,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
              * 添加表情
              */
             case R.id.add_face_btn:
-                ((AddBodyShowPresenter)mPresenter).showFaceAndAction(1);
+                ((AddBodyShowPresenter) mPresenter).showFaceAndAction(1);
                 mTitle.setText("表情:");
                 add_title.setText("添加表情");
                 updateView(v);
@@ -655,7 +677,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
              * 添加动作
              */
             case R.id.add_action_btn:
-                ((AddBodyShowPresenter)mPresenter).showFaceAndAction(2);
+                ((AddBodyShowPresenter) mPresenter).showFaceAndAction(2);
                 mTitle.setText("动作:");
                 add_title.setText("添加动作");
                 updateView(v);
@@ -664,7 +686,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
              * 保存数据
              */
             case R.id.add_save_btn:
-                ((AddBodyShowPresenter)mPresenter).saveData();
+                ((AddBodyShowPresenter) mPresenter).saveData();
 //                music_img_tag = -1;
 //                videotag = -1;
                 break;
@@ -684,26 +706,26 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                     mPresenter.showToast("音乐图片模式下暂不支持上传视频");
                     return;
                 }
-                ((AddBodyShowPresenter)mPresenter).toAddMedia("video");
+                ((AddBodyShowPresenter) mPresenter).toAddMedia("video");
                 break;
             case R.id.imagePull:
                 if (isSelectedVideo) {
                     mPresenter.showToast("视频模式下暂不支持上传图片");
                     return;
                 }
-                ((AddBodyShowPresenter)mPresenter).toAddMedia("image");
+                ((AddBodyShowPresenter) mPresenter).toAddMedia("image");
                 break;
             case R.id.musicPull:
                 if (isSelectedVideo) {
                     mPresenter.showToast("视频模式下暂不支持上传音乐");
                     return;
                 }
-                ((AddBodyShowPresenter)mPresenter).toAddMedia("music");
+                ((AddBodyShowPresenter) mPresenter).toAddMedia("music");
                 break;
             case R.id.deleteMusic:
                 musicName.setText("");
                 tvAddMedia.setText("自定义");
-                ((AddBodyShowPresenter)mPresenter).addMusic = "";
+                ((AddBodyShowPresenter) mPresenter).addMusic = "";
                 if (TextUtils.isEmpty(imageName.getText().toString())) {
                     videoPull.setSelected(false);
                     videoPull.setEnabled(!videoPull.isSelected());
@@ -725,7 +747,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                 imagePull.setEnabled(!imagePull.isSelected());
                 videoName.setText("");
                 tvAddMedia.setText("自定义");
-                ((AddBodyShowPresenter)mPresenter).addMedia = "";
+                ((AddBodyShowPresenter) mPresenter).addMedia = "";
                 fileTime = 0;
                 getMaxTime();
                 deleteVideo.setVisibility(View.INVISIBLE);
@@ -738,10 +760,10 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                     videoPull.setSelected(false);
                     videoPull.setEnabled(!videoPull.isSelected());
                 }
-                ((AddBodyShowPresenter)mPresenter).addMedia = "";
+                ((AddBodyShowPresenter) mPresenter).addMedia = "";
                 deleteImage.setVisibility(View.INVISIBLE);
                 isSelectedPicture = false;
-                if (TextUtils.isEmpty(((AddBodyShowPresenter)mPresenter).addMusic))
+                if (TextUtils.isEmpty(((AddBodyShowPresenter) mPresenter).addMusic))
                     isSelectedPicture = false;
                 break;
             case R.id.add_start_time_space:
@@ -757,10 +779,10 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         float time = (float) (mEditText.getText().length() * 0.27);
 
         if (!isSelectedMusic && !isSelectedVideo) {
-            msaybtn.setText("迎宾语(" + time + "'')");
+            msaybtn.setText(mSayType + "(" + time + "'')");
             sayTime = (double) time;
         } else {
-            msaybtn.setText("迎宾语");
+            msaybtn.setText(mSayType);
             sayTime = 0;
         }
     }
@@ -782,7 +804,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         float time = (float) (mEditText.getText().length() * 0.27);
 
         tvSayTime.setText("语音时长：" + time + "秒");
-        msaybtn.setText("迎宾语(" + time + "'')");
+        msaybtn.setText(mSayType + "(" + time + "'')");
         sayTime = (double) time;
         getMaxTime();
     }
@@ -894,7 +916,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ((AddBodyShowPresenter)mPresenter).onItemClick(parent, view, position, id);
+        ((AddBodyShowPresenter) mPresenter).onItemClick(parent, view, position, id);
     }
 
     @Override
@@ -968,7 +990,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
 
         bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
         totalTime.setText("播放总时长:(" + bd.toString() + "'')");
-        ((AddBodyShowPresenter)mPresenter).totalTime = bd.toString();
+        ((AddBodyShowPresenter) mPresenter).totalTime = bd.toString();
         return max;
     }
 
@@ -984,7 +1006,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
 
     @Override
     public void setGuestTime(String time) {
-        if(!TextUtils.isEmpty(time) && time.contains("@#")) {
+        if (!TextUtils.isEmpty(time) && time.contains("@#")) {
             String[] times = time.split("@#");
             etTimeStart.setText(times[0]);
             etTimeEnd.setText(times[1]);
@@ -1040,7 +1062,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                 if (!TextUtils.isEmpty(path)) {
                     if ("music".equals(selectType)) {
 
-                        ((AddBodyShowPresenter)mPresenter).getMediaTime(path, new AddBodyShowPresenter.OnGetDuration() {
+                        ((AddBodyShowPresenter) mPresenter).getMediaTime(path, new AddBodyShowPresenter.OnGetDuration() {
                             @Override
                             public void onGet(String mGetDuration) {
 
@@ -1053,7 +1075,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                                 /***
                                  * 音频路径
                                  */
-                                ((AddBodyShowPresenter)mPresenter).addMusic = path;
+                                ((AddBodyShowPresenter) mPresenter).addMusic = path;
                                 isSelectedMusic = true;
                                 tvAddMedia.setText("自定义(" + mGetDuration + "'')");
                                 videoPull.setSelected(true);
@@ -1067,7 +1089,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                     } else if ("video".equals(selectType)) {
 
 
-                        ((AddBodyShowPresenter)mPresenter).getMediaTime(path, new AddBodyShowPresenter.OnGetDuration() {
+                        ((AddBodyShowPresenter) mPresenter).getMediaTime(path, new AddBodyShowPresenter.OnGetDuration() {
                             @Override
                             public void onGet(String mGetDuration) {
                                 if (TextUtils.isEmpty(mGetDuration)) {
@@ -1077,7 +1099,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                                 /***
                                  * 媒体路径------视频
                                  */
-                                ((AddBodyShowPresenter)mPresenter).addMedia = path;
+                                ((AddBodyShowPresenter) mPresenter).addMedia = path;
                                 isSelectedVideo = true;
                                 tvAddMedia.setText("自定义(" + mGetDuration + "'')");
                                 musicPull.setSelected(true);
@@ -1094,7 +1116,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                         /***
                          * 媒体路径----图片
                          */
-                        ((AddBodyShowPresenter)mPresenter).addMedia = path;
+                        ((AddBodyShowPresenter) mPresenter).addMedia = path;
                         isSelectedPicture = true;
                         videoPull.setSelected(true);
 
@@ -1111,8 +1133,8 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                     musicName.setSelected(false);
                     videoPull.setSelected(false);
                     ivPhoto.setImageResource(R.mipmap.tupainjiazai);
-                    ((AddBodyShowPresenter)mPresenter).addMedia = "";
-                    ((AddBodyShowPresenter)mPresenter).addMusic = "";
+                    ((AddBodyShowPresenter) mPresenter).addMedia = "";
+                    ((AddBodyShowPresenter) mPresenter).addMusic = "";
                 }
 
             } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
@@ -1149,8 +1171,8 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                 musicName.setText("");
                 imageName.setText("");
                 ivPhoto.setImageResource(R.mipmap.tupainjiazai);
-                ((AddBodyShowPresenter)mPresenter).addMedia = "";
-                ((AddBodyShowPresenter)mPresenter).addMusic = "";
+                ((AddBodyShowPresenter) mPresenter).addMedia = "";
+                ((AddBodyShowPresenter) mPresenter).addMusic = "";
             }
         } catch (Exception e) {
             e.printStackTrace();

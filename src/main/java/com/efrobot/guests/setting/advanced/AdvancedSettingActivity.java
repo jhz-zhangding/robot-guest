@@ -61,7 +61,7 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 //        TextView wheelHintTv = (TextView) findViewById(R.id.advanced_setting_wheel_html_text);
 //        wheelHintTv.setText(Html.fromHtml(d));
 
-        String e = "<html>此功能开启后，只需关闭面罩，机器人就会自动进入迎宾模式。关闭面罩前，请先确认超声波数据是否正常。<u><font color=\"#ff8f00\">注：在其他应用场景中，若关闭面罩不需要开启迎宾功能时，请关闭这个功能。</u></html>";
+        String e = "<html>此功能开启后，只需关闭面罩，机器人就会自动进入迎宾模式。关闭面罩前，请先确认超声波数据是否正常。<font color=\"#EA2000\">注：在其他应用场景中，若关闭面罩不需要开启迎宾功能，请关闭这个功能。</html>";
         TextView autoGuestTextView = (TextView) findViewById(R.id.advanced_setting_auto_html_text);
         autoGuestTextView.setText(Html.fromHtml(e));
     }

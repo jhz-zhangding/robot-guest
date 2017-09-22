@@ -2,7 +2,7 @@
     <string name="app_name">迎宾</string>
     <string name="start_guests_value">开始测试</string>
     <string name="setting_value">进入迎宾</string>
-    <string name="setting_status">传感器状态</string>
+    <string name="setting_status">超声波状态</string>
     <string name="setting_title">等待状态设置</string>
     <string name="distance_text">距离：</string>
     <string name="distance_unit">cm</string>
@@ -19,6 +19,10 @@
     <string name="welcome_tts">欢迎光临</string>
     <string name="ultrasonic_setting_hint">注:启动前请查看超声波数据是否正常，如不正常，请点击右侧"初始化"按钮</string>
     <string name="ultrasonic_setting">超声波设置</string>
+
+    <string name="ultrasonic_setting_hint_1">1）超声波实际检测数据小于上面设定的数值时就会触发迎宾</string>
+    <string name="ultrasonic_setting_hint_2">2）设定数值后才会开启该超声波，不设数值则表示不开启</string>
+    <string name="ultrasonic_setting_hint_3">3）建议开启上面5个超声波（左1、左3、中1、右3、右1）</string>
 
     <!-- ===================== -->
     <string-array name="face_time_bodycommercial">

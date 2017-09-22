@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.efrobot.guests.bean.UlDistanceBean;
@@ -28,6 +29,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/3/2.
@@ -80,27 +83,41 @@ public class GuestsApplication extends Application {
         }
     }
 
+    private Map<Integer, String> ultrasonicMaps = new HashMap<Integer, String>();
     private void initData() {
-        //设置超声波
-        UlDistanceBean ulPlaceBeen = new UlDistanceBean();
-        ulPlaceBeen.setUltrasonicId(0);
-        ulPlaceBeen.setIsOpenValue(1);
-        ulPlaceBeen.setDistanceValue("100");
-        getUltrasonicDao().insert(ulPlaceBeen);
+        //设置默认开启的超声波
+        ultrasonicMaps.put(0, "100");
+        ultrasonicMaps.put(1, "100");
+        ultrasonicMaps.put(2, "100");
+        ultrasonicMaps.put(6, "100");
+        ultrasonicMaps.put(7, "100");
 
-        UlDistanceBean ulPlaceBeen1 = new UlDistanceBean();
-        ulPlaceBeen1.setUltrasonicId(1);
-        ulPlaceBeen1.setIsOpenValue(1);
-        ulPlaceBeen1.setDistanceValue("100");
-        getUltrasonicDao().insert(ulPlaceBeen1);
-
-        UlDistanceBean ulPlaceBeen2 = new UlDistanceBean();
-        ulPlaceBeen2.setUltrasonicId(2);
-        ulPlaceBeen2.setIsOpenValue(1);
-        ulPlaceBeen2.setDistanceValue("100");
-        getUltrasonicDao().insert(ulPlaceBeen2);
+        ultrasonicMaps.put(8, "");
+        ultrasonicMaps.put(9, "");
+        ultrasonicMaps.put(10, "");
+        ultrasonicMaps.put(11, "");
+        ultrasonicMaps.put(12, "");
+        saveUserSetting(ultrasonicMaps);
 
         PreferencesUtils.putBoolean(getContext().getApplicationContext(), "FIRST_INIT_DATA", false);
+    }
+
+    /**
+     * 保存用户设置距离
+     */
+    private void saveUserSetting(Map<Integer, String> ultrasonicMap) {
+        UltrasonicDao ultrasonicDao = GuestsApplication.from(this).getUltrasonicDao();
+        for (Map.Entry entry : ultrasonicMap.entrySet()) {
+            UlDistanceBean ulDistanceBean = new UlDistanceBean();
+            int ultrasonicId = (Integer) entry.getKey();
+            String distanceValue = (String) entry.getValue();
+            ulDistanceBean.setUltrasonicId(ultrasonicId);
+            ulDistanceBean.setDistanceValue(distanceValue);
+            if (ultrasonicDao.isExits(ultrasonicId))
+                ultrasonicDao.update(0, ultrasonicId, distanceValue);
+            else
+                ultrasonicDao.insert(ulDistanceBean);
+        }
     }
 
     public GuestsApplication getContext() {

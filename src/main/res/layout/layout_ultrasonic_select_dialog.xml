@@ -10,7 +10,6 @@
         android:id="@+id/ultrasonic_setting_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:textSize="36sp"
         android:text="@string/ultrasonic_setting"
         android:textStyle="bold"
@@ -62,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:minWidth="70dp"
-                    android:text="100"
+                    android:text=""
                     android:textColor="@color/guest_text_color" />
 
                 <TextView
@@ -86,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:minWidth="70dp"
-                    android:text="100"
+                    android:text=""
                     android:textColor="@color/guest_text_color" />
 
                 <TextView
@@ -141,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:minWidth="70dp"
-                    android:text="100"
+                    android:text=""
                     android:textColor="@color/guest_text_color" />
 
                 <TextView
@@ -197,7 +196,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:minWidth="70dp"
-                    android:text="100"
+                    android:text=""
                     android:textColor="@color/guest_text_color" />
 
                 <TextView
@@ -283,7 +282,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:minWidth="70dp"
-                    android:text="100"
+                    android:text=""
                     android:textColor="@color/guest_text_color" />
 
                 <TextView
@@ -308,7 +307,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:minWidth="70dp"
-                    android:text="100"
+                    android:text=""
                     android:textColor="@color/guest_text_color" />
 
                 <TextView
@@ -364,7 +363,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:minWidth="70dp"
-                    android:text="100"
+                    android:text=""
                     android:textColor="@color/guest_text_color" />
 
                 <TextView
@@ -377,6 +376,40 @@
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ultrasonic_setting_text_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/ultrasonic_setting_ll"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="25dp"
+        android:visibility="gone"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ultrasonic_setting_hint_1"
+            android:textColor="@color/guest_text_color"
+            android:textSize="@dimen/textsize_18" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ultrasonic_setting_hint_2"
+            android:textColor="@color/guest_text_color"
+            android:textSize="@dimen/textsize_18" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ultrasonic_setting_hint_3"
+            android:textColor="@color/guest_text_color"
+            android:textSize="@dimen/textsize_18" />
+
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/ultrasonic_setting_affirm_btn"
         android:layout_width="130dp"
@@ -384,6 +417,7 @@
         android:padding="10dp"
         android:layout_marginTop="30dp"
         android:layout_below="@+id/ultrasonic_setting_ll"
+        android:layout_alignBottom="@+id/ultrasonic_setting_text_ll"
         android:layout_alignRight="@+id/ultrasonic_setting_ll"
         android:background="@drawable/button_ultrasonic_affim_btn_bg"
         android:text="@string/ultrasonic_confirm"
