@@ -73,6 +73,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     private boolean mIsExecute = false;
     private boolean isReceiveUltrasonic = false;
+    /** 是否标定结束*/
+    private boolean isInitFinish = true;
 
     //超声波数据设置
     private ArrayList<UlDistanceBean> ulDistanceBeen = null;
@@ -209,6 +211,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     //是否先初始化超声波
                     L.i(TAG, "开始迎宾 isAutoInitUl = " + isAutoInitUl);
                     if (isAutoInitUl) {
+                        isInitFinish = false;
                         mHandle.sendEmptyMessageDelayed(INIT_ULTRASONIC, 5000);
                     } else {
                         mHandle.sendEmptyMessageDelayed(OPEN_USER_ULTRASONIC, 5000);
@@ -273,8 +276,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     public final int MUSIC_NEED_SAY = 107;
     private boolean isCloseLight = true;
 
-    private boolean isReceiveData = false;
-
     public Handler mHandle = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
@@ -282,7 +283,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             L.i(TAG, "msg.what = " + msg.what);
             switch (msg.what) {
                 case OPEN_USER_ULTRASONIC:
-                    if (!isReceiveData) {
+                    if (!isReceiveUltrasonic) {
                         L.i(TAG, "Resend open UltrasonicData");
                         //发送探头信息
                         RobotManager.getInstance(getApplicationContext()).registerOnGetUltrasonicCallBack(UltrasonicService.this);
@@ -356,10 +357,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     @Override
     public void onGetUltrasonic(byte[] data) {
         try {
-            isReceiveData = true;
             isReceiveUltrasonic = true;
             mHandle.removeMessages(OPEN_USER_ULTRASONIC);
-            if (isUltraData(data)) {
+            if (isUltraData(data) && isInitFinish) {
 //                L.i(TAG, "---------------data--" + Arrays.toString(data));
                 byte[] bytes = new byte[customUlData.size() * 4];
                 System.arraycopy(data, 5, bytes, 0, customUlData.size() * 4);
@@ -969,7 +969,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     TtsUtils.sendTts(getApplicationContext(), "标定成功");
                     showToast("超声波标定成功 \t\tTime: " + getCurrentTime());
                     isReceiveUltrasonic = false;
-                    sendUserUltrasonic();
+                    isInitFinish = true;
+                    mHandle.sendEmptyMessageDelayed(OPEN_USER_ULTRASONIC, 1200);
                 } else {
 //                    失败
                     TtsUtils.sendTts(getApplicationContext(), "标定失败");
@@ -977,6 +978,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 }
             }
         }
+        L.i(TAG, "超声波:bool= " + bool);
         return bool;
     }
 

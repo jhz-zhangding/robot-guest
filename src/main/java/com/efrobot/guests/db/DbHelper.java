@@ -7,6 +7,7 @@ import com.efrobot.guests.bean.FaceAndActionEntity;
 import com.efrobot.guests.bean.ItemsContentBean;
 import com.efrobot.guests.bean.UlDistanceBean;
 import com.efrobot.guests.setting.bean.SelectDirection;
+import com.efrobot.library.mvp.utils.L;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -19,7 +20,7 @@ import java.sql.SQLException;
 public class DbHelper extends OrmLiteSqliteOpenHelper {
     public final String TAG = this.getClass().getSimpleName();
     private Context context;
-    private static int version = 1;
+    private static int version = 2;
     private static String DB_NAME = "GUESTS";
 
     public DbHelper(Context context) {
@@ -57,7 +58,16 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int i, int i1) {
-
+        L.e("DbHelper", "i = " + i + "   i1 = " + i1);
+        try {
+            if(i1 == 2) {
+                /** 更新数据库*/
+                TableUtils.createTableIfNotExists(connectionSource, FaceAndActionEntity.class);
+                TableUtils.createTableIfNotExists(connectionSource, ItemsContentBean.class);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
