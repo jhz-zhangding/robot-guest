@@ -12,6 +12,7 @@ import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -34,10 +35,14 @@ import com.efrobot.guests.base.GuestsBaseActivity;
 import com.efrobot.guests.bean.ItemsContentBean;
 import com.efrobot.guests.utils.DatePickerUtils;
 import com.efrobot.library.mvp.utils.L;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -73,7 +78,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
     private double fileTime = 0;
     private double actionTime = 0;
     private double faceTime = 0;
-
+    private int itemNum;
 
     @Override
     public AddBodyShowPresenter createPresenter() {
@@ -110,6 +115,15 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
      * 语音时长
      */
     private TextView tvSayTime;
+
+    /**
+     * 语音预设词条
+     */
+    private TagFlowLayout addFlowLayout;
+
+    //    private ListView prepareSayLv;
+//    private TtsContentAdapter ttsContentAdapter;
+
 
     private LinearLayout relSay;
     /**
@@ -207,6 +221,32 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
     private TextView tvTimeSpace;
     private TextView etTimeStart, etTimeEnd;
 
+    public String[] ttsWelcome1 = new String[]{
+            "客人来了，欢迎欢迎##1",
+            "您好，我是迎宾小胖，想和我聊天请摸摸我的头哦##1",
+            "尊贵的来宾，您好，很高兴见到您，我是迎宾小胖，欢迎您来到xxx##1",
+            "是有人来了吗，您好，能和我这个可爱的机器人聊聊天吗##1",
+            "贵客光临，蓬荜生辉，您来了，里面请哦##1",
+            "小胖提醒您，进门记得打卡哦##1",
+            "您好，您想了解一下xx产品吗，小胖这就给你细细介绍哦,xx##1",
+            "您好，您是想了解xx吗，左转直行50米就是xx展台哦##1"
+
+    };
+
+    public String[] ttsWelcome2 = new String[]{
+            "您好，您这是要走了吗，小胖期待您的下次光临##1",
+            "亲，别急着走啊，和小胖聊聊天呗##1",
+            "您要走了吗，您下次什么时候再来呢，小胖会想你的##1",
+            "下班啦，小胖提醒您，出门前记得关灯关电源关窗户哦##1",
+            "下班啦，小胖提醒您明天是个重要的日子哦，一定要记得xxx##1"
+
+    };
+
+    public String[] ttsEnd = new String[]{
+            "下次再见##1",
+            "您慢走##1"
+    };
+
 
     @Override
     protected void onViewInit() {
@@ -214,7 +254,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
 
         Intent intent = getIntent();
 
-        int itemNum = 0;
+        itemNum = 0;
         if (intent.hasExtra("itemNum")) {
             itemNum = intent.getIntExtra("itemNum", -1);
         } else if (intent.hasExtra("content")) {
@@ -265,7 +305,8 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
 
         mEditText = (EditText) findViewById(R.id.add_edit_text);
         tvSayTime = (TextView) findViewById(R.id.tvSayTime);
-
+//        prepareSayLv = (ListView) findViewById(R.id.add_prepare_say_words_lv);
+        addFlowLayout = (TagFlowLayout) findViewById(R.id.add_flow_layout);
 
         videoPull = (TextView) findViewById(R.id.videoPull);
         musicPull = (TextView) findViewById(R.id.musicPull);
@@ -368,6 +409,38 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
 
             }
         });
+
+        /** 初始化预设词条*/
+        initTtsAdapterData();
+    }
+
+    String[] tts = null;
+
+    private List<TtsBean> getPreList(int type) {
+        if (type == 1) {
+            tts = ttsWelcome1;
+        } else if (type == 2) {
+            tts = ttsWelcome2;
+        } else if (type == 3) {
+            tts = ttsEnd;
+        }
+
+
+        List<TtsBean> ttsBeans = new ArrayList<TtsBean>();
+        if (tts != null) {
+            for (int i = 0; i < tts.length; i++) {
+                String ttsStr = tts[i];
+                String[] mTtsStr = ttsStr.split("##");
+                TtsBean ttsBean = new TtsBean();
+                ttsBean.setmSay(mTtsStr[0]);
+                ttsBean.setType(Integer.parseInt(mTtsStr[1]));
+                if (mTtsStr.length > 2) {
+                    ttsBean.setTimeSpace(mTtsStr[2]);
+                }
+                ttsBeans.add(ttsBean);
+            }
+        }
+        return ttsBeans;
     }
 
     /***
@@ -807,6 +880,47 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         msaybtn.setText(mSayType + "(" + time + "'')");
         sayTime = (double) time;
         getMaxTime();
+    }
+
+    private void initTtsAdapterData() {
+//        ttsContentAdapter = new TtsContentAdapter(getContext(), getPreList(itemNum));
+//        ttsContentAdapter.setOnPrePareWordsOnClick(new TtsContentAdapter.OnPrePareWordsOnClick() {
+//            @Override
+//            public void onClick(TtsBean ttsBean) {
+//                setEditContent(ttsBean.getmSay());
+//            }
+//        });
+//        prepareSayLv.setAdapter(ttsContentAdapter);
+        addFlowLayout.setAdapter(new TagAdapter<TtsBean>(getPreList(itemNum)) {
+            @Override
+            public View getView(FlowLayout parent, int position, final TtsBean ttsBean) {
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.item_tts_content, addFlowLayout, false);
+                TextView textView = (TextView) view.findViewById(R.id.item_tts_text);
+                textView.setText(ttsBean.getmSay());
+                if (itemNum == 1) {
+                    if (position == 5) {
+                        textView.setBackground(getResources().getDrawable(R.drawable.coffee_corners_bg));
+                    } else if (position == 6) {
+                        textView.setBackground(getResources().getDrawable(R.drawable.green_corners_bg));
+                    } else if (position == 7) {
+                        textView.setBackground(getResources().getDrawable(R.drawable.person_corners_bg));
+                    }
+                } else if (itemNum == 2) {
+                    if (position == 3) {
+                        textView.setBackground(getResources().getDrawable(R.drawable.coffee_corners_bg));
+                    } else if (position == 4) {
+                        textView.setBackground(getResources().getDrawable(R.drawable.purple_corners_bg));
+                    }
+                }
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setEditContent(ttsBean.getmSay());
+                    }
+                });
+                return view;
+            }
+        });
     }
 
 

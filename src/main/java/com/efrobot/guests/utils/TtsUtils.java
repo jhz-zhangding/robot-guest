@@ -48,6 +48,20 @@ public class TtsUtils {
         }
     }
 
+    public static void sendSpeechTts(Context context, String type, String detail, String reply) {
+        L.i("TtsUtils", "detail--" + detail);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("type", type);
+            jsonObject.put("detail", detail);
+            jsonObject.put("reply", reply);
+            Intent mIntent = new Intent("cn.efrobot.speech.ACTION_REMOTE_CONTROLLER");
+            mIntent.putExtra("content", jsonObject.toString());
+            context.sendBroadcast(mIntent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 关闭TTS
