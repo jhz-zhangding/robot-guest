@@ -229,7 +229,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
             "贵客光临，蓬荜生辉，您来了，里面请哦##1",
             "小胖提醒您，进门记得打卡哦##1",
             "您好，您想了解一下xx产品吗，小胖这就给你细细介绍哦,xx##1",
-            "您好，您是想了解xx吗，左转直行50米就是xx展台哦##1"
+            "客人您好，您是想购买xx吗，左转直行50米就是xx商品区哦##1"
 
     };
 

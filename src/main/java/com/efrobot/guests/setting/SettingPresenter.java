@@ -222,6 +222,17 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
                 animator.setDuration(400);
                 animator.start();
 
+            } else if(msg.what == 1) {
+                ValueAnimator animator = ValueAnimator.ofFloat(help_hand_3.getTranslationY(), 230.0f);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = (Float) animation.getAnimatedValue();
+                        help_hand_3.setTranslationY(value);
+                    }
+                });
+                animator.setDuration(1000);
+                animator.start();
             }
         }
     };
@@ -320,11 +331,31 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 
     }
 
-    private ImageView known4Img;
+    private ImageView known4Img, known5Img, help_hand_3;
+    private RelativeLayout hint4Child1, hint4Child2;
+    private ImageView dialog_help_add_time_bg, dialog_help_add_guest_bg;
     private void showHint4() {
         hintRl4.setVisibility(View.VISIBLE);
         known4Img = (ImageView) hintRl4.findViewById(R.id.dialog_help_known4);
+        known5Img = (ImageView) hintRl4.findViewById(R.id.dialog_help_known5);
+        help_hand_3 = (ImageView) hintRl4.findViewById(R.id.help_hand_3);
+        hint4Child1 = (RelativeLayout) hintRl4.findViewById(R.id.hint_4_child_1);
+        hint4Child2 = (RelativeLayout) hintRl4.findViewById(R.id.hint_4_child_2);
+        dialog_help_add_time_bg = (ImageView) hintRl4.findViewById(R.id.dialog_help_add_time_bg);
+        dialog_help_add_guest_bg = (ImageView) hintRl4.findViewById (R.id.dialog_help_add_guest_bg);
+
         known4Img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hint4Child1.setVisibility(View.GONE);
+                hint4Child2.setVisibility(View.VISIBLE);
+                dialog_help_add_guest_bg.setVisibility(View.GONE);
+                dialog_help_add_time_bg.setVisibility(View.VISIBLE);
+                viewHandle.sendEmptyMessageDelayed(1, 200);
+            }
+        });
+
+        known5Img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(helpDialog != null) {
@@ -333,7 +364,6 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
                 }
             }
         });
-
     }
 
 
