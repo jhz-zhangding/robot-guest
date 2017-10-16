@@ -1,6 +1,5 @@
 package com.efrobot.guests.setting;
 
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.database.Cursor;
@@ -9,13 +8,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.view.animation.AnimationSet;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -32,7 +28,6 @@ import com.efrobot.guests.utils.CustomHintDialog;
 import com.efrobot.guests.utils.TtsUtils;
 import com.efrobot.library.RobotManager;
 import com.efrobot.library.mvp.utils.L;
-import com.efrobot.library.mvp.utils.PreferencesUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,9 +36,8 @@ import java.util.Date;
 /**
  * Created by Administrator on 2017/3/2.
  */
-public class SettingPresenter extends GuestsBasePresenter<ISettingView> implements RobotManager.OnGetUltrasonicCallBack
-//        , RobotManager.OnUltrasonicOccupyStatelistener
-{
+public class SettingPresenter extends GuestsBasePresenter<ISettingView> implements RobotManager.OnGetUltrasonicCallBack,
+        RobotManager.OnUltrasonicOccupyStatelistener {
 
     private boolean isReceiveUltrasonic = false;
 
@@ -179,8 +173,9 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 
     private Dialog helpDialog;
     private RelativeLayout hintRl1, hintRl2, hintRl3, hintRl4;
+
     public void showFunHelpDialog() {
-        helpDialog  = new Dialog(getContext(), R.style.Dialog_Help_Fullscreen);
+        helpDialog = new Dialog(getContext(), R.style.Dialog_Help_Fullscreen);
         View currentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_use_help, null);
         hintRl1 = (RelativeLayout) currentView.findViewById(R.id.hint_1);
         hintRl2 = (RelativeLayout) currentView.findViewById(R.id.hint_2);
@@ -203,7 +198,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if(msg.what == 0) {
+            if (msg.what == 0) {
 
 //                TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, -300);
 //                translateAnimation.setDuration(2000);
@@ -222,7 +217,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
                 animator.setDuration(400);
                 animator.start();
 
-            } else if(msg.what == 1) {
+            } else if (msg.what == 1) {
                 ValueAnimator animator = ValueAnimator.ofFloat(help_hand_3.getTranslationY(), 230.0f);
                 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
@@ -239,6 +234,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 
     private ImageView knownImg1;
     private RelativeLayout hand1;
+
     private void showHint1() {
         hintRl1.setVisibility(View.VISIBLE);
         knownImg1 = (ImageView) hintRl1.findViewById(R.id.dialog_help_known_1);
@@ -268,6 +264,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     }
 
     private ImageView knownImg2;
+
     private void showHint2() {
         hintRl2.setVisibility(View.VISIBLE);
         knownImg2 = (ImageView) hintRl2.findViewById(R.id.dialog_help_known_2);
@@ -285,9 +282,10 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     private ImageView knownImg3, hintText;
     private RelativeLayout handDir1RlBtn, handDir2RlBtn, hintSelectDirRl;
     private ImageView knownImg3_1;
+
     private void showHint3() {
         hintRl3.setVisibility(View.VISIBLE);
-        guestSetImg  = (RelativeLayout) hintRl3.findViewById(R.id.dialog_help_guest_content);
+        guestSetImg = (RelativeLayout) hintRl3.findViewById(R.id.dialog_help_guest_content);
         knownImg3 = (ImageView) hintRl3.findViewById(R.id.dialog_help_known_3);
         hintText = (ImageView) hintRl3.findViewById(R.id.hint_3_text);
         handDir1RlBtn = (RelativeLayout) hintRl3.findViewById(R.id.hint_3_1_dir_rl);
@@ -334,6 +332,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     private ImageView known4Img, known5Img, help_hand_3;
     private RelativeLayout hint4Child1, hint4Child2;
     private ImageView dialog_help_add_time_bg, dialog_help_add_guest_bg;
+
     private void showHint4() {
         hintRl4.setVisibility(View.VISIBLE);
         known4Img = (ImageView) hintRl4.findViewById(R.id.dialog_help_known4);
@@ -342,7 +341,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         hint4Child1 = (RelativeLayout) hintRl4.findViewById(R.id.hint_4_child_1);
         hint4Child2 = (RelativeLayout) hintRl4.findViewById(R.id.hint_4_child_2);
         dialog_help_add_time_bg = (ImageView) hintRl4.findViewById(R.id.dialog_help_add_time_bg);
-        dialog_help_add_guest_bg = (ImageView) hintRl4.findViewById (R.id.dialog_help_add_guest_bg);
+        dialog_help_add_guest_bg = (ImageView) hintRl4.findViewById(R.id.dialog_help_add_guest_bg);
 
         known4Img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -358,7 +357,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         known5Img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(helpDialog != null) {
+                if (helpDialog != null) {
                     helpDialog.dismiss();
                     helpDialog = null;
                 }
@@ -632,12 +631,12 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
      * 1; 超声波模块可用
      * 0; 超声波模块不可用
      */
-//    @Override
-//    public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
-//        L.e(TAG, "sceneCode = " + sceneCode + "---isAvailable = " + isAvailable);
-//        if(isAvailable == 0) {
-//            showCanUserDialog("超声波暂不可用，");
-//        }
-//
-//    }
+    @Override
+    public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
+        L.e(TAG, "sceneCode = " + sceneCode + "---isAvailable = " + isAvailable);
+        if(isAvailable == 0) {
+            showCanUserDialog("超声波被占用暂不可用");
+        }
+
+    }
 }
