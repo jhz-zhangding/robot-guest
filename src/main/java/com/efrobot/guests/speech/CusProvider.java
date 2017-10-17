@@ -1,6 +1,5 @@
 package com.efrobot.guests.speech;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.KeyEvent;

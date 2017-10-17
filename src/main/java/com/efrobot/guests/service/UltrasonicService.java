@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.efrobot.guests.Env.EnvUtil;
 import com.efrobot.guests.Env.SpContans;
 import com.efrobot.guests.GuestsApplication;
 import com.efrobot.guests.R;
@@ -30,12 +31,12 @@ import com.efrobot.guests.dao.UltrasonicDao;
 import com.efrobot.guests.setting.SettingActivity;
 import com.efrobot.guests.setting.bean.SelectDirection;
 import com.efrobot.guests.utils.BitmapUtils;
+import com.efrobot.guests.utils.CustomHintDialog;
 import com.efrobot.guests.utils.DatePickerUtils;
 import com.efrobot.guests.utils.FileUtils;
 import com.efrobot.guests.utils.MusicPlayer;
 import com.efrobot.guests.utils.PreferencesUtils;
 import com.efrobot.guests.utils.TtsUtils;
-import com.efrobot.guests.utils.WheelActionUtils;
 import com.efrobot.library.OnRobotStateChangeListener;
 import com.efrobot.library.RobotManager;
 import com.efrobot.library.RobotState;
@@ -43,6 +44,7 @@ import com.efrobot.library.mvp.utils.L;
 import com.efrobot.library.mvp.utils.RobotToastUtil;
 import com.efrobot.library.task.GroupManager;
 import com.efrobot.library.task.NavigationManager;
+import com.efrobot.library.task.UltrasonicTaskManager;
 import com.efrobot.speechsdk.SpeechManager;
 
 import java.io.File;
@@ -63,7 +65,7 @@ import java.util.TimerTask;
 
 public class UltrasonicService extends Service implements RobotManager.OnGetUltrasonicCallBack,
         NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener, OnRobotStateChangeListener
-//        , RobotManager.OnUltrasonicOccupyStatelistener,
+        , RobotManager.OnUltrasonicOccupyStatelistener
 // OnRobotStateChangeListener
 {
 
@@ -1034,9 +1036,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         data[6] = (byte) 0x00;
         data[7] = (byte) 7;
         //开启后8秒左右收到回调
-        RobotManager.getInstance(getApplicationContext()).getCustomTaskInstance().sendByteData(data);
+//        RobotManager.getInstance(getApplicationContext()).getCustomTaskInstance().sendByteData(data);
         //TODO 新策略
-//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).openUltrasonicFeedback(EnvUtil.ULGST001, byte4 << 8 | byte5);
+        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).openUltrasonicFeedback(EnvUtil.ULGST001, byte4 << 8 | byte5);
         if (!isReceiveUltrasonic) { //是否接受到超声波检测信息
             reSend();
         }
@@ -1392,18 +1394,11 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private void closeEveryOne() {
         IsRunning = false;
         L.i(TAG, "onDestroy");
-//        closeUltrasonic(this);// 关闭超声波，暂不关
         RobotManager.getInstance(this).unRegisterOnGetUltrasonicCallBack();
         //TODO 新策略
-//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).closeUltrasonicFeedback(EnvUtil.ULGST001);
-//        RobotManager.getInstance(this).unRegisterOnGetInfraredCallBack();
+        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).closeUltrasonicFeedback(EnvUtil.ULGST001);
         RobotManager.getInstance(this).getNavigationInstance().unRegisterOnNavigationStateChangeListener(this);
         RobotManager.getInstance(this).unRegisterOnWheelStateChangeListener();
-
-//        if (!isOpenWheel) {
-//            //结束需要打开
-//            WheelActionUtils.getInstance(this).openWheelAction();
-//        }
 
         //音乐说话表情停止
         musicNeedSay = false;
@@ -1475,15 +1470,31 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         }
     }
 
-//    @Override
-//    public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
-//        L.e(TAG, "sceneCode = " + sceneCode + "---isAvailable = " + isAvailable);
-//    }
+    /**
+     * 提示框
+     */
+    CustomHintDialog hitDialog;
+    public void showCanUserDialog(String content) {
+        hitDialog = new CustomHintDialog(UltrasonicService.this, -1);
+        hitDialog.setTitle("提示");
+        hitDialog.setMessage(content);
+        hitDialog.setCancelable(false);
+        hitDialog.setSubmitButton("确定", new CustomHintDialog.IButtonOnClickLister() {
+            @Override
+            public void onClickLister() {
+                stopSelf();
+            }
+        });
+        hitDialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+        hitDialog.show();
+    }
 
-//    @Override
-//    public void onRobotSateChange(int robotStateIndex, int newState) {
-//        if(robotStateIndex == RobotState.ROBOT_STATE_INDEX_HEAD_KEY) {
-//
-//        }
-//    }
+    @Override
+    public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
+        L.e(TAG, "sceneCode = " + sceneCode + "---isAvailable = " + isAvailable);
+        if(isAvailable == 0) {
+            showCanUserDialog("超声波被占用暂不可用");
+        }
+    }
+
 }

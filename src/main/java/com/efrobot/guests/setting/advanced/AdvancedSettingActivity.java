@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.efrobot.guests.Env.SpContans;
 import com.efrobot.guests.R;
 import com.efrobot.guests.base.GuestsBaseActivity;
-import com.efrobot.guests.utils.CustomHintDialog;
 import com.efrobot.library.mvp.presenter.BasePresenter;
 import com.efrobot.library.mvp.utils.PreferencesUtils;
 import com.zcw.togglebutton.ToggleButton;

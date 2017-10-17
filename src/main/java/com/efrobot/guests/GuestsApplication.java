@@ -6,7 +6,6 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.efrobot.guests.bean.UlDistanceBean;

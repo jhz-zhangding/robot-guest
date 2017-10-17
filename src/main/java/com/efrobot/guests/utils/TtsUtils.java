@@ -2,6 +2,8 @@ package com.efrobot.guests.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 
 import com.efrobot.library.mvp.utils.L;
 
@@ -33,6 +35,21 @@ public class TtsUtils {
             instance = new TtsUtils();
         }
         return instance;
+    }
+
+    public static boolean isCanUseGuest(Context context) {
+        boolean isCanUse = true;
+        Uri uri = Uri.parse("content://com.efrobot.diy.diydataProvider/question");
+        Cursor cursor = context.getContentResolver().query(uri, null, "type=?", new String[]{"3"}, null);
+        if (cursor != null && cursor.moveToNext()) {
+            isCanUse = false;
+        }
+        Cursor cursor1 = context.getContentResolver().query(uri, null, "type=?", new String[]{"4"}, null);
+        if (cursor1 != null && cursor1.moveToNext()) {
+            isCanUse = false;
+        }
+        L.i("TtsUtils", "isCanUse = " + isCanUse);
+        return isCanUse;
     }
 
     public static void sendTts(Context context, String content) {
