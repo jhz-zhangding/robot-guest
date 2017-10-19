@@ -2,8 +2,11 @@ package com.efrobot.guests.setting;
 
 import android.animation.ValueAnimator;
 import android.app.Dialog;
-import android.database.Cursor;
-import android.net.Uri;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,7 +18,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.efrobot.guests.Env.EnvUtil;
 import com.efrobot.guests.GuestsApplication;
 import com.efrobot.guests.R;
 import com.efrobot.guests.base.GuestsBasePresenter;
@@ -27,9 +29,13 @@ import com.efrobot.guests.dao.UltrasonicDao;
 import com.efrobot.guests.setting.bean.SelectDirection;
 import com.efrobot.guests.utils.CustomHintDialog;
 import com.efrobot.guests.utils.TtsUtils;
+import com.efrobot.guests.utils.UpdateUtils;
 import com.efrobot.library.RobotManager;
 import com.efrobot.library.mvp.utils.L;
-import com.efrobot.library.task.UltrasonicTaskManager;
+import com.efrobot.library.net.TextMessage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,8 +44,9 @@ import java.util.Date;
 /**
  * Created by Administrator on 2017/3/2.
  */
-public class SettingPresenter extends GuestsBasePresenter<ISettingView> implements RobotManager.OnGetUltrasonicCallBack,
-        RobotManager.OnUltrasonicOccupyStatelistener {
+public class SettingPresenter extends GuestsBasePresenter<ISettingView> implements RobotManager.OnGetUltrasonicCallBack
+//        ,RobotManager.OnUltrasonicOccupyStatelistener
+{
 
     private boolean isReceiveUltrasonic = false;
 
@@ -122,9 +129,12 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         }
     }
 
+    String versionName = "";
+
     public void initUltrasonicData() {
         isReceiveUltrasonic = false;
         ulHandle.sendEmptyMessageDelayed(0, 5000);
+        versionName = getVersion(getContext());
     }
 
     @Override
@@ -132,6 +142,55 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         super.onCreate(savedInstanceState);
 //        RobotManager.getInstance(getContext()).registerUltrasonicOccupylistener(this);
 
+
+//        new UpdateUtils().getInstance().getAppDetail(getContext(), getContext().getPackageName(), new UpdateUtils.onAppCallBack() {
+//            @Override
+//            public void onSuccess(TextMessage message, String result) {
+//                try {
+//                    JSONObject jsonObject = new JSONObject(result);
+//                    if (jsonObject.has("appVersion")) {
+//                        String newVersion = jsonObject.optString("appVersion");
+//                        if (!TextUtils.isEmpty(versionName) && !TextUtils.isEmpty(newVersion)) {
+//                            float mVersionName = Float.parseFloat(versionName);
+//                            float mNewVersionName = Float.parseFloat(newVersion);
+//                            if (mNewVersionName > mVersionName) {
+//                                /** 检测商城有新的版本号 需要提示更新 */
+//                                final CustomHintDialog mDialog = new CustomHintDialog(getContext(), -1);
+//                                mDialog.setTitle("提示");
+//                                mDialog.setMessage("检测到新版本，是否前往商城更新");
+//                                mDialog.setSubmitButton("前往", new CustomHintDialog.IButtonOnClickLister() {
+//                                    @Override
+//                                    public void onClickLister() {
+//                                        Intent intent = new Intent();
+//                                        ComponentName componentName = new ComponentName("com.efrobot.appstore", "com.efrobot.appstore.activity.SplashView");
+//                                        intent.setComponent(componentName);
+//                                        intent.putExtra("msg", 5);
+//                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                        getContext().startActivity(intent);
+//                                    }
+//                                });
+//                                mDialog.setCancleButton("取消", new CustomHintDialog.IButtonOnClickLister() {
+//                                    @Override
+//                                    public void onClickLister() {
+//                                        if (mDialog != null) {
+//                                            mDialog.dismiss();
+//                                        }
+//                                    }
+//                                });
+//                                mDialog.show();
+//                            }
+//                        }
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFail(TextMessage message, int errorCode, String errorMessage) {
+//
+//            }
+//        });
 
         ultrasonicDao = GuestsApplication.from(getContext()).getUltrasonicDao();
         dataManager = DataManager.getInstance(getContext());
@@ -379,7 +438,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         ulHandle.removeMessages(1);
         ulHandle.removeMessages(2);
         RobotManager.getInstance(getContext()).unRegisterOnGetUltrasonicCallBack();
-        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).closeUltrasonicFeedback(EnvUtil.ULGST001);
+//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).closeUltrasonicFeedback(EnvUtil.ULGST001);
     }
 
     public void cancel() {
@@ -440,53 +499,51 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 
     private final int OpenUltrasonicNum = 10;
 
-    /**
-     * 新策略
-     */
-    private void sendOpenUltrasonicData() {
-        L.i("sendOpenUltrasonicData", "start send");
-
-        RobotManager.getInstance(getContext()).registerOnGetUltrasonicCallBack(this);
-
-        byte topOpen = (byte) (mByte1 | mByte2 | mByte3 | mByte7 | mByte8);
-
-        byte bottomOpen = (byte) (mByte9 | mByte10 | mByte11 | mByte12 | mByte13);
-
-        int needOpenUl = (topOpen & 0xFFFF) | (bottomOpen & 0xFFFF << 8);
-
-        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).openUltrasonicFeedback(EnvUtil.ULGST001, needOpenUl);
-        if (!isReceiveUltrasonic) { //是否接受到超声波检测信息
-            reSend();
-        }
-    }
-
+//    /**
+//     * 新策略
+//     */
 //    private void sendOpenUltrasonicData() {
 //        L.i("sendOpenUltrasonicData", "start send");
-//        byte[] data = new byte[12];
-//        data[0] = (byte) 0x0c;
-//        data[1] = (byte) 0x03;
-//        data[2] = (byte) 0x06;
-//        data[3] = (byte) 0x03;
-////        data[4] = (byte) 0x1F;
-////        data[5] = (byte) 0xFF;
 //
-////        data[4] = (byte) 0x0B;
-////        data[5] = (byte) 0x83;
-//
-//        data[5] = ((byte) (mByte1 | mByte2 | mByte3 | mByte7 | mByte8));
-//        data[4] = ((byte) (mByte9 | mByte10 | mByte11 | mByte12 | mByte13));
-//
-//        data[6] = (byte) 0x00;
-//        data[7] = (byte) 7;
-//        //开启后8秒左右收到回调
 //        RobotManager.getInstance(getContext()).registerOnGetUltrasonicCallBack(this);
-//        RobotManager.getInstance(getContext()).getCustomTaskInstance().sendByteData(data);
-//        //TODO 新策略
-////        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).openUltrasonicFeedback(1923);
+//
+//        byte topOpen = (byte) (mByte1 | mByte2 | mByte3 | mByte7 | mByte8);
+//
+//        byte bottomOpen = (byte) (mByte9 | mByte10 | mByte11 | mByte12 | mByte13);
+//
+//        int needOpenUl = (topOpen & 0xFFFF) | (bottomOpen & 0xFFFF << 8);
+//
+//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getContext())).openUltrasonicFeedback(EnvUtil.ULGST001, needOpenUl);
 //        if (!isReceiveUltrasonic) { //是否接受到超声波检测信息
 //            reSend();
 //        }
 //    }
+
+    private void sendOpenUltrasonicData() {
+        L.i("sendOpenUltrasonicData", "start send");
+        byte[] data = new byte[12];
+        data[0] = (byte) 0x0c;
+        data[1] = (byte) 0x03;
+        data[2] = (byte) 0x06;
+        data[3] = (byte) 0x03;
+//        data[4] = (byte) 0x1F;
+//        data[5] = (byte) 0xFF;
+
+//        data[4] = (byte) 0x0B;
+//        data[5] = (byte) 0x83;
+
+        data[5] = ((byte) (mByte1 | mByte2 | mByte3 | mByte7 | mByte8));
+        data[4] = ((byte) (mByte9 | mByte10 | mByte11 | mByte12 | mByte13));
+
+        data[6] = (byte) 0x00;
+        data[7] = (byte) 7;
+        //开启后8秒左右收到回调
+        RobotManager.getInstance(getContext()).registerOnGetUltrasonicCallBack(this);
+        RobotManager.getInstance(getContext()).getCustomTaskInstance().sendByteData(data);
+        if (!isReceiveUltrasonic) { //是否接受到超声波检测信息
+            reSend();
+        }
+    }
 
     /**
      *
@@ -528,8 +585,9 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     private boolean isNormalExit = false;
 
     public void showDialog(String content) {
-        TtsUtils.sendTts(getContext(), content);
+        TtsUtils.sendTts(getContext(), content + ",标定开始");
         dialog = new CustomHintDialog(getContext(), -1);
+        dialog.setTitle("提示");
         dialog.setMessage(content);
         dialog.setCancelable(true);
         sendTestUltrasonic(false);
@@ -540,10 +598,10 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 
     public void showCanUserDialog(String content) {
         hitDialog = new CustomHintDialog(getContext(), -1);
-        hitDialog.setTitle("提示");
+        hitDialog.setTitle("冲突提示");
         hitDialog.setMessage(content);
         hitDialog.setCancelable(false);
-        hitDialog.setSubmitButton("确定", new CustomHintDialog.IButtonOnClickLister() {
+        hitDialog.setSubmitButton("朕 知 道 了", new CustomHintDialog.IButtonOnClickLister() {
             @Override
             public void onClickLister() {
                 exit();
@@ -617,15 +675,32 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     }
 
     /**
+     * 2  * 获取版本号
+     * 3  * @return 当前应用的版本号
+     * 4
+     */
+    public String getVersion(Context context) {
+        try {
+            PackageManager manager = context.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            String version = info.versionName;
+            return version;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    /**
      * 1; 超声波模块可用
      * 0; 超声波模块不可用
      */
-    @Override
-    public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
-        L.e(TAG, "sceneCode = " + sceneCode + "---isAvailable = " + isAvailable);
-        if (isAvailable == 0) {
-            showCanUserDialog("检测到超声波被占用暂不可用");
-        }
+//    @Override
+//    public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
+//        L.e(TAG, "sceneCode = " + sceneCode + "---isAvailable = " + isAvailable);
+//        if (isAvailable == 0) {
+//            showCanUserDialog("检测到超声波被占用暂不可用");
+//        }
+//    }
 
-    }
 }

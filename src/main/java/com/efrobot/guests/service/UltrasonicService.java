@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.efrobot.guests.Env.EnvUtil;
 import com.efrobot.guests.Env.SpContans;
 import com.efrobot.guests.GuestsApplication;
 import com.efrobot.guests.R;
@@ -44,7 +43,6 @@ import com.efrobot.library.mvp.utils.L;
 import com.efrobot.library.mvp.utils.RobotToastUtil;
 import com.efrobot.library.task.GroupManager;
 import com.efrobot.library.task.NavigationManager;
-import com.efrobot.library.task.UltrasonicTaskManager;
 import com.efrobot.speechsdk.SpeechManager;
 
 import java.io.File;
@@ -65,7 +63,7 @@ import java.util.TimerTask;
 
 public class UltrasonicService extends Service implements RobotManager.OnGetUltrasonicCallBack,
         NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener, OnRobotStateChangeListener
-        , RobotManager.OnUltrasonicOccupyStatelistener
+//        , RobotManager.OnUltrasonicOccupyStatelistener
 // OnRobotStateChangeListener
 {
 
@@ -75,7 +73,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     private boolean mIsExecute = false;
     private boolean isReceiveUltrasonic = false;
-    /** 是否标定结束*/
+    /**
+     * 是否标定结束
+     */
     private boolean isInitFinish = true;
 
     //超声波数据设置
@@ -128,6 +128,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         L.i(TAG, "onStartCommand");
+        if (!TtsUtils.isCanUseGuest(this)) {
+            return -1;
+        }
+
         GuestsApplication.from(this).setUltrasonicService(this);
         groupManager = RobotManager.getInstance(this.getApplicationContext()).getGroupInstance();
         IsRunning = true;
@@ -1036,9 +1040,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         data[6] = (byte) 0x00;
         data[7] = (byte) 7;
         //开启后8秒左右收到回调
-//        RobotManager.getInstance(getApplicationContext()).getCustomTaskInstance().sendByteData(data);
+        RobotManager.getInstance(getApplicationContext()).getCustomTaskInstance().sendByteData(data);
         //TODO 新策略
-        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).openUltrasonicFeedback(EnvUtil.ULGST001, byte4 << 8 | byte5);
+//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).openUltrasonicFeedback(EnvUtil.ULGST001, byte4 << 8 | byte5);
         if (!isReceiveUltrasonic) { //是否接受到超声波检测信息
             reSend();
         }
@@ -1396,7 +1400,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         L.i(TAG, "onDestroy");
         RobotManager.getInstance(this).unRegisterOnGetUltrasonicCallBack();
         //TODO 新策略
-        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).closeUltrasonicFeedback(EnvUtil.ULGST001);
+//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).closeUltrasonicFeedback(EnvUtil.ULGST001);
         RobotManager.getInstance(this).getNavigationInstance().unRegisterOnNavigationStateChangeListener(this);
         RobotManager.getInstance(this).unRegisterOnWheelStateChangeListener();
 
@@ -1474,6 +1478,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
      * 提示框
      */
     CustomHintDialog hitDialog;
+
     public void showCanUserDialog(String content) {
         hitDialog = new CustomHintDialog(UltrasonicService.this, -1);
         hitDialog.setTitle("提示");
@@ -1489,12 +1494,12 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         hitDialog.show();
     }
 
-    @Override
-    public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
-        L.e(TAG, "sceneCode = " + sceneCode + "---isAvailable = " + isAvailable);
-        if(isAvailable == 0) {
-            showCanUserDialog("超声波被占用暂不可用");
-        }
-    }
+//    @Override
+//    public void onUltrasonicOccupyState(String sceneCode, int isAvailable) {
+//        L.e(TAG, "sceneCode = " + sceneCode + "---isAvailable = " + isAvailable);
+//        if (isAvailable == 0) {
+//            showCanUserDialog("超声波被占用暂不可用");
+//        }
+//    }
 
 }

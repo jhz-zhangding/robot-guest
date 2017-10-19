@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.efrobot.guests.R;
@@ -122,6 +123,7 @@ public class CustomHintDialog {
         this.isCancel = isCancel;
     }
 
+    private LinearLayout tvTitlell;
     private TextView tvTitle;
     private TextView tvEnsure;
     private TextView tvCancel;
@@ -171,6 +173,7 @@ public class CustomHintDialog {
         params.height = (int) (screenWidth * 0.5);
         dialog.getWindow().setAttributes(params);
 
+        tvTitlell = (LinearLayout) customview.findViewById(R.id.title_ll);
         tvTitle = (TextView) customview.findViewById(R.id.title);
         tvEnsure = (TextView) customview.findViewById(R.id.tv_ok);
         tvCancel = (TextView) customview.findViewById(R.id.tv_cancle);
@@ -178,10 +181,10 @@ public class CustomHintDialog {
         tvMessage.setMovementMethod(new ScrollingMovementMethod());
         final ViewGroup.LayoutParams pa = tvEnsure.getLayoutParams();
 
-        pa.width = (int) (params.width * 0.5);
+//        pa.width = (int) (params.width * 0.5);
         final ViewGroup.LayoutParams paSubmit = tvCancel.getLayoutParams();
 
-        paSubmit.width = (int) (params.width * 0.5);
+//        paSubmit.width = (int) (params.width * 0.5);
         updateView();
     }
 
@@ -192,8 +195,9 @@ public class CustomHintDialog {
     public void updateView() {
         if (!TextUtils.isEmpty(title)) {
             tvTitle.setText(title);
+            tvTitlell.setVisibility(View.VISIBLE);
         } else {
-            tvTitle.setVisibility(View.GONE);
+            tvTitlell.setVisibility(View.GONE);
         }
 
         if (this.message != null && !this.message.equals("")) {

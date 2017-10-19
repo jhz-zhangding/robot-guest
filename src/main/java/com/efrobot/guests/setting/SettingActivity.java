@@ -39,6 +39,7 @@ import com.efrobot.guests.setting.advanced.AdvancedSettingActivity;
 import com.efrobot.guests.setting.bean.SelectDirection;
 import com.efrobot.guests.utils.CustomHintDialog;
 import com.efrobot.guests.utils.PreferencesUtils;
+import com.efrobot.guests.utils.UpdateUtils;
 import com.efrobot.guests.utils.ui.DisplayParamsUtil;
 import com.efrobot.library.RobotManager;
 import com.efrobot.library.mvp.presenter.BasePresenter;
@@ -184,9 +185,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         updatePlayModeView(rightPlayModeImg, false);
         updatePlayModeView(finishPlayModeImg, false);
 
-        if (!serviceIsWorked(this, GuestRobotService.class.getName())) {
-            startService(new Intent(this, GuestRobotService.class));
-        }
     }
 
     private void initViewId() {

@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.efrobot.guests">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
@@ -63,14 +68,9 @@
             android:name="com.efrobot.guests.setting.advanced.AdvancedSettingActivity"
             android:windowSoftInputMode="stateHidden" />
 
-        <service
-            android:name="com.efrobot.guests.service.GuestRobotService"
-            android:enabled="true"
-            android:exported="true"></service>
-
-        <receiver android:name="com.efrobot.guests.broadcast.ReceiveBootBroadcast">
+        <receiver android:name="com.efrobot.guests.broadcast.ReceiveMaskBroadcast">
             <intent-filter android:priority="3">
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MASK_CHANGED" />
             </intent-filter>
         </receiver>
     </application>

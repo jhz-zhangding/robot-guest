@@ -10,30 +10,47 @@
     android:paddingRight="@dimen/padding_35"
     android:paddingTop="@dimen/padding_35">
 
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
+        android:id="@+id/title_ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding"
-        android:textSize="@dimen/textsize_30" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/custom_dialog_title_img"
+            />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize_30" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_message"
-        android:textColor="@color/white"
-        android:textSize="26sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/title"
         android:layout_weight="3"
         android:gravity="center"
-        android:scrollbars = "vertical"
-        />
+        android:scrollbars="vertical"
+        android:textColor="@color/white"
+        android:textSize="26sp" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_25"
+        android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <TextView
@@ -42,23 +59,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/padding_25"
-            android:layout_weight="2"
             android:background="@drawable/button_bg"
             android:gravity="center"
+            android:minWidth="100dp"
             android:paddingBottom="@dimen/padding_15dp"
             android:paddingTop="@dimen/padding_15dp"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize_26" />
 
         <TextView
             android:id="@+id/tv_ok"
             style="@style/text_nomal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="2"
             android:background="@drawable/button_bg"
             android:gravity="center"
+            android:minWidth="100dp"
             android:paddingBottom="@dimen/padding_15dp"
             android:paddingTop="@dimen/padding_15dp"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize_26" />
     </LinearLayout>
 </LinearLayout>
