@@ -60,12 +60,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Logger;
 
 import dou.helper.CameraHelper;
-import dou.helper.CameraParams;
 import dou.utils.DLog;
-import dou.utils.DeviceUtil;
 import dou.utils.ToastUtil;
 import mobile.ReadFace.YMFace;
 import mobile.ReadFace.YMFaceTrack;
@@ -75,7 +72,7 @@ import mobile.ReadFace.YMFaceTrack;
  */
 
 public class UltrasonicService extends Service implements RobotManager.OnGetUltrasonicCallBack,
-        NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener, OnRobotStateChangeListener, CameraHelper.PreviewFrameListener
+        NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener, OnRobotStateChangeListener, Camera.PreviewCallback
 //        , RobotManager.OnUltrasonicOccupyStatelistener
 // OnRobotStateChangeListener
 {
@@ -146,7 +143,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             return -1;
         }
         /** 初始化摄像头 */
-        initCamera();
+        openCarama();
 
         GuestsApplication.from(this).setUltrasonicService(this);
         groupManager = RobotManager.getInstance(this.getApplicationContext()).getGroupInstance();
@@ -1417,6 +1414,13 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         super.onDestroy();
         closeEveryOne();
 
+        if(this.camera != null) {
+            this.camera.setPreviewCallbackWithBuffer((Camera.PreviewCallback)null);
+            this.camera.stopPreview();
+            this.camera.release();
+            this.camera = null;
+        }
+
     }
 
     private void closeEveryOne() {
@@ -1457,35 +1461,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     protected int iw = 0, ih;
 
     private int camera_max_width = 640;
-
-    public void initCamera() {
-        L.e("initCamera", "initCamera");
-        //预设Camera参数，方便扩充
-        CameraParams params = new CameraParams();
-        //优先使用的camera Id,
-        params.firstCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
-        SurfaceView dummy = new SurfaceView(getBaseContext());
-        params.surfaceView = dummy;
-        params.preview_width = camera_max_width;
-//        params.preview_width = 640;
-//        params.preview_height = 480;
-
-        params.camera_ori = 0;
-        params.camera_ori_front = 0;
-        if (DeviceUtil.getModel().equals("Nexus 6")) {
-            params.camera_ori_front = 180;
-            GuestsApplication.reverse_180 = true;
-        }
-
-        params.previewFrameListener = this;
-        mCameraHelper = new CameraHelper(GuestsApplication.getAppContext(), params);
-    }
-
-    @Override
-    public void onPreviewFrame(byte[] bytes, Camera camera) {
-        L.e(TAG, "onPreviewFrame");
-        runTrack(bytes);
-    }
 
     private void runTrack(byte[] data) {
         try {
@@ -1738,7 +1713,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
      *
      * @param context
      */
-    public static void show(Context context) {
+    public SurfaceView getSufaceView(Context context) {
         if (GuestsApplication.getAppContext() == null) {
             WindowManager windowManager = (WindowManager) GuestsApplication.getAppContext()
                     .getSystemService(Context.WINDOW_SERVICE);
@@ -1755,6 +1730,40 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             windowManager.addView(dummyCameraView, params);
             L.d(TAG, TAG + " showing");
         }
+        return dummyCameraView;
     }
 
+    private Camera camera;//声明相机
+    private void openCarama() {
+        int cameraCount = 0;
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        cameraCount = Camera.getNumberOfCameras();//得到摄像头的个数
+        if(this.camera != null) {
+            this.camera.setPreviewCallbackWithBuffer((Camera.PreviewCallback)null);
+            this.camera.stopPreview();
+            this.camera.release();
+            this.camera = null;
+        }
+
+        try {
+            if(this.camera == null) {
+                this.camera = Camera.open();
+                if(this.camera == null) {
+                    DLog.d("摄像头开启失败");
+                } else
+                camera.setPreviewCallback(this);
+                camera.startPreview();//开始预览
+            }
+        } catch (Exception var2) {
+            DLog.d("摄像头0" + "开启失败，正在尝试开启另一个摄像头");
+        }
+
+    }
+
+
+    @Override
+    public void onPreviewFrame(byte[] data, Camera camera) {
+        L.e(TAG, "onPreviewFrame");
+        runTrack(data);
+    }
 }
