@@ -255,7 +255,7 @@
     <string name="addmedia4">4.上传音频文件后，音频会覆盖迎宾语。</string>
 
     <string name="init_ultrasonic_hint">超声波标定要保证周围1米没有障碍物</string>
-    <string name="error_use__hint">检测到DIY中已使用超声波，如需\n继续请关闭DIY中的超声波</string>
+    <string name="error_use__hint">检测到DIY中已使用超声波，如需继续请关闭DIY中的超声波</string>
 
     <string name="guest_explain_text0">迎宾功能通过机器人正面的6个超声波传感器感应是否有人接近机器人，可以通过勾选启用某一个或者某几个超声波并填写探测距离。当超声波检测到该距离内有人时，则会触发迎宾语。当检测人离开10秒后，则触发结束语，将回到等待状态。
 </string>
@@ -281,4 +281,68 @@
 
     <string name="advanced_setting_wheel_title">开启双轮运动</string>
     <string name="advanced_setting_wheel_note">请谨慎关闭该功能！！！双轮运动关闭后，在迎宾状态下，机器人将不会再执行行走、转圈等动作，退出迎宾状态，双轮运动自动开启。异常情况退出迎宾状态，请重新进入迎宾app，否则无法恢复双轮状态。，</string>
+
+    <string name="advanced_setting_face_note">开启人脸识别后，机器人识别到人能根据人名来打招呼</string>
+
+    <!-- Face -->
+    <string name="start_1">人脸识别</string>
+    <string name="add_face">Add face</string>
+    <string name="unlock_insert_face">录入/清空人脸</string>
+    <string name="insert_face">录入人脸</string>
+    <string name="clear_face_db">清除人脸库</string>
+    <string name="tipe_add1">点击页面底部按钮 - 添加正脸</string>
+    <string name="tips_add3">点击页面底部按钮 - 添加抬头数据</string>
+    <string name="tipe_add4">点击页面底部按钮 - 添加低头数据</string>
+    <string name="tips_add2">点击页面底部按钮 - 添加侧脸数据</string>
+    <string name="insert_now_1">准备添加第一张人脸——正脸(1/4)</string>
+    <string name="insert_now_2">准备添加第二张人脸——侧脸(2/4)</string>
+    <string name="insert_now_3">准备添加第三张人脸——抬头(3/4)</string>
+    <string name="insert_now_4">准备添加第四张人脸——低头(4/4)</string>
+    <string name="dalog_notice">提示</string>
+    <string name="dialog_msg">已识别您为 %1$s ，是否更新您的人脸库？</string>
+    <string name="ignore">忽略</string>
+    <string name="update">更新</string>
+    <string name="i_not_him">我不是他</string>
+    <string name="please_face_to">请正脸面对</string>
+    <string name="please_left_20">请侧脸20°</string>
+    <string name="please_up_20">请抬头20°</string>
+    <string name="please_down_20">请低头20°</string>
+    <string name="delete_toast">确认清除所有人脸数据库？</string>
+    <string name="_sure">确定</string>
+    <string name="_not_sure">取消</string>
+    <string name="_sure_out">确定退出</string>
+    <string name="_keep_pre">继续完善</string>
+    <string name="dialog_msg1">你当前共添加 %1$s 张人脸数据，尚未注册完整，确定退出？</string>
+    <string name="dialog_msg2">人脸录入成功，Face ID =  %1$s 请输入昵称 </string>
+    <string name="insert_nickname">请输入昵称，不能为空哦</string>
+    <string name="_dialog_isnext">当前录入完成，是否录入下一个？</string>
+    <string name="_yes">是</string>
+    <string name="_no">否</string>
+
+
+    <string name="count_start_1">人脸库管理</string>
+    <string name="count_start_2">人脸识别</string>
+    <string name="count_start_3">更多功能</string>
+    <string name="count_start_4">测试</string>
+
+    <string name="insert_next">跳过</string>
+    <string name="points">关键点</string>
+    <string name="photograph_input">人脸录入</string>
+    <string name="cant_found_you">看不到人脸啦</string>
+    <string name="image_sure_next">当前录入完成，是否进行人脸识别？</string>
+    <string name="know_yet">"已经认识你啦，，不用再添加人脸了 id = %1$s"</string>
+    <string name="image_indert_msg">请按以下示意依次添加照片</string>
+    <string name="start_register">开始注册</string>
+
+    <string name="input_face">录入人脸</string>
+    <string name="manage_edit">编辑</string>
+    <string name="person_list">人脸列表</string>
+    <string name="manage_ending">完成</string>
+    <string name="manage_toast_none_select">未选中任何可删除项！</string>
+    <string name="manage_sure_delete">确定删除选中的人脸数据？</string>
+    <string name="manage_delete">删除</string>
+    <string name="manage_selete_all">全选</string>
+
+    <string name="reset">清除数据库</string>
+    <string name="reset_db_success">清除数据库成功</string>
 </resources>

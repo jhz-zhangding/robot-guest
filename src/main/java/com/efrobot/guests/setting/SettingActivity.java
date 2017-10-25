@@ -33,6 +33,7 @@ import com.efrobot.guests.bean.UlDistanceBean;
 import com.efrobot.guests.dao.DataManager;
 import com.efrobot.guests.dao.SelectedDao;
 import com.efrobot.guests.dao.UltrasonicDao;
+import com.efrobot.guests.face.FaceRecoActivity;
 import com.efrobot.guests.service.GuestRobotService;
 import com.efrobot.guests.service.UltrasonicService;
 import com.efrobot.guests.setting.advanced.AdvancedSettingActivity;
@@ -327,10 +328,11 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 startActivity(new Intent(this, AdvancedSettingActivity.class));
                 break;
             case R.id.ultrasonic_open_btn: //开始迎宾
-                boolean isCanAffirm = ((SettingPresenter) mPresenter).affirm();
-                if (isCanAffirm) {
-                    showDialog("即将开始迎宾，请关闭面罩后开始迎宾");
-                }
+//                boolean isCanAffirm = ((SettingPresenter) mPresenter).affirm();
+//                if (isCanAffirm) {
+//                    showDialog("即将开始迎宾，请关闭面罩后开始迎宾");
+//                }
+                startActivity(new Intent(this, FaceRecoActivity.class));
                 break;
             case R.id.ultrasonic_init_btn:
                 //初始化超声波

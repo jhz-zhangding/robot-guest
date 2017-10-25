@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +29,7 @@ import com.efrobot.guests.bean.UlDistanceBean;
 import com.efrobot.guests.dao.DataManager;
 import com.efrobot.guests.dao.SelectedDao;
 import com.efrobot.guests.dao.UltrasonicDao;
+import com.efrobot.guests.face.base.SenseConfig;
 import com.efrobot.guests.setting.SettingActivity;
 import com.efrobot.guests.setting.bean.SelectDirection;
 import com.efrobot.guests.utils.BitmapUtils;
@@ -57,12 +60,20 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import dou.helper.CameraHelper;
+import dou.helper.CameraParams;
+import dou.utils.DLog;
+import dou.utils.DeviceUtil;
+import dou.utils.ToastUtil;
+import mobile.ReadFace.YMFace;
+import mobile.ReadFace.YMFaceTrack;
+
 /**
  * 迎宾执行功能
  */
 
 public class UltrasonicService extends Service implements RobotManager.OnGetUltrasonicCallBack,
-        NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener, OnRobotStateChangeListener
+        NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener, OnRobotStateChangeListener, CameraHelper.PreviewFrameListener
 //        , RobotManager.OnUltrasonicOccupyStatelistener
 // OnRobotStateChangeListener
 {
@@ -122,6 +133,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     @Override
     public void onCreate() {
         super.onCreate();
+        startTrack();
         L.i(TAG, "onCreate");
     }
 
@@ -131,6 +143,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         if (!TtsUtils.isCanUseGuest(this)) {
             return -1;
         }
+        /** 初始化摄像头 */
+        initCamera();
 
         GuestsApplication.from(this).setUltrasonicService(this);
         groupManager = RobotManager.getInstance(this.getApplicationContext()).getGroupInstance();
@@ -280,6 +294,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private final int LIGHT_ALWAYS_OPEN = 105;
     public final int VIDEO_FINISH = 106;
     public final int MUSIC_NEED_SAY = 107;
+    public final int FOUND_USER_FACE = 108;
     private boolean isCloseLight = true;
 
     public Handler mHandle = new Handler(Looper.getMainLooper()) {
@@ -355,6 +370,12 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     break;
                 case MUSIC_NEED_SAY:
                     TtsUtils.sendTts(UltrasonicService.this, " ");
+                    break;
+                case FOUND_USER_FACE:
+                    /**
+                     * 检测到人脸
+                     * */
+
                     break;
             }
         }
@@ -1427,6 +1448,210 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         closeRepeatLight();
         mHandle = null;
     }
+
+    protected CameraHelper mCameraHelper;
+    protected YMFaceTrack faceTrack;
+    protected int iw = 0, ih;
+
+    private int camera_max_width = 640;
+
+    public void initCamera() {
+        L.e("initCamera", "initCamera");
+        //预设Camera参数，方便扩充
+        CameraParams params = new CameraParams();
+        //优先使用的camera Id,
+        params.firstCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+//        params.surfaceView = camera_view;
+        params.preview_width = camera_max_width;
+//        params.preview_width = 640;
+//        params.preview_height = 480;
+
+        params.camera_ori = 0;
+        params.camera_ori_front = 0;
+        if (DeviceUtil.getModel().equals("Nexus 6")) {
+            params.camera_ori_front = 180;
+            GuestsApplication.reverse_180 = true;
+        }
+
+        params.previewFrameListener = this;
+        mCameraHelper = new CameraHelper(GuestsApplication.getAppContext(), params);
+    }
+
+    @Override
+    public void onPreviewFrame(byte[] bytes, Camera camera) {
+        L.e(TAG, "onPreviewFrame");
+        runTrack(bytes);
+    }
+
+    private void runTrack(byte[] data) {
+        try {
+            List<YMFace> faces = analyse(data, iw, ih);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private SimpleArrayMap<Integer, YMFace> trackingMap;
+    boolean threadBusy = false;
+    private Thread thread;
+    boolean pause = false;
+    int frame = 0;
+
+    protected List<YMFace> analyse(final byte[] bytes, final int iw, final int ih) {
+
+        if (pause) return null;
+        if (faceTrack == null) return null;
+        frame++;
+//        final List<YMFace> faces = new ArrayList<>();
+//        YMFace face1 = faceTrack.track(bytes, iw, ih);
+//        if (face1 != null) faces.add(face1);
+        final List<YMFace> faces = faceTrack.trackMulti(bytes, iw, ih);
+
+
+        if (faces != null && faces.size() > 0) {
+            if (!threadBusy && frame >= 10) {
+                frame = 0;
+
+                if (trackingMap.size() > 50) trackingMap.clear();
+                //只对最大人脸框进行识别
+                int maxIndex = 0;
+                for (int i = 1; i < faces.size(); i++) {
+                    if (faces.get(maxIndex).getRect()[2] <= faces.get(i).getRect()[2]) {
+                        maxIndex = i;
+                    }
+                }
+
+                final YMFace ymFace = faces.get(maxIndex);
+                final int anaIndex = maxIndex;
+                final int trackId = ymFace.getTrackId();
+                final float[] rect = ymFace.getRect();
+                final float[] headposes = ymFace.getHeadpose();
+
+                thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            threadBusy = true;
+                            final byte[] yuvData = new byte[bytes.length];
+                            System.arraycopy(bytes, 0, yuvData, 0, bytes.length);
+
+                            boolean next = true;
+
+                            if ((Math.abs(headposes[0]) > 30
+                                    || Math.abs(headposes[1]) > 30
+                                    || Math.abs(headposes[2]) > 30)) {
+                                //角度不佳不再识别
+                                next = false;
+                            }
+
+                            if (next) {
+                                for (int i = 0; i < faces.size(); i++) {
+                                    final YMFace ymFace = faces.get(i);
+                                    final int trackId = ymFace.getTrackId();
+                                    if (!trackingMap.containsKey(trackId) ||
+                                            trackingMap.get(trackId).getPersonId() <= 0) {
+                                        long time = System.currentTimeMillis();
+                                        int identifyPerson = faceTrack.identifyPerson(i);
+                                        int confidence = faceTrack.getRecognitionConfidence();
+                                        DLog.d("identify end " + identifyPerson + " time :" + (System.currentTimeMillis() - time) + " con = " + confidence);
+                                        if (identifyPerson > 0) {
+                                            //已经识别到该人是谁
+                                            Message msg = new Message();
+                                            msg.what = 0;
+                                            msg.obj = identifyPerson;
+                                            mHandle.sendMessage(msg);
+                                        } else {
+                                            //检测到人脸，但没有识别到此人是谁
+                                        }
+
+//                                        saveImageFromCamera(identifyPerson, yuvData);
+                                        ymFace.setIdentifiedPerson(identifyPerson, confidence);
+                                        trackingMap.put(trackId, ymFace);
+                                    }
+                                }
+                                next = false;
+                                //使用本地就不再使用云端,可直接删除云端部分
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            threadBusy = false;
+                        }
+                    }
+                });
+                thread.start();
+            }
+
+            for (int i = 0; i < faces.size(); i++) {
+                final YMFace ymFace = faces.get(i);
+                final int trackId = ymFace.getTrackId();
+                if (trackingMap.containsKey(trackId)) {
+                    YMFace face = trackingMap.get(trackId);
+                    ymFace.setIdentifiedPerson(face.getPersonId(), face.getConfidence());
+                }
+            }
+        }
+        return faces;
+    }
+
+    public synchronized void stopTrack() {
+
+        if (faceTrack == null) {
+            DLog.d("already release track");
+            return;
+        }
+        faceTrack.onRelease();
+        faceTrack = null;
+        DLog.d("release track success");
+    }
+
+
+    public synchronized void startTrack() {
+        L.e("startTrack", "startTrack");
+        if (faceTrack != null) {
+            DLog.d("already init track");
+            return;
+        }
+
+        iw = 0;//重新调用initCameraMsg的开关
+        faceTrack = new YMFaceTrack();
+
+        /**此处默认初始化，initCameraMsg()处会根据设备设置自动更改设置
+         *人脸识别数据库之前保存在应用目录的cache目录下，可以通过另一个初始化检测器的函数
+         *public boolean initTrack(Context mContext, int orientation, int resizeScale, String db_dir)
+         *通过指定保存db的目录来自定义
+         **/
+        //人脸抠图专用接口（一般不输出此接口），需要在initTrack之前调用 默认为1
+//        faceTrack.setCropScale(2);
+
+        //人脸抠图专用接口（一般不输出此接口），需要在initTrack之前调用 默认为10
+//        faceTrack.setCropMaxCache(10);
+
+        //人脸抠图专用（一般不输出此接口），是否需要保留原图，需要在initTrack之前调用 默认为false
+//        faceTrack.setCropBg(true);
+
+        //设置人脸检测距离，默认近距离，需要在initTrack之前调用
+        faceTrack.setDistanceType(YMFaceTrack.DISTANCE_TYPE_FARTHESTER);
+
+        //license激活版本初始化
+        int result = faceTrack.initTrack(this, YMFaceTrack.FACE_0, YMFaceTrack.RESIZE_WIDTH_640,
+                SenseConfig.appid, SenseConfig.appsecret);
+
+        //普通有效期版本初始化
+//        int result = faceTrack.initTrack(this, YMFaceTrack.FACE_180, YMFaceTrack.RESIZE_WIDTH_640);
+
+        //设置人脸识别置信度，设置75，不允许修改
+
+        if (result == 0) {
+            faceTrack.setRecognitionConfidence(75);
+            new ToastUtil(this).showSingletonToast("初始化检测器成功");
+        } else {
+            new ToastUtil(this).showSingletonToast("初始化检测器失败 result:" + result);
+        }
+
+    }
+
 
     @Override
     public void onRobotSateChange(int robotStateIndex, int newState) {

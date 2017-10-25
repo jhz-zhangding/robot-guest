@@ -40,6 +40,22 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".face.FaceRecoActivity"
+            android:configChanges="screenSize|keyboardHidden"
+            android:screenOrientation="landscape"/>
+
+        <activity
+            android:name=".face.RegisterImageCameraActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape" />
+
+        <activity
+            android:name=".face.ManageFaceActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="landscape" />
+
         <provider
             android:name="com.efrobot.guests.speech.CusProvider"
             android:authorities="com.efrobot.guests.speechSdkProvider"

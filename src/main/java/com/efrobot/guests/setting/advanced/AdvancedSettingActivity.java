@@ -1,6 +1,7 @@
 package com.efrobot.guests.setting.advanced;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import com.efrobot.guests.Env.SpContans;
 import com.efrobot.guests.R;
 import com.efrobot.guests.base.GuestsBaseActivity;
+import com.efrobot.guests.face.ManageFaceActivity;
+import com.efrobot.guests.face.RegisterImageCameraActivity;
 import com.efrobot.library.mvp.presenter.BasePresenter;
 import com.efrobot.library.mvp.utils.PreferencesUtils;
 import com.zcw.togglebutton.ToggleButton;
@@ -23,6 +26,9 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
     private TextView exitBtn;
 
     private EditText guestTimeEt;
+
+    private TextView faceBaseManagerBtn;
+    private ToggleButton faceOpenBtn;
 
     private ToggleButton correctionBtn;
 
@@ -50,9 +56,11 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         super.onViewInit();
 
         exitBtn = (TextView) findViewById(R.id.advanced_setting_exit);
+        faceBaseManagerBtn = (TextView) findViewById(R.id.advanced_setting_face_base_manager_btn);
         guestTimeEt = (EditText) findViewById(R.id.advanced_setting_time_et);
         correctionBtn = (ToggleButton) findViewById(R.id.advanced_setting_correction_btn);
         autoGuestBtn = (ToggleButton) findViewById(R.id.advanced_setting_guest_btn);
+        faceOpenBtn = (ToggleButton) findViewById(R.id.advanced_setting_face_btn);
 //        closeWheelBtn = (ToggleButton) findViewById(R.id.advanced_setting_wheel_btn);
 
 
@@ -92,6 +100,8 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 
         exitBtn.setOnClickListener(this);
         correctionBtn.setOnClickListener(this);
+        faceBaseManagerBtn.setOnClickListener(this);
+        faceOpenBtn.setOnClickListener(this);
         autoGuestBtn.setOnClickListener(this);
 //        closeWheelBtn.setOnClickListener(this);
     }
@@ -100,6 +110,10 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
     public void onClick(View v) {
         if (v.equals(exitBtn)) {
             finish();
+        } else if(v.equals(faceBaseManagerBtn)) {
+            startActivity(new Intent(this, ManageFaceActivity.class));
+        } else if(v.equals(faceOpenBtn)) {
+            updateStatus(v);
         } else if (v.equals(correctionBtn)) {
             updateStatus(v);
         } else if (v.equals(autoGuestBtn)) {

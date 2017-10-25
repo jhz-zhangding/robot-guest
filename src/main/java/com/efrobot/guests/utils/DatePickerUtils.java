@@ -18,8 +18,10 @@ import android.widget.TimePicker;
 import com.efrobot.guests.R;
 import com.efrobot.guests.bean.WeekBean;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -202,6 +204,11 @@ public class DatePickerUtils {
 
     public interface OnDayCheckListener {
         void onCheckListData(LinkedHashMap<String, Boolean> maps);
+    }
+
+    public String getCurrentTime() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        return (df.format(new Date()));     // new Date()为获取当前系统时间
     }
 
 

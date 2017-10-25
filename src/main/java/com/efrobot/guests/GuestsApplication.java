@@ -2,6 +2,7 @@ package com.efrobot.guests;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -31,10 +32,27 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import mobile.ReadFace.YMUtil;
+
 /**
  * Created by Administrator on 2017/3/2.
  */
 public class GuestsApplication extends Application {
+
+    private static GuestsApplication instence;
+
+    //绘制左右翻转
+    public static final boolean yu = false;
+
+    public static  boolean reverse_180 = false;
+
+    //是否显示logo
+    public static boolean useLogo = true;
+    public static int  screenOri = Configuration.ORIENTATION_LANDSCAPE;
+//    public static int  screenOri = Configuration.ORIENTATION_PORTRAIT;
+
+
+
     private DbHelper mDbHelper;
 
     private String TAG = getClass().getSimpleName();
@@ -49,6 +67,13 @@ public class GuestsApplication extends Application {
 
     @Override
     public void onCreate() {
+        instence = this;
+        //        DLog.mSwitch = false;
+//        DLog.mWrite = true;
+        YMUtil.setDebug(true);
+//        LeakCanary.install(this);
+
+
         if (isPrintCrashLog) {
             Thread.setDefaultUncaughtExceptionHandler(new MythouCrashHandler(this));
         }
@@ -80,6 +105,10 @@ public class GuestsApplication extends Application {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static GuestsApplication getAppContext() {
+        return instence;
     }
 
     private Map<Integer, String> ultrasonicMaps = new HashMap<Integer, String>();
