@@ -134,7 +134,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     public void initUltrasonicData() {
         isReceiveUltrasonic = false;
         ulHandle.sendEmptyMessageDelayed(0, 5000);
-        versionName = getVersion(getContext(), getContext().getPackageName());
+        versionName = new UpdateUtils().getVersion(getContext(), getContext().getPackageName());
     }
 
     CustomHintDialog mUpdateDialog;
@@ -673,23 +673,6 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     public String getCurrentTime() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         return (df.format(new Date()));     // new Date()为获取当前系统时间
-    }
-
-    /**
-     * 2  * 获取版本号
-     * 3  * @return 当前应用的版本号
-     * 4
-     */
-    public String getVersion(Context context, String packageName) {
-        try {
-            PackageManager manager = context.getPackageManager();
-            PackageInfo info = manager.getPackageInfo(packageName, 0);
-            String version = info.versionName;
-            return version;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
     }
 
     /**

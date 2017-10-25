@@ -1,6 +1,8 @@
 package com.efrobot.guests.utils;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import com.efrobot.guests.R;
@@ -80,6 +82,23 @@ public class UpdateUtils {
             e.printStackTrace();
         }
         return version;
+    }
+
+    /**
+     * 2  * 获取版本号
+     * 3  * @return 当前应用的版本号
+     * 4
+     */
+    public String getVersion(Context context, String packageName) {
+        try {
+            PackageManager manager = context.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(packageName, 0);
+            String version = info.versionName;
+            return version;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
     public interface onAppCallBack {

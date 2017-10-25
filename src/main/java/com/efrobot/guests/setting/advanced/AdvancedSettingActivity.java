@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import com.efrobot.guests.R;
 import com.efrobot.guests.base.GuestsBaseActivity;
 import com.efrobot.guests.face.ManageFaceActivity;
 import com.efrobot.guests.face.RegisterImageCameraActivity;
+import com.efrobot.guests.utils.UpdateUtils;
 import com.efrobot.library.mvp.presenter.BasePresenter;
 import com.efrobot.library.mvp.utils.PreferencesUtils;
 import com.zcw.togglebutton.ToggleButton;
@@ -33,6 +35,8 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
     private ToggleButton correctionBtn;
 
     private ToggleButton autoGuestBtn;
+
+    private TextView versionName;
 
 //    private ToggleButton closeWheelBtn;
 
@@ -54,6 +58,12 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
     @Override
     protected void onViewInit() {
         super.onViewInit();
+
+        versionName = (TextView) findViewById(R.id.advanced_setting_version_name);
+        String versionInfo = new UpdateUtils().getVersion(this, this.getPackageName());
+        if(!TextUtils.isEmpty(versionInfo)) {
+            versionName.setText("版本:" + versionInfo);
+        }
 
         exitBtn = (TextView) findViewById(R.id.advanced_setting_exit);
         faceBaseManagerBtn = (TextView) findViewById(R.id.advanced_setting_face_base_manager_btn);
