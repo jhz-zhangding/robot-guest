@@ -113,8 +113,8 @@
     <orderEntry type="library" exported="" name="speech-sdk" level="project" />
     <orderEntry type="library" exported="" name="mvpnetlibrary-2.0.6" level="project" />
     <orderEntry type="library" exported="" name="coreprogress-0.0.3" level="project" />
-    <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
     <orderEntry type="library" exported="" name="framework-1.0.58" level="project" />
     <orderEntry type="module" module-name="togglebutton-library" exported="" />
   </component>

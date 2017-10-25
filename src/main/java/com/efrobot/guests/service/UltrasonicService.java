@@ -17,6 +17,7 @@ import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -59,6 +60,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 import dou.helper.CameraHelper;
 import dou.helper.CameraParams;
@@ -1414,6 +1416,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     public void onDestroy() {
         super.onDestroy();
         closeEveryOne();
+
     }
 
     private void closeEveryOne() {
@@ -1461,7 +1464,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         CameraParams params = new CameraParams();
         //优先使用的camera Id,
         params.firstCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
-//        params.surfaceView = camera_view;
+        SurfaceView dummy = new SurfaceView(getBaseContext());
+        params.surfaceView = dummy;
         params.preview_width = camera_max_width;
 //        params.preview_width = 640;
 //        params.preview_height = 480;
@@ -1635,7 +1639,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         faceTrack.setDistanceType(YMFaceTrack.DISTANCE_TYPE_FARTHESTER);
 
         //license激活版本初始化
-        int result = faceTrack.initTrack(this, YMFaceTrack.FACE_0, YMFaceTrack.RESIZE_WIDTH_640,
+        int result = faceTrack.initTrack(GuestsApplication.getAppContext(), YMFaceTrack.FACE_0, YMFaceTrack.RESIZE_WIDTH_640,
                 SenseConfig.appid, SenseConfig.appsecret);
 
         //普通有效期版本初始化
@@ -1726,5 +1730,31 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 //            showCanUserDialog("超声波被占用暂不可用");
 //        }
 //    }
+
+    private static SurfaceView dummyCameraView;
+
+    /**
+     * 显示全局窗口
+     *
+     * @param context
+     */
+    public static void show(Context context) {
+        if (GuestsApplication.getAppContext() == null) {
+            WindowManager windowManager = (WindowManager) GuestsApplication.getAppContext()
+                    .getSystemService(Context.WINDOW_SERVICE);
+            dummyCameraView = new SurfaceView(GuestsApplication.getAppContext());
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+            params.width = 1;
+            params.height = 1;
+            params.alpha = 0;
+            params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+            // 屏蔽点击事件
+            params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                    | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                    | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
+            windowManager.addView(dummyCameraView, params);
+            L.d(TAG, TAG + " showing");
+        }
+    }
 
 }
