@@ -137,28 +137,30 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         versionName = getVersion(getContext());
     }
 
+
+    CustomHintDialog mUpdateDialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        RobotManager.getInstance(getContext()).registerUltrasonicOccupylistener(this);
 
 
-//        new UpdateUtils().getInstance().getAppDetail(getContext(), getContext().getPackageName(), new UpdateUtils.onAppCallBack() {
-//            @Override
-//            public void onSuccess(TextMessage message, String result) {
-//                try {
-//                    JSONObject jsonObject = new JSONObject(result);
-//                    if (jsonObject.has("appVersion")) {
-//                        String newVersion = jsonObject.optString("appVersion");
-//                        if (!TextUtils.isEmpty(versionName) && !TextUtils.isEmpty(newVersion)) {
-//                            float mVersionName = Float.parseFloat(versionName);
-//                            float mNewVersionName = Float.parseFloat(newVersion);
-//                            if (mNewVersionName > mVersionName) {
-//                                /** 检测商城有新的版本号 需要提示更新 */
-//                                final CustomHintDialog mDialog = new CustomHintDialog(getContext(), -1);
-//                                mDialog.setTitle("提示");
-//                                mDialog.setMessage("检测到新版本，是否前往商城更新");
-//                                mDialog.setSubmitButton("前往", new CustomHintDialog.IButtonOnClickLister() {
+        new UpdateUtils().getInstance().getAppDetail(getContext(), getContext().getPackageName(), new UpdateUtils.onAppCallBack() {
+            @Override
+            public void onSuccess(TextMessage message, String result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.has("appVersion")) {
+                        String newVersion = jsonObject.optString("appVersion");
+                        if (!TextUtils.isEmpty(versionName) && !TextUtils.isEmpty(newVersion)) {
+                            float mVersionName = Float.parseFloat(versionName);
+                            float mNewVersionName = Float.parseFloat(newVersion);
+                            if (mNewVersionName > mVersionName) {
+                                /** 检测商城有新的版本号 需要提示更新 */
+                                mUpdateDialog = new CustomHintDialog(getContext(), -1);
+                                mUpdateDialog.setTitle("提示");
+                                mUpdateDialog.setMessage("检测到迎宾有新版本，请前往商城管理页面打开已购项目进行更新");
+//                                mUpdateDialog.setSubmitButton("前往", new CustomHintDialog.IButtonOnClickLister() {
 //                                    @Override
 //                                    public void onClickLister() {
 //                                        Intent intent = new Intent();
@@ -169,28 +171,28 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 //                                        getContext().startActivity(intent);
 //                                    }
 //                                });
-//                                mDialog.setCancleButton("取消", new CustomHintDialog.IButtonOnClickLister() {
-//                                    @Override
-//                                    public void onClickLister() {
-//                                        if (mDialog != null) {
-//                                            mDialog.dismiss();
-//                                        }
-//                                    }
-//                                });
-//                                mDialog.show();
-//                            }
-//                        }
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onFail(TextMessage message, int errorCode, String errorMessage) {
-//
-//            }
-//        });
+                                mUpdateDialog.setCancleButton("确 定", new CustomHintDialog.IButtonOnClickLister() {
+                                    @Override
+                                    public void onClickLister() {
+                                        if (mUpdateDialog != null) {
+                                            mUpdateDialog.dismiss();
+                                        }
+                                    }
+                                });
+                                mUpdateDialog.show();
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail(TextMessage message, int errorCode, String errorMessage) {
+
+            }
+        });
 
         ultrasonicDao = GuestsApplication.from(getContext()).getUltrasonicDao();
         dataManager = DataManager.getInstance(getContext());
