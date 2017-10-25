@@ -121,6 +121,8 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         L.e(TAG, "SettingPresenter onResume");
         if (TtsUtils.isCanUseGuest(getContext())) {
             initUltrasonicData();
+        } else {
+            showCanUserDialog(getContext().getString(R.string.error_use__hint));
         }
     }
 
@@ -194,9 +196,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
         dataManager = DataManager.getInstance(getContext());
         selectedDao = GuestsApplication.from(getContext()).getSelectedDao();
 
-        if (!TtsUtils.isCanUseGuest(getContext())) {
-            showCanUserDialog(getContext().getString(R.string.error_use__hint));
-        } else {
+        {
             //超声波测试数据
             initUltrasonicData();
         }
