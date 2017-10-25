@@ -3,6 +3,7 @@ package com.efrobot.guests.setting.advanced;
 import android.content.Context;
 import android.text.Editable;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.efrobot.guests.Env.SpContans;
 import com.efrobot.guests.R;
 import com.efrobot.guests.base.GuestsBaseActivity;
+import com.efrobot.guests.utils.UpdateUtils;
 import com.efrobot.library.mvp.presenter.BasePresenter;
 import com.efrobot.library.mvp.utils.PreferencesUtils;
 import com.zcw.togglebutton.ToggleButton;
@@ -19,6 +21,8 @@ import com.zcw.togglebutton.ToggleButton;
  * 高级设置
  */
 public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingPresenter> implements IAdvancedView, View.OnClickListener {
+
+    private TextView versionName;
 
     private TextView exitBtn;
 
@@ -48,6 +52,12 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
     @Override
     protected void onViewInit() {
         super.onViewInit();
+
+        versionName = (TextView) findViewById(R.id.advanced_setting_version_name);
+        String versionInfo = new UpdateUtils().getVersion(this, this.getPackageName());
+        if(!TextUtils.isEmpty(versionInfo)) {
+            versionName.setText("版本:" + versionInfo);
+        }
 
         exitBtn = (TextView) findViewById(R.id.advanced_setting_exit);
         guestTimeEt = (EditText) findViewById(R.id.advanced_setting_time_et);

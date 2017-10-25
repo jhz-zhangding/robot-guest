@@ -2,11 +2,6 @@ package com.efrobot.guests.setting;
 
 import android.animation.ValueAnimator;
 import android.app.Dialog;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -134,11 +129,12 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     public void initUltrasonicData() {
         isReceiveUltrasonic = false;
         ulHandle.sendEmptyMessageDelayed(0, 5000);
-        versionName = getVersion(getContext());
+        versionName = new UpdateUtils().getVersion(getContext(), getContext().getPackageName());
     }
 
 
     CustomHintDialog mUpdateDialog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -674,23 +670,6 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     public String getCurrentTime() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         return (df.format(new Date()));     // new Date()为获取当前系统时间
-    }
-
-    /**
-     * 2  * 获取版本号
-     * 3  * @return 当前应用的版本号
-     * 4
-     */
-    public String getVersion(Context context) {
-        try {
-            PackageManager manager = context.getPackageManager();
-            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
-            String version = info.versionName;
-            return version;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
     }
 
     /**
