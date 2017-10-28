@@ -113,8 +113,7 @@
                     android:background="@drawable/setting_button_bg"
                     android:padding="@dimen/padding_10"
                     android:text="灯带"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
 
                 <TextView
@@ -162,8 +161,7 @@
                     android:layout_marginTop="@dimen/padding_10"
                     android:background="@drawable/setting_button_bg"
                     android:padding="@dimen/padding_10"
-                    android:text="自定义"
-                    />
+                    android:text="自定义" />
 
                 <TextView
                     android:id="@+id/tvTimeSpace"
@@ -173,8 +171,17 @@
                     android:layout_marginTop="@dimen/padding_10"
                     android:background="@drawable/setting_button_bg"
                     android:padding="@dimen/padding_10"
-                    android:text="时间段"
-                    />
+                    android:text="时间段" />
+
+                <TextView
+                    android:id="@+id/specifyPerson"
+                    style="@style/text_face_author"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_10"
+                    android:background="@drawable/setting_button_bg"
+                    android:padding="@dimen/padding_10"
+                    android:text="人员指定" />
 
                 <TextView
                     android:id="@+id/totalTime"
@@ -220,39 +227,81 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/textsize_26" />
 
-            <EditText
-                android:id="@+id/add_edit_text"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="35dp"
                 android:layout_marginRight="35dp"
                 android:layout_marginTop="@dimen/padding_10"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/white_border_bg"
-                android:hint="请输入字符"
-                android:textColor="@color/white"
-                android:padding="@dimen/padding_15"
-                android:textSize="@dimen/textsize_26" />
+                >
+
+                <EditText
+                    android:id="@+id/add_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/white_border_bg"
+                    android:hint="请输入字符"
+                    android:padding="@dimen/padding_15"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize_26" />
+
+
+                <LinearLayout
+                    android:id="@+id/add_edit_person_name_ll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="15dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:text="添加变量"
+                        />
+
+                    <TextView
+                        android:id="@+id/add_edit_person_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:background="#3399ff"
+                        android:text=""
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                    </LinearLayout>
+
+
+            </FrameLayout>
 
             <!--<ListView-->
-                <!--android:id="@+id/add_prepare_say_words_lv"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="35dp"-->
-                <!--android:layout_marginRight="35dp"-->
-                <!--android:divider="#00000000"-->
-                <!--android:dividerHeight="5dp"-->
-                <!--/>-->
+            <!--android:id="@+id/add_prepare_say_words_lv"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="35dp"-->
+            <!--android:layout_marginRight="35dp"-->
+            <!--android:divider="#00000000"-->
+            <!--android:dividerHeight="5dp"-->
+            <!--/>-->
 
             <com.zhy.view.flowlayout.TagFlowLayout
                 android:id="@+id/add_flow_layout"
-                zhy:max_select="-1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                >
-            </com.zhy.view.flowlayout.TagFlowLayout>
+                zhy:max_select="-1"></com.zhy.view.flowlayout.TagFlowLayout>
 
         </LinearLayout>
 
@@ -310,13 +359,13 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:textColor="@color/white"
                     android:id="@+id/open_text"
                     android:layout_width="@dimen/padding_0"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:text="持续时间(S)"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/textsize_26" />
 
                 <Spinner
@@ -355,15 +404,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <include
+            android:id="@+id/addSpecifyPerson"
+            layout="@layout/add_specify_person_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <!--<include-->
-            <!--layout="@layout/bodycustom_action"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent" />-->
+        <!--layout="@layout/bodycustom_action"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
         <!--<include-->
-            <!--android:id="@+id/v_open_app"-->
-            <!--layout="@layout/open_app_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent" />-->
+        <!--android:id="@+id/v_open_app"-->
+        <!--layout="@layout/open_app_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
         <!--<LinearLayout-->
         <!--android:id="@+id/Script_view"-->
         <!--android:layout_width="match_parent"-->

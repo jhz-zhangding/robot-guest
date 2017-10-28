@@ -33,7 +33,7 @@ public class BitmapUtils {
      * @param image bitmap位图
      * @return bitmap位图
      */
-    private static Bitmap compressImage(Bitmap image) {
+    public static Bitmap compressImage(Bitmap image) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 100, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中

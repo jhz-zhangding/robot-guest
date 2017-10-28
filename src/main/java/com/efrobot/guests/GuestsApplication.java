@@ -2,17 +2,20 @@ package com.efrobot.guests;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.SurfaceView;
 import android.widget.Toast;
 
 import com.efrobot.guests.bean.UlDistanceBean;
 import com.efrobot.guests.dao.SelectedDao;
 import com.efrobot.guests.dao.UltrasonicDao;
 import com.efrobot.guests.db.DbHelper;
+import com.efrobot.guests.face.FaceRecoActivity;
 import com.efrobot.guests.main.MainActivity;
 import com.efrobot.guests.player.MediaPlayDialog;
 import com.efrobot.guests.service.UltrasonicService;
@@ -64,6 +67,10 @@ public class GuestsApplication extends Application {
     public UltrasonicService ultrasonicService;
 
     public MediaPlayDialog mediaPlayDialog;
+
+    public FaceRecoActivity faceRecoActivity;
+
+    public SurfaceView mFaceSurfaceView;
 
     @Override
     public void onCreate() {
@@ -167,6 +174,22 @@ public class GuestsApplication extends Application {
 
     public void setUltrasonicService(UltrasonicService ultrasonicService) {
         this.ultrasonicService = ultrasonicService;
+    }
+
+    public void startFaceRecordActivity(boolean isShowSurfaceView) {
+        if(faceRecoActivity == null) {
+            Intent intent1 = new Intent(this, FaceRecoActivity.class);
+            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent1.putExtra("isShowSurfaceView", isShowSurfaceView);
+            startActivity(intent1);
+        }
+    }
+
+    public void stopFaceRecordActivity() {
+        if(faceRecoActivity != null) {
+            faceRecoActivity.stopSelf();
+            faceRecoActivity = null;
+        }
     }
 
     /**

@@ -46,54 +46,51 @@
 
 
     <!--<TextView-->
-        <!--android:id="@+id/next"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_marginBottom="15dp"-->
-        <!--android:layout_marginRight="15dp"-->
-        <!--android:text="@string/insert_next"-->
-        <!--android:textColor="#FFFF6600"-->
-        <!--android:textSize="20sp" />-->
+    <!--android:id="@+id/next"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_marginBottom="15dp"-->
+    <!--android:layout_marginRight="15dp"-->
+    <!--android:text="@string/insert_next"-->
+    <!--android:textColor="#FFFF6600"-->
+    <!--android:textSize="20sp" />-->
 
     <RelativeLayout
         android:id="@+id/top_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/background"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        >
+        android:layout_marginTop="50dp"
+        android:background="@drawable/background">
 
         <LinearLayout
             android:id="@+id/add_face_name_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="50dp"
             android:layout_marginLeft="120dp"
-            >
+            android:layout_marginTop="120dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="150dp"
                 android:text="姓名"
                 android:textColor="@color/white"
-                android:textSize="26sp"
-                />
+                android:textSize="26sp" />
 
             <EditText
                 android:id="@+id/add_face_name_et"
                 android:layout_width="@dimen/padding_150"
                 android:layout_height="40dp"
-                android:layout_marginLeft="120dp"
+                android:layout_marginLeft="20dp"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
-                android:inputType="number"
                 android:textColor="@color/black"
                 android:textSize="@dimen/textsize_26" />
         </LinearLayout>
@@ -101,100 +98,138 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_below="@+id/add_face_name_ll"
-            android:layout_marginTop="50dp"
             android:layout_marginLeft="120dp"
-            >
+            android:layout_marginTop="100dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="150dp"
                 android:text="人脸采集"
                 android:textColor="@color/white"
-                android:textSize="26sp"
-                />
+                android:textSize="26sp" />
 
-            <Button
-                android:id="@+id/register"
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:minHeight="50dp"
-                android:minWidth="150dp"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:text="拍照录入"
-                android:layout_marginLeft="70dp"
-                android:background="@drawable/button_bg"
-                android:textSize="24sp"
-                />
+                android:layout_marginLeft="20dp"
+                android:background="#50ffffff"
+                >
+            <ImageView
+                android:id="@+id/video_tips"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/image_tips" />
+            </FrameLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="推荐"
-                android:textColor="@color/transcribe_text_color"
-                android:textSize="20sp"
-                android:layout_marginLeft="15dp"
-                />
+                android:orientation="vertical"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/face_take_picture_img"
+                        android:layout_marginLeft="30dp"
+                        />
+
+                    <Button
+                        android:id="@+id/register"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/button_bg"
+                        android:gravity="center"
+                        android:minHeight="50dp"
+                        android:minWidth="150dp"
+                        android:padding="10dp"
+                        android:text="拍照录入"
+                        android:textColor="@color/white"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="推荐"
+                        android:textColor="@color/transcribe_text_color"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:gravity="center_vertical"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/face_select_picture_img"
+                        android:layout_marginLeft="30dp"
+                        />
+
+                    <Button
+                        android:id="@+id/register_select_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:gravity="center"
+                        android:minHeight="50dp"
+                        android:minWidth="150dp"
+                        android:padding="10dp"
+                        android:textColor="@color/white"
+                        android:text="图片录入"
+                        android:background="@drawable/button_bg"
+                        android:textSize="24sp"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
 
-
         <!--<TextView-->
-            <!--android:id="@+id/tip_toast"-->
-            <!--android:layout_width="250dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:gravity="center"-->
-            <!--android:text="@string/image_indert_msg"-->
-            <!--android:textColor="#393939"-->
-            <!--android:textSize="24sp" />-->
-
-        <ImageView
-            android:id="@+id/video_tips"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:scaleType="fitCenter"
-            android:src="@mipmap/image_tips" />
-
-        <Button
-            android:id="@+id/register_select_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/video_tips"
-            android:layout_marginLeft="295dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:minHeight="50dp"
-            android:minWidth="150dp"
-            android:padding="10dp"
-            android:textColor="@color/white"
-            android:text="拍照录入"
-            android:background="@drawable/button_bg"
-            android:textSize="24sp"
-            />
+        <!--android:id="@+id/tip_toast"-->
+        <!--android:layout_width="250dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/image_indert_msg"-->
+        <!--android:textColor="#393939"-->
+        <!--android:textSize="24sp" />-->
 
         <Button
             android:id="@+id/register_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="100dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
             android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:padding="10dp"
-            android:textColor="@color/white"
-            android:text="保存"
+            android:layout_marginRight="30dp"
             android:background="@drawable/button_bg"
-            android:textSize="24sp"
-            />
+            android:gravity="center"
+            android:minWidth="100dp"
+            android:padding="10dp"
+            android:text="保存"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
 
     </RelativeLayout>
 

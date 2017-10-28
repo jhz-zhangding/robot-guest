@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.efrobot.guests.GuestsApplication;
 import com.efrobot.guests.R;
 import com.efrobot.guests.face.base.BaseCameraActivity;
 import com.efrobot.guests.face.model.User;
@@ -58,22 +59,30 @@ public class FaceRecoActivity extends BaseCameraActivity {
 
     TextView faceId;
 
+    private boolean isShowSurfaceView = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.face_reco_2);
         setCamera_max_width(-1);
 
+        isShowSurfaceView = getIntent().getBooleanExtra("isShowSurfaceView", true);
+
+        if(!isShowSurfaceView) {
+            GuestsApplication.from(this).faceRecoActivity = this;
+        }
+
         if (net) {
             initView();
-            initCamera();
+            initCamera(isShowSurfaceView);
             showFps(true);
             initView();
             netFaceTrack = NetFaceTrack.getInstance("http://114.80.100.145:8080",
                     "04b8bcfb39b069e3963b26de0319d810", "ab465c795d404fc4f23aed9e938f5e0f3f9f5edf");
         } else {
             initView();
-            initCamera();
+            initCamera(isShowSurfaceView);
             showFps(true);
             initView();
         }
@@ -101,7 +110,7 @@ public class FaceRecoActivity extends BaseCameraActivity {
 
                         netFaceTrack = NetFaceTrack.getInstance(ip, "12345", "abcdefg");
                         initView();
-                        initCamera();
+                        initCamera(true);
                         showFps(true);
                         initView();
 
@@ -124,7 +133,9 @@ public class FaceRecoActivity extends BaseCameraActivity {
 
     @Override
     protected void drawAnim(List<YMFace> faces, SurfaceView draw_view, float scale_bit, int cameraId, String fps) {
-        DrawUtil.drawAnim(faces, draw_view, scale_bit, cameraId, fps, false);
+        if(isShowSurfaceView) {
+            DrawUtil.drawAnim(faces, draw_view, scale_bit, cameraId, fps, false);
+        }
         L.e("drawAnim", "正在识别中 cameraId:" + cameraId);
     }
 
@@ -157,6 +168,7 @@ public class FaceRecoActivity extends BaseCameraActivity {
 
 
         if (faces != null && faces.size() > 0) {
+            DLog.e("threadBusy = " + threadBusy + "  stop = " + stop + "  frame = " + frame);
             if (!threadBusy && !stop && frame >= 10) {
                 frame = 0;
 
@@ -197,17 +209,24 @@ public class FaceRecoActivity extends BaseCameraActivity {
                                     final YMFace ymFace = faces.get(i);
                                     final int trackId = ymFace.getTrackId();
                                     if (!trackingMap.containsKey(trackId) ||
-                                            trackingMap.get(trackId).getPersonId() <= 0) {
+                                            trackingMap.get(trackId).getPersonId() <= 0 ||
+                                            trackingMap.get(trackId).getPersonId() > 0) {
                                         long time = System.currentTimeMillis();
                                         int identifyPerson = faceTrack.identifyPerson(i);
                                         int confidence = faceTrack.getRecognitionConfidence();
                                         DLog.d("identify end " + identifyPerson + " time :" + (System.currentTimeMillis() - time) + " con = " + confidence);
-                                        if(identifyPerson > 0) {
+                                        if(identifyPerson != 11001) {
                                             isHasFaceId = true;
                                             Message msg = new Message();
-                                            msg.what = 0;
+                                            msg.what = 108;
                                             msg.obj = identifyPerson;
-                                            handle.sendMessage(msg);
+                                            if(GuestsApplication.from(FaceRecoActivity.this).ultrasonicService != null) {
+                                                if(GuestsApplication.from(FaceRecoActivity.this).ultrasonicService.mHandle != null) {
+                                                    GuestsApplication.from(FaceRecoActivity.this).ultrasonicService.mHandle.sendMessage(msg);
+                                                }
+
+                                            }
+//                                            handle.sendMessage(msg);
                                         } else {
                                             if(isHasFaceId) {
                                                 isHasFaceId = false;
@@ -394,4 +413,10 @@ public class FaceRecoActivity extends BaseCameraActivity {
             }
         }
     }
+
+    public void stopSelf() {
+        stopCamera();
+        finish();
+    }
+
 }

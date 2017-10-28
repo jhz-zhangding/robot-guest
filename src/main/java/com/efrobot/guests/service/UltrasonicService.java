@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -21,6 +22,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.efrobot.guests.Env.SpContans;
 import com.efrobot.guests.GuestsApplication;
@@ -31,6 +33,8 @@ import com.efrobot.guests.dao.DataManager;
 import com.efrobot.guests.dao.SelectedDao;
 import com.efrobot.guests.dao.UltrasonicDao;
 import com.efrobot.guests.face.base.SenseConfig;
+import com.efrobot.guests.face.model.User;
+import com.efrobot.guests.face.util.DrawUtil;
 import com.efrobot.guests.setting.SettingActivity;
 import com.efrobot.guests.setting.bean.SelectDirection;
 import com.efrobot.guests.utils.BitmapUtils;
@@ -78,6 +82,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 {
 
     private static final String TAG = UltrasonicService.class.getSimpleName();
+
+    private GuestsApplication application;
 
     public static boolean IsRunning = false;
 
@@ -127,12 +133,20 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     //语音说话 0.27秒
     private long wordSpeed = 270;
     private Calendar mCalendar;
-//    private boolean isOpenWheel;
+
+    /**
+     * 闲聊语
+     */
+    private String[] chatTts = new String[]
+            {
+                    "您是<人名>吧，对不起，我刚才没看清",
+                    "小胖认识您哦，您是<人名>吧",
+                    "<人名>，您是<人名>吧"
+            };
 
     @Override
     public void onCreate() {
         super.onCreate();
-        startTrack();
         L.i(TAG, "onCreate");
     }
 
@@ -142,10 +156,18 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         if (!TtsUtils.isCanUseGuest(this)) {
             return -1;
         }
+        showFaceDialog();
         /** 初始化摄像头 */
-        openCarama();
+//        openCarama();
 
-        GuestsApplication.from(this).setUltrasonicService(this);
+        application = GuestsApplication.from(this);
+
+        isOpenFaceDetection = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_AUTO_DETECTION_FACE, false);
+        if(isOpenFaceDetection) {
+            application.startFaceRecordActivity(false);
+        }
+
+        application.setUltrasonicService(this);
         groupManager = RobotManager.getInstance(this.getApplicationContext()).getGroupInstance();
         IsRunning = true;
         mCalendar = Calendar.getInstance();
@@ -374,11 +396,74 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     /**
                      * 检测到人脸
                      * */
+                    if (msg.obj != null) {
+                        String id = msg.obj.toString();
+                        if (!TextUtils.isEmpty(id)) {
+                            checkFaceResult(msg.obj.toString());
+                        }
 
+                    }
                     break;
             }
         }
     };
+
+    private String userName = "";
+
+    private boolean isRunningChatTts = false;
+
+    private void checkFaceResult(String personId) {
+        if (textView != null) {
+            textView.setText(personId);
+        }
+        int thID = Integer.parseInt(personId);
+        if (thID > 0) {
+            DLog.d("检测到该人脸:" + personId);
+            if (DrawUtil.userList != null && DrawUtil.userList.size() > 0) {
+                for (int j = 0; j < DrawUtil.userList.size(); j++) {
+                    User user = DrawUtil.userList.get(j);
+                    String userId = user.getPersonId();
+                    DLog.d("userId = " + userId + " personId = " + personId);
+                    if (userId.equals(personId)) {
+                        if (!mIsExecute) {
+                            userName = user.getName();
+                            DLog.d("开始执行人脸");
+                            mIsExecute = true;
+                            startPlay(START_LEFT_STRING);
+                        } else {
+                            //执行迎宾语过程中个
+                            if (mIsExecute && isAllPlayFinish() && !isRunningChatTts && TextUtils.isEmpty(userName)) {
+                                userName = user.getName();
+                                isRunningChatTts = true;
+                                /** 正在执行过程迎宾语中还没结束的状态  这时候识别到人立刻要说闲聊语啊 */
+
+                                String mFinalTts = getRandomChatTts().replace("<人名>", userName);
+                                TtsUtils.sendTts(this, mFinalTts);
+                                han.removeMessages(START_TIMER_GUEST);
+                                long mTime = mFinalTts.length() * 270;
+                                new Timer().schedule(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        han.sendEmptyMessageDelayed(START_TIMER_GUEST, 1000);
+                                    }
+                                }, mTime);
+                            }
+
+                        }
+                    }
+                }
+
+            } else {
+                DLog.d("人脸库为空");
+            }
+        } else {
+            if (!mIsExecute) {
+                L.i(TAG, "-----检测到人脸ID=" + personId + " 不在人脸库中");
+                mIsExecute = true;
+                startPlay(START_LEFT_STRING);
+            }
+        }
+    }
 
     @Override
     public void onGetUltrasonic(byte[] data) {
@@ -481,6 +566,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                                 SpeechManager.getInstance().closeSpeechDiscern(getApplicationContext());
                                 closeAlwaysLight();
                                 mIsExecute = false;
+                                isRunningChatTts = false;
+                                userName = "";
                                 removeTimerCount();
                             }
                             lastHead = -1;
@@ -539,7 +626,31 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     /**
      * type 0：开始迎宾 1：结束迎宾
      */
+
+    private boolean isOpenFaceDetection = false;
+
+    private void closeFaceCheckCallBack() {
+        if (isOpenFaceDetection) {
+            if (application.faceRecoActivity != null) {
+                application.faceRecoActivity.stopPreview();
+            }
+        }
+    }
+
+    private void openFaceCheckCallBack() {
+        if (isOpenFaceDetection) {
+            if (application.faceRecoActivity != null) {
+                application.faceRecoActivity.startPreview();
+            }
+        }
+    }
+
     private void startPlay(int type) {
+        /** 执行中需要关闭时人脸检测 */
+        if (type != STOP_GUEST_STRING) {
+            closeFaceCheckCallBack();
+        }
+
         currentNeedPlay = type;
         isWelcomeTTsStart = true;
 
@@ -557,10 +668,13 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             //迎宾语和表情
             if (!TextUtils.isEmpty(currentBean.getOther())) {
 //                TtsUtils.closeTTs(UltrasonicService.this);
+
+                String finalTtsString = currentBean.getOther().replace("<人名>", userName);
+
                 if (!TextUtils.isEmpty(currentBean.getFace())) {
-                    TtsUtils.sendTts(getApplicationContext(), currentBean.getOther() + "@#;" + currentBean.getFace());
+                    TtsUtils.sendTts(getApplicationContext(), finalTtsString + "@#;" + currentBean.getFace());
                 } else
-                    TtsUtils.sendTts(getApplicationContext(), currentBean.getOther());
+                    TtsUtils.sendTts(getApplicationContext(), finalTtsString);
 
                 int ttsLength = currentBean.getOther().length();
                 long ttsTime = ttsLength * wordSpeed;
@@ -821,6 +935,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     groupManager.reset();
                 }
             }
+
+            /** 执行完毕需要再次开启人脸检测 */
+            openFaceCheckCallBack();
         }
     }
 
@@ -1414,12 +1531,19 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         super.onDestroy();
         closeEveryOne();
 
-        if(this.camera != null) {
-            this.camera.setPreviewCallbackWithBuffer((Camera.PreviewCallback)null);
+        if (this.camera != null) {
+            this.camera.setPreviewCallbackWithBuffer((Camera.PreviewCallback) null);
             this.camera.stopPreview();
             this.camera.release();
             this.camera = null;
         }
+
+        if (faceDialog != null && faceDialog.isShowing()) {
+            faceDialog.dismiss();
+        }
+
+        GuestsApplication.from(this).setUltrasonicService(null);
+        GuestsApplication.from(this).stopFaceRecordActivity();
 
     }
 
@@ -1458,7 +1582,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     protected CameraHelper mCameraHelper;
     protected YMFaceTrack faceTrack;
-    protected int iw = 0, ih;
+    protected int iw = 1280, ih = 720;
 
     private int camera_max_width = 640;
 
@@ -1470,7 +1594,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         }
     }
 
-    private SimpleArrayMap<Integer, YMFace> trackingMap;
+    private SimpleArrayMap<Integer, YMFace> trackingMap = new SimpleArrayMap<Integer, YMFace>();
+    ;
     boolean threadBusy = false;
     private Thread thread;
     boolean pause = false;
@@ -1488,6 +1613,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
 
         if (faces != null && faces.size() > 0) {
+            L.e(TAG, "frame = " + frame);
             if (!threadBusy && frame >= 10) {
                 frame = 0;
 
@@ -1593,7 +1719,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             return;
         }
 
-        iw = 0;//重新调用initCameraMsg的开关
+//        iw = 0;//重新调用initCameraMsg的开关
         faceTrack = new YMFaceTrack();
 
         /**此处默认初始化，initCameraMsg()处会根据设备设置自动更改设置
@@ -1734,28 +1860,32 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     }
 
     private Camera camera;//声明相机
+
     private void openCarama() {
         int cameraCount = 0;
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
         cameraCount = Camera.getNumberOfCameras();//得到摄像头的个数
-        if(this.camera != null) {
-            this.camera.setPreviewCallbackWithBuffer((Camera.PreviewCallback)null);
+        if (this.camera != null) {
+            this.camera.setPreviewCallbackWithBuffer((Camera.PreviewCallback) null);
             this.camera.stopPreview();
             this.camera.release();
             this.camera = null;
         }
 
         try {
-            if(this.camera == null) {
+            if (this.camera == null) {
                 this.camera = Camera.open();
-                if(this.camera == null) {
+                if (this.camera == null) {
                     DLog.d("摄像头开启失败");
-                } else
-                camera.setPreviewCallback(this);
-                camera.startPreview();//开始预览
+                } else {
+                    showFaceDialog();
+                    camera.setPreviewCallbackWithBuffer(this);
+                    camera.addCallbackBuffer(new byte[this.iw * this.ih * ImageFormat.getBitsPerPixel(17) / 8]);
+                    camera.startPreview();//开始预览
+                }
             }
         } catch (Exception var2) {
-            DLog.d("摄像头0" + "开启失败，正在尝试开启另一个摄像头");
+            var2.printStackTrace();
         }
 
     }
@@ -1764,6 +1894,29 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
         L.e(TAG, "onPreviewFrame");
+        camera.addCallbackBuffer(data);
         runTrack(data);
     }
+
+    private Dialog faceDialog;
+    private TextView textView;
+
+    private void showFaceDialog() {
+        faceDialog = new Dialog(this, R.style.Dialog_Fullscreen);
+        View currentView = LayoutInflater.from(UltrasonicService.this).inflate(R.layout.dialog_face_result_view, null);
+        textView = (TextView) currentView.findViewById(R.id.show_face_result_tv);
+        faceDialog.setContentView(currentView);
+        faceDialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+        faceDialog.show();
+    }
+
+
+    /**
+     * 获取随机的闲聊语啊
+     */
+    private String getRandomChatTts() {
+        return chatTts[(int) (Math.random() * chatTts.length)];
+    }
+
+
 }

@@ -13,6 +13,8 @@ public interface IAdvancedView extends UiView {
 
     void setAutoGuestState(Boolean openOrOff);
 
+    void setOpenFaceState(Boolean openOrOff);
+
     void setWheelState(Boolean openOrOff);
 
 

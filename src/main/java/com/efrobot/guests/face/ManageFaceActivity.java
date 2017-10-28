@@ -168,7 +168,8 @@ public class ManageFaceActivity extends BaseActivity {
                     select_radio.setBackgroundResource(R.mipmap.manage_item_unse);
                     delete_list.clear();
                 }
-                douAdapter.notifyDataSetChanged();
+                initView();
+//                douAdapter.notifyDataSetChanged();
                 break;
             case R.id.delete_face:
 
@@ -260,6 +261,18 @@ public class ManageFaceActivity extends BaseActivity {
             douAdapter.removeAllItems();
             douAdapter.addMoreItems(userList);
             DLog.d("list update end " + (System.currentTimeMillis() - time));
+        }
+    }
+
+    private void updateFaceAlbum() {
+        YMFaceTrack faceTrack = new YMFaceTrack();
+        faceTrack.initTrack(ManageFaceActivity.this, 0, 0);
+        List<Integer> ids = faceTrack.getEnrolledPersonIds();
+        for (int i = 0; i < ids.size(); i++) {
+            int id = ids.get(i);
+            if(!DrawUtil.userMap.containsKey(id)) {
+                faceTrack.deletePerson(id);
+            }
         }
     }
 

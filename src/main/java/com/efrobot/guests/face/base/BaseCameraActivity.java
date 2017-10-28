@@ -3,6 +3,8 @@ package com.efrobot.guests.face.base;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
+import android.os.Handler;
+import android.os.Message;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +41,7 @@ public abstract class BaseCameraActivity extends BaseActivity implements CameraH
     //camera_max_width值为-1时, 找大于640分辨率为屏幕宽高等比
     private int camera_max_width = 640;
 
-    public void initCamera() {
+    public void initCamera(boolean isShow) {
         L.e("initCamera", "initCamera");
         camera_view = (SurfaceView) findViewById(R.id.camera_preview);
         draw_view = (SurfaceView) findViewById(R.id.pointView);
@@ -49,7 +51,9 @@ public abstract class BaseCameraActivity extends BaseActivity implements CameraH
         CameraParams params = new CameraParams();
         //优先使用的camera Id,
         params.firstCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
-        params.surfaceView = camera_view;
+        if(isShow) {
+            params.surfaceView = camera_view;
+        }
         params.preview_width = camera_max_width;
 //        params.preview_width = 640;
 //        params.preview_height = 480;
@@ -146,6 +150,47 @@ public abstract class BaseCameraActivity extends BaseActivity implements CameraH
 
     boolean save = false;
 
+
+    private boolean isExcuteAutoFocus = false;
+    private Handler mHandle = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+                if(msg.what == 1) {
+                    startAutoFocus();
+                }
+        }
+    };
+
+    private void startAutoFocus() {
+        if(mCamera != null) {
+            isExcuteAutoFocus = true;
+            mCamera.autoFocus(new Camera.AutoFocusCallback() {
+                @Override
+                public void onAutoFocus(boolean success, Camera cameraA) {
+                    if (success) {
+                        DLog.e("myAutoFocusCallback: " + success);
+
+                        {
+                            Camera.Parameters parameters = mCamera.getParameters();
+                            parameters.setPictureFormat(PixelFormat.JPEG);
+                            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);//1连续对焦
+                            cameraA.setParameters(parameters);
+//                            mCamera.cancelAutoFocus();// 2如果要实现连续的自动对焦，这一句必须加上
+                        }
+
+                    } else {
+                        DLog.e("myAutoFocusCallback: success..." + success);
+                        cameraA.autoFocus(this);
+                    }
+                }
+            });
+        }
+    }
+
+
+    private  Camera mCamera;
     @Override
     public void onPreviewFrame(final byte[] bytes, Camera camera) {
         L.e("onPreviewFrame", "onPreviewFrame");
@@ -156,6 +201,13 @@ public abstract class BaseCameraActivity extends BaseActivity implements CameraH
             camera_count = 0;
             camera_long = 0;
         }
+
+//        if(!isExcuteAutoFocus) {
+//            Message msg = new Message();
+//            msg.what = 1;
+//            mCamera = camera;
+//            mHandle.sendMessageDelayed(msg, 2000);
+//        }
 //        DLog.d("camera_fps  = " + camera_fps);
 
 //        if (camera_count == 20 && !save) {
@@ -238,13 +290,16 @@ public abstract class BaseCameraActivity extends BaseActivity implements CameraH
     public void stopCamera() {
         mCameraHelper.stopCamera();
         draw_view.setVisibility(View.GONE);
+        mHandle.removeCallbacksAndMessages(null);
     }
 
     public void stopPreview() {
+        DLog.e("stopPreview");
         mCameraHelper.stopPreview();
     }
 
     public void startPreview() {
+        DLog.e("startPreview");
         mCameraHelper.startPreview();
     }
 

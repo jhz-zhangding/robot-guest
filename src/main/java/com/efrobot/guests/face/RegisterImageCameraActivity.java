@@ -14,12 +14,15 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +34,7 @@ import com.efrobot.guests.face.model.User;
 import com.efrobot.guests.face.util.DataSource;
 import com.efrobot.guests.face.util.DrawUtil;
 import com.efrobot.guests.face.util.TrackUtil;
+import com.efrobot.guests.utils.BitmapUtils;
 import com.efrobot.guests.utils.DatePickerUtils;
 
 import java.io.File;
@@ -62,6 +66,8 @@ public class RegisterImageCameraActivity extends BaseCameraActivity implements V
     private Button add_face;
     private Button mSaveBtn;
 
+    private TextView photoRegisterBtn;
+
     private boolean saveImage = false;
     private String age, gender, score;
 
@@ -76,18 +82,33 @@ public class RegisterImageCameraActivity extends BaseCameraActivity implements V
      */
     private int facRecordType = -1;
 
+    //是否正在
+    private boolean isSaving = false;
+
+    private ImageView videoTips;
+    private ResourceBroadcastReceiver resourcereceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.unlock_insert_activity);
         setCamera_max_width(-1);
-        initCamera();
+        initCamera(true);
         showFps(false);
 
         initView();
     }
 
     public void initView() {
+        IntentFilter intentFilter = new IntentFilter();
+        //添加过滤的Action值；
+        intentFilter.addAction("efrobot.robot.resoure");
+        //实例化广播监听器；
+        resourcereceiver = new ResourceBroadcastReceiver();
+        //将广播监听器和过滤器注册在一起；
+        registerReceiver(resourcereceiver, intentFilter);
+
+
         TextView title = (TextView) findViewById(R.id.page_title);
         tips = (TextView) findViewById(R.id.tips);
 //        next = (TextView) findViewById(R.id.next);
@@ -98,6 +119,8 @@ public class RegisterImageCameraActivity extends BaseCameraActivity implements V
 
         add_face.getLayoutParams().width = getDoomW(450);
         add_face.getLayoutParams().height = getDoomW(170);
+
+        videoTips = (ImageView) findViewById(R.id.video_tips);
 
         title.setText(R.string.photograph_input);
 //        next.setVisibility(View.GONE);
@@ -120,11 +143,18 @@ public class RegisterImageCameraActivity extends BaseCameraActivity implements V
 
 
         //相片录入
-        findViewById(R.id.register_select_photo).setOnClickListener(new View.OnClickListener() {
+        photoRegisterBtn = (TextView) findViewById(R.id.register_select_photo);
+
+
+        photoRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 idRecordFaceSuccess = false;
-                toAddMedia("image");
+                if(selectPhotoCount < 10) {
+                    toAddMedia("image");
+                } else {
+                    showToast("最多只能添加10张照片");
+                }
             }
         });
 
@@ -132,23 +162,36 @@ public class RegisterImageCameraActivity extends BaseCameraActivity implements V
         mSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (idRecordFaceSuccess) {
-                    if (!TextUtils.isEmpty(addName.getText().toString().trim())) {
-                        User user = new User("" + personId, addName.getText().toString().trim(), age, gender);
-                        user.setScore(score);
-                        user.setDate(DatePickerUtils.getInstance().getCurrentTime());
-                        DataSource dataSource = new DataSource(mContext);
-                        dataSource.insert(user);
-                        boolean isSaveImgSuccess = BitmapUtil.saveBitmap(head, mContext.getCacheDir() + "/" + personId + ".jpg");
-                        DLog.d("保存头像：" + isSaveImgSuccess);
+                if(!isSaving) {
+                    isSaving = true;
+                    if (idRecordFaceSuccess) {
+                        if (!TextUtils.isEmpty(addName.getText().toString().trim())) {
+                            User user = new User("" + personId, addName.getText().toString().trim(), age, gender);
+                            user.setScore(score);
+                            user.setDate(DatePickerUtils.getInstance().getCurrentTime());
+                            DataSource dataSource = new DataSource(mContext);
+                            dataSource.insert(user);
 
-                        setResult(102, getIntent());
-                        finish();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    boolean isSaveImgSuccess = BitmapUtil.saveBitmap(head, mContext.getCacheDir() + "/" + personId + ".jpg");
+                                    DLog.d("保存头像：" + isSaveImgSuccess);
+
+                                    setResult(102, getIntent());
+                                    finish();
+
+                                }
+                            }).start();
+
+                        } else {
+                            Toast.makeText(RegisterImageCameraActivity.this, R.string.insert_nickname, Toast.LENGTH_SHORT).show();
+                            isSaving = false;
+                        }
                     } else {
-                        Toast.makeText(RegisterImageCameraActivity.this, R.string.insert_nickname, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterImageCameraActivity.this, "录入失败", Toast.LENGTH_SHORT).show();
+                        isSaving = false;
                     }
-                } else {
-                    Toast.makeText(RegisterImageCameraActivity.this, "录入失败", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -648,6 +691,7 @@ public class RegisterImageCameraActivity extends BaseCameraActivity implements V
                 }
                 String sd = "";
             }
+            videoTips.setImageBitmap(head);
         } else {
             DLog.d("添加人脸失败！");
             Toast.makeText(mContext, "添加人脸失败！请重新添加", Toast.LENGTH_SHORT).show();
@@ -739,42 +783,69 @@ public class RegisterImageCameraActivity extends BaseCameraActivity implements V
     /**
      * 本地照片注册人脸接口
      */
-    private void registerFaceByBitmap(String picPath) {
+    private void registerFaceByBitmap(String picPath, int count) {
 
         File file = new File(picPath);
         if (file.exists()) {
             Bitmap bitmap = BitmapUtil.decodeBitmapFromFile(picPath);
+            head = BitmapUtils.compressImage(bitmap);
+            if (count == 0) {
 
-            List<YMFace> faces = faceTrack.detectMultiBitmap(bitmap);
-            if (faces != null) {
-                personId = faceTrack.identifyPerson(0);
-                int gender_confidence = faceTrack.getGenderConfidence(0);
-                gender = " ";
-                if (gender_confidence >= 90)
-                    gender = faceTrack.getGender(0) == 0 ? "F" : "M";
-                score = " ";
-                age = String.valueOf(TrackUtil.computingAge(faceTrack.getAge(0)));
-                DLog.d("图片注册 " + personId + " age :" + age + " gender: " + gender);
-                if (personId > 0) {
-                    showToast("已经添加过该图片啦");
-                } else {
-                    personId = faceTrack.addPerson(0);
+
+                List<YMFace> faces = faceTrack.detectMultiBitmap(bitmap);
+                if (faces != null) {
+                    personId = faceTrack.identifyPerson(0);
+                    int gender_confidence = faceTrack.getGenderConfidence(0);
+                    gender = " ";
+                    if (gender_confidence >= 90)
+                        gender = faceTrack.getGender(0) == 0 ? "F" : "M";
+                    score = " ";
+                    age = String.valueOf(TrackUtil.computingAge(faceTrack.getAge(0)));
+                    DLog.d("图片注册 " + personId + " age :" + age + " gender: " + gender);
                     if (personId > 0) {
-                        showToast("添加成功");
-                        idRecordFaceSuccess = true;
-                        head = bitmap;
+                        showToastByHandle("已经添加过该图片啦");
                     } else {
-                        showToast("添加失败 ");
+                        personId = faceTrack.addPerson(0);
+                        if (personId > 0) {
+                            showToastByHandle("添加成功");
+                            idRecordFaceSuccess = true;
+                            selectPhotoCount++;
+                        } else {
+                            handler.sendEmptyMessage(2);
+                        }
                     }
                 }
+            } else {
+                int updateResult = faceTrack.updatePerson(personId, 0);
+                if (updateResult > 0) {
+                    showToastByHandle("添加成功");
+                    idRecordFaceSuccess = true;
+                    selectPhotoCount++;
+                } else {
+                    showToastByHandle("添加失败，请检查图片");
+                }
+                DLog.d("图片注册 count:" + count + " updateResult:" + updateResult);
+
             }
+            handler.sendEmptyMessage(2);
         }
+    }
+
+    private void showToastByHandle(String str) {
+        Message message = handler.obtainMessage();
+        message.what = 1;
+        message.obj = str;
+        handler.sendMessage(message);
     }
 
 
     /**
      * 接受到图片选择广播
      */
+
+    //当前用户选择图片注册计数
+    private int selectPhotoCount = 0;
+
     class ResourceBroadcastReceiver extends BroadcastReceiver {
 
         @Override
@@ -783,11 +854,39 @@ public class RegisterImageCameraActivity extends BaseCameraActivity implements V
                 final String path = intent.getStringExtra("path");
                 final String selectType = intent.getStringExtra("type");
                 if ("image".equals(selectType)) {
-                    registerFaceByBitmap(path);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            registerFaceByBitmap(path, selectPhotoCount);
+                            handler.sendEmptyMessage(0);
+
+                        }
+                    }).start();
+
                 }
             }
         }
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    photoRegisterBtn.setText("继续添加");
+                    break;
+                case 1:
+                    showToast(msg.obj.toString());
+                    break;
+                case 2:
+                    if(head != null) {
+                        videoTips.setImageBitmap(head);
+                    }
+                    break;
+            }
+        }
+    };
 
     /**
      * 添加图片或视频
@@ -795,14 +894,6 @@ public class RegisterImageCameraActivity extends BaseCameraActivity implements V
      */
     public void toAddMedia(String check) {
         //文件管理数据接受广播
-        IntentFilter intentFilter = new IntentFilter();
-        //添加过滤的Action值；
-        intentFilter.addAction("efrobot.robot.resoure");
-        //实例化广播监听器；
-        ResourceBroadcastReceiver resourcereceiver = new ResourceBroadcastReceiver();
-        //将广播监听器和过滤器注册在一起；
-        registerReceiver(resourcereceiver, intentFilter);
-
         try {
             Intent intent = new Intent("efrobot.robot.bodyshow");
             intent.putExtra("pick_folder", true);
@@ -833,5 +924,13 @@ public class RegisterImageCameraActivity extends BaseCameraActivity implements V
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(resourcereceiver != null) {
+            unregisterReceiver(resourcereceiver);
+        }
     }
 }

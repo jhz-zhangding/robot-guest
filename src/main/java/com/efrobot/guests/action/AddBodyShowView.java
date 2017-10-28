@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -33,6 +35,9 @@ import android.widget.TextView;
 import com.efrobot.guests.R;
 import com.efrobot.guests.base.GuestsBaseActivity;
 import com.efrobot.guests.bean.ItemsContentBean;
+import com.efrobot.guests.face.model.User;
+import com.efrobot.guests.face.util.DrawUtil;
+import com.efrobot.guests.face.util.GlideUtil;
 import com.efrobot.guests.utils.DatePickerUtils;
 import com.efrobot.library.mvp.utils.L;
 import com.zhy.view.flowlayout.FlowLayout;
@@ -44,6 +49,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import dou.helper.DouAdapter;
+import dou.helper.DouViewHolder;
+import dou.utils.DLog;
+import mobile.ReadFace.YMFaceTrack;
 
 /**
  * Created by Administrator on 2016/2/18.
@@ -111,6 +121,9 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
      * 内容 文本框
      */
     private EditText mEditText;
+
+    private LinearLayout mEditAddNameLL;
+
     /**
      * 语音时长
      */
@@ -134,6 +147,10 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
      * 自定义View
      */
     private View addMediaView;
+
+    private View addDetectionFace;
+
+    private ListView detectionFaceListView;
 
 
     /**
@@ -219,6 +236,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
      */
     private View tvTimeView;
     private TextView tvTimeSpace;
+    private TextView tvFaceDetection;
     private TextView etTimeStart, etTimeEnd;
 
     public String[] ttsWelcome1 = new String[]{
@@ -279,6 +297,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         mCreateScript = (TextView) findViewById(R.id.add_create_script);
         tvAddMedia = (TextView) findViewById(R.id.tvAddMedia);
         tvTimeSpace = (TextView) findViewById(R.id.tvTimeSpace);
+        tvFaceDetection = (TextView) findViewById(R.id.specifyPerson);
         add_title = (TextView) findViewById(R.id.add_title);
         viewList.add(msaybtn);
 //        viewList.add(mLightbtn);
@@ -287,6 +306,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         viewList.add(mCreateScript);
         viewList.add(tvAddMedia);
         viewList.add(tvTimeSpace);
+        viewList.add(tvFaceDetection);
 
         size = viewList.size();
 
@@ -298,12 +318,30 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         mGridView = (GridView) findViewById(R.id.add_grid_view);
         faceActionView = (View) findViewById(R.id.face_action);
         addMediaView = (View) findViewById(R.id.addMeida);
+        addDetectionFace = findViewById(R.id.addSpecifyPerson);
+        detectionFaceListView = (ListView) findViewById(R.id.add_specify_person_listView);
 //        addCustom = (View) findViewById(R.id.custom_action);
         tvTimeView = (View) findViewById(R.id.addTimeSpace);
 
         mSaveBtn = (Button) findViewById(R.id.add_save_btn);
 
         mEditText = (EditText) findViewById(R.id.add_edit_text);
+        ((TextView)findViewById(R.id.add_edit_person_name)).setText("<人名>");
+        mEditAddNameLL = (LinearLayout) findViewById(R.id.add_edit_person_name_ll);
+        mEditAddNameLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int index = mEditText.getSelectionStart();
+                String text="<人名>";
+                Editable edit = mEditText.getEditableText();//获取EditText的文字
+                if (index < 0 || index >= edit.length() ){
+                    edit.append(text);
+                }else{
+                    edit.insert(index,text);//光标所在位置插入文字
+                }
+
+            }
+        });
         tvSayTime = (TextView) findViewById(R.id.tvSayTime);
 //        prepareSayLv = (ListView) findViewById(R.id.add_prepare_say_words_lv);
         addFlowLayout = (TagFlowLayout) findViewById(R.id.add_flow_layout);
@@ -412,6 +450,9 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
 
         /** 初始化预设词条*/
         initTtsAdapterData();
+
+        /** 初始化人脸检测指定人员 */
+        initFacePersonData();
     }
 
     String[] tts = null;
@@ -652,6 +693,7 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
         faceActionView.setVisibility(View.GONE);
         addMediaView.setVisibility(View.GONE);
         tvTimeView.setVisibility(View.GONE);
+        addDetectionFace.setVisibility(View.GONE);
         if (msaybtn.equals(view)) {
             relSay.setVisibility(View.VISIBLE);
         } else if (view.equals(mLightbtn)) {
@@ -668,6 +710,8 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
             addMediaView.setVisibility(View.VISIBLE);
         } else if (view.equals(tvTimeSpace)) {
             tvTimeView.setVisibility(View.VISIBLE);
+        } else if(view.equals(tvFaceDetection)) {
+            addDetectionFace.setVisibility(View.VISIBLE);
         }
 
     }
@@ -773,6 +817,10 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
             case R.id.tvTimeSpace:
                 updateView(v);
                 add_title.setText("设置迎宾时间段");
+                break;
+            case R.id.specifyPerson:
+                updateView(v);
+                add_title.setText("人员指定");
                 break;
             case R.id.videoPull:
                 if (isSelectedMusic || isSelectedPicture) {
@@ -921,6 +969,72 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
                 return view;
             }
         });
+    }
+
+
+    DouAdapter<User> douAdapter;
+    private List<String> delete_list = new ArrayList<String>();
+    List<User> userList;
+    private void initFacePersonData() {
+        if (getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+        }
+
+        YMFaceTrack faceTrack = new YMFaceTrack();
+        faceTrack.initTrack(this, 0, 0);
+        DLog.e("当前人脸库中共有多少个人" + faceTrack.getAlbumSize());
+
+        userList = DrawUtil.updateDataSource();
+        douAdapter = new DouAdapter<User>(this, userList, R.layout.user_item) {
+            @Override
+            public void convert(DouViewHolder douViewHolder, User user, int i) {
+                View radio = douViewHolder.getView(R.id.select_radio);
+
+                radio.setVisibility(View.VISIBLE);
+
+                final String personId = user.getPersonId();
+                if (delete_list.contains(personId)) {
+                    radio.setBackgroundResource(R.mipmap.manage_item_sele);
+                } else {
+                    radio.setBackgroundResource(R.mipmap.manage_item_unse);
+                }
+                radio.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (delete_list.contains(personId)) {
+                            delete_list.remove(personId);
+                            douAdapter.notifyDataSetChanged();
+                        } else {
+                            delete_list.add(personId);
+                            douAdapter.notifyDataSetChanged();
+                        }
+
+//                        if (delete_list.size() == userList.size() && !selectAll) {
+//                            selectAll = true;
+//                            select_radio.setBackgroundResource(R.mipmap.manage_item_sele);
+//                        } else if (delete_list.size() != userList.size() && selectAll) {
+//                            selectAll = false;
+//                            select_radio.setBackgroundResource(R.mipmap.manage_item_unse);
+//                        }
+                    }
+                });
+
+                ImageView head = douViewHolder.getView(R.id.select_head);
+                TextView desc = douViewHolder.getView(R.id.select_desc);
+                TextView date = douViewHolder.getView(R.id.select_date);
+                if (user.getHead() != null) {
+                    DLog.d("face is " + i);
+                    GlideUtil.load(mContext, head, user.getHead());
+                } else {
+                    DLog.d("face is null");
+                    GlideUtil.load(R.drawable.transparent, head);
+                }
+                desc.setText(user.getName());
+                date.setText(user.getDate());
+                DLog.e("Face ID" + user.getPersonId() + ", " + user.getName());
+            }
+        };
+
+        detectionFaceListView.setAdapter(douAdapter);
     }
 
 

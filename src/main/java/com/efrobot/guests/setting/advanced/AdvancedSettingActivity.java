@@ -123,86 +123,33 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         } else if(v.equals(faceBaseManagerBtn)) {
             startActivity(new Intent(this, ManageFaceActivity.class));
         } else if(v.equals(faceOpenBtn)) {
-            updateStatus(v);
+            updateStatus(v, SpContans.AdvanceContans.SP_GUEST_AUTO_DETECTION_FACE);
         } else if (v.equals(correctionBtn)) {
-            updateStatus(v);
+            updateStatus(v, SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION);
         } else if (v.equals(autoGuestBtn)) {
-            updateStatus(v);
+            updateStatus(v, SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST);
         }
 //        else if (v.equals(closeWheelBtn)) {
 //            updateStatus(v);
 //        }
     }
 
-    private void updateStatus(View v) {
-        if (v.equals(correctionBtn)) {
-            boolean isOpenCorrection = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, false);
-            if (isOpenCorrection) {
-//                correctionBtn.setText("关闭");
-                correctionBtn.setToggleOff();
-                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, false);
-            } else {
-                correctionBtn.setToggleOn();
-//                correctionBtn.setText("开启");
-                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, true);
-            }
+    private void updateStatus(View v, String textFiled) {
+
+        ToggleButton toggleButton = ((ToggleButton)v);
+
+        boolean isOpen = PreferencesUtils.getBoolean(getContext(), textFiled, false);
+
+        if(isOpen) {
+            toggleButton.setToggleOff();
+            PreferencesUtils.putBoolean(getContext(), textFiled, false);
+        } else {
+            toggleButton.setToggleOn();
+            PreferencesUtils.putBoolean(getContext(), textFiled, true);
         }
 
-        if (v.equals(autoGuestBtn)) {
-            boolean isOpenAutoGuest = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, false);
-            if (isOpenAutoGuest) {
-//                autoGuestBtn.setText("关闭");
-                autoGuestBtn.setToggleOff();
-                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, false);
-            } else {
-//                autoGuestBtn.setText("开启");
-                autoGuestBtn.setToggleOn();
-                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, true);
-            }
-        }
 
-//        if (v.equals(closeWheelBtn)) {
-//            boolean isOpenWheel = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, false);
-//            if (isOpenWheel) {
-//                //关闭轮子需要提示
-//                showWheelWaringDialog();
-//            } else {
-//                closeWheelBtn.setToggleOn();
-//                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, true);
-//            }
-//        }
     }
-
-//    private CustomHintDialog waringDialog;
-//
-//    private void showWheelWaringDialog() {
-//        waringDialog = new CustomHintDialog(this, 0);
-//        waringDialog.setMessage("关闭双轮运动会导致机器人无法运动\n" +
-//                "确认要关闭双轮运动吗？");
-//        waringDialog.setCancleButton("取消", new CustomHintDialog.IButtonOnClickLister() {
-//            @Override
-//            public void onClickLister() {
-//                if (waringDialog != null) {
-//                    waringDialog.dismiss();
-//                }
-//            }
-//        });
-//
-//        waringDialog.setSubmitButton("确认", new CustomHintDialog.IButtonOnClickLister() {
-//            @Override
-//            public void onClickLister() {
-////                closeWheelBtn.setText("关闭");
-//                closeWheelBtn.setToggleOff();
-//                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, false);
-//                if (waringDialog != null) {
-//                    waringDialog.dismiss();
-//                }
-//            }
-//        });
-//
-//        waringDialog.show();
-//
-//    }
 
     @Override
     public void showToast(String text) {
@@ -227,6 +174,11 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
     @Override
     public void setAutoGuestState(Boolean openOrOff) {
         updateToggleState(autoGuestBtn, openOrOff);
+    }
+
+    @Override
+    public void setOpenFaceState(Boolean openOrOff) {
+        updateToggleState(faceOpenBtn, openOrOff);
     }
 
     @Override
