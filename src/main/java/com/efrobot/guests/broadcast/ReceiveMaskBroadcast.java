@@ -18,6 +18,7 @@ public class ReceiveMaskBroadcast extends BroadcastReceiver {
 
     /**
      * 监听盖子状态
+     * 监听开机状态
      */
     public final String ROBOT_MASK_CHANGE = "android.intent.action.MASK_CHANGED";
     public final String KEYCODE_MASK_ONPROGRESS = "KEYCODE_MASK_ONPROGRESS"; //开闭状态
@@ -39,6 +40,9 @@ public class ReceiveMaskBroadcast extends BroadcastReceiver {
                     context.startService(serviceIntent);
                 }
             }
+
+        } else if(Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+            L.e("ReceiveMaskBroadcast", "boot_completed");
 
         }
     }

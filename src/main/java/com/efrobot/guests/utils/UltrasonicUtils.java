@@ -2,10 +2,14 @@ package com.efrobot.guests.utils;
 
 import android.content.Context;
 
+import com.efrobot.guests.Env.EnvUtil;
 import com.efrobot.library.RobotManager;
 import com.efrobot.library.mvp.utils.L;
+import com.efrobot.library.task.UltrasonicTaskManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +23,8 @@ public class UltrasonicUtils {
 
     private UltrasonicUtils instance;
 
+    private boolean isUseNewUltrasonic = false;
+
     public UltrasonicUtils getInstance() {
         if (instance == null) {
             instance = new UltrasonicUtils();
@@ -28,7 +34,13 @@ public class UltrasonicUtils {
 
     byte byte5, byte4;
 
-    public void openSomeUltrasonic(Context context, List<Integer> customUlData, String systemVersion) {
+    /**
+     * @param context
+     * @param customUlData
+     * @param isUseNewUltrasonic
+     */
+    public void openSomeUltrasonic(Context context, List<Integer> customUlData, boolean isUseNewUltrasonic) {
+        this.isUseNewUltrasonic = isUseNewUltrasonic;
         initAllOpenData();
 
         List<Byte> byteList5 = new ArrayList<Byte>(); // byte5 前8个
@@ -50,15 +62,17 @@ public class UltrasonicUtils {
                 byte currentByte4 = byteList4.get(i);
                 byte4 |= currentByte4;
             }
-            sendUserUltrasonic(context, systemVersion);
+            sendUserUltrasonic(context);
 
         }
     }
 
     /**
      * 打开用户定义的超声波
+     *
+     * @param context
      */
-    private void sendUserUltrasonic(Context context, String systemVersion) {
+    private void sendUserUltrasonic(Context context) {
 
         L.i(TAG, "Send user custom data to open ultrasonic");
         byte[] data = new byte[12];
@@ -71,9 +85,10 @@ public class UltrasonicUtils {
         data[6] = (byte) 0x00;
         data[7] = (byte) 7;
         //开启后8秒左右收到回调
-        RobotManager.getInstance(context).getCustomTaskInstance().sendByteData(data);
-        //TODO 新策略
-//        UltrasonicTaskManager.getInstance(RobotManager.getInstance(getApplication())).openUltrasonicFeedback(EnvUtil.ULGST001, byte4 << 8 | byte5);
+        if (isUseNewUltrasonic)
+            UltrasonicTaskManager.getInstance(RobotManager.getInstance(context)).openUltrasonicFeedback(EnvUtil.ULGST001, byte4 << 8 | byte5);
+        else
+            RobotManager.getInstance(context).getCustomTaskInstance().sendByteData(data);
 
     }
 
@@ -101,5 +116,34 @@ public class UltrasonicUtils {
             ultrasonicOpenMap.put(12, (byte) 0x10);
         }
     }
+
+
+    /**
+     * 超声波初始化
+     *
+     * @param context
+     * @param isWriteFlash
+     */
+    public void sendTestUltrasonic(Context context, boolean isWriteFlash) {
+
+        byte[] data = new byte[11];
+        data[0] = (byte) 0x0c;
+        data[1] = (byte) 0x03;
+        data[2] = (byte) 0x06;
+        data[3] = (byte) 0x02;
+        data[4] = (byte) 0x1F;
+        data[5] = (byte) 0xFF;
+        if (isWriteFlash)
+            data[6] = (byte) 0x01;
+        else
+            data[6] = (byte) 0x00;
+        RobotManager.getInstance(context).getCustomTaskInstance().sendByteData(data);
+    }
+
+    public String getCurrentTime() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        return (df.format(new Date()));     // new Date()为获取当前系统时间
+    }
+
 
 }
