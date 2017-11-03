@@ -21,6 +21,9 @@ public class SpContans {
 
 //        public final static String SP_GUEST_OPEN_WHEEL = "sp_guest_open_wheel";
 
+
+        public final static String SP_GUEST_FACE_CHECK_COUNT = "sp_guest_face_check_count";
+
     }
 
 }

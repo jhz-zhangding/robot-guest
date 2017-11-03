@@ -72,6 +72,8 @@ public class GuestsApplication extends Application {
 
     public SurfaceView mFaceSurfaceView;
 
+    public boolean threadBusy = false;
+
     @Override
     public void onCreate() {
         instence = this;

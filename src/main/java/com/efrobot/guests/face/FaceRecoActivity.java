@@ -25,6 +25,7 @@ import com.efrobot.guests.R;
 import com.efrobot.guests.face.base.BaseCameraActivity;
 import com.efrobot.guests.face.model.User;
 import com.efrobot.guests.face.util.DrawUtil;
+import com.efrobot.guests.face.util.TrackUtil;
 import com.efrobot.library.mvp.utils.L;
 
 import org.json.JSONObject;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,10 +49,10 @@ public class FaceRecoActivity extends BaseCameraActivity {
 
     private SimpleArrayMap<Integer, YMFace> trackingMap;
 
-    boolean threadBusy = false;
     boolean saveImage = false;
-
     private Thread thread;
+
+    private GuestsApplication application;
 
     boolean pause = false;
     NetFaceTrack netFaceTrack;
@@ -67,9 +69,11 @@ public class FaceRecoActivity extends BaseCameraActivity {
         setContentView(R.layout.face_reco_2);
         setCamera_max_width(-1);
 
+        application = GuestsApplication.from(this);
+
         isShowSurfaceView = getIntent().getBooleanExtra("isShowSurfaceView", true);
 
-        if(!isShowSurfaceView) {
+        if (!isShowSurfaceView) {
             GuestsApplication.from(this).faceRecoActivity = this;
         }
 
@@ -133,7 +137,7 @@ public class FaceRecoActivity extends BaseCameraActivity {
 
     @Override
     protected void drawAnim(List<YMFace> faces, SurfaceView draw_view, float scale_bit, int cameraId, String fps) {
-        if(isShowSurfaceView) {
+        if (isShowSurfaceView) {
             DrawUtil.drawAnim(faces, draw_view, scale_bit, cameraId, fps, false);
         }
         L.e("drawAnim", "正在识别中 cameraId:" + cameraId);
@@ -155,6 +159,8 @@ public class FaceRecoActivity extends BaseCameraActivity {
 
     boolean isHasFaceId = false;
 
+    private List<YMFace> ids;
+
     @Override
     protected List<YMFace> analyse(final byte[] bytes, final int iw, final int ih) {
 
@@ -168,8 +174,10 @@ public class FaceRecoActivity extends BaseCameraActivity {
 
 
         if (faces != null && faces.size() > 0) {
-            DLog.e("threadBusy = " + threadBusy + "  stop = " + stop + "  frame = " + frame);
-            if (!threadBusy && !stop && frame >= 10) {
+            DLog.e("threadBusy = " + application.threadBusy + "  stop = " + stop + "  frame = " + frame);
+            if (thread != null && thread.isAlive()) {
+                thread.stop();
+            } else if (!application.threadBusy && !stop && frame >= 5) {
                 frame = 0;
 
                 if (trackingMap.size() > 50) trackingMap.clear();
@@ -191,7 +199,13 @@ public class FaceRecoActivity extends BaseCameraActivity {
                     @Override
                     public void run() {
                         try {
-                            threadBusy = true;
+                            if (ids == null) {
+                                ids = new ArrayList<YMFace>();
+                            } else {
+                                ids.clear();
+                            }
+
+                            application.threadBusy = true;
                             final byte[] yuvData = new byte[bytes.length];
                             System.arraycopy(bytes, 0, yuvData, 0, bytes.length);
 
@@ -207,6 +221,7 @@ public class FaceRecoActivity extends BaseCameraActivity {
                             if (next && !net) {
                                 for (int i = 0; i < faces.size(); i++) {
                                     final YMFace ymFace = faces.get(i);
+
                                     final int trackId = ymFace.getTrackId();
                                     if (!trackingMap.containsKey(trackId) ||
                                             trackingMap.get(trackId).getPersonId() <= 0 ||
@@ -214,21 +229,36 @@ public class FaceRecoActivity extends BaseCameraActivity {
                                         long time = System.currentTimeMillis();
                                         int identifyPerson = faceTrack.identifyPerson(i);
                                         int confidence = faceTrack.getRecognitionConfidence();
-                                        DLog.d("identify end " + identifyPerson + " time :" + (System.currentTimeMillis() - time) + " con = " + confidence);
-                                        if(identifyPerson != 11001) {
-                                            isHasFaceId = true;
-                                            Message msg = new Message();
-                                            msg.what = 108;
-                                            msg.obj = identifyPerson;
-                                            if(GuestsApplication.from(FaceRecoActivity.this).ultrasonicService != null) {
-                                                if(GuestsApplication.from(FaceRecoActivity.this).ultrasonicService.mHandle != null) {
-                                                    GuestsApplication.from(FaceRecoActivity.this).ultrasonicService.mHandle.sendMessage(msg);
-                                                }
 
-                                            }
+                                        int gender_confidence = faceTrack.getGenderConfidence(i);
+                                        int gender = -1;
+                                        if (gender_confidence >= 90)
+                                            gender = faceTrack.getGender(i);
+                                        String age = String.valueOf(TrackUtil.computingAge(faceTrack.getAge(0)));
+                                        DLog.d("identify end " + identifyPerson + " time :" + (System.currentTimeMillis() - time) + " con = " + confidence + " gender = " + gender + " age = " + age);
+
+//                                        DLog.d("identify end " + identifyPerson + " time :" + (System.currentTimeMillis() - time) + " con = " + confidence);
+
+                                        YMFace ymFace1 = new YMFace();
+                                        ymFace1.setPersonId(identifyPerson);
+                                        ymFace1.setGender(gender);
+                                        ids.add(ymFace1);
+                                        ymFace1 = null;
+
+                                        if (identifyPerson != -10000) {
+                                            isHasFaceId = true;
+//                                            Message msg = new Message();
+//                                            msg.what = 108;
+//                                            msg.obj = identifyPerson;
+//                                            if(GuestsApplication.from(FaceRecoActivity.this).ultrasonicService != null) {
+//                                                if(GuestsApplication.from(FaceRecoActivity.this).ultrasonicService.mHandle != null) {
+//                                                    GuestsApplication.from(FaceRecoActivity.this).ultrasonicService.mHandle.sendMessage(msg);
+//                                                }
+//
+//                                            }
 //                                            handle.sendMessage(msg);
                                         } else {
-                                            if(isHasFaceId) {
+                                            if (isHasFaceId) {
                                                 isHasFaceId = false;
                                                 handle.sendEmptyMessageDelayed(1, 1000);
                                             }
@@ -239,6 +269,23 @@ public class FaceRecoActivity extends BaseCameraActivity {
                                         trackingMap.put(trackId, ymFace);
                                     }
                                 }
+
+//                                Message msg = new Message();
+//                                msg.what = 108;
+//                                msg.obj = ids;
+                                for (int i = 0; i < ids.size(); i++) {
+                                    DLog.d("开始发人脸Message ids.size() = " + ids.size() + " identify end " + ids.get(i).getPersonId());
+                                }
+                                if (application.ultrasonicService != null) {
+                                    if (application.ultrasonicService.mHandle != null) {
+                                        if(ids.size() > 0) {
+//                                            application.ultrasonicService.mHandle.sendMessage(msg);
+                                            application.ultrasonicService.dealFaceResult(ids);
+                                        }
+                                    }
+
+                                }
+
                                 next = false;
                                 //使用本地就不再使用云端,可直接删除云端部分
                             }
@@ -308,7 +355,9 @@ public class FaceRecoActivity extends BaseCameraActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         } finally {
-                            threadBusy = false;
+//                            threadBusy = false;
+                            if (handle != null)
+                                handle.sendEmptyMessageDelayed(1, 2000);
                         }
                     }
                 });
@@ -323,6 +372,14 @@ public class FaceRecoActivity extends BaseCameraActivity {
                     ymFace.setIdentifiedPerson(face.getPersonId(), face.getConfidence());
                 }
             }
+        } else {
+            application.threadBusy = false;
+            if (GuestsApplication.from(FaceRecoActivity.this).ultrasonicService != null) {
+                if (GuestsApplication.from(FaceRecoActivity.this).ultrasonicService.mHandle != null) {
+                    GuestsApplication.from(FaceRecoActivity.this).ultrasonicService.mHandle.sendEmptyMessage(109);
+                }
+
+            }
         }
         return faces;
     }
@@ -331,15 +388,15 @@ public class FaceRecoActivity extends BaseCameraActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if(msg.what == 0) {
+            if (msg.what == 0) {
                 String thId = String.valueOf(msg.obj);
                 DLog.d("检测到该人脸:" + thId);
                 if (DrawUtil.userList != null && DrawUtil.userList.size() > 0) {
-                    for (int j = 0; j <DrawUtil.userList.size() ; j++) {
+                    for (int j = 0; j < DrawUtil.userList.size(); j++) {
                         User user = DrawUtil.userList.get(j);
                         String userId = user.getPersonId();
                         DLog.d("userId = " + userId);
-                        if(userId.equals(thId)) {
+                        if (userId.equals(thId)) {
                             faceId.setText(user.getName());
                         }
                     }
@@ -347,8 +404,8 @@ public class FaceRecoActivity extends BaseCameraActivity {
                 } else {
                     DLog.d("人脸库为空");
                 }
-            } else if(msg.what == 1) {
-                faceId.setText("");
+            } else if (msg.what == 1) {
+                application.threadBusy = false;
             }
         }
     };

@@ -105,6 +105,20 @@
                         android:background="@drawable/btn_normal"
                         />
 
+                    <EditText
+                        android:id="@+id/face_check_count"
+                        android:layout_width="@dimen/padding_100"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="@dimen/padding_40"
+                        android:layout_toRightOf="@+id/advanced_setting_face_base_manager_btn"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="3"
+                        android:inputType="number"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textsize_26" />
+
                     <com.zcw.togglebutton.ToggleButton
                         android:id="@+id/advanced_setting_face_btn"
                         android:layout_width="90dp"

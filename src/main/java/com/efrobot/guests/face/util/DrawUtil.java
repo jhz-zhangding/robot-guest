@@ -199,6 +199,15 @@ public class DrawUtil {
                             sb.append(gender).append("/");
                         if (!StringUtils.isEmpty(age))
                             sb.append(age);
+                    } else {
+                        String gender = ymFace.getGender() == 0 ? "F": "M";
+                        int mAge = ymFace.getAge();
+                        Log.e("identify", "mAge = " + mAge);
+                        String age = String.valueOf(TrackUtil.computingAge(mAge));
+                        if (!StringUtils.isEmpty(gender))
+                            sb.append(gender).append("|");
+                        if (!StringUtils.isEmpty(age))
+                            sb.append(age);
                     }
 
 //                    sb.append(" con = " + ymFace.getConfidence());

@@ -38,6 +38,8 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 
     private TextView versionName;
 
+    private EditText faceCheckEt;
+
 //    private ToggleButton closeWheelBtn;
 
     @Override
@@ -71,6 +73,7 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         correctionBtn = (ToggleButton) findViewById(R.id.advanced_setting_correction_btn);
         autoGuestBtn = (ToggleButton) findViewById(R.id.advanced_setting_guest_btn);
         faceOpenBtn = (ToggleButton) findViewById(R.id.advanced_setting_face_btn);
+        faceCheckEt = (EditText) findViewById(R.id.face_check_count);
 //        closeWheelBtn = (ToggleButton) findViewById(R.id.advanced_setting_wheel_btn);
 
 
@@ -81,6 +84,8 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         String e = "<html>此功能开启后，只需关闭面罩，机器人就会自动进入迎宾模式。关闭面罩前，请先确认超声波数据是否正常。<font color=\"#EA2000\">注：在其他应用场景中，若关闭面罩不需要开启迎宾，请关闭这个功能。</html>";
         TextView autoGuestTextView = (TextView) findViewById(R.id.advanced_setting_auto_html_text);
         autoGuestTextView.setText(Html.fromHtml(e));
+
+        faceCheckEt.setText(PreferencesUtils.getInt(getContext(), SpContans.AdvanceContans.SP_GUEST_FACE_CHECK_COUNT, 3) + "");
     }
 
 
@@ -119,6 +124,10 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
     @Override
     public void onClick(View v) {
         if (v.equals(exitBtn)) {
+            if(!TextUtils.isEmpty(faceCheckEt.getText())) {
+                int time = Integer.parseInt(faceCheckEt.getText().toString());
+                PreferencesUtils.putInt(getContext(), SpContans.AdvanceContans.SP_GUEST_FACE_CHECK_COUNT, time);
+            }
             finish();
         } else if(v.equals(faceBaseManagerBtn)) {
             startActivity(new Intent(this, ManageFaceActivity.class));

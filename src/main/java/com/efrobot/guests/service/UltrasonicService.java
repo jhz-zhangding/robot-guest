@@ -76,7 +76,7 @@ import mobile.ReadFace.YMFaceTrack;
  */
 
 public class UltrasonicService extends Service implements RobotManager.OnGetUltrasonicCallBack,
-        NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener, OnRobotStateChangeListener, Camera.PreviewCallback
+        NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener, OnRobotStateChangeListener
 //        , RobotManager.OnUltrasonicOccupyStatelistener
 // OnRobotStateChangeListener
 {
@@ -88,6 +88,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     public static boolean IsRunning = false;
 
     private boolean mIsExecute = false;
+    private boolean mIsFaceExecuteFinish = true;
     private boolean isReceiveUltrasonic = false;
     /**
      * 是否标定结束
@@ -135,13 +136,21 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private Calendar mCalendar;
 
     /**
-     * 闲聊语
+     * 识别到是谁闲聊语
      */
     private String[] chatTts = new String[]
             {
-                    "您是<人名>吧，对不起，我刚才没看清",
+                    "您是<人名>吧，我刚才没看清",
                     "小胖认识您哦，您是<人名>吧",
                     "<人名>，您是<人名>吧"
+            };
+
+    /**
+     * 未识别到是谁闲聊语
+     */
+    private String[] notPersonChatTts = new String[]
+            {
+                    "又来了一位<性别>",
             };
 
     @Override
@@ -156,14 +165,13 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         if (!TtsUtils.isCanUseGuest(this)) {
             return -1;
         }
-        showFaceDialog();
         /** 初始化摄像头 */
 //        openCarama();
 
         application = GuestsApplication.from(this);
 
         isOpenFaceDetection = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_AUTO_DETECTION_FACE, false);
-        if(isOpenFaceDetection) {
+        if (isOpenFaceDetection) {
             application.startFaceRecordActivity(false);
         }
 
@@ -316,6 +324,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     public final int VIDEO_FINISH = 106;
     public final int MUSIC_NEED_SAY = 107;
     public final int FOUND_USER_FACE = 108;
+    public final int FACE_CHECK_FINISH = 109;
+    public final int FACE_CHECK_FINISH_DELAY = 110;
     private boolean isCloseLight = true;
 
     public Handler mHandle = new Handler(Looper.getMainLooper()) {
@@ -396,73 +406,197 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     /**
                      * 检测到人脸
                      * */
+//                    if (msg.obj != null) {
+//                        String id = msg.obj.toString();
+//                        if (!TextUtils.isEmpty(id)) {
+//                            checkFaceResult(msg.obj.toString());
+//                        }
+//
+//                    }
+
                     if (msg.obj != null) {
-                        String id = msg.obj.toString();
-                        if (!TextUtils.isEmpty(id)) {
-                            checkFaceResult(msg.obj.toString());
+                        final List<YMFace> ids = (List<YMFace>) msg.obj;
+                        DLog.e("人脸：开始接收人脸Message identify end" + " 时间 = " + System.currentTimeMillis() + " ids.size() = " + ids.size());
+                        if (ids != null && ids.size() > 0) {
+                            mIsFaceExecuteFinish = false;
+                            //只要捕捉到摄像头中有人脸时就需要重新计时
+                            L.e(TAG, "移除计时 isTimingCount = " + isTimingCount);
+                            if (isTimingCount) {
+                                removeTimerCount();
+                            }
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    checkFaceResult(ids);
+                                }
+                            }).start();
+                        } else {
+                            application.threadBusy = false;
                         }
 
                     }
+                    break;
+                case FACE_CHECK_FINISH:
+                    mIsFaceExecuteFinish = true;
+                    mCurrentCheckIndex = 0;
+                    L.e(TAG, "identify en" + "  检测到无人脸");
                     break;
             }
         }
     };
 
+    public void dealFaceResult(List<YMFace> faces) {
+        if (faces != null && faces.size() > 0) {
+            final List<YMFace> ids = faces;
+            DLog.e("人脸：开始接收人脸Message identify end" + " 时间 = " + System.currentTimeMillis() + " ids.size() = " + ids.size());
+            if (ids != null && ids.size() > 0) {
+                mIsFaceExecuteFinish = false;
+                //只要捕捉到摄像头中有人脸时就需要重新计时
+                L.e(TAG, "移除计时 isTimingCount = " + isTimingCount);
+                if (isTimingCount) {
+                    removeTimerCount();
+                }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        checkFaceResult(ids);
+                    }
+                }).start();
+            } else {
+                application.threadBusy = false;
+            }
+
+        }
+    }
+
     private String userName = "";
 
+    //闲聊语是否结束
     private boolean isRunningChatTts = false;
 
-    private void checkFaceResult(String personId) {
-        if (textView != null) {
-            textView.setText(personId);
+    /**
+     * 记录已经识别到的ID
+     */
+    private List<Integer> personIds = new ArrayList<Integer>();
+    private List<Integer> currentNotPersonIds = new ArrayList<Integer>();
+
+    private int mCurrentCheckIndex = 1;
+
+    String sexTts = "";
+
+//    private boolean isDealResult = false;
+
+    private int lastIdsCount = 0;
+    private int lastNoPersonCount = 0;
+
+    private int moreNotPersonNum = 0;
+
+    private void checkFaceResult(List<YMFace> ids) {
+        DLog.e("人脸：开始接收人脸Message 开始执行");
+        currentNotPersonIds.clear();
+        for (int k = 0; k < ids.size(); k++) {
+            int id = ids.get(k).getPersonId();
+            DLog.d("----------检测到该人脸:mCurrentCheckIndex = " + mCurrentCheckIndex + " ids.size() - " + ids.size() + " getPersonId = " + id);
+            if (id < 0) {
+                currentNotPersonIds.add(id);
+            }
         }
-        int thID = Integer.parseInt(personId);
-        if (thID > 0) {
-            DLog.d("检测到该人脸:" + personId);
-            if (DrawUtil.userList != null && DrawUtil.userList.size() > 0) {
-                for (int j = 0; j < DrawUtil.userList.size(); j++) {
-                    User user = DrawUtil.userList.get(j);
-                    String userId = user.getPersonId();
-                    DLog.d("userId = " + userId + " personId = " + personId);
-                    if (userId.equals(personId)) {
-                        if (!mIsExecute) {
-                            userName = user.getName();
-                            DLog.d("开始执行人脸");
-                            mIsExecute = true;
-                            startPlay(START_LEFT_STRING);
-                        } else {
-                            //执行迎宾语过程中个
-                            if (mIsExecute && isAllPlayFinish() && !isRunningChatTts && TextUtils.isEmpty(userName)) {
-                                userName = user.getName();
-                                isRunningChatTts = true;
-                                /** 正在执行过程迎宾语中还没结束的状态  这时候识别到人立刻要说闲聊语啊 */
 
-                                String mFinalTts = getRandomChatTts().replace("<人名>", userName);
-                                TtsUtils.sendTts(this, mFinalTts);
-                                han.removeMessages(START_TIMER_GUEST);
-                                long mTime = mFinalTts.length() * 270;
-                                new Timer().schedule(new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        han.sendEmptyMessageDelayed(START_TIMER_GUEST, 1000);
+        for (int i = 0; i < ids.size(); i++) {
+
+            int thID = ids.get(i).getPersonId();
+            int gender = ids.get(i).getGender();
+            L.e(TAG, "----------检测到该人脸:mCurrentCheckIndex = " + mCurrentCheckIndex + " ids.size() - " + ids.size() + " thID = " + thID);
+            //该ID没有执行过
+            if (thID > 0) {
+                DLog.d("检测到该人脸:" + thID);
+                if (DrawUtil.userList != null && DrawUtil.userList.size() > 0) {
+                    for (int j = 0; j < DrawUtil.userList.size(); j++) {
+                        User user = DrawUtil.userList.get(j);
+                        String userId = user.getPersonId();
+                        DLog.d("userId = " + userId + " personId = " + thID);
+                        userName = user.getName();
+                        if (userId.equals(String.valueOf(thID))) {
+                            if (!personIds.contains(thID)) {
+                                if (!mIsExecute) {
+                                    personIds.add(thID);
+                                    DLog.d("识别到该ID没有执行迎宾语，那就开始执行迎宾语");
+                                    mIsExecute = true;
+                                    startPlay(START_LEFT_STRING);
+                                } else {
+                                    DLog.d("识别到该ID已经执行过了迎宾语，那就开始执行闲聊语");
+                                    if (isAllPlayFinish() && !isRunningChatTts && !personIds.contains(thID)) {
+                                        personIds.add(thID);
+                                        isRunningChatTts = true;
+                                        /** 正在执行过程迎宾语中还没结束的状态  这时候识别到人立刻要说闲聊语啊 */
+                                        executeChat(1, userName);
                                     }
-                                }, mTime);
-                            }
 
+                                }
+                                break;
+                            }
                         }
                     }
-                }
 
+                } else {
+                    DLog.d("人脸库为空");
+                }
             } else {
-                DLog.d("人脸库为空");
+                L.i(TAG, "-----检测到人脸但不在人脸库中，是否已经执行过迎宾语 mIsExecute = " + mIsExecute + " gender = " + gender);
+                if (!personIds.contains(thID)) {
+                    personIds.add(thID);
+                }
+                if (!mIsExecute) {
+                    if (gender == 0) {
+                        sexTts = "女士";
+                    } else if (gender == 1) {
+                        sexTts = "先生";
+                    }
+                    mIsExecute = true;
+                    startPlay(START_LEFT_STRING);
+                } else {
+                    //检测到陌生人
+                    L.i(TAG, "-----" + "ids.size() = " + ids.size() + " lastIdsCount = " + lastIdsCount + " currentNotPersonIds.size() = " + currentNotPersonIds.size() + " isAllPlayFinish() = " + isAllPlayFinish());
+                    if (ids.size() > 1 && ids.size() > lastIdsCount && currentNotPersonIds.size() > lastNoPersonCount && isAllPlayFinish() && !isRunningChatTts) {
+                        moreNotPersonNum++;
+                        if(moreNotPersonNum > 2) {
+                            //执行陌生人提示
+                            isRunningChatTts = true;
+                            lastNoPersonCount++;
+                            executeChat(2, "");
+                        }
+                    } else {
+                        moreNotPersonNum = 0;
+                    }
+
+                }
             }
-        } else {
-            if (!mIsExecute) {
-                L.i(TAG, "-----检测到人脸ID=" + personId + " 不在人脸库中");
-                mIsExecute = true;
-                startPlay(START_LEFT_STRING);
-            }
+            mCurrentCheckIndex = 0;
         }
+        application.threadBusy = false;
+        if(lastIdsCount < ids.size()) {
+            lastIdsCount = ids.size();
+        }
+
+    }
+
+    private void executeChat(int type, String userName) {
+        String mFinalTts = "";
+        if (type == 1) {
+            mFinalTts = getRandomChatTts(type).replace("<人名>", userName);
+        } else if (type == 2) {
+            mFinalTts = "又来了一位客人";
+        }
+        TtsUtils.sendTts(this, mFinalTts);
+        han.removeMessages(START_TIMER_GUEST);
+        long mTime = mFinalTts.length() * 270;
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                han.sendEmptyMessageDelayed(START_TIMER_GUEST, 1000);
+                isRunningChatTts = false;
+            }
+        }, mTime);
     }
 
     @Override
@@ -529,7 +663,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
                     flagsMap.put(ultrasonicId, true);
                     farDistanceNum = 0;
-                    if (!mIsExecute) {
+                    if (!mIsExecute && isAllPlayFinish()) {
                         if (leftSelectNum.contains(ultrasonicId)) {
                             L.i(TAG, "-----han----mIsExecute=" + mIsExecute);
                             mIsExecute = true;
@@ -550,7 +684,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     }
 
                     //全部检测
-                    if (mIsExecute) {
+                    if (mIsExecute && mIsFaceExecuteFinish) {
                         farDistanceNum++;
                         L.i(TAG, "开始计时 farDistanceNum:" + farDistanceNum + "---isAllFaraway() = " + isAllFaraway());
                         //全部探头检测无人, 并且所有执行完毕开始计时
@@ -567,7 +701,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                                 closeAlwaysLight();
                                 mIsExecute = false;
                                 isRunningChatTts = false;
+                                lastIdsCount = 0;
                                 userName = "";
+                                personIds.clear();
                                 removeTimerCount();
                             }
                             lastHead = -1;
@@ -595,7 +731,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
      * 移除计时
      */
     public void removeTimerCount() {
-        han.removeMessages(START_TIMER_GUEST);
+        if(han != null && han.hasMessages(START_TIMER_GUEST)) {
+            han.removeMessages(START_TIMER_GUEST);
+        }
         timingCount = 0;
         isTimingCount = false;
     }
@@ -669,7 +807,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             if (!TextUtils.isEmpty(currentBean.getOther())) {
 //                TtsUtils.closeTTs(UltrasonicService.this);
 
-                String finalTtsString = currentBean.getOther().replace("<人名>", userName);
+                String finalTtsString = sexTts + currentBean.getOther().replace("<人名>", userName);
+                sexTts = "";
 
                 if (!TextUtils.isEmpty(currentBean.getFace())) {
                     TtsUtils.sendTts(getApplicationContext(), finalTtsString + "@#;" + currentBean.getFace());
@@ -1531,20 +1670,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         super.onDestroy();
         closeEveryOne();
 
-        if (this.camera != null) {
-            this.camera.setPreviewCallbackWithBuffer((Camera.PreviewCallback) null);
-            this.camera.stopPreview();
-            this.camera.release();
-            this.camera = null;
-        }
-
-        if (faceDialog != null && faceDialog.isShowing()) {
-            faceDialog.dismiss();
-        }
-
         GuestsApplication.from(this).setUltrasonicService(null);
         GuestsApplication.from(this).stopFaceRecordActivity();
 
+        application.threadBusy = false;
     }
 
     private void closeEveryOne() {
@@ -1832,90 +1961,18 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 //        }
 //    }
 
-    private static SurfaceView dummyCameraView;
-
-    /**
-     * 显示全局窗口
-     *
-     * @param context
-     */
-    public SurfaceView getSufaceView(Context context) {
-        if (GuestsApplication.getAppContext() == null) {
-            WindowManager windowManager = (WindowManager) GuestsApplication.getAppContext()
-                    .getSystemService(Context.WINDOW_SERVICE);
-            dummyCameraView = new SurfaceView(GuestsApplication.getAppContext());
-            WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-            params.width = 1;
-            params.height = 1;
-            params.alpha = 0;
-            params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-            // 屏蔽点击事件
-            params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                    | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                    | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
-            windowManager.addView(dummyCameraView, params);
-            L.d(TAG, TAG + " showing");
-        }
-        return dummyCameraView;
-    }
-
-    private Camera camera;//声明相机
-
-    private void openCarama() {
-        int cameraCount = 0;
-        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-        cameraCount = Camera.getNumberOfCameras();//得到摄像头的个数
-        if (this.camera != null) {
-            this.camera.setPreviewCallbackWithBuffer((Camera.PreviewCallback) null);
-            this.camera.stopPreview();
-            this.camera.release();
-            this.camera = null;
-        }
-
-        try {
-            if (this.camera == null) {
-                this.camera = Camera.open();
-                if (this.camera == null) {
-                    DLog.d("摄像头开启失败");
-                } else {
-                    showFaceDialog();
-                    camera.setPreviewCallbackWithBuffer(this);
-                    camera.addCallbackBuffer(new byte[this.iw * this.ih * ImageFormat.getBitsPerPixel(17) / 8]);
-                    camera.startPreview();//开始预览
-                }
-            }
-        } catch (Exception var2) {
-            var2.printStackTrace();
-        }
-
-    }
-
-
-    @Override
-    public void onPreviewFrame(byte[] data, Camera camera) {
-        L.e(TAG, "onPreviewFrame");
-        camera.addCallbackBuffer(data);
-        runTrack(data);
-    }
-
-    private Dialog faceDialog;
-    private TextView textView;
-
-    private void showFaceDialog() {
-        faceDialog = new Dialog(this, R.style.Dialog_Fullscreen);
-        View currentView = LayoutInflater.from(UltrasonicService.this).inflate(R.layout.dialog_face_result_view, null);
-        textView = (TextView) currentView.findViewById(R.id.show_face_result_tv);
-        faceDialog.setContentView(currentView);
-        faceDialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
-        faceDialog.show();
-    }
-
-
     /**
      * 获取随机的闲聊语啊
      */
-    private String getRandomChatTts() {
-        return chatTts[(int) (Math.random() * chatTts.length)];
+    private String getRandomChatTts(int type) {
+        switch (type) {
+            case 1:
+                return chatTts[(int) (Math.random() * chatTts.length)];
+            case 2:
+                return notPersonChatTts[(int) (Math.random() * notPersonChatTts.length)];
+        }
+
+        return null;
     }
 
 
