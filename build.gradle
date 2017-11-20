@@ -3,8 +3,8 @@ import java.text.SimpleDateFormat
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "24.0.1"
 
     defaultConfig {
         SimpleDateFormat formatter = new SimpleDateFormat("MMdd");
@@ -13,7 +13,7 @@ android {
         String timeVersionName = formatter.format(curDate);
         applicationId "com.efrobot.guests"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1
         versionName "5.1" + timeVersionName
     }
@@ -33,17 +33,12 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.efrobot.library.net:mvpnetlibrary:0.0.38'
     compile 'com.efrobot.library:framework:1.0.58'
-//    compile files('libs/android-support-v7-recyclerview.jar')
-//    compile files('libs/speech-sdk.jar')
-//    compile files('libs/efrobot-SDK.jar')
-//    compile files('libs/ormlite-core-5.0.jar')
-//    compile files('libs/ormlite-android-5.0.jar')
-//    compile 'com.makeramen:roundedimageview:2.3.0'
     compile project(':togglebutton-library')
     compile 'com.hyman:flowlayout-lib:1.1.2'
 
     compile 'com.efrobot.library.net:mvpnetlibrary:2.0.6'
+    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.android.support:recyclerview-v7:23.3.0'
 
 }

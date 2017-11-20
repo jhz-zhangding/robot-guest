@@ -6,24 +6,14 @@ import com.efrobot.library.mvp.view.UiView;
  * Created by Administrator on 2017/3/2.
  */
 public interface ISettingView extends UiView {
-    void setDistance1(String distance);
+    void setDistance1(int id, int distance);
 
-    void setDistance2(String distance);
+    void setDistance2(int id, int distance);
 
-    void setDistance3(String distance);
+    void setDistance3(int id, int distance);
 
-    void setDistance7(String distance);
+    void setDistance7(int id, int distance);
 
-    void setDistance8(String distance);
-
-    void setDistance9(String distance);
-
-    void setDistance10(String distance);
-
-    void setDistance11(String distance);
-
-    void setDistance12(String distance);
-
-    void setDistance13(String distance);
+    void setDistance8(int id, int distance);
 
 }

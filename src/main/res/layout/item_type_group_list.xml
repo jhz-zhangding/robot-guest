@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linBg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="9dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="9dp">
+
+    <TextView
+        android:id="@+id/face_action_item_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="180dp"
+        android:background="@drawable/setting_button_bg"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="22sp" />
+
+</LinearLayout>

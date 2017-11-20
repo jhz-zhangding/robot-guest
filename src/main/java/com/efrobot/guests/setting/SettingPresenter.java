@@ -67,39 +67,22 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
                     break;
                 case 1:
                     int numberNg = msg.arg1;
-                    int valueNG = msg.arg2;
-                    long valueNgCM = valueNG / 10;
+                    int valueNG = msg.arg2 / 10;
                     switch (numberNg) {
                         case 0:
-                            mView.setDistance1(valueNgCM + "");
+                            mView.setDistance1(numberNg, valueNG);
                             break;
                         case 1:
-                            mView.setDistance2(valueNgCM + "");
+                            mView.setDistance2(numberNg, valueNG);
                             break;
                         case 2:
-                            mView.setDistance3(valueNgCM + "");
+                            mView.setDistance3(numberNg, valueNG);
                             break;
                         case 6:
-                            mView.setDistance7(valueNgCM + "");
+                            mView.setDistance7(numberNg, valueNG);
                             break;
                         case 7:
-                            mView.setDistance8(valueNgCM + "");
-                            break;
-
-                        case 8:
-                            mView.setDistance9(valueNgCM + "");
-                            break;
-                        case 9:
-                            mView.setDistance10(valueNgCM + "");
-                            break;
-                        case 10:
-                            mView.setDistance11(valueNgCM + "");
-                            break;
-                        case 11:
-                            mView.setDistance12(valueNgCM + "");
-                            break;
-                        case 12:
-                            mView.setDistance13(valueNgCM + "");
+                            mView.setDistance8(numberNg, valueNG);
                             break;
                     }
                     break;
@@ -495,7 +478,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
     byte mByte12 = (byte) 0x08;
     byte mByte13 = (byte) 0x10;
 
-    private final int OpenUltrasonicNum = 10;
+    private final int OpenUltrasonicNum = 5;
 
 //    /**
 //     * 新策略
@@ -531,7 +514,8 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
 //        data[5] = (byte) 0x83;
 
         data[5] = ((byte) (mByte1 | mByte2 | mByte3 | mByte7 | mByte8));
-        data[4] = ((byte) (mByte9 | mByte10 | mByte11 | mByte12 | mByte13));
+//        data[4] = ((byte) (mByte9 | mByte10 | mByte11 | mByte12 | mByte13));
+        data[4] = 0x00;
 
         data[6] = (byte) 0x00;
         data[7] = (byte) 7;
@@ -559,7 +543,7 @@ public class SettingPresenter extends GuestsBasePresenter<ISettingView> implemen
                     if ((i - 3) % 4 == 0) {
                         int valueNG = (bytes[i] & 255) | ((bytes[i - 1] & 255) << 8); // 距离
                         int numberNg = (bytes[i - 2] & 255) | ((bytes[i - 3] & 255) << 8); // 返回的探头编号 0-12
-//                        L.i(TAG, "第" + (numberNg) + "号超声波-----valueNG-" + valueNG);
+                        L.i(TAG, "第" + (numberNg) + "号超声波-----valueNG-" + valueNG);
                         Message message = ulHandle.obtainMessage();
                         message.arg1 = numberNg;
                         message.arg2 = valueNG;

@@ -9,6 +9,8 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,13 +35,11 @@ import com.efrobot.guests.bean.UlDistanceBean;
 import com.efrobot.guests.dao.DataManager;
 import com.efrobot.guests.dao.SelectedDao;
 import com.efrobot.guests.dao.UltrasonicDao;
-import com.efrobot.guests.service.GuestRobotService;
 import com.efrobot.guests.service.UltrasonicService;
 import com.efrobot.guests.setting.advanced.AdvancedSettingActivity;
 import com.efrobot.guests.setting.bean.SelectDirection;
 import com.efrobot.guests.utils.CustomHintDialog;
 import com.efrobot.guests.utils.PreferencesUtils;
-import com.efrobot.guests.utils.UpdateUtils;
 import com.efrobot.guests.utils.ui.DisplayParamsUtil;
 import com.efrobot.library.RobotManager;
 import com.efrobot.library.mvp.presenter.BasePresenter;
@@ -68,12 +68,11 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     private List<GreetingAdapter> adapterList;
 
     private TextView ulDistanceText1, ulDistanceText2, ulDistanceText3, ulDistanceText7, ulDistanceText8;
-    private TextView ulDistanceText9, ulDistanceText10, ulDistanceText11, ulDistanceText12, ulDistanceText13;
+//    private TextView ulDistanceText9, ulDistanceText10, ulDistanceText11, ulDistanceText12, ulDistanceText13;
 
     //用户设置距离
     private EditText ulDistanceEdit0, ulDistanceEdit1, ulDistanceEdit2, ulDistanceEdit6,
-            ulDistanceEdit7, ulDistanceEdit8, ulDistanceEdit9,
-            ulDistanceEdit10, ulDistanceEdit11, ulDistanceEdit12;
+            ulDistanceEdit7;
 
     //迎宾语 结束语
     private ListView leftListView;
@@ -132,6 +131,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             }
         }
     };
+    private UltrasonicDao ultrasonicDao;
 
     @Override
     public BasePresenter createPresenter() {
@@ -154,6 +154,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
         SpeechManager.getInstance().registerSpeechSDK(this, mISpeech);
         selectedDao = GuestsApplication.from(this).getSelectedDao();
+        ultrasonicDao = GuestsApplication.from(this).getUltrasonicDao();
 
         /**是否禁止过轮子**/
 //        boolean isOpenWheel = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, true);
@@ -194,12 +195,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         ulDistanceText3 = (TextView) findViewById(R.id.ul_place_test_edit3);
         ulDistanceText7 = (TextView) findViewById(R.id.ul_place_test_edit7);
         ulDistanceText8 = (TextView) findViewById(R.id.ul_place_test_edit8);
-
-        ulDistanceText9 = (TextView) findViewById(R.id.ul_place_test_edit9);
-        ulDistanceText10 = (TextView) findViewById(R.id.ul_place_test_edit10);
-        ulDistanceText11 = (TextView) findViewById(R.id.ul_place_test_edit11);
-        ulDistanceText12 = (TextView) findViewById(R.id.ul_place_test_edit12);
-        ulDistanceText13 = (TextView) findViewById(R.id.ul_place_test_edit13);
 
         //迎宾语设置
         leftListView = (ListView) findViewById(R.id.left_greeting_set_lv);
@@ -425,8 +420,13 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
 
     private Dialog ultrasonicSettingDialog;
+    private RecyclerView recyclerView;
+    private ChooseTypeAdapter chooseTypeAdapter;
+    private List<String> typeList = new ArrayList<String>();
+    private String mContent = "中";
 
     private void showUltrasonicSettingDialog() {
+        mContent = PreferencesUtils.getString(SettingActivity.this, SpContans.SP_ULTRASONIC_SETTING_STATUS, "中");
         if (ultrasonicSettingDialog == null) {
             ultrasonicSettingDialog = new Dialog(this, R.style.NewSettingDialog);
             View currentView = LayoutInflater.from(this).inflate(R.layout.layout_ultrasonic_select_dialog, null);
@@ -440,16 +440,19 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             ultrasonicMap.put(6, ulDistanceEdit6);
             ulDistanceEdit7 = (EditText) currentView.findViewById(R.id.ul_place_edit7);
             ultrasonicMap.put(7, ulDistanceEdit7);
-            ulDistanceEdit8 = (EditText) currentView.findViewById(R.id.ul_place_edit8);
-            ultrasonicMap.put(8, ulDistanceEdit8);
-            ulDistanceEdit9 = (EditText) currentView.findViewById(R.id.ul_place_edit9);
-            ultrasonicMap.put(9, ulDistanceEdit9);
-            ulDistanceEdit10 = (EditText) currentView.findViewById(R.id.ul_place_edit10);
-            ultrasonicMap.put(10, ulDistanceEdit10);
-            ulDistanceEdit11 = (EditText) currentView.findViewById(R.id.ul_place_edit11);
-            ultrasonicMap.put(11, ulDistanceEdit11);
-            ulDistanceEdit12 = (EditText) currentView.findViewById(R.id.ul_place_edit12);
-            ultrasonicMap.put(12, ulDistanceEdit12);
+            recyclerView = (RecyclerView) currentView.findViewById(R.id.ultrasonic_setting_data_recycler_view);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
+            recyclerView.setLayoutManager(gridLayoutManager);
+            //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
+            recyclerView.setHasFixedSize(true);
+
+            typeList.add("远");
+            typeList.add("中");
+            typeList.add("近");
+            typeList.add("自定义");
+            chooseTypeAdapter = new ChooseTypeAdapter(typeList, onChooseItemAdapterItemListener, mContent);
+            recyclerView.setAdapter(chooseTypeAdapter);
+
             currentView.findViewById(R.id.ultrasonic_setting_affirm_btn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -470,23 +473,59 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
             dialogWindow.setAttributes(lp);
             dialogWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        } else {
+            if (chooseTypeAdapter != null) {
+                chooseTypeAdapter.updateContent(mContent);
+            }
         }
         mHandler.sendEmptyMessage(INIT_GUEST_USER_DATA);
         ultrasonicSettingDialog.show();
 
     }
 
+    private ChooseTypeAdapter.OnChooseItemAdapterItemListener onChooseItemAdapterItemListener = new ChooseTypeAdapter.OnChooseItemAdapterItemListener() {
+        @Override
+        public void onItemClick(View v, String content, int position) {
+            com.efrobot.library.mvp.utils.PreferencesUtils.putString(SettingActivity.this, SpContans.SP_ULTRASONIC_SETTING_STATUS, content);
+            if (content.equals("远")) {
+                setEditTextContent("150");
+            } else if (content.equals("中")) {
+                setEditTextContent("100");
+            } else if (content.equals("近")) {
+                setEditTextContent("50");
+            } else if (content.equals("自定义")) {
+                setEditTextContent("");
+//                initUserSetting();
+            }
+        }
+    };
+
+    private void setEditTextContent(String distance) {
+        if (ultrasonicMap != null && ultrasonicMap.size() > 0) {
+            for (Map.Entry entry : ultrasonicMap.entrySet()) {
+                EditText editText = ((EditText) entry.getValue());
+                editText.setText(distance);
+                if (!TextUtils.isEmpty(distance)) {
+                    editText.setEnabled(false);
+                } else {
+                    editText.setEnabled(true);
+                }
+            }
+        }
+    }
+
     /**
      * 初始化用户设置距离
      */
     private void initUserSetting() {
-        UltrasonicDao ultrasonicDao = GuestsApplication.from(this).getUltrasonicDao();
         ArrayList<UlDistanceBean> lists = ultrasonicDao.queryAll();
 
         if (lists != null) {
             for (int i = 0; i < lists.size(); i++) {
                 UlDistanceBean ulDistanceBean = lists.get(i);
-                ultrasonicMap.get(ulDistanceBean.getUltrasonicId()).setText(ulDistanceBean.getDistanceValue());
+                if (ultrasonicMap.containsKey(ulDistanceBean.getUltrasonicId())) {
+                    ultrasonicMap.get(ulDistanceBean.getUltrasonicId()).setText(ulDistanceBean.getDistanceValue());
+                }
             }
         }
     }
@@ -495,7 +534,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
      * 保存用户设置距离
      */
     private void saveUserSetting() {
-        UltrasonicDao ultrasonicDao = GuestsApplication.from(this).getUltrasonicDao();
         for (Map.Entry entry : ultrasonicMap.entrySet()) {
             L.e("saveUserSetting", "setUltrasonicId=" + (Integer) entry.getKey() + "- - -setDistanceValue=" + ((EditText) entry.getValue()).getText().toString());
             UlDistanceBean ulDistanceBean = new UlDistanceBean();
@@ -668,7 +706,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     private List<Integer> emptyDistanceList;
 
     private void updateTempDirectionSelected() {
-        List<UlDistanceBean> ulDistanceBeen = GuestsApplication.from(this).getUltrasonicDao().queryAll();
+        List<UlDistanceBean> ulDistanceBeen = ultrasonicDao.queryAll();
         emptyDistanceList = new ArrayList<Integer>();
         int ul_id = -1;
         for (int i = 0; i < ulDistanceBeen.size(); i++) {
@@ -881,54 +919,53 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         }
     }
 
-    @Override
-    public void setDistance1(String distance) {
-        ulDistanceText1.setText(distance);
+    private List<UlDistanceBean> ulDistanceBeanList;
+    private void setTextData(int id, int distance, TextView textView) {
+        ulDistanceBeanList = ultrasonicDao.queryAll();
+        if(distance > 0) {
+            for (int i = 0; i < ulDistanceBeanList.size(); i++) {
+                int ultrasonicId = ulDistanceBeanList.get(i).getUltrasonicId();
+                if(ultrasonicId == id) {
+                    int ulDistance=  Integer.parseInt(ulDistanceBeanList.get(i).getDistanceValue());
+                    if(distance <= ulDistance) {
+                        //有人
+                        textView.setText("有人");
+                        textView.setTextColor(getResources().getColor(R.color.orange));
+                    } else {
+                        textView.setText("没人");
+                        textView.setTextColor(getResources().getColor(R.color.white));
+                    }
+                }
+
+            }
+
+        }
+
     }
 
     @Override
-    public void setDistance2(String distance) {
-        ulDistanceText2.setText(distance);
+    public void setDistance1(int id, int distance) {
+        setTextData(id, distance, ulDistanceText1);
     }
 
     @Override
-    public void setDistance3(String distance) {
-        ulDistanceText3.setText(distance);
+    public void setDistance2(int id, int distance) {
+        setTextData(id, distance, ulDistanceText2);
     }
 
     @Override
-    public void setDistance7(String distance) {
-        ulDistanceText7.setText(distance);
+    public void setDistance3(int id, int distance) {
+        setTextData(id, distance, ulDistanceText3);
     }
 
     @Override
-    public void setDistance8(String distance) {
-        ulDistanceText8.setText(distance);
+    public void setDistance7(int id, int distance) {
+        setTextData(id, distance, ulDistanceText7);
     }
 
     @Override
-    public void setDistance9(String distance) {
-        ulDistanceText9.setText(distance);
-    }
-
-    @Override
-    public void setDistance10(String distance) {
-        ulDistanceText10.setText(distance);
-    }
-
-    @Override
-    public void setDistance11(String distance) {
-        ulDistanceText11.setText(distance);
-    }
-
-    @Override
-    public void setDistance12(String distance) {
-        ulDistanceText12.setText(distance);
-    }
-
-    @Override
-    public void setDistance13(String distance) {
-        ulDistanceText13.setText(distance);
+    public void setDistance8(int id, int distance) {
+        setTextData(id, distance, ulDistanceText8);
     }
 
     @Override

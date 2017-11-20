@@ -23,6 +23,7 @@
     <color name="color_bababa">#BABABA</color>
 
     <color name="guest_text_color">#ffffff</color>
+    <color name="guest_edit_text_color">#0000ff</color>
 
     <color name="orange">#ff8f00</color>
 
@@ -73,4 +74,5 @@
     <color name="ultrasonic_setting_color">#096ACC</color>
 
     <color name="ultrasonic_advanced_setting_color">#65AAEE</color>
+    <color name="et_color">#6A8759</color>
 </resources>

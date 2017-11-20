@@ -8,6 +8,8 @@ public class SpContans {
 
     public final static String SP_REMEMBER_WHEEL_STATE = "sp_remember_wheel_state";
 
+    public final static String SP_ULTRASONIC_SETTING_STATUS = "sp_ultrasonic_setting_status";
+
     /** 高级设置 **/
     public static class AdvanceContans {
 
