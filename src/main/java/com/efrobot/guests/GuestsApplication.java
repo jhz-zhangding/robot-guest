@@ -8,6 +8,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.efrobot.guests.Env.SpContans;
 import com.efrobot.guests.bean.UlDistanceBean;
 import com.efrobot.guests.dao.SelectedDao;
 import com.efrobot.guests.dao.UltrasonicDao;
@@ -91,14 +92,15 @@ public class GuestsApplication extends Application {
         ultrasonicMaps.put(6, "100");
         ultrasonicMaps.put(7, "100");
 
-        ultrasonicMaps.put(8, "");
-        ultrasonicMaps.put(9, "");
-        ultrasonicMaps.put(10, "");
-        ultrasonicMaps.put(11, "");
-        ultrasonicMaps.put(12, "");
+//        ultrasonicMaps.put(8, "");
+//        ultrasonicMaps.put(9, "");
+//        ultrasonicMaps.put(10, "");
+//        ultrasonicMaps.put(11, "");
+//        ultrasonicMaps.put(12, "");
         saveUserSetting(ultrasonicMaps);
 
         PreferencesUtils.putBoolean(getContext().getApplicationContext(), "FIRST_INIT_DATA", false);
+        PreferencesUtils.putBoolean(getContext().getApplicationContext(), SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, true);
     }
 
     /**

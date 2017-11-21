@@ -922,15 +922,21 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     private List<UlDistanceBean> ulDistanceBeanList;
     private void setTextData(int id, int distance, TextView textView) {
         ulDistanceBeanList = ultrasonicDao.queryAll();
-        if(distance > 0) {
+        if(distance > 0 && distance <= 819) {
             for (int i = 0; i < ulDistanceBeanList.size(); i++) {
                 int ultrasonicId = ulDistanceBeanList.get(i).getUltrasonicId();
                 if(ultrasonicId == id) {
-                    int ulDistance=  Integer.parseInt(ulDistanceBeanList.get(i).getDistanceValue());
-                    if(distance <= ulDistance) {
-                        //有人
-                        textView.setText("有人");
-                        textView.setTextColor(getResources().getColor(R.color.orange));
+                    String distanceValue = ulDistanceBeanList.get(i).getDistanceValue();
+                    if(distanceValue != null && !TextUtils.isEmpty(distanceValue)) {
+                        int ulDistance=  Integer.parseInt(distanceValue);
+                        if(distance <= ulDistance) {
+                            //有人
+                            textView.setText("有人");
+                            textView.setTextColor(getResources().getColor(R.color.orange));
+                        } else {
+                            textView.setText("没人");
+                            textView.setTextColor(getResources().getColor(R.color.white));
+                        }
                     } else {
                         textView.setText("没人");
                         textView.setTextColor(getResources().getColor(R.color.white));
@@ -939,6 +945,10 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
             }
 
+        }else {
+            //异常
+            textView.setText("异常");
+            textView.setTextColor(getResources().getColor(R.color.red));
         }
 
     }

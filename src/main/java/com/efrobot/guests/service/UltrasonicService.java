@@ -119,6 +119,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private Calendar mCalendar;
 //    private boolean isOpenWheel;
 
+    private boolean isNeedOpenSpeech;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -131,7 +133,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         if (!TtsUtils.isCanUseGuest(this)) {
             return -1;
         }
-
+        isNeedOpenSpeech = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, true);
         GuestsApplication.from(this).setUltrasonicService(this);
         groupManager = RobotManager.getInstance(this.getApplicationContext()).getGroupInstance();
         IsRunning = true;
@@ -456,7 +458,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                             }
                             if (isTimingCount && timingCount > waitTime) {
                                 L.i(TAG, "迎宾结束");
-                                startPlay(STOP_GUEST_STRING);
+//                                startPlay(STOP_GUEST_STRING);
                                 han.removeMessages(0);
                                 SpeechManager.getInstance().closeSpeechDiscern(getApplicationContext());
                                 closeAlwaysLight();
@@ -791,11 +793,12 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         if (isAllPlayFinish()) {
 
             if (currentNeedPlay == START_LEFT_STRING || currentNeedPlay == START_RIGHT_STRING) {
-
-                showTip("开启语音识别");
-                SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
-                TtsUtils.getInstance().sendOpenSpeechBroadcast(this);
-                openAlwaysLight();
+                if(isNeedOpenSpeech) {
+                    showTip("开启语音识别");
+                    SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
+                    TtsUtils.getInstance().sendOpenSpeechBroadcast(this);
+                    openAlwaysLight();
+                }
             } else if (currentNeedPlay == STOP_GUEST_STRING) {
                 if (groupManager != null) {
                     groupManager.reset();

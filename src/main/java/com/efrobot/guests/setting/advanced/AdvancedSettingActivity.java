@@ -28,6 +28,8 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 
     private EditText guestTimeEt;
 
+    private ToggleButton speechBtn;
+
     private ToggleButton correctionBtn;
 
     private ToggleButton autoGuestBtn;
@@ -55,12 +57,13 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 
         versionName = (TextView) findViewById(R.id.advanced_setting_version_name);
         String versionInfo = new UpdateUtils().getVersion(this, this.getPackageName());
-        if(!TextUtils.isEmpty(versionInfo)) {
+        if (!TextUtils.isEmpty(versionInfo)) {
             versionName.setText("版本:" + versionInfo);
         }
 
         exitBtn = (TextView) findViewById(R.id.advanced_setting_exit);
         guestTimeEt = (EditText) findViewById(R.id.advanced_setting_time_et);
+        speechBtn = (ToggleButton) findViewById(R.id.advanced_setting_speech_btn);
         correctionBtn = (ToggleButton) findViewById(R.id.advanced_setting_correction_btn);
         autoGuestBtn = (ToggleButton) findViewById(R.id.advanced_setting_guest_btn);
 //        closeWheelBtn = (ToggleButton) findViewById(R.id.advanced_setting_wheel_btn);
@@ -73,6 +76,8 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         String e = "<html>此功能开启后，只需关闭面罩，机器人就会自动进入迎宾模式。关闭面罩前，请先确认超声波数据是否正常。<font color=\"#EA2000\">注：在其他应用场景中，若关闭面罩不需要开启迎宾，请关闭这个功能。</html>";
         TextView autoGuestTextView = (TextView) findViewById(R.id.advanced_setting_auto_html_text);
         autoGuestTextView.setText(Html.fromHtml(e));
+
+        initToogleButton();
     }
 
 
@@ -101,94 +106,46 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         });
 
         exitBtn.setOnClickListener(this);
+        speechBtn.setOnClickListener(this);
         correctionBtn.setOnClickListener(this);
         autoGuestBtn.setOnClickListener(this);
 //        closeWheelBtn.setOnClickListener(this);
     }
 
+    private void initToogleButton() {
+        updateSpData(SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, speechBtn);
+        updateSpData(SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, correctionBtn);
+        updateSpData(SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, autoGuestBtn);
+    }
+
+
     @Override
     public void onClick(View v) {
         if (v.equals(exitBtn)) {
             finish();
+        } else if (v.equals(speechBtn)) {
+            setClickData(SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, v);
         } else if (v.equals(correctionBtn)) {
-            updateStatus(v);
+            setClickData(SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, v);
         } else if (v.equals(autoGuestBtn)) {
-            updateStatus(v);
+            setClickData(SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, v);
         }
-//        else if (v.equals(closeWheelBtn)) {
-//            updateStatus(v);
-//        }
     }
 
-    private void updateStatus(View v) {
-        if (v.equals(correctionBtn)) {
-            boolean isOpenCorrection = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, false);
-            if (isOpenCorrection) {
-//                correctionBtn.setText("关闭");
-                correctionBtn.setToggleOff();
-                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, false);
-            } else {
-                correctionBtn.setToggleOn();
-//                correctionBtn.setText("开启");
-                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, true);
-            }
-        }
-
-        if (v.equals(autoGuestBtn)) {
-            boolean isOpenAutoGuest = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, false);
-            if (isOpenAutoGuest) {
-//                autoGuestBtn.setText("关闭");
-                autoGuestBtn.setToggleOff();
-                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, false);
-            } else {
-//                autoGuestBtn.setText("开启");
-                autoGuestBtn.setToggleOn();
-                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, true);
-            }
-        }
-
-//        if (v.equals(closeWheelBtn)) {
-//            boolean isOpenWheel = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, false);
-//            if (isOpenWheel) {
-//                //关闭轮子需要提示
-//                showWheelWaringDialog();
-//            } else {
-//                closeWheelBtn.setToggleOn();
-//                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, true);
-//            }
-//        }
+    private void setClickData(String spFlag, View view) {
+        boolean isOpenCorrection = PreferencesUtils.getBoolean(getContext(), spFlag, false);
+        PreferencesUtils.putBoolean(getContext(), spFlag, !isOpenCorrection);
+        updateSpData(spFlag, view);
     }
 
-//    private CustomHintDialog waringDialog;
-//
-//    private void showWheelWaringDialog() {
-//        waringDialog = new CustomHintDialog(this, 0);
-//        waringDialog.setMessage("关闭双轮运动会导致机器人无法运动\n" +
-//                "确认要关闭双轮运动吗？");
-//        waringDialog.setCancleButton("取消", new CustomHintDialog.IButtonOnClickLister() {
-//            @Override
-//            public void onClickLister() {
-//                if (waringDialog != null) {
-//                    waringDialog.dismiss();
-//                }
-//            }
-//        });
-//
-//        waringDialog.setSubmitButton("确认", new CustomHintDialog.IButtonOnClickLister() {
-//            @Override
-//            public void onClickLister() {
-////                closeWheelBtn.setText("关闭");
-//                closeWheelBtn.setToggleOff();
-//                PreferencesUtils.putBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, false);
-//                if (waringDialog != null) {
-//                    waringDialog.dismiss();
-//                }
-//            }
-//        });
-//
-//        waringDialog.show();
-//
-//    }
+    private void updateSpData(String spFlag, View view) {
+        boolean isOpenCorrection = PreferencesUtils.getBoolean(getContext(), spFlag, false);
+        if (isOpenCorrection) {
+            ((ToggleButton) view).setToggleOn();
+        } else {
+            ((ToggleButton) view).setToggleOff();
+        }
+    }
 
     @Override
     public void showToast(String text) {
