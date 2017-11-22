@@ -65,7 +65,7 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
-                android:text="左3"
+                android:text="左2"
                 android:textColor="@color/guest_text_color"
                 android:textSize="@dimen/textsize_20" />
 
@@ -107,7 +107,7 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
-                android:text="右3"
+                android:text="右2"
                 android:textColor="@color/guest_text_color"
                 android:textSize="@dimen/textsize_20" />
 

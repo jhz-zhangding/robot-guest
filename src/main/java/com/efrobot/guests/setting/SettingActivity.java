@@ -177,6 +177,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         rightListView.setAdapter(adapterList.get(1));
         finishListView.setAdapter(adapterList.get(2));
 
+        initUltrasonicData();
 
         updateDirectionView(leftUltrasonicTv, rightUltrasonicTv);
         initDialogData();
@@ -186,6 +187,32 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         updatePlayModeView(rightPlayModeImg, false);
         updatePlayModeView(finishPlayModeImg, false);
 
+    }
+
+    private Map<Integer, String> ultrasonicMaps = new HashMap<Integer, String>();
+    private void initUltrasonicData() {
+        boolean isFirstUpdateDataBase = PreferencesUtils.getBoolean(this, "initUltrasonicData", true);
+        if (isFirstUpdateDataBase) {
+            ultrasonicDao.delete(8);
+            ultrasonicDao.delete(9);
+            ultrasonicDao.delete(10);
+            ultrasonicDao.delete(11);
+            ultrasonicDao.delete(12);
+
+            selectedDao.delete(8);
+            selectedDao.delete(9);
+            selectedDao.delete(10);
+            selectedDao.delete(11);
+            selectedDao.delete(12);
+
+            ultrasonicMaps.put(0, "100");
+            ultrasonicMaps.put(1, "100");
+            ultrasonicMaps.put(2, "100");
+            ultrasonicMaps.put(6, "100");
+            ultrasonicMaps.put(7, "100");
+            GuestsApplication.from(this).saveUserSetting(ultrasonicMaps);
+            PreferencesUtils.putBoolean(this, "initUltrasonicData", false);
+        }
     }
 
     private void initViewId() {
@@ -423,12 +450,12 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     private RecyclerView recyclerView;
     private ChooseTypeAdapter chooseTypeAdapter;
     private List<String> typeList = new ArrayList<String>();
-    private String mContent = "中";
+    private String mContent = "检测距离--中";
 
     private void showUltrasonicSettingDialog() {
-        mContent = PreferencesUtils.getString(SettingActivity.this, SpContans.SP_ULTRASONIC_SETTING_STATUS, "中");
+        mContent = PreferencesUtils.getString(SettingActivity.this, SpContans.SP_ULTRASONIC_SETTING_STATUS, "检测距离--中");
         if (ultrasonicSettingDialog == null) {
-            ultrasonicSettingDialog = new Dialog(this, R.style.NewSettingDialog);
+            ultrasonicSettingDialog = new Dialog(this, R.style.Dialog_Fullscreen);
             View currentView = LayoutInflater.from(this).inflate(R.layout.layout_ultrasonic_select_dialog, null);
             ulDistanceEdit0 = (EditText) currentView.findViewById(R.id.ul_place_edit0);
             ultrasonicMap.put(0, ulDistanceEdit0);
@@ -446,9 +473,9 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
             recyclerView.setHasFixedSize(true);
 
-            typeList.add("远");
-            typeList.add("中");
-            typeList.add("近");
+            typeList.add("检测距离--远");
+            typeList.add("检测距离--中");
+            typeList.add("检测距离--近");
             typeList.add("自定义");
             chooseTypeAdapter = new ChooseTypeAdapter(typeList, onChooseItemAdapterItemListener, mContent);
             recyclerView.setAdapter(chooseTypeAdapter);
@@ -469,15 +496,16 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             dialogWindow.setGravity(Gravity.CENTER);
             WindowManager.LayoutParams lp = dialogWindow.getAttributes();
             lp.width = DisplayParamsUtil.dipToPixel(this, 1100);
-            lp.height = DisplayParamsUtil.dipToPixel(this, 400);
+            lp.height = DisplayParamsUtil.dipToPixel(this, 410);
 
             dialogWindow.setAttributes(lp);
             dialogWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         } else {
-            if (chooseTypeAdapter != null) {
-                chooseTypeAdapter.updateContent(mContent);
-            }
+//            if (chooseTypeAdapter != null) {
+//                chooseTypeAdapter.updateContent(mContent);
+//            }
         }
+        chooseItemContent(mContent);
         mHandler.sendEmptyMessage(INIT_GUEST_USER_DATA);
         ultrasonicSettingDialog.show();
 
@@ -486,19 +514,23 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     private ChooseTypeAdapter.OnChooseItemAdapterItemListener onChooseItemAdapterItemListener = new ChooseTypeAdapter.OnChooseItemAdapterItemListener() {
         @Override
         public void onItemClick(View v, String content, int position) {
-            com.efrobot.library.mvp.utils.PreferencesUtils.putString(SettingActivity.this, SpContans.SP_ULTRASONIC_SETTING_STATUS, content);
-            if (content.equals("远")) {
-                setEditTextContent("150");
-            } else if (content.equals("中")) {
-                setEditTextContent("100");
-            } else if (content.equals("近")) {
-                setEditTextContent("50");
-            } else if (content.equals("自定义")) {
-                setEditTextContent("");
-//                initUserSetting();
-            }
+            mContent = content;
+            chooseItemContent(content);
         }
     };
+
+    private void chooseItemContent(String content) {
+        if (content.equals("检测距离--远")) {
+            setEditTextContent("150");
+        } else if (content.equals("检测距离--中")) {
+            setEditTextContent("100");
+        } else if (content.equals("检测距离--近")) {
+            setEditTextContent("50");
+        } else if (content.equals("自定义")) {
+            setEditTextContent("");
+//                initUserSetting();
+        }
+    }
 
     private void setEditTextContent(String distance) {
         if (ultrasonicMap != null && ultrasonicMap.size() > 0) {
@@ -507,8 +539,12 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 editText.setText(distance);
                 if (!TextUtils.isEmpty(distance)) {
                     editText.setEnabled(false);
+                    editText.setBackground(getResources().getDrawable(R.color.transparent));
+                    editText.setTextColor(getResources().getColor(R.color.white));
                 } else {
                     editText.setEnabled(true);
+                    editText.setBackground(getResources().getDrawable(R.color.white));
+                    editText.setTextColor(getResources().getColor(R.color.black));
                 }
             }
         }
@@ -534,6 +570,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
      * 保存用户设置距离
      */
     private void saveUserSetting() {
+        com.efrobot.library.mvp.utils.PreferencesUtils.putString(SettingActivity.this, SpContans.SP_ULTRASONIC_SETTING_STATUS, mContent);
         for (Map.Entry entry : ultrasonicMap.entrySet()) {
             L.e("saveUserSetting", "setUltrasonicId=" + (Integer) entry.getKey() + "- - -setDistanceValue=" + ((EditText) entry.getValue()).getText().toString());
             UlDistanceBean ulDistanceBean = new UlDistanceBean();
@@ -586,6 +623,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         });
         selectGridView.setAdapter(selectDirecAdapter);
 
+        selectUltrasonicDialog.setCanceledOnTouchOutside(true);
         selectUltrasonicDialog.setContentView(currentView);
         Window dialogWindow = selectUltrasonicDialog.getWindow();
         dialogWindow.setGravity(Gravity.CENTER);
@@ -906,30 +944,31 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         if (direcMap == null) {
             direcMap = new LinkedHashMap<Integer, String>();
             direcMap.put(2, "左1");
-            direcMap.put(1, "左3");
+            direcMap.put(1, "左2");
             direcMap.put(0, "中1");
-            direcMap.put(7, "右3");
+            direcMap.put(7, "右2");
             direcMap.put(6, "右1");
 
-            direcMap.put(12, "左2");
-            direcMap.put(10, "左4");
-            direcMap.put(9, "中2");
-            direcMap.put(8, "右4");
-            direcMap.put(11, "右2");
+//            direcMap.put(12, "左2");
+//            direcMap.put(10, "左4");
+//            direcMap.put(9, "中2");
+//            direcMap.put(8, "右4");
+//            direcMap.put(11, "右2");
         }
     }
 
     private List<UlDistanceBean> ulDistanceBeanList;
+
     private void setTextData(int id, int distance, TextView textView) {
         ulDistanceBeanList = ultrasonicDao.queryAll();
-        if(distance > 0 && distance <= 819) {
+        if (distance > 0 && distance <= 819) {
             for (int i = 0; i < ulDistanceBeanList.size(); i++) {
                 int ultrasonicId = ulDistanceBeanList.get(i).getUltrasonicId();
-                if(ultrasonicId == id) {
+                if (ultrasonicId == id) {
                     String distanceValue = ulDistanceBeanList.get(i).getDistanceValue();
-                    if(distanceValue != null && !TextUtils.isEmpty(distanceValue)) {
-                        int ulDistance=  Integer.parseInt(distanceValue);
-                        if(distance <= ulDistance) {
+                    if (distanceValue != null && !TextUtils.isEmpty(distanceValue)) {
+                        int ulDistance = Integer.parseInt(distanceValue);
+                        if (distance <= ulDistance) {
                             //有人
                             textView.setText("有人");
                             textView.setTextColor(getResources().getColor(R.color.orange));
@@ -945,7 +984,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
             }
 
-        }else {
+        } else {
             //异常
             textView.setText("异常");
             textView.setTextColor(getResources().getColor(R.color.red));

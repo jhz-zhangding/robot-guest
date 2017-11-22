@@ -106,7 +106,7 @@ public class GuestsApplication extends Application {
     /**
      * 保存用户设置距离
      */
-    private void saveUserSetting(Map<Integer, String> ultrasonicMap) {
+    public void saveUserSetting(Map<Integer, String> ultrasonicMap) {
         UltrasonicDao ultrasonicDao = GuestsApplication.from(this).getUltrasonicDao();
         for (Map.Entry entry : ultrasonicMap.entrySet()) {
             UlDistanceBean ulDistanceBean = new UlDistanceBean();

@@ -118,6 +118,19 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         updateSpData(SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, autoGuestBtn);
     }
 
+    private void updateEditData() {
+        boolean isOpenCorrection = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, false);
+        if (isOpenCorrection) {
+            guestTimeEt.setText("3");
+            guestTimeEt.setEnabled(true);
+            PreferencesUtils.putInt(getContext(), SpContans.AdvanceContans.SP_GUEST_DELAY_TIME, 3);
+        } else {
+            guestTimeEt.setText("0");
+            guestTimeEt.setEnabled(false);
+            PreferencesUtils.putInt(getContext(), SpContans.AdvanceContans.SP_GUEST_DELAY_TIME, 0);
+        }
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -125,6 +138,7 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
             finish();
         } else if (v.equals(speechBtn)) {
             setClickData(SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, v);
+            updateEditData();
         } else if (v.equals(correctionBtn)) {
             setClickData(SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, v);
         } else if (v.equals(autoGuestBtn)) {

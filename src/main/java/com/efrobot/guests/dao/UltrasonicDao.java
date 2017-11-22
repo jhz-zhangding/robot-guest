@@ -98,7 +98,7 @@ public class UltrasonicDao {
 
     //判断是否已经存在该数据
     public boolean isExits(int ulId) {
-        boolean result = false ;
+        boolean result = false;
         if (dbOpenHelper != null) {
             synchronized (dbOpenHelper) {
                 db = dbOpenHelper.getWritableDatabase();
@@ -108,11 +108,11 @@ public class UltrasonicDao {
                 db.beginTransaction();
                 Cursor mCursor = null;
                 try {
-                    String existSql = "select * from "+ UlDistanceBean.TABLE_NAME+" where " + UlDistanceBean.ULTRASONIC_ID + "=?";
+                    String existSql = "select * from " + UlDistanceBean.TABLE_NAME + " where " + UlDistanceBean.ULTRASONIC_ID + "=?";
                     mCursor = db.rawQuery(existSql, new String[]{ulId + ""});
-                    result = null != mCursor && mCursor.moveToFirst() ;
+                    result = null != mCursor && mCursor.moveToFirst();
                     db.setTransactionSuccessful();
-                }finally {
+                } finally {
                     /**
                      * 结束事务
                      */
@@ -128,6 +128,7 @@ public class UltrasonicDao {
     }
 
     public void update(int isOpen, int ulId, String openDistance) {
+        if (dbOpenHelper != null) db = dbOpenHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(UlDistanceBean.ISOPEN, isOpen);
         cv.put(UlDistanceBean.DISTANCE, openDistance);
@@ -135,7 +136,8 @@ public class UltrasonicDao {
     }
 
     public void delete(int id) {
-        db.delete(UlDistanceBean.TABLE_NAME, "UlDistanceBean.ULTRASONIC_ID = ?", new String[]{String.valueOf(id)});
+        if (dbOpenHelper != null) db = dbOpenHelper.getWritableDatabase();
+        db.delete(UlDistanceBean.TABLE_NAME, UlDistanceBean.ULTRASONIC_ID + "=?", new String[]{String.valueOf(id)});
     }
 
 }

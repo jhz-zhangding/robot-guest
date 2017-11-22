@@ -87,7 +87,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private int farDistanceNum = 0;  //离开检测范围次数
     private int NUM_VALUE = 1; //默认进入次数
     private int NUM_FARVALUE = 4; //默认离开次数
-    private int waitTime = 10;//离开检测时间
+    private int waitTime = 3;//离开检测时间
 
     public static boolean IsOpenRepeatLight = true; //灯光开关
     private Map<Integer, Boolean> flagsMap = new HashMap<Integer, Boolean>();
@@ -201,7 +201,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         Boolean isAutoInitUl = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, false);
 
         /*********迎宾延迟时间*********/
-        waitTime = PreferencesUtils.getInt(this, SpContans.AdvanceContans.SP_GUEST_DELAY_TIME, 5);
+        waitTime = PreferencesUtils.getInt(this, SpContans.AdvanceContans.SP_GUEST_DELAY_TIME, 3);
 
         /*********播放模式*************/
         startLeftPlayMode = PreferencesUtils.getInt(this, SettingActivity.SP_LEFT_PLAY_MODE, 0);
@@ -464,6 +464,9 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                                 closeAlwaysLight();
                                 mIsExecute = false;
                                 removeTimerCount();
+                                if (groupManager != null) {
+                                    groupManager.reset();
+                                }
                             }
                             lastHead = -1;
                         }
@@ -522,6 +525,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
      * type 0：开始迎宾 1：结束迎宾
      */
     private void startPlay(int type) {
+        openAlwaysLight();
+
         currentNeedPlay = type;
         isWelcomeTTsStart = true;
 
@@ -797,7 +802,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     showTip("开启语音识别");
                     SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
                     TtsUtils.getInstance().sendOpenSpeechBroadcast(this);
-                    openAlwaysLight();
                 }
             } else if (currentNeedPlay == STOP_GUEST_STRING) {
                 if (groupManager != null) {

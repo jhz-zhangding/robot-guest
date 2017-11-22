@@ -51,7 +51,7 @@
         android:id="@+id/selected_dec_gv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="55dp"
         android:numColumns="5"
         android:verticalSpacing="15dp"
         />

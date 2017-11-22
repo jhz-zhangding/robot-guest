@@ -271,7 +271,7 @@
     <string name="advanced_setting_value">高 级 设 置</string>
 
     <string name="advanced_speech">语音交流</string>
-    <string name="advanced_setting_time_title">语音交流延迟时间：</string>
+    <string name="advanced_setting_time_title">等待时间 </string>
     <string name="advanced_setting_time_note">关闭语音交流模式后，机器人说完迎宾语不再进入语音交流状态。\n设置等待时间可提升超声波检测是否有人的准确率。例：设置等待时间为5秒，5秒内超声波都检测没人，则进入下一轮迎宾。
 </string>
 

@@ -33,7 +33,7 @@ public class AdvancedSettingPresenter extends GuestsBasePresenter<IAdvancedView>
     }
 
     public void updateBtnStatus() {
-        int guestDelay = PreferencesUtils.getInt(getContext(), SpContans.AdvanceContans.SP_GUEST_DELAY_TIME, 5);
+        int guestDelay = PreferencesUtils.getInt(getContext(), SpContans.AdvanceContans.SP_GUEST_DELAY_TIME, 3);
         mView.setDelayTime(guestDelay + "");
 
 
