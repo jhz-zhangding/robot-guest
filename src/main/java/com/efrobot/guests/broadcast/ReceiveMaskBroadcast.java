@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.efrobot.guests.Env.SpContans;
+import com.efrobot.guests.GuestsApplication;
 import com.efrobot.guests.service.GuestRobotService;
 import com.efrobot.guests.service.UltrasonicService;
 import com.efrobot.library.mvp.utils.L;
@@ -33,11 +34,18 @@ public class ReceiveMaskBroadcast extends BroadcastReceiver {
             boolean isClose = intent.getBooleanExtra(KEYCODE_MASK_CLOSE, false);
 
             if (isClose) {
-                boolean isStartUpUltrasonic = PreferencesUtils.getBoolean(context, SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, false);
-                if(isStartUpUltrasonic) {
-                    Intent serviceIntent = new Intent(context, UltrasonicService.class);
-                    context.startService(serviceIntent);
+//                boolean isStartUpUltrasonic = PreferencesUtils.getBoolean(context, SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, false);
+//                if(isStartUpUltrasonic) {
+//                    Intent serviceIntent = new Intent(context, UltrasonicService.class);
+//                    context.startService(serviceIntent);
+//                    L.e("ReceiveMaskBroadcast", "startService");
+//                }
+                boolean isNeedStart = GuestsApplication.isNeedOpenGuestService;
+                if(isNeedStart) {
+                    Intent mIntent = new Intent(context, UltrasonicService.class);
+                    context.startService(mIntent);
                 }
+
             }
 
         }

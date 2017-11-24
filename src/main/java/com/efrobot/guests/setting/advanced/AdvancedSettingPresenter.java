@@ -41,8 +41,8 @@ public class AdvancedSettingPresenter extends GuestsBasePresenter<IAdvancedView>
         mView.setCorrectionState(isOpenCorrection);
 
 
-        boolean isOpenAutoGuest = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, false);
-        mView.setAutoGuestState(isOpenAutoGuest);
+//        boolean isOpenAutoGuest = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, false);
+//        mView.setAutoGuestState(isOpenAutoGuest);
 
 
 //        boolean isOpenWheel = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_OPEN_WHEEL, true);

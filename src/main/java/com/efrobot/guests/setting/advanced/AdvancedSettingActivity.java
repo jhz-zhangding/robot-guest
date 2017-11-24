@@ -26,13 +26,15 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 
     private TextView exitBtn;
 
+    private TextView openSpeechText, closeSpeechText;
+
     private EditText guestTimeEt;
 
     private ToggleButton speechBtn;
 
     private ToggleButton correctionBtn;
 
-    private ToggleButton autoGuestBtn;
+//    private ToggleButton autoGuestBtn;
 
 //    private ToggleButton closeWheelBtn;
 
@@ -61,11 +63,14 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
             versionName.setText("版本:" + versionInfo);
         }
 
+        openSpeechText = (TextView) findViewById(R.id.advanced_setting_open_speech_note);
+        closeSpeechText = (TextView) findViewById(R.id.advanced_setting_close_speech_note);
+
         exitBtn = (TextView) findViewById(R.id.advanced_setting_exit);
         guestTimeEt = (EditText) findViewById(R.id.advanced_setting_time_et);
         speechBtn = (ToggleButton) findViewById(R.id.advanced_setting_speech_btn);
         correctionBtn = (ToggleButton) findViewById(R.id.advanced_setting_correction_btn);
-        autoGuestBtn = (ToggleButton) findViewById(R.id.advanced_setting_guest_btn);
+//        autoGuestBtn = (ToggleButton) findViewById(R.id.advanced_setting_guest_btn);
 //        closeWheelBtn = (ToggleButton) findViewById(R.id.advanced_setting_wheel_btn);
 
 
@@ -73,11 +78,12 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 //        TextView wheelHintTv = (TextView) findViewById(R.id.advanced_setting_wheel_html_text);
 //        wheelHintTv.setText(Html.fromHtml(d));
 
-        String e = "<html>此功能开启后，只需关闭面罩，机器人就会自动进入迎宾模式。关闭面罩前，请先确认超声波数据是否正常。<font color=\"#EA2000\">注：在其他应用场景中，若关闭面罩不需要开启迎宾，请关闭这个功能。</html>";
-        TextView autoGuestTextView = (TextView) findViewById(R.id.advanced_setting_auto_html_text);
-        autoGuestTextView.setText(Html.fromHtml(e));
+//        String e = "<html>此功能开启后，只需关闭面罩，机器人就会自动进入迎宾模式。关闭面罩前，请先确认超声波数据是否正常。<br /><font color=\"#FF2227\">注：在其他应用场景中，若关闭面罩不需要开启迎宾，请关闭这个功能。</html>";
+//        TextView autoGuestTextView = (TextView) findViewById(R.id.advanced_setting_auto_html_text);
+//        autoGuestTextView.setText(Html.fromHtml(e));
 
         initToogleButton();
+        updateEditData();
     }
 
 
@@ -108,14 +114,14 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         exitBtn.setOnClickListener(this);
         speechBtn.setOnClickListener(this);
         correctionBtn.setOnClickListener(this);
-        autoGuestBtn.setOnClickListener(this);
+//        autoGuestBtn.setOnClickListener(this);
 //        closeWheelBtn.setOnClickListener(this);
     }
 
     private void initToogleButton() {
         updateSpData(SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, speechBtn);
         updateSpData(SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, correctionBtn);
-        updateSpData(SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, autoGuestBtn);
+//        updateSpData(SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, autoGuestBtn);
     }
 
     private void updateEditData() {
@@ -124,10 +130,14 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
             guestTimeEt.setText("3");
             guestTimeEt.setEnabled(true);
             PreferencesUtils.putInt(getContext(), SpContans.AdvanceContans.SP_GUEST_DELAY_TIME, 3);
+            openSpeechText.setBackgroundColor(getContext().getResources().getColor(R.color.et_color_0066FF));
+            closeSpeechText.setBackgroundColor(getContext().getResources().getColor(R.color.transparent));
         } else {
             guestTimeEt.setText("0");
             guestTimeEt.setEnabled(false);
             PreferencesUtils.putInt(getContext(), SpContans.AdvanceContans.SP_GUEST_DELAY_TIME, 0);
+            closeSpeechText.setBackgroundColor(getContext().getResources().getColor(R.color.et_color_0066FF));
+            openSpeechText.setBackgroundColor(getContext().getResources().getColor(R.color.transparent));
         }
     }
 
@@ -141,9 +151,10 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
             updateEditData();
         } else if (v.equals(correctionBtn)) {
             setClickData(SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, v);
-        } else if (v.equals(autoGuestBtn)) {
-            setClickData(SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, v);
         }
+//        else if (v.equals(autoGuestBtn)) {
+//            setClickData(SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, v);
+//        }
     }
 
     private void setClickData(String spFlag, View view) {
@@ -183,7 +194,7 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 
     @Override
     public void setAutoGuestState(Boolean openOrOff) {
-        updateToggleState(autoGuestBtn, openOrOff);
+//        updateToggleState(autoGuestBtn, openOrOff);
     }
 
     @Override

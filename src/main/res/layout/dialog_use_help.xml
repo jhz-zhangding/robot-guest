@@ -148,27 +148,6 @@
                 android:layout_marginLeft="10dp"
                 android:background="@mipmap/dialog_help_guest_content" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="190dp"
-                android:layout_marginTop="350dp"
-                android:background="@mipmap/dialog_help_go_in" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="190dp"
-                android:layout_marginTop="500dp"
-                android:background="@mipmap/dialog_help_go_out" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="160dp"
-                android:layout_marginTop="640dp"
-                android:background="@mipmap/dialog_help_go_after" />
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -176,7 +155,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="320dp"
+            android:layout_marginTop="300dp"
             android:visibility="gone">
 
             <ImageView
@@ -205,7 +184,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="370dp"
+            android:layout_marginTop="360dp"
             android:visibility="gone">
 
             <ImageView
@@ -266,7 +245,7 @@
         android:id="@+id/hint_4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"

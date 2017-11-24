@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="80dp"
                 >
 
                 <RelativeLayout
@@ -80,7 +80,7 @@
                         android:text="@string/advanced_speech"
                         android:textColor="@color/white"
                         android:textSize="@dimen/advanced_title_text_size"
-                        android:textStyle="bold" />
+                        />
 
                     <com.zcw.togglebutton.ToggleButton
                         android:id="@+id/advanced_setting_speech_btn"
@@ -93,10 +93,36 @@
 
                 </RelativeLayout>
 
+                <TextView
+                    android:id="@+id/advanced_setting_open_speech_note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="@string/advanced_setting_open_speech_note"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/et_color_E6E6E6"
+                    android:textSize="@dimen/advanced_note_text_size"
+                    android:gravity="center"
+                    />
+
+                <TextView
+                    android:id="@+id/advanced_setting_close_speech_note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="@string/advanced_setting_close_speech_note"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/et_color_E6E6E6"
+                    android:textSize="@dimen/advanced_note_text_size"
+                    android:gravity="center"
+                    />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     >
 
 
@@ -114,8 +140,9 @@
 
                     <EditText
                         android:id="@+id/advanced_setting_time_et"
-                        android:layout_width="@dimen/padding_60"
+                        android:layout_width="wrap_content"
                         android:layout_height="40dp"
+                        android:minWidth="40dp"
                         android:layout_marginLeft="@dimen/padding_40"
                         android:layout_toRightOf="@+id/advanced_setting_time_title_tv"
                         android:background="@color/white"
@@ -142,17 +169,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
                     android:text="@string/advanced_setting_time_note"
-                    android:textColor="@color/white"
+                    android:textColor="@color/et_color_E6E6E6"
                     android:lineSpacingExtra="10dp"
                     android:textSize="@dimen/advanced_note_text_size" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/white" />
+                    android:layout_height="0.5px"
+                    android:background="#CCEEEEEE" />
 
             </LinearLayout>
 
@@ -160,7 +187,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="80dp"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -174,7 +201,7 @@
                         android:text="@string/advanced_setting_correction_title"
                         android:textColor="@color/white"
                         android:textSize="@dimen/advanced_title_text_size"
-                        android:textStyle="bold" />
+                        />
 
                     <com.zcw.togglebutton.ToggleButton
                         android:id="@+id/advanced_setting_correction_btn"
@@ -208,13 +235,13 @@
                     android:layout_marginTop="50dp"
                     android:lineSpacingExtra="10dp"
                     android:text="@string/advanced_setting_correction_note"
-                    android:textColor="@color/white"
+                    android:textColor="@color/et_color_E6E6E6"
                     android:textSize="@dimen/advanced_note_text_size" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/white" />
+                    android:layout_height="0.5px"
+                    android:background="#CCEEEEEE" />
             </LinearLayout>
 
 
@@ -222,7 +249,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -235,7 +264,7 @@
                         android:text="@string/advanced_setting_guest_title"
                         android:textColor="@color/white"
                         android:textSize="@dimen/advanced_title_text_size"
-                        android:textStyle="bold" />
+                        />
 
                     <com.zcw.togglebutton.ToggleButton
                         android:id="@+id/advanced_setting_guest_btn"
@@ -266,14 +295,14 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="50dp"
                     android:text="@string/advanced_setting_guest_note"
-                    android:textColor="@color/white"
+                    android:textColor="@color/et_color_E6E6E6"
                     android:lineSpacingExtra="10dp"
                     android:textSize="@dimen/advanced_note_text_size" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/white" />
+                    android:layout_height="0.5px"
+                    android:background="#CCEEEEEE" />
             </LinearLayout>
 
             <LinearLayout

@@ -75,4 +75,7 @@
 
     <color name="ultrasonic_advanced_setting_color">#65AAEE</color>
     <color name="et_color">#6A8759</color>
+    <color name="et_color_0A0Aff">#0A0Aff</color>
+    <color name="et_color_0066FF">#7070FF</color>
+    <color name="et_color_E6E6E6">#E6E6E6</color>
 </resources>

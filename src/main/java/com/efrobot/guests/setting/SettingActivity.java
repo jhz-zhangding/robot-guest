@@ -98,7 +98,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
     //保存设置
     private TextView mCancel, mAdvance, mSetting;
-    private TextView mStartBtn;
+//    private TextView mStartBtn;
     private final int LEFT_REQUEST_CODE = 1;
     private final int RIGHT_REQUEST_CODE = 2;
     private final int FINISH_REQUEST_CODE = 3;
@@ -148,6 +148,15 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         return this;
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter dynamic_filter = new IntentFilter();
+        dynamic_filter.addAction(ROBOT_MASK_CHANGE);
+        registerReceiver(lidBoardReceive, dynamic_filter);
+    }
+
     @Override
     protected void onViewInit() {
         super.onViewInit();
@@ -190,6 +199,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     }
 
     private Map<Integer, String> ultrasonicMaps = new HashMap<Integer, String>();
+
     private void initUltrasonicData() {
         boolean isFirstUpdateDataBase = PreferencesUtils.getBoolean(this, "initUltrasonicData", true);
         if (isFirstUpdateDataBase) {
@@ -259,7 +269,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         //按键
         mCancel = (TextView) findViewById(R.id.cancel);
         mAdvance = (TextView) findViewById(R.id.advanced_setting_btn);
-        mStartBtn = (TextView) findViewById(R.id.ultrasonic_open_btn);
+//        mStartBtn = (TextView) findViewById(R.id.ultrasonic_open_btn);
         mSetting = (TextView) findViewById(R.id.ultrasonic_setting_btn);
     }
 
@@ -318,7 +328,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         mCancel.setOnClickListener(this);
         mAdvance.setOnClickListener(this);
         mSetting.setOnClickListener(this);
-        mStartBtn.setOnClickListener(this);
+//        mStartBtn.setOnClickListener(this);
 
         findViewById(R.id.explain).setOnClickListener(this);
         findViewById(R.id.ultrasonic_init_btn).setOnClickListener(this);
@@ -348,12 +358,12 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             case R.id.advanced_setting_btn:
                 startActivity(new Intent(this, AdvancedSettingActivity.class));
                 break;
-            case R.id.ultrasonic_open_btn: //开始迎宾
-                boolean isCanAffirm = ((SettingPresenter) mPresenter).affirm();
-                if (isCanAffirm) {
-                    showDialog("即将开始迎宾，请关闭面罩后开始迎宾");
-                }
-                break;
+//            case R.id.ultrasonic_open_btn: //开始迎宾
+//                boolean isCanAffirm = ((SettingPresenter) mPresenter).affirm();
+//                if (isCanAffirm) {
+//                    showDialog("即将开始迎宾，请关闭面罩后开始迎宾");
+//                }
+//                break;
             case R.id.ultrasonic_init_btn:
                 //初始化超声波
                 ((SettingPresenter) mPresenter).showDialog(getString(R.string.init_ultrasonic_hint));
@@ -570,7 +580,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
      * 保存用户设置距离
      */
     private void saveUserSetting() {
-        com.efrobot.library.mvp.utils.PreferencesUtils.putString(SettingActivity.this, SpContans.SP_ULTRASONIC_SETTING_STATUS, mContent);
+        PreferencesUtils.putString(SettingActivity.this, SpContans.SP_ULTRASONIC_SETTING_STATUS, mContent);
         for (Map.Entry entry : ultrasonicMap.entrySet()) {
             L.e("saveUserSetting", "setUltrasonicId=" + (Integer) entry.getKey() + "- - -setDistanceValue=" + ((EditText) entry.getValue()).getText().toString());
             UlDistanceBean ulDistanceBean = new UlDistanceBean();
@@ -1021,6 +1031,9 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     protected void onPause() {
         super.onPause();
         L.i(TAG, "SettingActivity onPause");
+        if (lidBoardReceive != null) {
+            unregisterReceiver(lidBoardReceive);
+        }
     }
 
     /**
@@ -1093,24 +1106,24 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     private Intent mServiceIntent;
     private CustomHintDialog dialog;
 
-    public void showDialog(String content) {
-        alreadyClosed = false;
-        dialog = new CustomHintDialog(getContext(), -1);
-        dialog.setMessage(content);
-        dialog.setCancelable(true);
-        dialog.show();
-        IntentFilter dynamic_filter = new IntentFilter();
-        dynamic_filter.addAction(ROBOT_MASK_CHANGE);            //添加动态广播的Action
-        getContext().registerReceiver(lidBoardReceive, dynamic_filter);
-        dialog.setOnDismissListener(new CustomHintDialog.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-//                if(dialog != null && !dialog.isShowing()) {
-//                    getContext().unregisterReceiver(lidBoardReceive);
-//                }
-            }
-        });
-    }
+//    public void showDialog(String content) {
+//        alreadyClosed = false;
+//        dialog = new CustomHintDialog(getContext(), -1);
+//        dialog.setMessage(content);
+//        dialog.setCancelable(true);
+//        dialog.show();
+//        IntentFilter dynamic_filter = new IntentFilter();
+//        dynamic_filter.addAction(ROBOT_MASK_CHANGE);            //添加动态广播的Action
+//        getContext().registerReceiver(lidBoardReceive, dynamic_filter);
+//        dialog.setOnDismissListener(new CustomHintDialog.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+////                if(dialog != null && !dialog.isShowing()) {
+////                    getContext().unregisterReceiver(lidBoardReceive);
+////                }
+//            }
+//        });
+//    }
 
     public final static String ROBOT_MASK_CHANGE = "android.intent.action.MASK_CHANGED";
     public final static String KEYCODE_MASK_ONPROGRESS = "KEYCODE_MASK_ONPROGRESS"; //开闭状态
@@ -1133,15 +1146,11 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                         }
                         SpeechManager.getInstance().removeSpeechState(getContext().getApplicationContext(), 11);
                         L.i(TAG, "lidBoardReceive close----" + close + "   start service");
-                        //开启迎宾
-                        boolean isStartUpUltrasonic = PreferencesUtils.getBoolean(context, SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, false);
-                        if (!isStartUpUltrasonic) {
-                            mServiceIntent = new Intent(getContext(), UltrasonicService.class);
-                            getContext().getApplicationContext().startService(mServiceIntent);
-                        }
+                        mServiceIntent = new Intent(getContext(), UltrasonicService.class);
+                        getContext().getApplicationContext().startService(mServiceIntent);
+                        L.i("ReceiveMaskBroadcast", "startService");
                         UltrasonicService.IsOpenRepeatLight = false;
-                        unregisterReceiver(lidBoardReceive);
-                        L.i(TAG, "lidBoardReceive unregisterReceiver(this)");
+                        L.e(TAG, "按钮启动的 unregisterReceiver(this)");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

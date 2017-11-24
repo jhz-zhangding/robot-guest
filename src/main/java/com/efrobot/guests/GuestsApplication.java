@@ -48,6 +48,8 @@ public class GuestsApplication extends Application {
 
     public MediaPlayDialog mediaPlayDialog;
 
+    public static boolean isNeedOpenGuestService = false;
+
     @Override
     public void onCreate() {
         if (isPrintCrashLog) {

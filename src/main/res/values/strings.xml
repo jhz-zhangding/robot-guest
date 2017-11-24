@@ -257,11 +257,9 @@
     <string name="init_ultrasonic_hint">超声波标定要保证周围1米没有障碍物</string>
     <string name="error_use__hint">检测到DIY中已使用超声波，如需\n继续请关闭DIY中的超声波</string>
 
-    <string name="guest_explain_text0">迎宾功能通过机器人正面的6个超声波传感器感应是否有人接近机器人，可以通过勾选启用某一个或者某几个超声波并填写探测距离。当超声波检测到该距离内有人时，则会触发迎宾语。当检测人离开10秒后，则触发结束语，将回到等待状态。
-</string>
+    <string name="guest_explain_text0">迎宾功能通过机器人正面的6个超声波传感器感应是否有人接近机器人，可以通过勾选启用某一个或者某几个超声波并填写探测距离。当超声波检测到该距离内有人时，则会触发迎宾语。当检测人离开10秒后，则触发结束语，将回到等待状态。</string>
     <string name="guest_explain_text1">该区域内，可以显示现阶段各个超声波的状态，在正常运行迎宾功能之前，需先检查传感器的状态是否正常，方法：逐个挡住传感器，观察传感器的数值，是否与实际距离一致。如果发现数据不正常，可点击右侧的“校正”按钮，对数据进行校正。校正时，需要保证机器人周围1米内没有障碍物。
-“自动校正超声波”：勾选后，每次定时启动，机器人会先自动校正一次超声波数据。
-</string>
+“自动校正超声波”：勾选后，每次定时启动，机器人会先自动校正一次超声波数据。</string>
     <string name="guest_explain_text2">可以勾选使用机器人的一个或者多个超声波来进行检测，并对应填写检测距离。</string>
     <string name="guest_explain_text3">用户可以自行设置欢迎语、表情、动作、灯带、当感应到人接近后，机器人会执行一次，然后进入到“交流状态”。（建议将灯带设置成常亮，方便区分是否进入迎宾状态）</string>
     <string name="guest_explain_text4">用户可以自行设置欢迎语、表情、动作、灯带，当检测到人离开10秒后，机器人会执行一次，然后进入到“等待状态”。</string>
@@ -272,8 +270,7 @@
 
     <string name="advanced_speech">语音交流</string>
     <string name="advanced_setting_time_title">等待时间 </string>
-    <string name="advanced_setting_time_note">关闭语音交流模式后，机器人说完迎宾语不再进入语音交流状态。\n设置等待时间可提升超声波检测是否有人的准确率。例：设置等待时间为5秒，5秒内超声波都检测没人，则进入下一轮迎宾。
-</string>
+    <string name="advanced_setting_time_note">设置等待时间可提升超声波检测是否有人的准确率。例：设置等待时间为5秒，5秒内超声波都检测没人，则进入下一轮迎宾。</string>
 
     <string name="advanced_setting_correction_title">超声波自动校正</string>
     <string name="advanced_setting_correction_note">超声波自动校正开启后，每次开启迎宾功能时，超声波都会自动标定一次。</string>
@@ -282,5 +279,7 @@
     <string name="advanced_setting_guest_note">此功能开启后，只需关闭面罩，机器人就会自动进入迎宾模式。关闭面罩前，请先确认超声波数据是否正常。注：在其他应用场景中，若关闭面罩不需要开启迎宾功能时，请关闭这个功能。</string>
 
     <string name="advanced_setting_wheel_title">开启双轮运动</string>
-    <string name="advanced_setting_wheel_note">请谨慎关闭该功能！！！双轮运动关闭后，在迎宾状态下，机器人将不会再执行行走、转圈等动作，退出迎宾状态，双轮运动自动开启。异常情况退出迎宾状态，请重新进入迎宾app，否则无法恢复双轮状态。，</string>
+    <string name="advanced_setting_wheel_note">请谨慎关闭该功能！！！双轮运动关闭后，在迎宾状态下，机器人将不会再执行行走、转圈等动作，退出迎宾状态，双轮运动自动开启。异常情况退出迎宾状态，请重新进入迎宾app，否则无法恢复双轮状态。</string>
+    <string name="advanced_setting_open_speech_note">已开启语音识别，适用于人流量相对少的场景，如公司、展厅门口等；</string>
+    <string name="advanced_setting_close_speech_note">已关闭语音识别，适用于人流量较密集的场景，如商场、旺铺、会场门口等</string>
 </resources>
