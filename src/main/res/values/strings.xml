@@ -282,4 +282,5 @@
     <string name="advanced_setting_wheel_note">请谨慎关闭该功能！！！双轮运动关闭后，在迎宾状态下，机器人将不会再执行行走、转圈等动作，退出迎宾状态，双轮运动自动开启。异常情况退出迎宾状态，请重新进入迎宾app，否则无法恢复双轮状态。</string>
     <string name="advanced_setting_open_speech_note">已开启语音识别，适用于人流量相对少的场景，如公司、展厅门口等；</string>
     <string name="advanced_setting_close_speech_note">已关闭语音识别，适用于人流量较密集的场景，如商场、旺铺、会场门口等</string>
+    <string name="close_mask_start_guest">在此界面关面罩则开始迎宾</string>
 </resources>

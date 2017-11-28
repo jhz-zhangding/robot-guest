@@ -8,7 +8,7 @@
     android:layout_marginBottom="10dp"
     android:background="@drawable/background"
     android:orientation="horizontal"
-    android:paddingBottom="80dp"
+    android:paddingBottom="35dp"
     android:paddingRight="90dp"
     android:paddingTop="30dp">
 
@@ -283,6 +283,7 @@
                     android:background="@mipmap/open" />
 
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -368,6 +369,7 @@
             </LinearLayout>
 
         </LinearLayout>
+
 
 
     </LinearLayout>

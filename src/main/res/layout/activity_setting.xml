@@ -111,6 +111,16 @@
                 android:id="@+id/ul_timer_task_layout"
                 layout="@layout/layout_ultrasonic_setting_dis" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/white"
+                android:text="@string/close_mask_start_guest"
+                android:textSize="24sp"
+                />
+
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
