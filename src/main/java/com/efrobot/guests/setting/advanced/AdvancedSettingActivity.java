@@ -2,7 +2,6 @@ package com.efrobot.guests.setting.advanced;
 
 import android.content.Context;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -37,6 +36,8 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 //    private ToggleButton autoGuestBtn;
 
 //    private ToggleButton closeWheelBtn;
+
+    private int lastOpenDelay = 3;
 
     @Override
     protected int getContentViewResource() {
@@ -127,15 +128,15 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
     private void updateEditData() {
         boolean isOpenCorrection = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, false);
         if (isOpenCorrection) {
-            guestTimeEt.setText("3");
-            guestTimeEt.setEnabled(true);
+            int lastDelay = PreferencesUtils.getInt(getContext(), SpContans.AdvanceContans.SP_GUEST_LAST_OPEN_DELAY, 3);
+            guestTimeEt.setText(lastDelay + "");
             PreferencesUtils.putInt(getContext(), SpContans.AdvanceContans.SP_GUEST_DELAY_TIME, 3);
             openSpeechText.setBackgroundColor(getContext().getResources().getColor(R.color.et_color_0066FF));
             closeSpeechText.setBackgroundColor(getContext().getResources().getColor(R.color.transparent));
         } else {
-            guestTimeEt.setText("0");
-            guestTimeEt.setEnabled(false);
-            PreferencesUtils.putInt(getContext(), SpContans.AdvanceContans.SP_GUEST_DELAY_TIME, 0);
+            int closeCloseDelay = PreferencesUtils.getInt(getContext(), SpContans.AdvanceContans.SP_GUEST_LAST_CLOSE_DELAY, 1);
+            guestTimeEt.setText(closeCloseDelay + "");
+            PreferencesUtils.putInt(getContext(), SpContans.AdvanceContans.SP_GUEST_DELAY_TIME, 1);
             closeSpeechText.setBackgroundColor(getContext().getResources().getColor(R.color.et_color_0066FF));
             openSpeechText.setBackgroundColor(getContext().getResources().getColor(R.color.transparent));
         }
@@ -145,6 +146,16 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
     @Override
     public void onClick(View v) {
         if (v.equals(exitBtn)) {
+            //记录上次开启语音时的交流时间
+            if (guestTimeEt != null && !TextUtils.isEmpty(guestTimeEt.getText())) {
+                boolean isOpenCorrection = PreferencesUtils.getBoolean(getContext(), SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, false);
+                int time = Integer.parseInt(guestTimeEt.getText().toString());
+                if (isOpenCorrection) {
+                    PreferencesUtils.putInt(getContext(), SpContans.AdvanceContans.SP_GUEST_LAST_OPEN_DELAY, time);
+                } else {
+                    PreferencesUtils.putInt(getContext(), SpContans.AdvanceContans.SP_GUEST_LAST_CLOSE_DELAY, time);
+                }
+            }
             finish();
         } else if (v.equals(speechBtn)) {
             setClickData(SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, v);
