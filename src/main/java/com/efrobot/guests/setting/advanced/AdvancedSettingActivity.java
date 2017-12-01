@@ -38,7 +38,7 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 
     private TextView versionName;
 
-    private EditText faceCheckEt;
+//    private EditText faceCheckEt;
 
 //    private ToggleButton closeWheelBtn;
 
@@ -73,7 +73,7 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         correctionBtn = (ToggleButton) findViewById(R.id.advanced_setting_correction_btn);
         autoGuestBtn = (ToggleButton) findViewById(R.id.advanced_setting_guest_btn);
         faceOpenBtn = (ToggleButton) findViewById(R.id.advanced_setting_face_btn);
-        faceCheckEt = (EditText) findViewById(R.id.face_check_count);
+//        faceCheckEt = (EditText) findViewById(R.id.face_check_count);
 //        closeWheelBtn = (ToggleButton) findViewById(R.id.advanced_setting_wheel_btn);
 
 
@@ -85,7 +85,7 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         TextView autoGuestTextView = (TextView) findViewById(R.id.advanced_setting_auto_html_text);
         autoGuestTextView.setText(Html.fromHtml(e));
 
-        faceCheckEt.setText(PreferencesUtils.getInt(getContext(), SpContans.AdvanceContans.SP_GUEST_FACE_CHECK_COUNT, 3) + "");
+//        faceCheckEt.setText(PreferencesUtils.getInt(getContext(), SpContans.AdvanceContans.SP_GUEST_FACE_CHECK_COUNT, 3) + "");
     }
 
 
@@ -124,10 +124,10 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
     @Override
     public void onClick(View v) {
         if (v.equals(exitBtn)) {
-            if(!TextUtils.isEmpty(faceCheckEt.getText())) {
-                int time = Integer.parseInt(faceCheckEt.getText().toString());
-                PreferencesUtils.putInt(getContext(), SpContans.AdvanceContans.SP_GUEST_FACE_CHECK_COUNT, time);
-            }
+//            if(!TextUtils.isEmpty(faceCheckEt.getText())) {
+//                int time = Integer.parseInt(faceCheckEt.getText().toString());
+//                PreferencesUtils.putInt(getContext(), SpContans.AdvanceContans.SP_GUEST_FACE_CHECK_COUNT, time);
+//            }
             finish();
         } else if(v.equals(faceBaseManagerBtn)) {
             startActivity(new Intent(this, ManageFaceActivity.class));

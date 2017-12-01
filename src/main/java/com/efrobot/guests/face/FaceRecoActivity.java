@@ -82,8 +82,8 @@ public class FaceRecoActivity extends BaseCameraActivity {
             initCamera(isShowSurfaceView);
             showFps(true);
             initView();
-            netFaceTrack = NetFaceTrack.getInstance("http://114.80.100.145:8080",
-                    "04b8bcfb39b069e3963b26de0319d810", "ab465c795d404fc4f23aed9e938f5e0f3f9f5edf");
+            netFaceTrack = NetFaceTrack.getInstance("04b8bcfb39b069e3963b26de0319d810", "ab465c795d404fc4f23aed9e938f5e0f3f9f5edf");
+            netFaceTrack.setRetrofit("http://114.80.100.145:8080");
         } else {
             initView();
             initCamera(isShowSurfaceView);
@@ -112,7 +112,8 @@ public class FaceRecoActivity extends BaseCameraActivity {
 
                         FileUtil.writeFile("/sdcard/rsnet_config.txt", ip);
 
-                        netFaceTrack = NetFaceTrack.getInstance(ip, "12345", "abcdefg");
+                        netFaceTrack = NetFaceTrack.getInstance("12345", "abcdefg");
+                        netFaceTrack.setRetrofit(ip);
                         initView();
                         initCamera(true);
                         showFps(true);
