@@ -491,7 +491,15 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     private int moreNotPersonNum = 0;
 
+
+    private int mLastIdsCount = 0;
+
     private void checkFaceResult(List<YMFace> ids) {
+
+        if (ids.size() > mLastIdsCount) {
+
+        }
+
         DLog.e("人脸：开始接收人脸Message 开始执行");
         currentNotPersonIds.clear();
         for (int k = 0; k < ids.size(); k++) {
@@ -503,49 +511,38 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         }
 
         for (int i = 0; i < ids.size(); i++) {
-
             int thID = ids.get(i).getPersonId();
             int gender = ids.get(i).getGender();
             L.e(TAG, "----------检测到该人脸:mCurrentCheckIndex = " + mCurrentCheckIndex + " ids.size() - " + ids.size() + " thID = " + thID);
             //该ID没有执行过
             if (thID > 0) {
                 DLog.d("检测到该人脸:" + thID);
-                if (DrawUtil.userList != null && DrawUtil.userList.size() > 0) {
-                    for (int j = 0; j < DrawUtil.userList.size(); j++) {
-                        User user = DrawUtil.userList.get(j);
-                        String userId = user.getPersonId();
-                        DLog.d("userId = " + userId + " personId = " + thID);
+                if (!personIds.contains(thID)) {
+                    //没有执行过
+                    if (DrawUtil.userMap.containsKey(thID)) {
+                        User user = DrawUtil.userMap.get(thID);
                         userName = user.getName();
-                        if (userId.equals(String.valueOf(thID))) {
-                            if (!personIds.contains(thID)) {
-                                if (!mIsExecute) {
-                                    personIds.add(thID);
-                                    DLog.d("识别到该ID没有执行迎宾语，那就开始执行迎宾语");
-                                    mIsExecute = true;
-                                    startPlay(START_LEFT_STRING);
-                                } else {
-                                    DLog.d("识别到该ID已经执行过了迎宾语，那就开始执行闲聊语");
-                                    if (isAllPlayFinish() && !isRunningChatTts && !personIds.contains(thID)) {
-                                        personIds.add(thID);
-                                        isRunningChatTts = true;
-                                        /** 正在执行过程迎宾语中还没结束的状态  这时候识别到人立刻要说闲聊语啊 */
-                                        executeChat(1, userName);
-                                    }
-
-                                }
-                                break;
+                        if (!mIsExecute) {
+                            personIds.add(thID);
+                            DLog.d("识别到该ID没有执行迎宾语，那就开始执行迎宾语");
+                            mIsExecute = true;
+                            startPlay(START_LEFT_STRING);
+                        } else {
+                            DLog.d("识别到该ID已经执行过了迎宾语，那就开始执行闲聊语");
+                            if (isAllPlayFinish() && !isRunningChatTts && !personIds.contains(thID)) {
+                                personIds.add(thID);
+                                isRunningChatTts = true;
+                                /** 正在执行过程迎宾语中还没结束的状态  这时候识别到人立刻要说闲聊语啊 */
+                                executeChat(1, userName);
                             }
+
                         }
                     }
-
                 } else {
                     DLog.d("人脸库为空");
                 }
             } else {
                 L.i(TAG, "-----检测到人脸但不在人脸库中，是否已经执行过迎宾语 mIsExecute = " + mIsExecute + " gender = " + gender);
-                if (!personIds.contains(thID)) {
-                    personIds.add(thID);
-                }
                 if (!mIsExecute) {
                     if (gender == 0) {
                         sexTts = "女士";
@@ -556,10 +553,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     startPlay(START_LEFT_STRING);
                 } else {
                     //检测到陌生人
-                    L.i(TAG, "-----" + "ids.size() = " + ids.size() + " lastIdsCount = " + lastIdsCount + " currentNotPersonIds.size() = " + currentNotPersonIds.size() + " isAllPlayFinish() = " + isAllPlayFinish());
-                    if (ids.size() > 1 && ids.size() > lastIdsCount && currentNotPersonIds.size() > lastNoPersonCount && isAllPlayFinish() && !isRunningChatTts) {
+                    L.i(TAG, "-----" + "ids.size() = " + ids.size() + " currentNotPersonIds.size() = " + currentNotPersonIds.size() + " lastNoPersonCount = " + lastIdsCount +" isAllPlayFinish() = " + isAllPlayFinish());
+                    if (ids.size() > 1 && currentNotPersonIds.size() > lastNoPersonCount && isAllPlayFinish() && !isRunningChatTts) {
                         moreNotPersonNum++;
-                        if(moreNotPersonNum > 2) {
+                        if (moreNotPersonNum > 1) {
                             //执行陌生人提示
                             isRunningChatTts = true;
                             lastNoPersonCount++;
@@ -568,16 +565,11 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     } else {
                         moreNotPersonNum = 0;
                     }
-
                 }
             }
             mCurrentCheckIndex = 0;
         }
         application.threadBusy = false;
-        if(lastIdsCount < ids.size()) {
-            lastIdsCount = ids.size();
-        }
-
     }
 
     private void executeChat(int type, String userName) {
@@ -731,7 +723,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
      * 移除计时
      */
     public void removeTimerCount() {
-        if(han != null && han.hasMessages(START_TIMER_GUEST)) {
+        if (han != null && han.hasMessages(START_TIMER_GUEST)) {
             han.removeMessages(START_TIMER_GUEST);
         }
         timingCount = 0;
