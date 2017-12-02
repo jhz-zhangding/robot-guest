@@ -19,6 +19,8 @@ import com.efrobot.guests.service.UltrasonicService;
 import com.efrobot.guests.utils.GuestDes3Util;
 import com.efrobot.guests.utils.PreferencesUtils;
 import com.efrobot.library.mvp.utils.L;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -52,6 +54,10 @@ public class GuestsApplication extends Application {
 
     @Override
     public void onCreate() {
+
+//        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "1fe6a20054bcef865eeb0991ee84525b");
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
+
         if (isPrintCrashLog) {
             Thread.setDefaultUncaughtExceptionHandler(new MythouCrashHandler(this));
         }
@@ -86,6 +92,7 @@ public class GuestsApplication extends Application {
     }
 
     private Map<Integer, String> ultrasonicMaps = new HashMap<Integer, String>();
+
     private void initData() {
         //设置默认开启的超声波
         ultrasonicMaps.put(0, "100");

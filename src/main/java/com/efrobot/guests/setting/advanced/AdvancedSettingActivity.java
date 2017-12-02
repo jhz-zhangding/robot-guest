@@ -14,6 +14,7 @@ import com.efrobot.guests.base.GuestsBaseActivity;
 import com.efrobot.guests.utils.UpdateUtils;
 import com.efrobot.library.mvp.presenter.BasePresenter;
 import com.efrobot.library.mvp.utils.PreferencesUtils;
+import com.umeng.analytics.MobclickAgent;
 import com.zcw.togglebutton.ToggleButton;
 
 /**
@@ -52,6 +53,18 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

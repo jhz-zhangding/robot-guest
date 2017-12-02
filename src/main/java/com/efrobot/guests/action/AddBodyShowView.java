@@ -35,6 +35,7 @@ import com.efrobot.guests.base.GuestsBaseActivity;
 import com.efrobot.guests.bean.ItemsContentBean;
 import com.efrobot.guests.utils.DatePickerUtils;
 import com.efrobot.library.mvp.utils.L;
+import com.umeng.analytics.MobclickAgent;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -247,6 +248,17 @@ public class AddBodyShowView extends GuestsBaseActivity<AddBodyShowPresenter> im
             "您慢走##1"
     };
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
     @Override
     protected void onViewInit() {

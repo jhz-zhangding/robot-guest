@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:text="左3"
+                android:text="左2"
                 android:textColor="@color/guest_edit_text_color"
                 android:textSize="@dimen/textsize_20" />
 
