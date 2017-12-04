@@ -58,6 +58,8 @@ public class GuestsApplication extends Application {
 //        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "1fe6a20054bcef865eeb0991ee84525b");
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
 
+        UMConfigure.setLogEnabled(true);
+
         if (isPrintCrashLog) {
             Thread.setDefaultUncaughtExceptionHandler(new MythouCrashHandler(this));
         }
