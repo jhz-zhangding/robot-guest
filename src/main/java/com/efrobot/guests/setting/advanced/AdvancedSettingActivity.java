@@ -8,13 +8,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.efrobot.guests.Env.SpContans;
 import com.efrobot.guests.R;
 import com.efrobot.guests.base.GuestsBaseActivity;
 import com.efrobot.guests.utils.UpdateUtils;
 import com.efrobot.library.mvp.presenter.BasePresenter;
 import com.efrobot.library.mvp.utils.PreferencesUtils;
-import com.umeng.analytics.MobclickAgent;
 import com.zcw.togglebutton.ToggleButton;
 
 /**
@@ -58,13 +58,13 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
+        StatService.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
+        StatService.onPause(this);
     }
 
     @Override

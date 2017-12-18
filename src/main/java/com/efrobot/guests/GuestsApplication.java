@@ -8,6 +8,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.baidu.mobstat.StatService;
 import com.efrobot.guests.Env.SpContans;
 import com.efrobot.guests.bean.UlDistanceBean;
 import com.efrobot.guests.dao.SelectedDao;
@@ -19,9 +20,6 @@ import com.efrobot.guests.service.UltrasonicService;
 import com.efrobot.guests.utils.GuestDes3Util;
 import com.efrobot.guests.utils.PreferencesUtils;
 import com.efrobot.library.mvp.utils.L;
-import com.umeng.analytics.MobclickAgent;
-import com.umeng.commonsdk.UMConfigure;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,12 +52,7 @@ public class GuestsApplication extends Application {
 
     @Override
     public void onCreate() {
-
-//        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "1fe6a20054bcef865eeb0991ee84525b");
-        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
-
-        UMConfigure.setLogEnabled(true);
-
+//        StatService.setDebugOn(true);
         if (isPrintCrashLog) {
             Thread.setDefaultUncaughtExceptionHandler(new MythouCrashHandler(this));
         }

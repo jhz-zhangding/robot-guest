@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 存储权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- 相机权限 -->
@@ -20,6 +20,12 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 您从百度网站获取的权限	-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
 
     <application
         android:name="com.efrobot.guests.GuestsApplication"
@@ -29,9 +35,45 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--<meta-data android:value="5a2122bbf43e482a7b000155" android:name="UMENG_APPKEY"/>-->
-        <meta-data android:value="5a22237fa40fa3167100007a" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="robot_jhz" android:name="UMENG_CHANNEL"/>
+        <!-- 您从百度网站获取的 APP	KEY	-->
+        <meta-data
+            android:name="BaiduMobAd_STAT_ID"
+            android:value="288e3c4484" />
+        <!-- 渠道商编号 -->
+        <meta-data
+            android:name="BaiduMobAd_CHANNEL"
+            android:value="jhz_mall" />
+        <!-- 是否开启错误日志统计，默认为 false	-->
+        <meta-data
+            android:name="BaiduMobAd_EXCEPTION_LOG"
+            android:value="true" />
+        <!-- 日志发送策略，可选值：APP_START、ONCE_A_DAY、SET_TIME_INTERVAL，默认为 APP_START	-->
+        <meta-data
+            android:name="BaiduMobAd_SEND_STRATEGY"
+            android:value="APP_START" />
+        <!-- 日志发送策略 为 SET_TIME_INTERVAL 时，需设定时间间隔(取消下行注释)。取值为 1-24 的整数，默认为 1	-->
+        <meta-data
+            android:name="BaiduMobAd_TIME_INTERVAL"
+            android:value="2" />
+        <!-- 日志仅在 wifi 网络下发送，默认为 false	-->
+        <meta-data
+            android:name="BaiduMobAd_ONLY_WIFI"
+            android:value="false"	/>
+
+
+        <!-- 是否获取基站位置信息 ,默认为 true	-->
+        <meta-data
+            android:name="BaiduMobAd_CELL_LOCATION"
+            android:value="true" />
+        <!-- 是否获取 GPS 位置信息，默认为 true	-->
+        <meta-data
+            android:name="BaiduMobAd_GPS_LOCATION"
+            android:value="true" />
+        <!-- 是否获取 WIFI 位置信息，默认为 true	-->
+        <meta-data
+            android:name="BaiduMobAd_WIFI_LOCATION"
+            android:value="true" />
+
 
         <activity
             android:name="com.efrobot.guests.main.MainActivity"

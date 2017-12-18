@@ -1,15 +1,12 @@
 package com.efrobot.guests.setting;
 
-import android.Manifest;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
@@ -28,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.efrobot.guests.Env.SpContans;
 import com.efrobot.guests.GuestsApplication;
 import com.efrobot.guests.R;
@@ -48,13 +46,7 @@ import com.efrobot.library.RobotManager;
 import com.efrobot.library.mvp.presenter.BasePresenter;
 import com.efrobot.library.mvp.utils.L;
 import com.efrobot.speechsdk.SpeechManager;
-import com.umeng.analytics.MobclickAgent;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -107,7 +99,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
     //保存设置
     private TextView mCancel, mAdvance, mSetting;
-//    private TextView mStartBtn;
+    //    private TextView mStartBtn;
     private final int LEFT_REQUEST_CODE = 1;
     private final int RIGHT_REQUEST_CODE = 2;
     private final int FINISH_REQUEST_CODE = 3;
@@ -161,11 +153,10 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     @Override
     protected void onResume() {
         super.onResume();
+        StatService.onResume(this);
         IntentFilter dynamic_filter = new IntentFilter();
         dynamic_filter.addAction(ROBOT_MASK_CHANGE);
         registerReceiver(lidBoardReceive, dynamic_filter);
-
-        MobclickAgent.onResume(this);
     }
 
     @Override
@@ -1045,7 +1036,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         if (lidBoardReceive != null) {
             unregisterReceiver(lidBoardReceive);
         }
-        MobclickAgent.onPause(this);
+        StatService.onPause(this);
     }
 
     /**
