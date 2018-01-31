@@ -24,6 +24,12 @@
     <string name="ultrasonic_setting_hint_2">2）设定数值后才会开启该超声波，不设数值则表示不开启</string>
     <string name="ultrasonic_setting_hint_3">3）建议开启上面5个超声波（左1、左3、中1、右3、右1）</string>
 
+    <string name="choose_scene_text">请选择机器人使用场景</string>
+    <string name="robot_guest">机器人迎宾</string>
+    <string name="robot_guest_text">适用于商场、展会、会场的人流量较多，无需机器人确认人流方向的场景</string>
+    <string name="robot_guest_and_leave">机器人迎宾及送宾</string>
+    <string name="robot_guest_and_leave_text">适用于公司、展厅、商铺 门口、需要机器人来人时、人走时送宾的场景</string>
+
     <!-- ===================== -->
     <string-array name="face_time_bodycommercial">
         <item>3</item>
@@ -283,4 +289,12 @@
     <string name="advanced_setting_open_speech_note">已开启语音识别，适用于人流量相对少的场景，如公司、展厅门口等；</string>
     <string name="advanced_setting_close_speech_note">已关闭语音识别，适用于人流量较密集的场景，如商场、旺铺、会场门口等</string>
     <string name="close_mask_start_guest">在此界面关面罩则开始迎宾</string>
+
+    <string name="task_cancel">任务取消</string>
+
+    <string name="is_charging">ROBOT_NICKNAME_VALUE还想在吃点饭，你一会再让我去溜达哦</string>
+    <string name="go_out_pile">ROBOT_NICKNAME_VALUE要出充电桩了，不要干扰我哦，前面的人让一下啦</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

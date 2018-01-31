@@ -7,6 +7,7 @@
 
     <color name="green">#33FF00</color>
     <color name="white">#ffffff</color>
+    <color name="EAE8E7">#EAE8E7</color>
     <color name="black">#000000</color>
     <color name="main_left_bg_color">#2f323b</color>
     <color name="black_40">#40000000</color>
@@ -78,4 +79,7 @@
     <color name="et_color_0A0Aff">#0A0Aff</color>
     <color name="et_color_0066FF">#7070FF</color>
     <color name="et_color_E6E6E6">#E6E6E6</color>
+
+
+    <color name="robot_guest_scene_color">#80E8E8E8</color>
 </resources>

@@ -111,7 +111,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     public static int GUEST_ORDER_PLAY_MODE = 0;
     public static int GUEST_LOOP_PLAY_MODE = 1;
 
-    private Map<Integer, EditText> ultrasonicMap = new HashMap<Integer, EditText>();
+    private Map<Integer, EditText> ultrasonicMap = new HashMap<>();
 
     private Handler mHandler = new Handler() {
         @Override
@@ -175,7 +175,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
         initViewId();
 
-        adapterList = new ArrayList<GreetingAdapter>();
+        adapterList = new ArrayList<>();
         adapterList.add(((SettingPresenter) mPresenter).getLeftGreetingAdapter());
         adapterList.add(((SettingPresenter) mPresenter).getRightGreetingAdapter());
         adapterList.add(((SettingPresenter) mPresenter).getFinishGreetingAdapter());
@@ -200,7 +200,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
     }
 
-    private Map<Integer, String> ultrasonicMaps = new HashMap<Integer, String>();
+    private Map<Integer, String> ultrasonicMaps = new HashMap<>();
 
     private void initUltrasonicData() {
         boolean isFirstUpdateDataBase = PreferencesUtils.getBoolean(this, "initUltrasonicData", true);
@@ -461,7 +461,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     private Dialog ultrasonicSettingDialog;
     private RecyclerView recyclerView;
     private ChooseTypeAdapter chooseTypeAdapter;
-    private List<String> typeList = new ArrayList<String>();
+    private List<String> typeList = new ArrayList<>();
     private String mContent = "检测距离--中";
 
     private void showUltrasonicSettingDialog() {

@@ -4,7 +4,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "24.0.1"
+    buildToolsVersion '27.0.1'
 
     defaultConfig {
         SimpleDateFormat formatter = new SimpleDateFormat("MMdd");
@@ -15,7 +15,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         versionCode 1
-        versionName "5.1" + timeVersionName
+        versionName "5.2" + timeVersionName
     }
     buildTypes {
         release {
@@ -34,12 +34,12 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.efrobot.library:framework:1.0.58'
     compile project(':togglebutton-library')
+
+
+    compile 'com.efrobot.library:framework:1.0.58'
     compile 'com.hyman:flowlayout-lib:1.1.2'
-
     compile 'com.efrobot.library.net:mvpnetlibrary:2.0.6'
-    compile 'com.android.support:support-v4:23.3.0'
-    compile 'com.android.support:recyclerview-v7:23.3.0'
-
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
 }

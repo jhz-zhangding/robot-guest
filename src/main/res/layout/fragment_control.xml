@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/projection_body_head_backup" />
+
+    <TextView
+        android:id="@+id/next_step_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="已在迎宾点"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:background="@drawable/button_bg"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="60dp"
+        />
+
+</RelativeLayout>

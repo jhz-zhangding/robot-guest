@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.IBinder;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.efrobot.guests.Env.SpContans;
 import com.efrobot.guests.GuestsApplication;
@@ -49,11 +51,14 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -288,7 +293,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            L.i(TAG, "msg.what = " + msg.what);
+//            L.i(TAG, "msg.what = " + msg.what);
             switch (msg.what) {
                 case OPEN_USER_ULTRASONIC:
                     if (!isReceiveUltrasonic) {
@@ -358,9 +363,104 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 case MUSIC_NEED_SAY:
                     TtsUtils.sendTts(UltrasonicService.this, " ");
                     break;
+                case 1110:
+                    int id = msg.arg1;
+                    int distance = msg.arg2;
+                    showDataDialog(id, distance);
+                    break;
             }
         }
     };
+
+
+    private Dialog dataDialog;
+    private TextView addDataText1, addDataText2, addDataText3, addDataText4, addDataText5;
+    private TextView addUserText1, addUserText2, addUserText3, addUserText4, addUserText5;
+
+    private void showDataDialog(int numberId, int distance) {
+        if (dataDialog == null) {
+            dataDialog = new Dialog(this, R.style.Dialog_Fullscreen);
+            View currentView = LayoutInflater.from(UltrasonicService.this).inflate(R.layout.ul_text_dialog, null);
+            addDataText1 = (TextView) currentView.findViewById(R.id.ul_text_img1);
+            addDataText2 = (TextView) currentView.findViewById(R.id.ul_text_img2);
+            addDataText3 = (TextView) currentView.findViewById(R.id.ul_text_img3);
+            addDataText4 = (TextView) currentView.findViewById(R.id.ul_text_img4);
+            addDataText5 = (TextView) currentView.findViewById(R.id.ul_text_img5);
+
+            addUserText1 = (TextView) currentView.findViewById(R.id.ul_text_user1);
+            addUserText2 = (TextView) currentView.findViewById(R.id.ul_text_user2);
+            addUserText3 = (TextView) currentView.findViewById(R.id.ul_text_user3);
+            addUserText4 = (TextView) currentView.findViewById(R.id.ul_text_user4);
+            addUserText5 = (TextView) currentView.findViewById(R.id.ul_text_user5);
+            dataDialog.setContentView(currentView);
+            dataDialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+        }
+
+        if (map != null) {
+            if (TextUtils.isEmpty(addUserText1.getText())) {
+                for (Map.Entry mMap : map.entrySet()) {
+                    Integer mapId = (Integer) mMap.getKey();
+                    Integer mapDistance = (Integer) mMap.getValue();
+                    switch (mapId) {
+                        case 2:
+                            addUserText1.setText((mapDistance / 10) + "");
+                            break;
+                        case 1:
+                            addUserText2.setText((mapDistance / 10) + "");
+                            break;
+                        case 0:
+                            addUserText3.setText((mapDistance / 10) + "");
+                            break;
+                        case 7:
+                            addUserText4.setText((mapDistance / 10) + "");
+                            break;
+                        case 6:
+                            addUserText5.setText((mapDistance / 10) + "");
+                            break;
+                    }
+                }
+            }
+        }
+
+
+        switch (numberId) {
+            case 2:
+                setTextMessage(numberId, distance, addDataText1);
+                break;
+            case 1:
+                setTextMessage(numberId, distance, addDataText2);
+                break;
+            case 0:
+                setTextMessage(numberId, distance, addDataText3);
+                break;
+            case 7:
+                setTextMessage(numberId, distance, addDataText4);
+                break;
+            case 6:
+                setTextMessage(numberId, distance, addDataText5);
+                break;
+        }
+        dataDialog.show();
+    }
+
+    private void setTextMessage(int numberId, int distance, TextView textView) {
+        if (map.containsKey(numberId)) {
+            int mapDistance = map.get(numberId);
+            if (distance <= mapDistance) {
+                textView.setTextColor(Color.RED);
+            } else {
+                textView.setTextColor(Color.WHITE);
+            }
+            textView.setText("    " + (distance / 10));
+        }
+    }
+
+    //测试用 是否已经动态设置好数据
+    private Boolean isSettingFinish = false;
+
+    private List<Integer> integerList1, integerList2, integerList3, integerList4, integerList5;
+
+    private int settingNum = 0;
 
     @Override
     public void onGetUltrasonic(byte[] data) {
@@ -371,20 +471,79 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 //                L.i(TAG, "---------------data--" + Arrays.toString(data));
                 byte[] bytes = new byte[customUlData.size() * 4];
                 System.arraycopy(data, 5, bytes, 0, customUlData.size() * 4);
+
+                if (settingNum < 10) {
+                    settingNum++;
+                    if (integerList1 == null) {
+                        integerList1 = new ArrayList<>();
+                        integerList2 = new ArrayList<>();
+                        integerList3 = new ArrayList<>();
+                        integerList4 = new ArrayList<>();
+                        integerList5 = new ArrayList<>();
+                    }
+                    for (int i = 0; i < bytes.length; i++) {
+                        if ((i - 3) % 4 == 0) {
+                            int valueNG = (bytes[i] & 255) | ((bytes[i - 1] & 255) << 8); // 距离
+                            int numberNg = (bytes[i - 2] & 255) | ((bytes[i - 3] & 255) << 8); // 返回的探头编号 0-12
+
+                            switch (numberNg) {
+                                case 0:
+                                    integerList1.add(valueNG);
+                                    break;
+                                case 1:
+                                    integerList2.add(valueNG);
+                                    break;
+                                case 2:
+                                    integerList3.add(valueNG);
+                                    break;
+                                case 6:
+                                    integerList4.add(valueNG);
+                                    break;
+                                case 7:
+                                    integerList5.add(valueNG);
+                                    break;
+                            }
+//                            initDistanceMap(numberNg, valueNG);
+                            L.e(TAG, "设置数据完毕");
+                        }
+                    }
+                    return;
+                }
+
+                if (!isSettingFinish) {
+                    isSettingFinish = true;
+                    initDistanceMap();
+                }
+
+
                 for (int i = 0; i < bytes.length; i++) {
                     if ((i - 3) % 4 == 0) {
                         int valueNG = (bytes[i] & 255) | ((bytes[i - 1] & 255) << 8); // 距离
                         int numberNg = (bytes[i - 2] & 255) | ((bytes[i - 3] & 255) << 8); // 返回的探头编号 0-12
+                        Message message = mHandle.obtainMessage();
+                        message.what = 1110;
+                        message.arg1 = numberNg;
+                        message.arg2 = valueNG;
+                        mHandle.sendMessage(message);
+                    }
+                }
 
-                        int myDistance = getDistanceFromPosition(numberNg); //设置的探头距离
-                        L.i(TAG, "numberNg = " + numberNg + "---myDistance = " + myDistance);
-                        if (customUlData.contains(numberNg)) {
-                            if (isConformDistance(valueNG, myDistance, numberNg)) {
-                                break;
+
+                for (int i = 0; i < bytes.length; i++) {
+                    if ((i - 3) % 4 == 0) {
+                        int valueNG = (bytes[i] & 255) | ((bytes[i - 1] & 255) << 8); // 距离
+                        int numberNg = (bytes[i - 2] & 255) | ((bytes[i - 3] & 255) << 8); // 返回的探头编号 0-12
+//                        int myDistance = getDistanceFromPosition(numberNg); //设置的探头距离
+                        if (map.containsKey(numberNg)) {
+                            int myDistance = map.get(numberNg); //设置的探头距离
+                            L.i(TAG, "numberNg = " + numberNg + "---myDistance = " + myDistance);
+                            if (customUlData.contains(numberNg)) {
+                                if (isConformDistance(valueNG, myDistance, numberNg)) {
+                                    break;
+                                }
                             }
                         }
                     }
-
                 }
             }
         } catch (Exception e) {
@@ -798,7 +957,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         if (isAllPlayFinish()) {
 
             if (currentNeedPlay == START_LEFT_STRING || currentNeedPlay == START_RIGHT_STRING) {
-                if(isNeedOpenSpeech) {
+                if (isNeedOpenSpeech) {
                     showTip("开启语音识别");
                     SpeechManager.getInstance().openSpeechDiscern(getApplicationContext());
                     TtsUtils.getInstance().sendOpenSpeechBroadcast(this);
@@ -1141,6 +1300,79 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         return -1;
     }
 
+    private Map<Integer, Integer> map;
+
+
+    private void initDistanceMap(int numberNg, int valueNg) {
+        if (map == null) {
+            map = new HashMap<>();
+            map.put(0, 2000);
+            map.put(1, 2000);
+            map.put(2, 2000);
+            map.put(6, 2000);
+            map.put(7, 2000);
+        }
+
+        if (map.containsKey(numberNg)) {
+            if (valueNg > 2000 && valueNg < 8190) {
+                map.put(numberNg, valueNg - 200);
+                L.e(TAG, "initDistanceMap :" + "探头ID = " + numberNg + "; 探测距离 = " + (valueNg - 20));
+            }
+        }
+    }
+
+    private void initDistanceMap() {
+        if (map == null) {
+            map = new HashMap<>();
+            map.put(0, 1500);
+            map.put(1, 1500);
+            map.put(2, 1500);
+            map.put(6, 1500);
+            map.put(7, 1500);
+        }
+
+        if (integerList1.size() > 0) {
+            Collections.sort(integerList1);
+            setDistanceMapData(0, integerList1);
+        }
+
+        if (integerList2.size() > 0) {
+            Collections.sort(integerList2);
+            setDistanceMapData(1, integerList2);
+        }
+
+        if (integerList3.size() > 0) {
+            Collections.sort(integerList3);
+            setDistanceMapData(2, integerList3);
+        }
+
+        if (integerList4.size() > 0) {
+            Collections.sort(integerList4);
+            setDistanceMapData(6, integerList4);
+        }
+
+        if (integerList5.size() > 0) {
+            Collections.sort(integerList5);
+            setDistanceMapData(7, integerList5);
+        }
+    }
+
+    private void setDistanceMapData(int number, List<Integer> integerList) {
+        int valueNg = 0;
+        for (int i = 0; i < integerList.size(); i++) {
+            int inter = integerList.get(i);
+            if (inter > 100) {
+                valueNg = integerList.get(i);
+                break;
+            }
+        }
+        if (valueNg > 100 && valueNg <= 1500) {
+            map.put(number, valueNg - 150);
+        } else if (valueNg > 1500 && valueNg < 8190) {
+            map.put(number, valueNg);
+        }
+    }
+
     Map<Integer, Byte> ultrasonicOpenMap = null;
 
     /**
@@ -1433,6 +1665,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         }
         closeRepeatLight();
         mHandle = null;
+
+        if (dataDialog != null && dataDialog.isShowing()) {
+            dataDialog.dismiss();
+        }
     }
 
     @Override

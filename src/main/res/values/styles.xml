@@ -83,4 +83,14 @@
 
     </style>
 
+    <style name="no_Multi_Touch">
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+    </style>
+
+    <style name="btn_size">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 </resources>

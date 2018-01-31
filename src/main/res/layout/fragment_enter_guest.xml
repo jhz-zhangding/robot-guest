@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请选择进门时会最先出发的超声波"
+                android:textColor="@color/white"
+                android:textSize="44sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/enter_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/dialog_help_robot_img"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="-200dp"
+        />
+
+</RelativeLayout>
