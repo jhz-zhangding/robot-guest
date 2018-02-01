@@ -38,7 +38,6 @@ public class ChooseTypeAdapter extends RecyclerView.Adapter<ChooseTypeAdapter.Vi
     }
 
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_type_group_list, null);
@@ -52,7 +51,7 @@ public class ChooseTypeAdapter extends RecyclerView.Adapter<ChooseTypeAdapter.Vi
 //            holder.textView.setBackgroundResource(R.drawable.diy_default_setting_btn_bg);
             holder.textView.setSelected(true);
         } else {
-                holder.textView.setSelected(false);
+            holder.textView.setSelected(false);
         }
         holder.textView.setText(list.get(position));
 

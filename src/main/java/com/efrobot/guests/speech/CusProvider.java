@@ -15,7 +15,7 @@ import com.efrobot.speechsdk.SpeechSdkProvider;
 /**
  * Created by zd on 2017/2/14
  */
-public class CusProvider extends SpeechSdkProvider implements View.OnKeyListener{
+public class CusProvider extends SpeechSdkProvider implements View.OnKeyListener {
     private static final String TAG = "CusProvider";
     public static final String AUTHORITY = "com.example.aidlclient1.provider";
 
@@ -65,16 +65,16 @@ public class CusProvider extends SpeechSdkProvider implements View.OnKeyListener
         L.e(TAG, "TTSEnd");
         GuestsApplication application = GuestsApplication.from(getContext());
         if (UltrasonicService.isWelcomeTTsStart) {
-            if(application != null && application.ultrasonicService != null) {
+            if (application != null && application.ultrasonicService != null) {
                 application.ultrasonicService.ttsEnd();
             }
             UltrasonicService.isWelcomeTTsStart = false;
         }
 
 
-        if(application.ultrasonicService != null && application.ultrasonicService.mHandle != null) {
-            if(application.ultrasonicService.musicNeedSay)
-            application.ultrasonicService.mHandle.sendEmptyMessage(application.ultrasonicService.MUSIC_NEED_SAY);
+        if (application.ultrasonicService != null && application.ultrasonicService.mHandle != null) {
+            if (application.ultrasonicService.musicNeedSay)
+                application.ultrasonicService.mHandle.sendEmptyMessage(application.ultrasonicService.MUSIC_NEED_SAY);
         }
 
     }

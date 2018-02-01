@@ -281,6 +281,9 @@
     <string name="advanced_setting_correction_title">超声波自动校正</string>
     <string name="advanced_setting_correction_note">超声波自动校正开启后，每次开启迎宾功能时，超声波都会自动标定一次。</string>
 
+    <string name="advanced_setting_auto_title">自动设置超声波触发距离</string>
+    <string name="advanced_setting_auto_note">此功能开启后，只需要关闭面罩，机器人根据周围环境自动设置超声波的触发距离。该功能开启后将不启用自定义的超声波数据</string>
+
     <string name="advanced_setting_guest_title">关闭面罩自动迎宾</string>
     <string name="advanced_setting_guest_note">此功能开启后，只需关闭面罩，机器人就会自动进入迎宾模式。关闭面罩前，请先确认超声波数据是否正常。注：在其他应用场景中，若关闭面罩不需要开启迎宾功能时，请关闭这个功能。</string>
 

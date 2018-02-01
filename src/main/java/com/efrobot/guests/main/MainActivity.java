@@ -9,10 +9,10 @@ import com.efrobot.guests.R;
 import com.efrobot.guests.base.GuestsBaseActivity;
 import com.efrobot.library.mvp.presenter.BasePresenter;
 
-public class MainActivity extends GuestsBaseActivity<MainPresenter> implements IMainView,View.OnClickListener{
+public class MainActivity extends GuestsBaseActivity<MainPresenter> implements IMainView, View.OnClickListener {
 
     private Button startBtn;
-//
+    //
     private EditText mPassword;
 
     public static String SP_GUEST_PASSWORD = "guest_password";
@@ -63,7 +63,7 @@ public class MainActivity extends GuestsBaseActivity<MainPresenter> implements I
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.setting:
 //                if(!TextUtils.isEmpty(mPassword.getText())) {
 //                    String savedPassword = PreferencesUtils.getString(this, SP_GUEST_PASSWORD);

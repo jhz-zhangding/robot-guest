@@ -51,14 +51,12 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -126,6 +124,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     private boolean isNeedOpenSpeech;
 
+    private boolean isAutoSettingDistance = false;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -139,6 +139,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             return -1;
         }
         isNeedOpenSpeech = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, true);
+        isAutoSettingDistance = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, true);
+
         GuestsApplication.from(this).setUltrasonicService(this);
         groupManager = RobotManager.getInstance(this.getApplicationContext()).getGroupInstance();
         IsRunning = true;
@@ -199,6 +201,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 customUlData.add(ulDistanceBeen.get(i).getUltrasonicId());
             }
         }
+        initDistanceMap(ulDistanceBeen);
         customNumber = customUlData.size();
 
 
@@ -472,62 +475,64 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 byte[] bytes = new byte[customUlData.size() * 4];
                 System.arraycopy(data, 5, bytes, 0, customUlData.size() * 4);
 
-                if (settingNum < 10) {
-                    settingNum++;
-                    if (integerList1 == null) {
-                        integerList1 = new ArrayList<>();
-                        integerList2 = new ArrayList<>();
-                        integerList3 = new ArrayList<>();
-                        integerList4 = new ArrayList<>();
-                        integerList5 = new ArrayList<>();
+                if (isAutoSettingDistance) {
+                    if (settingNum < 10) {
+                        settingNum++;
+                        if (integerList1 == null) {
+                            integerList1 = new ArrayList<>();
+                            integerList2 = new ArrayList<>();
+                            integerList3 = new ArrayList<>();
+                            integerList4 = new ArrayList<>();
+                            integerList5 = new ArrayList<>();
+                        }
+                        for (int i = 0; i < bytes.length; i++) {
+                            if ((i - 3) % 4 == 0) {
+                                int valueNG = (bytes[i] & 255) | ((bytes[i - 1] & 255) << 8); // 距离
+                                int numberNg = (bytes[i - 2] & 255) | ((bytes[i - 3] & 255) << 8); // 返回的探头编号 0-12
+
+                                switch (numberNg) {
+                                    case 0:
+                                        integerList1.add(valueNG);
+                                        break;
+                                    case 1:
+                                        integerList2.add(valueNG);
+                                        break;
+                                    case 2:
+                                        integerList3.add(valueNG);
+                                        break;
+                                    case 6:
+                                        integerList4.add(valueNG);
+                                        break;
+                                    case 7:
+                                        integerList5.add(valueNG);
+                                        break;
+                                }
+//                            initDistanceMap(numberNg, valueNG);
+                                L.e(TAG, "设置数据完毕");
+                            }
+                        }
+                        return;
                     }
+
+                    if (!isSettingFinish) {
+                        isSettingFinish = true;
+                        initDistanceMap();
+                    }
+
+
                     for (int i = 0; i < bytes.length; i++) {
                         if ((i - 3) % 4 == 0) {
                             int valueNG = (bytes[i] & 255) | ((bytes[i - 1] & 255) << 8); // 距离
                             int numberNg = (bytes[i - 2] & 255) | ((bytes[i - 3] & 255) << 8); // 返回的探头编号 0-12
-
-                            switch (numberNg) {
-                                case 0:
-                                    integerList1.add(valueNG);
-                                    break;
-                                case 1:
-                                    integerList2.add(valueNG);
-                                    break;
-                                case 2:
-                                    integerList3.add(valueNG);
-                                    break;
-                                case 6:
-                                    integerList4.add(valueNG);
-                                    break;
-                                case 7:
-                                    integerList5.add(valueNG);
-                                    break;
-                            }
-//                            initDistanceMap(numberNg, valueNG);
-                            L.e(TAG, "设置数据完毕");
+                            Message message = mHandle.obtainMessage();
+                            message.what = 1110;
+                            message.arg1 = numberNg;
+                            message.arg2 = valueNG;
+                            mHandle.sendMessage(message);
                         }
                     }
-                    return;
+
                 }
-
-                if (!isSettingFinish) {
-                    isSettingFinish = true;
-                    initDistanceMap();
-                }
-
-
-                for (int i = 0; i < bytes.length; i++) {
-                    if ((i - 3) % 4 == 0) {
-                        int valueNG = (bytes[i] & 255) | ((bytes[i - 1] & 255) << 8); // 距离
-                        int numberNg = (bytes[i - 2] & 255) | ((bytes[i - 3] & 255) << 8); // 返回的探头编号 0-12
-                        Message message = mHandle.obtainMessage();
-                        message.what = 1110;
-                        message.arg1 = numberNg;
-                        message.arg2 = valueNG;
-                        mHandle.sendMessage(message);
-                    }
-                }
-
 
                 for (int i = 0; i < bytes.length; i++) {
                     if ((i - 3) % 4 == 0) {
@@ -1303,7 +1308,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private Map<Integer, Integer> map;
 
 
-    private void initDistanceMap(int numberNg, int valueNg) {
+    private void initDistanceMap(List<UlDistanceBean> distanceBeen) {
         if (map == null) {
             map = new HashMap<>();
             map.put(0, 2000);
@@ -1313,12 +1318,17 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
             map.put(7, 2000);
         }
 
-        if (map.containsKey(numberNg)) {
-            if (valueNg > 2000 && valueNg < 8190) {
-                map.put(numberNg, valueNg - 200);
-                L.e(TAG, "initDistanceMap :" + "探头ID = " + numberNg + "; 探测距离 = " + (valueNg - 20));
+        if (distanceBeen != null) {
+            for (int i = 0; i < distanceBeen.size(); i++) {
+                UlDistanceBean ul = distanceBeen.get(i);
+                if (map.containsKey(ul.getUltrasonicId())) {
+                    int distance = Integer.parseInt(ul.getDistanceValue());
+                    map.put(ul.getUltrasonicId(), distance);
+                    L.e(TAG, "initDistanceMap :" + "探头ID = " + ul.getUltrasonicId() + "; 检测距离 = " + distance);
+                }
             }
         }
+
     }
 
     private void initDistanceMap() {
@@ -1357,11 +1367,14 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         }
     }
 
+
+    private int minDistanceValue = 100;
+
     private void setDistanceMapData(int number, List<Integer> integerList) {
         int valueNg = 0;
         for (int i = 0; i < integerList.size(); i++) {
             int inter = integerList.get(i);
-            if (inter > 100) {
+            if (inter > minDistanceValue) {
                 valueNg = integerList.get(i);
                 break;
             }

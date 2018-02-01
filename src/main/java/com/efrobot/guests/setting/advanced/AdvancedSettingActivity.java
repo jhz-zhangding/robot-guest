@@ -34,6 +34,8 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
 
     private ToggleButton correctionBtn;
 
+    private ToggleButton autoSetting;
+
 //    private ToggleButton autoGuestBtn;
 
 //    private ToggleButton closeWheelBtn;
@@ -84,6 +86,7 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         guestTimeEt = (EditText) findViewById(R.id.advanced_setting_time_et);
         speechBtn = (ToggleButton) findViewById(R.id.advanced_setting_speech_btn);
         correctionBtn = (ToggleButton) findViewById(R.id.advanced_setting_correction_btn);
+        autoSetting = (ToggleButton) findViewById(R.id.advanced_setting_auto);
 //        autoGuestBtn = (ToggleButton) findViewById(R.id.advanced_setting_guest_btn);
 //        closeWheelBtn = (ToggleButton) findViewById(R.id.advanced_setting_wheel_btn);
 
@@ -128,13 +131,14 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         exitBtn.setOnClickListener(this);
         speechBtn.setOnClickListener(this);
         correctionBtn.setOnClickListener(this);
+        autoSetting.setOnClickListener(this);
 //        autoGuestBtn.setOnClickListener(this);
 //        closeWheelBtn.setOnClickListener(this);
     }
 
     private void initToogleButton() {
         updateSpData(SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, speechBtn);
-        updateSpData(SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, correctionBtn);
+        updateSpData(SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, autoSetting);
 //        updateSpData(SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, autoGuestBtn);
     }
 
@@ -173,9 +177,12 @@ public class AdvancedSettingActivity extends GuestsBaseActivity<AdvancedSettingP
         } else if (v.equals(speechBtn)) {
             setClickData(SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, v);
             updateEditData();
-        } else if (v.equals(correctionBtn)) {
-            setClickData(SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, v);
+        } else if (v.equals(autoSetting)) {
+            setClickData(SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, v);
         }
+//        else if (v.equals(correctionBtn)) {
+//            setClickData(SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, v);
+//        }
 //        else if (v.equals(autoGuestBtn)) {
 //            setClickData(SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, v);
 //        }

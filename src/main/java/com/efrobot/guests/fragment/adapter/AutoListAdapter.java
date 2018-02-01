@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.efrobot.guests.R;
@@ -24,6 +23,8 @@ public class AutoListAdapter extends RecyclerView.Adapter<AutoListAdapter.ViewHo
 
     private OnRecycleViewItemClick onRecycleViewItemClick;
 
+    private int type = 1;
+
     public AutoListAdapter(Context context, List<ItemsContentBean> list) {
         this.context = context;
         this.list = list;
@@ -31,6 +32,10 @@ public class AutoListAdapter extends RecyclerView.Adapter<AutoListAdapter.ViewHo
 
     public void setOnRecycleViewItemClick(OnRecycleViewItemClick onRecycleViewItemClick) {
         this.onRecycleViewItemClick = onRecycleViewItemClick;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     @Override
@@ -69,6 +74,12 @@ public class AutoListAdapter extends RecyclerView.Adapter<AutoListAdapter.ViewHo
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.item_num);
             editText = (TextView) itemView.findViewById(R.id.content_edit);
+            editText.setHintTextColor(context.getResources().getColor(R.color.white));
+            if (type == 1) {
+                editText.setHint("请输入迎宾语");
+            } else if (type == 2) {
+                editText.setHint("请输入送宾语");
+            }
         }
     }
 

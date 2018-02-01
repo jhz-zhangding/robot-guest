@@ -1,15 +1,8 @@
 package com.efrobot.guests.service;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.IBinder;
-
-import com.efrobot.guests.Env.SpContans;
-import com.efrobot.library.mvp.utils.L;
-import com.efrobot.library.mvp.utils.PreferencesUtils;
 
 /**
  * 监听盖子状态Service

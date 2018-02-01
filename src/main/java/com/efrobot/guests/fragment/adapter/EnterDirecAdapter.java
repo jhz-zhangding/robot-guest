@@ -1,4 +1,4 @@
-package com.efrobot.guests.setting;
+package com.efrobot.guests.fragment.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by zd on 2017/8/17.
  * 超声波选择
  */
-public class SelectDirecAdapter extends BaseAdapter {
+public class EnterDirecAdapter extends BaseAdapter {
 
     private Context mContext;
 
@@ -24,8 +24,9 @@ public class SelectDirecAdapter extends BaseAdapter {
 
     private OnSelectedItem onSelectedItem;
 
-    public SelectDirecAdapter(Context context) {
-        this.mContext = context;
+    public EnterDirecAdapter(Context mContext, List<SelectDirection> lists) {
+        this.mContext = mContext;
+        this.lists = lists;
     }
 
     public void setSourceData(List<SelectDirection> datas) {
@@ -91,10 +92,12 @@ public class SelectDirecAdapter extends BaseAdapter {
         mHolder.direcValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lists.get(position).setSelected(true);
-                notifyDataSetChanged();
-                if (onSelectedItem != null) {
-                    onSelectedItem.onSelect(lists.get(position));
+                if (!lists.get(position).isSelected()) {
+                    lists.get(position).setSelected(true);
+                    notifyDataSetChanged();
+                    if (onSelectedItem != null) {
+                        onSelectedItem.onSelect(lists.get(position));
+                    }
                 }
             }
         });

@@ -65,8 +65,8 @@ public class MediaPlayDialog extends Dialog {
         public void onCompletion(MediaPlayer mp) {
             Toast.makeText(mContext, "播放完成", Toast.LENGTH_SHORT).show();
 
-            if(application != null && application.ultrasonicService != null) {
-                if(application.ultrasonicService.mHandle != null) {
+            if (application != null && application.ultrasonicService != null) {
+                if (application.ultrasonicService.mHandle != null) {
                     application.ultrasonicService.mHandle.sendEmptyMessage(application.ultrasonicService.VIDEO_FINISH);
                 }
             }

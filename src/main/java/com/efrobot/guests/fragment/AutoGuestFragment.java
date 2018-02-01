@@ -1,9 +1,7 @@
 package com.efrobot.guests.fragment;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -51,6 +49,11 @@ public class AutoGuestFragment extends Fragment implements View.OnClickListener 
     private ImageView spanOrPickBtn;
     private boolean isPickUpList = true;
 
+    /**
+     * 显示条数
+     */
+    private final int showItemNum = 3;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +98,12 @@ public class AutoGuestFragment extends Fragment implements View.OnClickListener 
                 if (itemsContentBean != null) {
                     String content = editText.getText().toString().trim();
                     itemsContentBean.setOther(content);
-                    DataManager.getInstance(getActivity()).upateContent(itemsContentBean);
+                    if (itemsContentBean.getItemNum() != 0) {
+                        DataManager.getInstance(getActivity()).upateContent(itemsContentBean);
+                    } else {
+                        itemsContentBean.setItemNum(1);
+                        DataManager.getInstance(getActivity()).insertContent(itemsContentBean);
+                    }
                     handler.sendEmptyMessageDelayed(UPDATE_ADAPTER_DATA, 200);
                 }
                 frameLayout.setVisibility(View.GONE);
@@ -113,15 +121,28 @@ public class AutoGuestFragment extends Fragment implements View.OnClickListener 
         list.clear();
         mainList = DataManager.getInstance(getActivity()).queryAllContent();
         if (mainList != null) {
-            for (int i = 0; i < mainList.size(); i++) {
-                if (isPickUpList) {
-                    if (i < 3) {
+
+            if (mainList.size() >= showItemNum) {
+                spanOrPickBtn.setVisibility(View.VISIBLE);
+                for (int i = 0; i < mainList.size(); i++) {
+                    if (isPickUpList) {
+                        if (i < 3) {
+                            list.add(mainList.get(i));
+                        }
+                    } else {
                         list.add(mainList.get(i));
                     }
-                } else {
-                    list.add(mainList.get(i));
+                }
+            } else {
+                spanOrPickBtn.setVisibility(View.GONE);
+                int emptyListNum = showItemNum - mainList.size();
+                for (int i = 0; i < emptyListNum; i++) {
+                    ItemsContentBean itemsContentBean = new ItemsContentBean();
+                    list.add(itemsContentBean);
                 }
             }
+
+
         }
         setListAdapter();
     }
@@ -142,9 +163,9 @@ public class AutoGuestFragment extends Fragment implements View.OnClickListener 
                     showInputSoft();
                 }
             });
+            autoRecyclerView.setAdapter(autoListAdapter);
         } else
             autoListAdapter.notifyDataSetChanged();
-        autoRecyclerView.setAdapter(autoListAdapter);
     }
 
 

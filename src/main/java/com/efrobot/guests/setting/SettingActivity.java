@@ -840,10 +840,8 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
      * 初始化数据
      */
     private void updateDirectionView(TextView leftView, TextView rightView) {
-        ArrayList<SelectDirection> leftDirectionLists = selectedDao.queryOneType(1);
-        ArrayList<SelectDirection> rightDirectionLists = selectedDao.queryOneType(2);
-        tempLeftSelectDirections = leftDirectionLists;
-        tempRightSelectDirections = rightDirectionLists;
+        tempLeftSelectDirections = selectedDao.queryOneType(1);
+        tempRightSelectDirections = selectedDao.queryOneType(2);
         updateSelectedTv(tempLeftSelectDirections, leftView);
         updateSelectedTv(tempRightSelectDirections, rightView);
     }

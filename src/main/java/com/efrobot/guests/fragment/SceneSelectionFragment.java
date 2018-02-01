@@ -52,7 +52,7 @@ public class SceneSelectionFragment extends Fragment implements View.OnClickList
                 if (currentSelectedType == AUTO_TYPE)
                     ((ControlActivity) getActivity()).setAutoGuestFragment();
                 else
-                    ((ControlActivity) getActivity()).setAutoGuestFragment();
+                    ((ControlActivity) getActivity()).setEnterGuestFragment();
                 break;
         }
     }
