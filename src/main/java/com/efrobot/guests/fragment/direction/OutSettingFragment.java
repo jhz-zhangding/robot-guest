@@ -22,6 +22,7 @@ import com.efrobot.guests.dao.DataManager;
 import com.efrobot.guests.fragment.ControlActivity;
 import com.efrobot.guests.fragment.adapter.AutoListAdapter;
 import com.efrobot.guests.fragment.adapter.AutoListItemDecoration;
+import com.efrobot.library.RobotManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,8 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class OutSettingFragment extends Fragment implements View.OnClickListener {
+
+    private int currentItemNum = 2;
 
     private RecyclerView recyclerView;
 
@@ -86,13 +89,29 @@ public class OutSettingFragment extends Fragment implements View.OnClickListener
     }
 
     private int showItemNum = 3;
+    private String[] str = new String[]{"您慢走，欢迎下次再来",
+            "您这是要走了吗，ROBOT_NICKNAME_VALUE期待您的下次光临",
+            "机器人ROBOT_NICKNAME_VALUE欢迎您下次再来"};
 
     private void setData() {
         list.clear();
-        mainList = DataManager.getInstance(getActivity()).queryAllContent();
+        mainList = DataManager.getInstance(getActivity()).queryItem(currentItemNum);
         if (mainList != null) {
+
+            if (mainList.size() == 0) {
+                for (int i = 0; i < str.length; i++) {
+                    ItemsContentBean itemsContentBean = new ItemsContentBean();
+                    itemsContentBean.setOther(str[i].replace("ROBOT_NICKNAME_VALUE", RobotManager.getInstance(getActivity()).getRobotName()));
+                    itemsContentBean.setItemNum(currentItemNum);
+                    DataManager.getInstance(getActivity()).insertContent(itemsContentBean);
+                    mainList.add(itemsContentBean);
+                }
+            }
             if (mainList.size() >= showItemNum) {
-                spanOrPickBtn.setVisibility(View.VISIBLE);
+                if (mainList.size() > showItemNum)
+                    spanOrPickBtn.setVisibility(View.VISIBLE);
+                else
+                    spanOrPickBtn.setVisibility(View.GONE);
                 for (int i = 0; i < mainList.size(); i++) {
                     if (isPickUpList) {
                         if (i < 3) {
@@ -103,6 +122,7 @@ public class OutSettingFragment extends Fragment implements View.OnClickListener
                     }
                 }
             } else {
+                list.addAll(mainList);
                 spanOrPickBtn.setVisibility(View.GONE);
                 int emptyListNum = showItemNum - mainList.size();
                 for (int i = 0; i < emptyListNum; i++) {
@@ -119,22 +139,19 @@ public class OutSettingFragment extends Fragment implements View.OnClickListener
     private ItemsContentBean itemsContentBean;
 
     private void setListAdapter() {
-        if (listAdapter == null) {
-            listAdapter = new AutoListAdapter(getActivity(), list);
-            listAdapter.setType(2);
-            listAdapter.setOnRecycleViewItemClick(new AutoListAdapter.OnRecycleViewItemClick() {
-                @Override
-                public void onClick(int potion) {
-                    frameLayout.setVisibility(View.VISIBLE);
-                    itemsContentBean = list.get(potion);
-                    editText.setText(itemsContentBean.getOther());
-                    editText.requestFocus();
-                    showInputSoft();
-                }
-            });
-            recyclerView.setAdapter(listAdapter);
-        } else
-            listAdapter.notifyDataSetChanged();
+        listAdapter = new AutoListAdapter(getActivity(), list);
+        listAdapter.setType(2);
+        listAdapter.setOnRecycleViewItemClick(new AutoListAdapter.OnRecycleViewItemClick() {
+            @Override
+            public void onClick(int potion) {
+                frameLayout.setVisibility(View.VISIBLE);
+                itemsContentBean = list.get(potion);
+                editText.setText(itemsContentBean.getOther());
+                editText.requestFocus();
+                showInputSoft();
+            }
+        });
+        recyclerView.setAdapter(listAdapter);
     }
 
     @Override

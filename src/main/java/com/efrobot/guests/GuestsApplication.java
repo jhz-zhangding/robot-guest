@@ -20,6 +20,7 @@ import com.efrobot.guests.service.UltrasonicService;
 import com.efrobot.guests.utils.GuestDes3Util;
 import com.efrobot.guests.utils.PreferencesUtils;
 import com.efrobot.library.mvp.utils.L;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -105,6 +106,7 @@ public class GuestsApplication extends Application {
 
         PreferencesUtils.putBoolean(getContext().getApplicationContext(), "FIRST_INIT_DATA", false);
         PreferencesUtils.putBoolean(getContext().getApplicationContext(), SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, true);
+        PreferencesUtils.putBoolean(getContext().getApplicationContext(), SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, true);
     }
 
     /**

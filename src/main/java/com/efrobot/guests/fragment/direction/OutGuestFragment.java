@@ -74,12 +74,8 @@ public class OutGuestFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setData() {
-        if (enterDirecAdapter == null) {
-            enterDirecAdapter = new EnterDirecAdapter(getActivity(), mList);
-            gridView.setAdapter(enterDirecAdapter);
-        } else {
-            enterDirecAdapter.notifyDataSetChanged();
-        }
+        enterDirecAdapter = new EnterDirecAdapter(getActivity(), mList);
+        gridView.setAdapter(enterDirecAdapter);
         enterDirecAdapter.setOnSelectedItem(new EnterDirecAdapter.OnSelectedItem() {
             @Override
             public void onSelect(SelectDirection selectDirection) {
@@ -109,7 +105,8 @@ public class OutGuestFragment extends Fragment implements View.OnClickListener {
             direcMap.put(6, "右1");
         }
 
-        List<SelectDirection> selectedList = selectedDao.queryAll();
+        List<SelectDirection> selectedList1 = selectedDao.queryOneType(2);
+        List<SelectDirection> selectedList2 = selectedDao.queryOneType(1);
 
         for (Map.Entry map : direcMap.entrySet()) {
             int id = (int) map.getKey();
@@ -119,11 +116,20 @@ public class OutGuestFragment extends Fragment implements View.OnClickListener {
             sel.setUltrasonicId(id);
             sel.setValue(value);
             sel.setSelected(false);
+            sel.setEnabled(false);
 
-            if (selectedList != null) {
-                for (int i = 0; i < selectedList.size(); i++) {
-                    if (id == selectedList.get(i).getUltrasonicId()) {
+            if (selectedList1 != null) {
+                for (int i = 0; i < selectedList1.size(); i++) {
+                    if (id == selectedList1.get(i).getUltrasonicId()) {
                         sel.setSelected(true);
+                    }
+                }
+            }
+
+            if (selectedList2 != null) {
+                for (int i = 0; i < selectedList2.size(); i++) {
+                    if (id == selectedList2.get(i).getUltrasonicId()) {
+                        sel.setEnabled(true);
                     }
                 }
             }
@@ -148,7 +154,7 @@ public class OutGuestFragment extends Fragment implements View.OnClickListener {
             TextView textView = (TextView) view.findViewById(R.id.content);
             ImageView imageView = (ImageView) view.findViewById(R.id.del_img);
             textView.setText(selectDirection.getValue());
-            imageView.setOnClickListener(new View.OnClickListener() {
+            view.findViewById(R.id.parent_view).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     datas.remove(selectDirection);

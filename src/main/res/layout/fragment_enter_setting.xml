@@ -3,31 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <ImageView
         android:id="@+id/auto_setting_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="150dp"
         android:layout_marginTop="80dp"
-        android:text="请设置迎宾语"
-        android:textColor="@color/white"
-        android:textSize="44sp"
-        android:textStyle="bold" />
+        android:src="@mipmap/welcome_guest_txt" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/auto_recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/auto_setting_tv"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="80dp" />
 
     <ImageView
         android:id="@+id/open_or_span"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/auto_recycler_view"
-        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="350dp"
         android:layout_marginTop="15dp"
         android:background="@mipmap/open" />
 
@@ -51,6 +48,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="80dp"
         android:layout_marginRight="100dp"
-        android:background="@mipmap/run_pressed" />
+        android:background="@drawable/select_arrow_btn_selector" />
 
 </RelativeLayout>

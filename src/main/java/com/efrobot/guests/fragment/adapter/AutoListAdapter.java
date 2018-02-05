@@ -17,6 +17,11 @@ import java.util.List;
  */
 public class AutoListAdapter extends RecyclerView.Adapter<AutoListAdapter.ViewHolder> {
 
+    private int[] colrs = new int[]{R.drawable.shape_guest_edit_style1,
+            R.drawable.shape_guest_edit_style2,
+            R.drawable.shape_guest_edit_style3,
+            R.drawable.shape_guest_edit_style4,};
+
     private Context context;
 
     private List<ItemsContentBean> list;
@@ -55,8 +60,9 @@ public class AutoListAdapter extends RecyclerView.Adapter<AutoListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.itemView.setTag(position);
-        holder.textView.setText("迎宾语" + (position + 1));
+        holder.textView.setText(""+(position + 1));
         holder.editText.setText(list.get(position).getOther());
+        holder.editText.setBackgroundResource(colrs[position % (colrs.length)]);
     }
 
     @Override

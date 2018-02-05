@@ -134,6 +134,11 @@ public class SelectedDao {
         db.update(SelectDirection.TABLE_NAME, cv, SelectDirection.ULTRASONIC_ID + "=?", new String[]{String.valueOf(selectDirection.getUltrasonicId())});
     }
 
+    /**
+     * 1和2
+     * @param type
+     * @return
+     */
     public ArrayList<SelectDirection> queryOneType(int type) {
 
         if (dbOpenHelper != null) {

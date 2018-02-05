@@ -16,23 +16,22 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
-        android:text="关闭面罩开始迎宾"
-        android:textColor="@color/white"
-        android:textSize="44sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="70dp"
+        android:background="@mipmap/start_guest_txt" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:background="@mipmap/dialog_help_robot_img" />
+        android:layout_marginTop="220dp"
+        android:background="@mipmap/robot_guest_image"
+        android:scaleX="1.2"
+        android:scaleY="1.2" />
 
     <LinearLayout
         android:layout_width="wrap_content"

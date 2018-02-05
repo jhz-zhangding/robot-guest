@@ -6,16 +6,26 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginLeft="450dp"
+        android:layout_marginTop="180dp"
         android:orientation="vertical">
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="请选择出门时会最先出发的超声波"
-            android:textColor="@color/white"
-            android:textSize="44sp" />
+            android:layout_marginLeft="-50dp"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@mipmap/out_door_txt" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-30dp"
+            android:layout_marginTop="15dp"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@mipmap/triggle_tltra" />
 
         <com.zhy.view.flowlayout.TagFlowLayout
             android:id="@+id/select_flow_layout"
@@ -28,16 +38,55 @@
             android:id="@+id/enter_recycler_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="400dp"
+            android:layout_marginRight="130dp"
             android:numColumns="5" />
     </LinearLayout>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="-200dp"
-        android:background="@mipmap/dialog_help_robot_img" />
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="100dp"
+        android:background="@mipmap/robot_problem_image"
+        android:scaleX="1.5"
+        android:scaleY="1.5" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            />
+
+
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/next_btn"
@@ -47,6 +96,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="80dp"
         android:layout_marginRight="100dp"
-        android:background="@mipmap/run_pressed" />
+        android:background="@drawable/select_arrow_btn_selector" />
 
 </RelativeLayout>

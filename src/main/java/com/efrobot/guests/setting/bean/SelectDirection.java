@@ -21,6 +21,8 @@ public class SelectDirection {
 
     private boolean isSelected;
 
+    private boolean isEnabled;
+
     public SelectDirection() {
     }
 
@@ -58,6 +60,14 @@ public class SelectDirection {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 
     public int getType() {

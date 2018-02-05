@@ -6,12 +6,12 @@
         <TextView
             android:id="@+id/select_dec_tv_btn"
             android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/select_text_btn_unchoose"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/text_type_bg"
             android:gravity="center"
             android:text=""
             android:textColor="@color/white"
-            android:textSize="26sp" />
+            android:textSize="28sp" />
 
 </LinearLayout>

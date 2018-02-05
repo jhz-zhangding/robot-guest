@@ -1,15 +1,15 @@
 package com.efrobot.guests.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import com.efrobot.guests.R;
+import com.efrobot.guests.base.MyBaseActivity;
 import com.efrobot.guests.fragment.direction.EnterGuestFragment;
 import com.efrobot.guests.fragment.direction.EnterSettingFragment;
 import com.efrobot.guests.fragment.direction.OutGuestFragment;
 import com.efrobot.guests.fragment.direction.OutSettingFragment;
 
-public class ControlActivity extends Activity {
+public class ControlActivity extends MyBaseActivity {
 
     private ControlFragment controlFragment;
 

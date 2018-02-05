@@ -6,16 +6,27 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginLeft="450dp"
+        android:layout_marginTop="180dp"
         android:orientation="vertical">
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="请选择进门时会最先出发的超声波"
-            android:textColor="@color/white"
-            android:textSize="44sp" />
+            android:layout_marginLeft="-50dp"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@mipmap/into_door_txt" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-30dp"
+            android:layout_marginTop="15dp"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@mipmap/triggle_tltra" />
+
 
         <com.zhy.view.flowlayout.TagFlowLayout
             android:id="@+id/select_flow_layout"
@@ -28,16 +39,80 @@
             android:id="@+id/enter_recycler_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="400dp"
+            android:layout_marginRight="130dp"
+            android:layout_marginTop="20dp"
             android:numColumns="5" />
     </LinearLayout>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="-200dp"
-        android:background="@mipmap/dialog_help_robot_img" />
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="100dp"
+        android:background="@mipmap/robot_bitch_image"
+        android:scaleX="1.5"
+        android:scaleY="1.5" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="58dp"
+        android:layout_marginTop="220dp">
+
+        <com.efrobot.guests.widget.CircleTextView
+            android:id="@+id/circle_left_btn2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="左1"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <com.efrobot.guests.widget.CircleTextView
+            android:id="@+id/circle_left_btn1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:text="左2"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <com.efrobot.guests.widget.CircleTextView
+            android:id="@+id/circle_middle_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="中1"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <com.efrobot.guests.widget.CircleTextView
+            android:id="@+id/circle_right_btn1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="213dp"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:text="右2"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <com.efrobot.guests.widget.CircleTextView
+            android:id="@+id/circle_right_btn2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="265dp"
+            android:gravity="center"
+            android:text="右1"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/next_btn"
@@ -47,6 +122,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="80dp"
         android:layout_marginRight="100dp"
-        android:background="@mipmap/run_pressed" />
+        android:background="@drawable/select_arrow_btn_selector" />
 
 </RelativeLayout>

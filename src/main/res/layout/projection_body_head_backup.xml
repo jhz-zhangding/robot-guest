@@ -2,8 +2,8 @@
 <com.efrobot.guests.utils.ui.ControlView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/no_Multi_Touch"
     android:id="@+id/control_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:padding="15dp">
 
     <ImageView
@@ -17,8 +17,7 @@
         style="@style/no_Multi_Touch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toLeftOf="@+id/head_left"
-        android:layout_toRightOf="@+id/head_right">
+        >
 
         <ImageView
             android:id="@+id/btn_center"
@@ -59,8 +58,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/projection_control_btn_gap"
             android:src="@drawable/body_btn_down" />
-
-
     </RelativeLayout>
 
     <ImageView

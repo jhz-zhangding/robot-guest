@@ -81,12 +81,19 @@ public class EnterDirecAdapter extends BaseAdapter {
 
 
         mHolder.direcValue.setText(lists.get(position).getValue());
-        if (lists.get(position).isSelected()) {
-            mHolder.direcValue.setBackground(mContext.getResources().getDrawable(R.drawable.select_text_btn_choose));
+        if (lists.get(position).isEnabled()) {
             mHolder.direcValue.setEnabled(false);
+            mHolder.direcValue.setBackground(mContext.getResources().getDrawable(R.drawable.select_text_btn_choose));
+            mHolder.direcValue.setTextColor(mContext.getResources().getColor(R.color.black));
         } else {
-            mHolder.direcValue.setBackground(mContext.getResources().getDrawable(R.drawable.select_text_btn_unchoose));
             mHolder.direcValue.setEnabled(true);
+            if (lists.get(position).isSelected()) {
+                mHolder.direcValue.setBackground(mContext.getResources().getDrawable(R.drawable.text_type_bg));
+                mHolder.direcValue.setTextColor(mContext.getResources().getColor(R.color.white));
+            } else {
+                mHolder.direcValue.setBackground(mContext.getResources().getDrawable(R.drawable.select_text_btn_unchoose));
+                mHolder.direcValue.setTextColor(mContext.getResources().getColor(R.color.black));
+            }
         }
 
         mHolder.direcValue.setOnClickListener(new View.OnClickListener() {

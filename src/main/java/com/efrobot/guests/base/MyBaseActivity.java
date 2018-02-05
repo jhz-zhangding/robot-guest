@@ -1,5 +1,6 @@
 package com.efrobot.guests.base;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,7 +11,7 @@ import com.efrobot.library.mvp.view.PresenterActivity;
 /**
  * Created by Administrator on 2017/1/5.
  */
-public abstract class GuestsBaseActivity<T extends GuestsBasePresenter> extends PresenterActivity {
+public abstract class MyBaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
