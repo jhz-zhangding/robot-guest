@@ -5,11 +5,6 @@
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/robot_tts_image" />
-
     <TextView
         android:id="@+id/item_num"
         android:layout_width="wrap_content"

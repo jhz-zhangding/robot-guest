@@ -7,21 +7,20 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-200dp"
-        >
+        android:layout_marginTop="-200dp">
+
         <include layout="@layout/projection_body_head_backup" />
     </FrameLayout>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/guest_direction_text_img"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="150dp"
         android:scaleX="1"
         android:scaleY="1"
-        />
+        android:src="@mipmap/guest_direction_text_img" />
 
     <TextView
         android:id="@+id/next_step_btn"
@@ -32,9 +31,13 @@
         android:layout_marginBottom="60dp"
         android:layout_marginRight="60dp"
         android:background="@drawable/button_bg"
+        android:drawableRight="@mipmap/door_small_image"
+        android:drawablePadding="10dp"
+        android:gravity="center"
+        android:minHeight="60dp"
         android:text="已在迎宾点"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

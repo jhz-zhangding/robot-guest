@@ -3,6 +3,8 @@ package com.efrobot.guests.fragment.direction;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +19,13 @@ import com.efrobot.guests.dao.SelectedDao;
 import com.efrobot.guests.fragment.ControlActivity;
 import com.efrobot.guests.fragment.adapter.EnterDirecAdapter;
 import com.efrobot.guests.setting.bean.SelectDirection;
+import com.efrobot.guests.widget.CircleTextView;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +53,8 @@ public class EnterGuestFragment extends Fragment implements View.OnClickListener
 
     private SelectedDao selectedDao;
 
+    private CircleTextView circleTextView1, circleTextView2, circleTextView3, circleTextView4, circleTextView5;
+    private Map<Integer, CircleTextView> circleMap = new HashMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,17 @@ public class EnterGuestFragment extends Fragment implements View.OnClickListener
         flowLayout = (TagFlowLayout) view.findViewById(R.id.select_flow_layout);
         gridView = (GridView) view.findViewById(R.id.enter_recycler_view);
 
+        circleTextView1 = (CircleTextView) view.findViewById(R.id.circle_left_btn2);
+        circleTextView2 = (CircleTextView) view.findViewById(R.id.circle_left_btn1);
+        circleTextView3 = (CircleTextView) view.findViewById(R.id.circle_middle_btn);
+        circleTextView4 = (CircleTextView) view.findViewById(R.id.circle_right_btn1);
+        circleTextView5 = (CircleTextView) view.findViewById(R.id.circle_right_btn2);
+        circleMap.put(2, circleTextView1);
+        circleMap.put(1, circleTextView2);
+        circleMap.put(0, circleTextView3);
+        circleMap.put(7, circleTextView4);
+        circleMap.put(6, circleTextView5);
+
         view.findViewById(R.id.next_btn).setOnClickListener(this);
     }
 
@@ -84,16 +101,48 @@ public class EnterGuestFragment extends Fragment implements View.OnClickListener
                 selectDirection.setType(currentType);
                 if (!selectedDao.isExits(selectDirection.getUltrasonicId())) {
                     selectedDao.insert(selectDirection);
+                } else {
+                    selectedDao.update(selectDirection);
                 }
-                setTagAdapter();
+                handler.sendEmptyMessageDelayed(1, 200);
             }
         });
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    setTagAdapter();
+                    break;
+            }
+        }
+    };
 
     private void setTagAdapter() {
         mSelectedList = selectedDao.queryOneType(currentType);
         myAdapter = new MyAdapter(mSelectedList);
         flowLayout.setAdapter(myAdapter);
+
+        updateCircleView();
+    }
+
+    private void updateCircleView() {
+        for (Map.Entry maps : circleMap.entrySet()) {
+            CircleTextView circleTextView = (CircleTextView) maps.getValue();
+            circleTextView.setTextColor(getActivity().getResources().getColor(R.color.black));
+            circleTextView.setBackgroundColor(getActivity().getResources().getColor(R.color.fine_tuning_text_color));
+        }
+
+        for (int i = 0; i < mSelectedList.size(); i++) {
+            int id = mSelectedList.get(i).getUltrasonicId();
+            if (circleMap.containsKey(id)) {
+                circleMap.get(id).setBackgroundColor(getActivity().getResources().getColor(R.color.rounded_image_color_orange));
+                circleMap.get(id).setTextColor(getActivity().getResources().getColor(R.color.white));
+            }
+        }
     }
 
     private void getDirectionData() {
@@ -166,6 +215,7 @@ public class EnterGuestFragment extends Fragment implements View.OnClickListener
                         selectedDao.delete(selectDirection.getUltrasonicId());
                     }
                     updateSelectContent();
+                    updateCircleView();
                 }
             });
             return view;

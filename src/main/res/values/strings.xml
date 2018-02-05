@@ -300,4 +300,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="welcome_guest_txt">注：设置多条迎宾语，人来时随机触发。\n &#160;&#160;&#160;&#160;&#160;&#160;&#160;可去设置里添加更多，也可设置在某个时间段说固定的迎宾语。</string>
+
+    <string name="leave_guest_txt">注：设置多条送宾语，人走时随机触发。\n&#160;&#160;&#160;&#160;&#160;&#160;&#160;可去设置里添加更多，也可设置在某个时间段说固定的送宾语。</string>
 </resources>

@@ -72,7 +72,7 @@ public class EnterSettingFragment extends Fragment implements View.OnClickListen
     private void initView(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.auto_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new AutoListItemDecoration(15));
+        recyclerView.addItemDecoration(new AutoListItemDecoration(25));
 
         frameLayout = (FrameLayout) view.findViewById(R.id.bottom_layout);
         editText = (EditText) view.findViewById(R.id.bottom_content);

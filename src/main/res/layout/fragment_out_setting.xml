@@ -9,7 +9,16 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="80dp"
-        android:background="@mipmap/leave_guest_txt"
+        android:src="@mipmap/leave_guest_txt" />
+
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/robot_tts_image"
+        android:layout_toRightOf="@+id/auto_setting_tv"
+        android:layout_marginLeft="-30dp"
+        android:layout_marginTop="60dp"
         />
 
 
@@ -18,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/auto_setting_tv"
-        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="160dp"
         android:layout_marginTop="80dp" />
 
     <ImageView
@@ -29,6 +38,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:background="@mipmap/open" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/open_or_span"
+        android:layout_marginLeft="220dp"
+        android:layout_marginTop="110dp"
+        android:text="@string/leave_guest_txt"
+        android:textColor="#D7D7D7"
+        android:textSize="20sp" />
 
     <FrameLayout
         android:id="@+id/bottom_layout"

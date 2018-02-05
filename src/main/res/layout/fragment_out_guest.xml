@@ -53,37 +53,61 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="58dp"
+        android:layout_marginTop="220dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.efrobot.guests.widget.CircleTextView
+            android:id="@+id/circle_left_btn2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="左1"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
-            />
+        <com.efrobot.guests.widget.CircleTextView
+            android:id="@+id/circle_left_btn1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:text="左2"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.efrobot.guests.widget.CircleTextView
+            android:id="@+id/circle_middle_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="中1"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
-            />
+        <com.efrobot.guests.widget.CircleTextView
+            android:id="@+id/circle_right_btn1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="213dp"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:text="右2"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            />
+        <com.efrobot.guests.widget.CircleTextView
+            android:id="@+id/circle_right_btn2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="265dp"
+            android:gravity="center"
+            android:text="右1"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
 
     </RelativeLayout>
