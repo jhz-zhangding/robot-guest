@@ -98,6 +98,8 @@ public class OutGuestFragment extends Fragment implements View.OnClickListener {
                 selectDirection.setType(currentType);
                 if (!selectedDao.isExits(selectDirection.getUltrasonicId())) {
                     selectedDao.insert(selectDirection);
+                } else {
+                    selectedDao.update(selectDirection);
                 }
                 setTagAdapter();
             }
@@ -131,12 +133,12 @@ public class OutGuestFragment extends Fragment implements View.OnClickListener {
     private void getDirectionData() {
         mList.clear();
         if (direcMap == null) {
-            direcMap = new LinkedHashMap<Integer, String>();
-            direcMap.put(2, "左1");
-            direcMap.put(1, "左2");
+            direcMap = new LinkedHashMap<>();
+            direcMap.put(6, "左1");
+            direcMap.put(7, "左2");
             direcMap.put(0, "中1");
-            direcMap.put(7, "右2");
-            direcMap.put(6, "右1");
+            direcMap.put(1, "右2");
+            direcMap.put(2, "右1");
         }
 
         List<SelectDirection> selectedList1 = selectedDao.queryOneType(2);

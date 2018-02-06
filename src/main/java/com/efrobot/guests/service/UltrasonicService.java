@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.efrobot.guests.Env.EnvUtil;
 import com.efrobot.guests.Env.SpContans;
 import com.efrobot.guests.GuestsApplication;
 import com.efrobot.guests.R;
@@ -93,7 +94,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private int waitTime = 3;//离开检测时间
 
     public static boolean IsOpenRepeatLight = true; //灯光开关
-    private Map<Integer, Boolean> flagsMap = new HashMap<Integer, Boolean>();
+    private Map<Integer, Boolean> flagsMap = new HashMap<>();
     private int customNumber = 1;
     private List<Integer> customUlData = null;
     private byte byte5 = (byte) 0x00;
@@ -106,8 +107,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private List<SelectDirection> leftSelectDirections;
     private List<SelectDirection> rightSelectDirections;
 
-    private List<Integer> leftSelectNum = new ArrayList<Integer>();
-    private List<Integer> rightSelectNum = new ArrayList<Integer>();
+    private List<Integer> leftSelectNum = new ArrayList<>();
+    private List<Integer> rightSelectNum = new ArrayList<>();
 
     private List<ItemsContentBean> itemsLeftContents;
     private List<ItemsContentBean> itemsRightContents;
@@ -175,17 +176,24 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
         //超声波方向数据
         selectedDao = GuestsApplication.from(getApplicationContext()).getSelectedDao();
+        int currentType = PreferencesUtils.getInt(this, EnvUtil.SP_CURRENT_TYPE, 2);
         leftSelectDirections = selectedDao.queryOneType(1);
         rightSelectDirections = selectedDao.queryOneType(2);
         if (leftSelectDirections.size() == 0 && rightSelectDirections.size() == 0) {
             showToast("请设置迎宾方向");
             return;
         } else {
-            for (int i = 0; i < leftSelectDirections.size(); i++) {
-                leftSelectNum.add(leftSelectDirections.get(i).getUltrasonicId());
-            }
-            for (int i = 0; i < rightSelectDirections.size(); i++) {
-                rightSelectNum.add(rightSelectDirections.get(i).getUltrasonicId());
+            if (currentType == 1) {
+                for (int i = 0; i < leftSelectDirections.size(); i++) {
+                    leftSelectNum.add(leftSelectDirections.get(i).getUltrasonicId());
+                }
+            } else if (currentType == 2) {
+                for (int i = 0; i < leftSelectDirections.size(); i++) {
+                    leftSelectNum.add(leftSelectDirections.get(i).getUltrasonicId());
+                }
+                for (int i = 0; i < rightSelectDirections.size(); i++) {
+                    rightSelectNum.add(rightSelectDirections.get(i).getUltrasonicId());
+                }
             }
         }
 
@@ -204,9 +212,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         initDistanceMap(ulDistanceBeen);
         customNumber = customUlData.size();
 
-
         /*********是否自动标定*********/
-        Boolean isAutoInitUl = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, false);
+        Boolean isAutoInitUl = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_NEDD_CORRECION, true);
 
         /*********迎宾延迟时间*********/
         waitTime = PreferencesUtils.getInt(this, SpContans.AdvanceContans.SP_GUEST_DELAY_TIME, 3);
@@ -315,7 +322,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     sendInfrared();
                     break;
                 case INIT_ULTRASONIC:
-                    TtsUtils.sendTts(UltrasonicService.this, "开始标定");
+                    TtsUtils.sendTts(UltrasonicService.this, "正在初始化超声波数据，请您不要靠近ROBOT_NICKNAME_VALUE");
                     RobotManager.getInstance(getApplicationContext()).registerOnGetUltrasonicCallBack(UltrasonicService.this);
                     //超声波初始化
                     sendTestUltrasonic(false);
@@ -811,7 +818,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         }
 
         ItemsContentBean currentBean = null;
-        List<ItemsContentBean> tempItemsContentBean = new ArrayList<ItemsContentBean>();
+        List<ItemsContentBean> tempItemsContentBean = new ArrayList<>();
 
         if (itemsContents != null && itemsContents.size() > 0) {
             /** 符合时间的优先*/
@@ -1379,10 +1386,14 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 break;
             }
         }
-        if (valueNg > 100 && valueNg <= 1500) {
-            map.put(number, valueNg - 150);
+
+        L.e(TAG, "setDistanceMapData :" + "探头ID = " + number + "; 检测距离 = " + valueNg);
+        if (valueNg > 340 && valueNg <= 1500) {
+            map.put(number, valueNg - 200);
         } else if (valueNg > 1500 && valueNg < 8190) {
-            map.put(number, valueNg);
+            map.put(number, 1500);
+        } else {
+//            map.put(number, 1500);
         }
     }
 
@@ -1394,7 +1405,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
      */
     private void initAllOpenData() {
         if (ultrasonicOpenMap == null) {
-            ultrasonicOpenMap = new HashMap<Integer, Byte>();
+            ultrasonicOpenMap = new HashMap<>();
             //byte[5]
             ultrasonicOpenMap.put(0, (byte) 0x01);
             ultrasonicOpenMap.put(1, (byte) 0x02);

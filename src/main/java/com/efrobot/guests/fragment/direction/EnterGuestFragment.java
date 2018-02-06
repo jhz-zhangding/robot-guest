@@ -83,11 +83,11 @@ public class EnterGuestFragment extends Fragment implements View.OnClickListener
         circleTextView3 = (CircleTextView) view.findViewById(R.id.circle_middle_btn);
         circleTextView4 = (CircleTextView) view.findViewById(R.id.circle_right_btn1);
         circleTextView5 = (CircleTextView) view.findViewById(R.id.circle_right_btn2);
-        circleMap.put(2, circleTextView1);
-        circleMap.put(1, circleTextView2);
+        circleMap.put(6, circleTextView1);
+        circleMap.put(7, circleTextView2);
         circleMap.put(0, circleTextView3);
-        circleMap.put(7, circleTextView4);
-        circleMap.put(6, circleTextView5);
+        circleMap.put(1, circleTextView4);
+        circleMap.put(2, circleTextView5);
 
         view.findViewById(R.id.next_btn).setOnClickListener(this);
     }
@@ -148,12 +148,12 @@ public class EnterGuestFragment extends Fragment implements View.OnClickListener
     private void getDirectionData() {
         mList.clear();
         if (direcMap == null) {
-            direcMap = new LinkedHashMap<Integer, String>();
-            direcMap.put(2, "左1");
-            direcMap.put(1, "左2");
+            direcMap = new LinkedHashMap<>();
+            direcMap.put(6, "左1");
+            direcMap.put(7, "左2");
             direcMap.put(0, "中1");
-            direcMap.put(7, "右2");
-            direcMap.put(6, "右1");
+            direcMap.put(1, "右2");
+            direcMap.put(2, "右1");
         }
 
         List<SelectDirection> selectedList1 = selectedDao.queryOneType(1);

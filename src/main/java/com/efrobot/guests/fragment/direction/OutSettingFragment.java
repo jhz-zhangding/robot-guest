@@ -16,12 +16,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.efrobot.guests.Env.EnvUtil;
 import com.efrobot.guests.R;
 import com.efrobot.guests.bean.ItemsContentBean;
 import com.efrobot.guests.dao.DataManager;
 import com.efrobot.guests.fragment.ControlActivity;
 import com.efrobot.guests.fragment.adapter.AutoListAdapter;
 import com.efrobot.guests.fragment.adapter.AutoListItemDecoration;
+import com.efrobot.guests.utils.PreferencesUtils;
 import com.efrobot.library.RobotManager;
 
 import java.util.ArrayList;
@@ -31,6 +33,8 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class OutSettingFragment extends Fragment implements View.OnClickListener {
+
+    protected final int currentType = 2;
 
     private int currentItemNum = 2;
 
@@ -159,6 +163,7 @@ public class OutSettingFragment extends Fragment implements View.OnClickListener
         int id = view.getId();
         switch (id) {
             case R.id.next_btn:
+                PreferencesUtils.putInt(getActivity(), EnvUtil.SP_CURRENT_TYPE, currentType);
                 ((ControlActivity) getActivity()).setWelcomeGuestFragment();
                 break;
             case R.id.open_or_span:

@@ -21,4 +21,6 @@ public class EnvUtil {
         return sdf.format(new Date());
     }
 
+    public static String SP_CURRENT_TYPE = "sp_current_type";
+
 }

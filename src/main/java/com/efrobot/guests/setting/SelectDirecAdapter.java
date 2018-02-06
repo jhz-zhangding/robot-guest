@@ -84,7 +84,7 @@ public class SelectDirecAdapter extends BaseAdapter {
             mHolder.direcValue.setBackground(mContext.getResources().getDrawable(R.drawable.select_text_btn_choose));
             mHolder.direcValue.setEnabled(false);
         } else {
-            mHolder.direcValue.setBackground(mContext.getResources().getDrawable(R.drawable.select_text_btn_unchoose));
+            mHolder.direcValue.setBackground(mContext.getResources().getDrawable(R.drawable.select_text_btn_no_choose));
             mHolder.direcValue.setEnabled(true);
         }
 

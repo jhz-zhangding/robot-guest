@@ -16,15 +16,23 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.efrobot.guests.Env.EnvUtil;
+import com.efrobot.guests.GuestsApplication;
 import com.efrobot.guests.R;
 import com.efrobot.guests.bean.ItemsContentBean;
 import com.efrobot.guests.dao.DataManager;
+import com.efrobot.guests.dao.SelectedDao;
 import com.efrobot.guests.fragment.adapter.AutoListAdapter;
 import com.efrobot.guests.fragment.adapter.AutoListItemDecoration;
+import com.efrobot.guests.setting.bean.SelectDirection;
+import com.efrobot.guests.utils.PreferencesUtils;
 import com.efrobot.library.RobotManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +64,7 @@ public class AutoGuestFragment extends Fragment implements View.OnClickListener 
      * 显示条数
      */
     private final int showItemNum = 3;
+    private SelectedDao selectedDao;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +75,7 @@ public class AutoGuestFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_auto_guest, container, false);
+        selectedDao = GuestsApplication.from(getActivity()).getSelectedDao();
         initView(view);
         setData();
 
@@ -115,9 +125,49 @@ public class AutoGuestFragment extends Fragment implements View.OnClickListener 
                 frameLayout.setVisibility(View.GONE);
                 break;
             case R.id.guest_next_step_btn:
+                PreferencesUtils.putInt(getActivity(), EnvUtil.SP_CURRENT_TYPE, currentItemNum);
+                saveData();
                 ((ControlActivity) getActivity()).setWelcomeGuestFragment();
                 break;
         }
+    }
+
+    private HashMap<Integer, String> direcMap = null;
+
+    private void saveData() {
+        List<SelectDirection> select = selectedDao.queryOneType(currentItemNum);
+        if (select != null && select.size() > 0) {
+            selectedDao.delete();
+        }
+        Map<Integer, String> ultrasonicMaps = new HashMap<>();
+        ultrasonicMaps.put(0, "100");
+        ultrasonicMaps.put(1, "100");
+        ultrasonicMaps.put(2, "100");
+        ultrasonicMaps.put(6, "100");
+        ultrasonicMaps.put(7, "100");
+        GuestsApplication.from(getActivity()).saveUserSetting(ultrasonicMaps);
+
+
+        if (direcMap == null) {
+            direcMap = new HashMap<>();
+            direcMap.put(6, "左1");
+            direcMap.put(7, "左2");
+            direcMap.put(0, "中1");
+            direcMap.put(1, "右2");
+            direcMap.put(2, "右1");
+        }
+
+        for (Map.Entry entry : direcMap.entrySet()) {
+            int ultrasonicId = (Integer) entry.getKey();
+            String value = (String) entry.getValue();
+            SelectDirection selectDirection = new SelectDirection();
+            selectDirection.setUltrasonicId(ultrasonicId);
+            selectDirection.setValue(value);
+            selectDirection.setSelected(true);
+            selectDirection.setType(currentItemNum);
+            selectedDao.insert(selectDirection);
+        }
+
     }
 
     private String[] str = new String[]{"贵客光临，蓬荜生辉，ROBOT_NICKNAME_VALUE欢迎您的到来",

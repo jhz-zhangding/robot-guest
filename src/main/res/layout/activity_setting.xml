@@ -27,7 +27,7 @@
                 android:layout_marginRight="@dimen/padding_40"
                 android:drawableLeft="@drawable/selector_back_button_bg"
                 android:drawablePadding="5dp"
-                android:text="退出"
+                android:text="返回"
                 android:gravity="center"
                 android:textColor="@drawable/selector_title_click"
                 android:textSize="@dimen/textsize_22" />
@@ -40,7 +40,7 @@
                 android:layout_toRightOf="@+id/cancel"
                 android:drawableLeft="@drawable/selector_help_button_bg"
                 android:drawablePadding="5dp"
-                android:text="使用说明"
+                android:text="说明"
                 android:gravity="center"
                 android:textColor="@drawable/selector_title_click"
                 android:textSize="@dimen/textsize_22" />

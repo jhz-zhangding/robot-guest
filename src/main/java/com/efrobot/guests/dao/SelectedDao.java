@@ -185,4 +185,9 @@ public class SelectedDao {
         db.delete(SelectDirection.TABLE_NAME, "ultrasonicId = ?", new String[]{String.valueOf(id)});
     }
 
+    public void delete() {
+        if (dbOpenHelper != null) db = dbOpenHelper.getWritableDatabase();
+        db.delete(SelectDirection.TABLE_NAME, null, null);
+    }
+
 }
