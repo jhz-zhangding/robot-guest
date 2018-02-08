@@ -25,6 +25,8 @@ public class SceneSelectionFragment extends Fragment implements View.OnClickList
     private ImageView guestChooseImg;
     private ImageView guestOrOutChooseImg;
 
+    private ImageView guestImage, leaveImage;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,9 @@ public class SceneSelectionFragment extends Fragment implements View.OnClickList
 
         guestChooseImg = (ImageView) view.findViewById(R.id.guest_mode_image);
         guestOrOutChooseImg = (ImageView) view.findViewById(R.id.guest_leave_mode_image);
+
+        guestImage = (ImageView) view.findViewById(R.id.guest_sence_selected_image);
+        leaveImage = (ImageView) view.findViewById(R.id.leave_sence_selected_image);
         updateModeView();
     }
 
@@ -78,9 +83,15 @@ public class SceneSelectionFragment extends Fragment implements View.OnClickList
         if (currentSelectedType == AUTO_TYPE) {
             guestChooseImg.setBackgroundResource(R.mipmap.sence_choose);
             guestOrOutChooseImg.setBackgroundResource(R.mipmap.sence_unchoose);
+
+            guestImage.setBackgroundResource(R.mipmap.guest_sence_selected_image);
+            leaveImage.setImageResource(R.mipmap.leave_sence_unselected_image);
         } else if (currentSelectedType == DIREC_TYPE) {
             guestChooseImg.setBackgroundResource(R.mipmap.sence_unchoose);
             guestOrOutChooseImg.setBackgroundResource(R.mipmap.sence_choose);
+
+            guestImage.setBackgroundResource(R.mipmap.guest_sence_unselected_image);
+            leaveImage.setImageResource(R.mipmap.leave_sence_selected_image);
         }
     }
 

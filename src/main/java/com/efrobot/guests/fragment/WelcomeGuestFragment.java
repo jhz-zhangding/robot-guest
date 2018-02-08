@@ -59,7 +59,7 @@ public class WelcomeGuestFragment extends Fragment implements View.OnClickListen
                 getActivity().finish();
                 break;
             case R.id.guide_setting:
-                ((ControlActivity) getActivity()).setSceneSelectionFragment();
+                ((ControlActivity) getActivity()).setControlFragment();
                 break;
             case R.id.more_setting:
                 Intent intent = new Intent(getActivity(), SettingActivity.class);

@@ -15,11 +15,10 @@
         android:id="@+id/item_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/robot_tts_image"
-        android:layout_toRightOf="@+id/auto_setting_tv"
         android:layout_marginLeft="-30dp"
         android:layout_marginTop="60dp"
-        />
+        android:layout_toRightOf="@+id/auto_setting_tv"
+        android:src="@mipmap/robot_tts_image" />
 
 
     <android.support.v7.widget.RecyclerView
@@ -37,7 +36,9 @@
         android:layout_below="@+id/auto_recycler_view"
         android:layout_marginLeft="350dp"
         android:layout_marginTop="15dp"
-        android:background="@mipmap/open" />
+        android:background="@drawable/select_spread"
+        android:scaleX="0.8"
+        android:scaleY="0.8" />
 
     <TextView
         android:layout_width="wrap_content"

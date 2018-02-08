@@ -11,11 +11,14 @@ import android.widget.ImageView;
 import com.efrobot.guests.R;
 import com.efrobot.guests.utils.RobotMoveUtils;
 import com.efrobot.guests.utils.ui.ControlView;
+import com.efrobot.library.OnRobotStateChangeListener;
+import com.efrobot.library.RobotManager;
+import com.efrobot.library.RobotState;
 
 /**
  * Created by zd on 2018/1/24.
  */
-public class ControlFragment extends Fragment implements ControlView.OnControlListener, View.OnClickListener {
+public class ControlFragment extends Fragment implements ControlView.OnControlListener, View.OnClickListener, OnRobotStateChangeListener {
 
     private ControlView controlView;
 
@@ -53,6 +56,7 @@ public class ControlFragment extends Fragment implements ControlView.OnControlLi
     private void setOnListener(View view) {
         controlView.setOnControlListener(this);
         view.findViewById(R.id.next_step_btn).setOnClickListener(this);
+        RobotManager.getInstance(getActivity()).registerHeadKeyStateChangeListener(this);
 
     }
 
@@ -61,7 +65,7 @@ public class ControlFragment extends Fragment implements ControlView.OnControlLi
         int id = view.getId();
         switch (id) {
             case R.id.next_step_btn:
-                ((ControlActivity) getActivity()).setWelcomeGuestFragment();
+                ((ControlActivity) getActivity()).setSceneSelectionFragment();
                 break;
         }
     }
@@ -96,4 +100,12 @@ public class ControlFragment extends Fragment implements ControlView.OnControlLi
         robotMoveUtils.onControlStop(controlView.getControlMode());
     }
 
+    @Override
+    public void onRobotSateChange(int robotStateIndex, int newState) {
+        if (robotStateIndex == RobotState.ROBOT_STATE_INDEX_HEAD_KEY) {
+            if (newState == 2) {
+                onControlStop();
+            }
+        }
+    }
 }

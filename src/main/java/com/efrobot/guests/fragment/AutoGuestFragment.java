@@ -203,6 +203,11 @@ public class AutoGuestFragment extends Fragment implements View.OnClickListener 
                         list.add(mainList.get(i));
                     }
                 }
+                if (isPickUpList) {
+                    spanOrPickBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.select_spread));
+                } else {
+                    spanOrPickBtn.setBackground(getActivity().getResources().getDrawable(R.drawable.select_redract));
+                }
             } else {
                 list.addAll(mainList);
                 spanOrPickBtn.setVisibility(View.GONE);

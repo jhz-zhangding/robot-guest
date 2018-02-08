@@ -12,6 +12,7 @@ import com.efrobot.guests.fragment.direction.EnterGuestFragment;
 import com.efrobot.guests.fragment.direction.EnterSettingFragment;
 import com.efrobot.guests.fragment.direction.OutGuestFragment;
 import com.efrobot.guests.fragment.direction.OutSettingFragment;
+import com.efrobot.guests.utils.PreferencesUtils;
 
 public class ControlActivity extends MyBaseActivity {
 
@@ -28,6 +29,8 @@ public class ControlActivity extends MyBaseActivity {
     private OutGuestFragment outGuestFragment;
     private OutSettingFragment outSettingFragment;
 
+    private final String isFirstThis = "isFirstThis";
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -39,10 +42,15 @@ public class ControlActivity extends MyBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
 
-        setControlFragment();
+        boolean isFirst = PreferencesUtils.getBoolean(this, isFirstThis, true);
+        if (isFirst) {
+            setControlFragment();
+            PreferencesUtils.putBoolean(this, isFirstThis, false);
+        } else
+            setWelcomeGuestFragment();
     }
 
-    private void setControlFragment() {
+    public void setControlFragment() {
         if (controlFragment == null) {
             controlFragment = new ControlFragment();
         }
@@ -103,7 +111,7 @@ public class ControlActivity extends MyBaseActivity {
         if (getFragmentManager().getBackStackEntryCount() > 1) {
             getFragmentManager().popBackStack();
         } else
-            super.onBackPressed();
+            finish();
 
     }
 

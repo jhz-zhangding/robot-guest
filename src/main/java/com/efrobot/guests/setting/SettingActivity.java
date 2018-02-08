@@ -97,7 +97,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
     //选择超声波
     private TextView leftUltrasonicTv, rightUltrasonicTv;
     private ImageView leftUltrasonicBtn, rightUltrasonicBtn;
-    private LinkedHashMap<Integer, String> direcMap;
 
     //保存设置
     private TextView mCancel, mAdvance, mSetting;
@@ -193,7 +192,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
         initUltrasonicData();
 
         updateDirectionView(leftUltrasonicTv, rightUltrasonicTv);
-        initDialogData();
         initSelectUltrasonicDialog();
         updateExpandView();
         updatePlayModeView(leftPlayModeImg, false);
@@ -336,6 +334,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
         findViewById(R.id.explain).setOnClickListener(this);
         findViewById(R.id.ultrasonic_init_btn).setOnClickListener(this);
+        findViewById(R.id.ultrasonic_text_btn).setOnClickListener(this);
 
         leftPlayModeImg.setOnClickListener(this);
         rightPlayModeImg.setOnClickListener(this);
@@ -456,8 +455,25 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
             case R.id.ultrasonic_right_set_img:
                 showSelectUltrasonicDialog(2);
                 break;
+            case R.id.ultrasonic_text_btn:
+                long currentSystemTime = System.currentTimeMillis();
+                if (currentSystemTime - lastSystemTime < 1000) {
+                    clickNum++;
+                    if (clickNum >= 5) {
+                        clickNum = 0;
+                        PreferencesUtils.putBoolean(this, SpContans.SP_OPEN_TEST_DIALOG, true);
+                        showToast("已打开测试数据");
+                    }
+                } else {
+                    clickNum = 0;
+                }
+                lastSystemTime = currentSystemTime;
+                break;
         }
     }
+
+    private long lastSystemTime = 0;
+    private int clickNum = 0;
 
 
     private Dialog ultrasonicSettingDialog;
@@ -802,7 +818,7 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
 
         updateTempDirectionSelected();
 
-        for (Map.Entry entry : direcMap.entrySet()) {
+        for (Map.Entry entry : SpContans.getDialogData().entrySet()) {
             int ultrasonicId = (Integer) entry.getKey();
             String value = (String) entry.getValue();
             SelectDirection selectDirection = new SelectDirection();
@@ -949,23 +965,6 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                 }
             }
             updateExpandView();
-        }
-    }
-
-    private void initDialogData() {
-        if (direcMap == null) {
-            direcMap = new LinkedHashMap<Integer, String>();
-            direcMap.put(2, "左1");
-            direcMap.put(1, "左2");
-            direcMap.put(0, "中1");
-            direcMap.put(7, "右2");
-            direcMap.put(6, "右1");
-
-//            direcMap.put(12, "左2");
-//            direcMap.put(10, "左4");
-//            direcMap.put(9, "中2");
-//            direcMap.put(8, "右4");
-//            direcMap.put(11, "右2");
         }
     }
 
@@ -1191,6 +1190,8 @@ public class SettingActivity extends GuestsBaseActivity<SettingPresenter> implem
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                } else if (maskOpen) {
+                    finish();
                 }
             }
         }

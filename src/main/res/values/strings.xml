@@ -28,7 +28,7 @@
     <string name="robot_guest">机器人迎宾</string>
     <string name="robot_guest_text">适用于商场、展会、会场的人流量较多，无需机器人确认人流方向的场景</string>
     <string name="robot_guest_and_leave">机器人迎宾及送宾</string>
-    <string name="robot_guest_and_leave_text">适用于公司、展厅、商铺 门口、需要机器人来人时、人走时送宾的场景</string>
+    <string name="robot_guest_and_leave_text">适用于公司、展厅、商铺 门口、需要來人时迎宾、人走时送宾的场景</string>
 
     <!-- ===================== -->
     <string-array name="face_time_bodycommercial">
@@ -282,7 +282,7 @@
     <string name="advanced_setting_correction_note">超声波自动校正开启后，每次开启迎宾功能时，超声波都会自动标定一次。</string>
 
     <string name="advanced_setting_auto_title">自动设置超声波触发距离</string>
-    <string name="advanced_setting_auto_note">此功能开启后，只需要关闭面罩，机器人根据周围环境自动设置超声波的触发距离。该功能开启后将不启用自定义的超声波数据</string>
+    <string name="advanced_setting_auto_note">此功能开启后，只需要关闭面罩，机器人根据周围环境自动设置超声波的触发距离。该功能开启后将不启用自定义的超声波数据，不建议在有玻璃门、窗帘、环境狭小的空间开启该功能。</string>
 
     <string name="advanced_setting_guest_title">关闭面罩自动迎宾</string>
     <string name="advanced_setting_guest_note">此功能开启后，只需关闭面罩，机器人就会自动进入迎宾模式。关闭面罩前，请先确认超声波数据是否正常。注：在其他应用场景中，若关闭面罩不需要开启迎宾功能时，请关闭这个功能。</string>
@@ -291,7 +291,7 @@
     <string name="advanced_setting_wheel_note">请谨慎关闭该功能！！！双轮运动关闭后，在迎宾状态下，机器人将不会再执行行走、转圈等动作，退出迎宾状态，双轮运动自动开启。异常情况退出迎宾状态，请重新进入迎宾app，否则无法恢复双轮状态。</string>
     <string name="advanced_setting_open_speech_note">已开启语音识别，适用于人流量相对少的场景，如公司、展厅门口等；</string>
     <string name="advanced_setting_close_speech_note">已关闭语音识别，适用于人流量较密集的场景，如商场、旺铺、会场门口等</string>
-    <string name="close_mask_start_guest">在此界面关面罩则开始迎宾</string>
+    <string name="close_mask_start_guest">关闭面罩开始迎宾</string>
 
     <string name="task_cancel">任务取消</string>
 

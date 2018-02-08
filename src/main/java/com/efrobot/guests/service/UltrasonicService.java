@@ -66,7 +66,7 @@ import java.util.TimerTask;
  */
 
 public class UltrasonicService extends Service implements RobotManager.OnGetUltrasonicCallBack,
-        NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener, OnRobotStateChangeListener
+        NavigationManager.OnNavigationStateChangeListener, RobotManager.OnWheelStateChangeListener, OnRobotStateChangeListener, CheckTimeUtils.OnCheckTimeListener
 //        , RobotManager.OnUltrasonicOccupyStatelistener
 // OnRobotStateChangeListener
 {
@@ -119,13 +119,31 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
     private MusicPlayer musicPlayer;
 
     //语音说话 0.27秒
-    private long wordSpeed = 270;
+    private final long wordSpeed = 270;
+
     private Calendar mCalendar;
-//    private boolean isOpenWheel;
 
     private boolean isNeedOpenSpeech;
 
     private boolean isAutoSettingDistance = false;
+
+    private boolean isOpenDataTestDialog = false;
+
+    /**
+     * 20分钟未迎宾标定一次
+     */
+    private final long calibraitonTime = 20 * 60 * 1000;
+
+    private final int CALIBRATION_20_MIN = 21;
+
+    /**
+     * 10分钟超声波数据一直不变，自动标定一次
+     */
+    private final long ultrasonicDataExectionTime = 10 * 60 * 1000;
+
+    private final int DATA_EXECTION_10_MIN = 22;
+
+    private CheckTimeUtils checkTimeUtils;
 
     @Override
     public void onCreate() {
@@ -141,8 +159,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         }
         isNeedOpenSpeech = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_NEED_SPEECH, true);
         isAutoSettingDistance = PreferencesUtils.getBoolean(this, SpContans.AdvanceContans.SP_GUEST_AUTO_GUEST, true);
+        isOpenDataTestDialog = PreferencesUtils.getBoolean(this, SpContans.SP_OPEN_TEST_DIALOG, false);
 
         GuestsApplication.from(this).setUltrasonicService(this);
+        checkTimeUtils = new CheckTimeUtils();
         groupManager = RobotManager.getInstance(this.getApplicationContext()).getGroupInstance();
         IsRunning = true;
         mCalendar = Calendar.getInstance();
@@ -152,6 +172,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         initAllOpenData();
 
         initGuestData();
+
+        playLaunchSound();
 
         return super.onStartCommand(intent, START_STICKY, startId);
     }
@@ -249,6 +271,34 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     }
 
+    private void playLaunchSound() {
+        musicPlayer.playResource(this, R.raw.launch, new MusicPlayer.OnMusicCompletionListener() {
+            @Override
+            public void onCompletion(boolean isPlaySuccess) {
+
+            }
+
+            @Override
+            public void onPrepare(int mDuration) {
+
+            }
+        });
+    }
+
+    private void playStartSound() {
+        musicPlayer.playResource(this, R.raw.start, new MusicPlayer.OnMusicCompletionListener() {
+            @Override
+            public void onCompletion(boolean isPlaySuccess) {
+
+            }
+
+            @Override
+            public void onPrepare(int mDuration) {
+
+            }
+        });
+    }
+
     private void initListener() {
         RobotManager.getInstance(this).registerHeadKeyStateChangeListener(this);
         RobotManager.getInstance(this).getNavigationInstance().registerOnNavigationStateChangeListener(this);
@@ -322,7 +372,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     sendInfrared();
                     break;
                 case INIT_ULTRASONIC:
-                    TtsUtils.sendTts(UltrasonicService.this, "正在初始化超声波数据，请您不要靠近ROBOT_NICKNAME_VALUE");
+                    TtsUtils.sendTts(UltrasonicService.this, "请您不要靠近ROBOT_NICKNAME_VALUE，正在初始化超声波数据");
                     RobotManager.getInstance(getApplicationContext()).registerOnGetUltrasonicCallBack(UltrasonicService.this);
                     //超声波初始化
                     sendTestUltrasonic(false);
@@ -377,6 +427,12 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     int id = msg.arg1;
                     int distance = msg.arg2;
                     showDataDialog(id, distance);
+                    break;
+                case CALIBRATION_20_MIN:
+                    TtsUtils.sendTts(UltrasonicService.this, "为了保证迎宾的正常使用，ROBOT_NICKNAME_VALUE自检开始");
+                    RobotManager.getInstance(getApplicationContext()).registerOnGetUltrasonicCallBack(UltrasonicService.this);
+                    //超声波初始化
+                    sendTestUltrasonic(false);
                     break;
             }
         }
@@ -472,6 +528,16 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     private int settingNum = 0;
 
+    private void checkData() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+            }
+        }, ultrasonicDataExectionTime);
+    }
+
     @Override
     public void onGetUltrasonic(byte[] data) {
         try {
@@ -524,18 +590,21 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                     if (!isSettingFinish) {
                         isSettingFinish = true;
                         initDistanceMap();
+                        TtsUtils.sendTts(getApplicationContext(), "初始化成功，开始迎宾");
                     }
 
 
-                    for (int i = 0; i < bytes.length; i++) {
-                        if ((i - 3) % 4 == 0) {
-                            int valueNG = (bytes[i] & 255) | ((bytes[i - 1] & 255) << 8); // 距离
-                            int numberNg = (bytes[i - 2] & 255) | ((bytes[i - 3] & 255) << 8); // 返回的探头编号 0-12
-                            Message message = mHandle.obtainMessage();
-                            message.what = 1110;
-                            message.arg1 = numberNg;
-                            message.arg2 = valueNG;
-                            mHandle.sendMessage(message);
+                    if (isOpenDataTestDialog) {
+                        for (int i = 0; i < bytes.length; i++) {
+                            if ((i - 3) % 4 == 0) {
+                                int valueNG = (bytes[i] & 255) | ((bytes[i - 1] & 255) << 8); // 距离
+                                int numberNg = (bytes[i - 2] & 255) | ((bytes[i - 3] & 255) << 8); // 返回的探头编号 0-12
+                                Message message = mHandle.obtainMessage();
+                                message.what = 1110;
+                                message.arg1 = numberNg;
+                                message.arg2 = valueNG;
+                                mHandle.sendMessage(message);
+                            }
                         }
                     }
 
@@ -547,6 +616,14 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                         int numberNg = (bytes[i - 2] & 255) | ((bytes[i - 3] & 255) << 8); // 返回的探头编号 0-12
 //                        int myDistance = getDistanceFromPosition(numberNg); //设置的探头距离
                         if (map.containsKey(numberNg)) {
+                            if (getDataMap().containsKey(numberNg)) {
+                                if (valueNG == getDataMap().get(numberNg)) {
+                                    checkTimeUtils.gennerateTimeTask(numberNg);
+                                } else {
+                                    checkTimeUtils.clearThisTask(numberNg);
+                                }
+                                getDataMap().put(numberNg, valueNG);
+                            }
                             int myDistance = map.get(numberNg); //设置的探头距离
                             L.i(TAG, "numberNg = " + numberNg + "---myDistance = " + myDistance);
                             if (customUlData.contains(numberNg)) {
@@ -561,6 +638,19 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private Map<Integer, Integer> dataMap = null;
+
+    private Map<Integer, Integer> getDataMap() {
+        if (dataMap == null) {
+            dataMap.put(0, -1);
+            dataMap.put(1, -1);
+            dataMap.put(2, -1);
+            dataMap.put(6, -1);
+            dataMap.put(7, -1);
+        }
+        return dataMap;
     }
 
 
@@ -589,6 +679,10 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                         setHeadAction(TOO_RIGHT_HEAD);
                     } else if (ultrasonicId == 6 || ultrasonicId == 11) {
                         setHeadAction(TOO_LEFT_HEAD);
+                    }
+
+                    if (mHandle.hasMessages(CALIBRATION_20_MIN)) {
+                        mHandle.removeMessages(CALIBRATION_20_MIN);
                     }
 
                     if (isTimingCount) {
@@ -642,6 +736,12 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                             lastHead = -1;
                         }
                     }
+
+                    //未检测到人就开始计时
+                    if (!mHandle.hasMessages(CALIBRATION_20_MIN)) {
+                        mHandle.sendEmptyMessageDelayed(CALIBRATION_20_MIN, calibraitonTime);
+                    }
+
                 }
             }
         } catch (Exception e) {
@@ -1150,7 +1250,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                 L.i(TAG, "超声波=" + result);
                 if (result == 0) {
                     //成功
-                    TtsUtils.sendTts(getApplicationContext(), "标定成功");
+//                    TtsUtils.sendTts(getApplicationContext(), "标定成功");
+                    playStartSound();
                     showToast("超声波标定成功 \t\tTime: " + getCurrentTime());
                     isReceiveUltrasonic = false;
                     isInitFinish = true;
@@ -1693,6 +1794,8 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         if (dataDialog != null && dataDialog.isShowing()) {
             dataDialog.dismiss();
         }
+
+        PreferencesUtils.putBoolean(this, SpContans.SP_OPEN_TEST_DIALOG, false);
     }
 
     @Override
@@ -1759,6 +1862,11 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
         });
         hitDialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
         hitDialog.show();
+    }
+
+    @Override
+    public void timeFinish() {
+
     }
 
 //    @Override

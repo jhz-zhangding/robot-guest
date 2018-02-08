@@ -25,28 +25,35 @@
             android:layout_height="300dp"
             android:background="@color/robot_guest_scene_color">
 
-            <TextView
-                android:id="@+id/robot_guest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
-                android:text="@string/robot_guest"
-                android:textColor="@color/white"
-                android:textSize="38sp"
-                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/guest_sence_selected_image"
+                android:layout_width="450dp"
+                android:layout_height="300dp"
+                android:background="@mipmap/guest_sence_selected_image" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/robot_guest"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="40dp"
-                android:text="@string/robot_guest_text"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
+            <!--<TextView-->
+            <!--android:id="@+id/robot_guest"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="90dp"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="38sp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:background="@mipmap/guest_text_image"-->
+            <!--/>-->
+
+            <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/robot_guest"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginRight="20dp"-->
+            <!--android:layout_marginTop="40dp"-->
+            <!--android:text="@string/robot_guest_text"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="24sp" />-->
 
             <ImageView
                 android:id="@+id/guest_mode_image"
@@ -64,27 +71,33 @@
             android:layout_marginLeft="30dp"
             android:background="@color/robot_guest_scene_color">
 
-            <TextView
-                android:id="@+id/robot_guest_and_leave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
-                android:text="@string/robot_guest_and_leave"
-                android:textColor="@color/white"
-                android:textSize="38sp"
-                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/leave_sence_selected_image"
+                android:layout_width="450dp"
+                android:layout_height="300dp"
+                android:background="@mipmap/leave_sence_unselected_image" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/robot_guest_and_leave"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="40dp"
-                android:text="@string/robot_guest_and_leave_text"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
+            <!--<TextView-->
+            <!--android:id="@+id/robot_guest_and_leave"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="120dp"-->
+            <!--android:text="@string/robot_guest_and_leave"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="38sp"-->
+            <!--android:textStyle="bold" />-->
+
+            <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/robot_guest_and_leave"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginRight="20dp"-->
+            <!--android:layout_marginTop="40dp"-->
+            <!--android:text="@string/robot_guest_and_leave_text"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="24sp" />-->
 
             <ImageView
                 android:id="@+id/guest_leave_mode_image"
