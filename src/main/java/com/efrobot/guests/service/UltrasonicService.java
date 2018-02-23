@@ -644,6 +644,7 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
 
     private Map<Integer, Integer> getDataMap() {
         if (dataMap == null) {
+            dataMap = new HashMap<>();
             dataMap.put(0, -1);
             dataMap.put(1, -1);
             dataMap.put(2, -1);
@@ -689,7 +690,6 @@ public class UltrasonicService extends Service implements RobotManager.OnGetUltr
                         removeTimerCount();
                     }
 
-                    flagsMap.put(ultrasonicId, true);
                     farDistanceNum = 0;
                     if (!mIsExecute) {
                         if (leftSelectNum.contains(ultrasonicId)) {
